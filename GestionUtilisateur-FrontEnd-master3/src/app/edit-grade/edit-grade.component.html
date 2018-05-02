@@ -1,0 +1,18 @@
+<div class="panel panel-primary">
+  <div class="panel-heading">Modifier Grade</div>
+  <div class="panel-body">
+    <div>
+      <form class="form-inline">
+        <div class="form-group">
+          <label class="control-label"> ID:</label>
+          <input id="msg" type="text" class="form-control" name="msg" placeholder="ID de Grade" [(ngModel)]="grade.id">
+        </div>
+        <div class="form-group">
+          <label class="control-label">Titre :</label>
+          <input id="msg1" type="text" class="form-control" name="msg1" placeholder="Titre de Grade" [(ngModel)]="grade.titre">
+          <button type="button" class="btn btn-primary btn-md" (click)="updateGrade()">Modifier</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,18 @@
+<div class="panel panel-primary">
+  <div class="panel-heading">Modifier Corps</div>
+  <div class="panel-body">
+    <div>
+      <form class="form-inline">
+        <div class="form-group">
+          <label class="control-label"> ID:</label>
+          <input id="msg" type="text" class="form-control" name="msg" placeholder="ID de Corps" [(ngModel)]="corps.idcps">
+        </div>
+        <div class="form-group">
+          <label class="control-label">Nom de Corps :</label>
+          <input id="msg1" type="text" class="form-control" name="msg1" placeholder="Libelle de Corps" [(ngModel)]="corps.libelle">
+          <button type="button" class="btn btn-primary btn-md" (click)="updateCorps()">Modifier Corps</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

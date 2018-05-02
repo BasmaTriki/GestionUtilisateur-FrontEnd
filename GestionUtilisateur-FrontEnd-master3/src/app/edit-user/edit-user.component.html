@@ -1,0 +1,23 @@
+<div class="container spacer">
+  <div class="panel panel-primary" *ngIf="mode==1">
+    <div class="panel-heading">Editer Utilisateur</div>
+    <div class="panel-body">
+      <div>
+        <div class="form-group">
+          <label class="control-label">Login:</label>
+          <input class="form-control" type="text" [(ngModel)]="user.login"/>
+        </div>
+        <div class="form-group">
+          <label class="control-label">Mot de Passe:</label>
+          <input class="form-control" type="password" [(ngModel)]="user.motpasse"/>
+        </div>
+        <div class="form-group">
+          <label class="control-label">Date de creation:</label>
+          <input class="form-control" type="date" [(ngModel)]="user.datecreation"/>
+        </div>
+        <button class="btn btn-primary" (click)="updateUser()">Enregistrer</button>
+      </div>
+    </div>
+  </div>
+</div>
+

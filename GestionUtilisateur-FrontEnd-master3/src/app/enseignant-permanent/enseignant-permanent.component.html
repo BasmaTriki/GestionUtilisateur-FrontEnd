@@ -1,0 +1,154 @@
+<div class="panel panel-default">
+  <div class="panel-heading">AJOUTER ENSEIGNANT</div>
+  <div class="panel-body">
+    <form class="form-default">
+      <div class="form-group">
+        <label class="control-label col-sm-2" for="matricule">Matricule:</label>
+        <div class="col-sm-10">
+          <input type="matricule" class="form-control" id="matricule" placeholder="Entrer matricule" [(ngModel)]="enseignantP.matricule">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-sm-2" for="cin">CIN:</label>
+        <div class="col-sm-10">
+          <input type="cin" class="form-control" id="cin" placeholder="Entrer votre cin"  [(ngModel)]="enseignantP.cin">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-sm-2" for="nom">Nom:</label>
+        <div class="col-sm-10">
+          <input type="nom" class="form-control" id="nom" placeholder="Entrer votre nom"  [(ngModel)]="enseignantP.nom">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-sm-2" for="prenom">Prénom:</label>
+        <div class="col-sm-10">
+          <input type="prenom" class="form-control" id="prenom" placeholder="Entrer votre prenom" [(ngModel)]="enseignantP.prenom">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-sm-2" for="nomPere">Nom Pére:</label>
+        <div class="col-sm-10">
+          <input type="nomPere" class="form-control" id="nomPere" placeholder="Entrer nom pére" [(ngModel)]="enseignantP.nom">
+        </div>
+      </div>
+      <div class="form-group ">
+        <label class="control-label col-sm-2" for="date">Date de naissance:</label>
+        <div class="col-sm-10">
+          <input class="form-control" type="date" value="2011-08-19" id="date" placeholder="Entrer votre date de naissance" [(ngModel)]="enseignantP.datenaissance">
+        </div>
+      </div>
+      <div class="form-group ">
+        <label class="col-sm-2 col-form-label">Sexe:</label>
+        <label class="radio-inline">
+          <input type="radio" name="optradio" [(ngModel)]="enseignantP.sexe">Homme
+        </label>
+        <label class="radio-inline">
+          <input type="radio" name="optradio">Femme
+        </label>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-sm-2" for="telephone">Téléphone:</label>
+        <div class="col-sm-10">
+          <input type="telephone" class="form-control" id="telephone" placeholder="Entrer  votre numéro du téléphone" [(ngModel)]="enseignantP.tel">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-sm-2" for="telephone">E-mail:</label>
+        <div class="col-sm-10">
+          <input type="email" class="form-control" id="email" placeholder="exemple@xyy.com" [(ngModel)]="enseignantP.email">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-sm-2" for="adresse">Adresse :</label>
+        <div class="col-sm-10">
+        <textarea class="form-control" id="adresse" rows="3" [(ngModel)]="enseignantP.adresse"></textarea>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-sm-2" for="codep">Code Postal:</label>
+        <div class="col-sm-10">
+          <input type="codep" class="form-control" id="codep" [(ngModel)]="enseignantP.codepostal">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 col-form-label">Etat civil:</label>
+        <label class="radio-inline">
+          <input type="radio" name="optradio" [(ngModel)]="enseignantP.etatcivil">Célibataire
+        </label>
+        <label class="radio-inline">
+          <input type="radio" name="optradio" [(ngModel)]="enseignantP.etatcivil">Marié(e)
+        </label>
+        <label class="radio-inline">
+          <input type="radio" name="optradio" [(ngModel)]="enseignantP.etatcivil">Divorcé(e)
+        </label>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-sm-2" for="nomcj">Nom Conjoint:</label>
+        <div class="col-sm-10">
+          <input type="nomcj" class="form-control" id="nomcj" [(ngModel)]="enseignantP.nomconjoint">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-sm-2" for="profcj">Profession Conjoint:</label>
+        <div class="col-sm-10">
+          <input type="profcj" class="form-control" id="profcj" [(ngModel)]="enseignantP.profconj">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-sm-2" for="spec">Spécialité:</label>
+        <div class="col-sm-10">
+          <input type="spec" class="form-control" id="spec" [(ngModel)]="enseignantP.specialite">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2" for="etatc">Département:</label>
+        <div class="col-sm-10">
+          <select class="form-control" id="dip">
+            <option *ngFor="let d of departements">{{d.nomDep}}</option>
+           </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2" for="etatc">Plan de carriére:</label>
+        <div class="col-sm-10">
+          <select class="form-control" id="dip">
+            <option>Directeur de l'Institut</option>
+            <option>Directeur des Etudes</option>
+            <option>Directeur du Département</option>
+          </select>
+        </div>
+      </div>
+     <div class="form-group">
+        <label class="col-sm-2" for="etatc">Diplôme:</label>
+        <div class="col-sm-10">
+        <select class="form-control" id="dip">
+          <option *ngFor="let dip of diplomes">{{dip.titre}}</option>
+             </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2" for="etatc">Grade:</label>
+        <div class="col-sm-10">
+        <select class="form-control" id="grd">
+          <option *ngFor="let grd of grades">{{grd.titre}}</option>
+        </select>
+        </div>
+      </div>
+      <div class="form-group ">
+        <label class="col-sm-2 col-form-label">Etat:</label>
+        <label class="radio-inline">
+          <input type="radio" name="optradio" [(ngModel)]="enseignantP.etat">Actif
+        </label>
+        <label class="radio-inline">
+          <input type="radio" name="optradio" [(ngModel)]="enseignantP.etat">Non-actif
+        </label>
+      </div>s
+    </form>
+    <button type="submit" class="btn btn-info" (click)="Enregistrer()">Ajouter</button>
+    <button type="submit" class="btn btn-info" (click)="annuler()">Annuler</button>
+  </div>
+</div>
+
+
+

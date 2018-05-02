@@ -1,0 +1,33 @@
+<div class="panel panel-primary">
+  <div class="panel-heading">Ajouter Departement</div>
+  <div class="panel-body">
+    <div>
+      <form class="form-inline">
+        <div class="form-group">
+          <label class="control-label">Nom de departement :</label>
+          <input id="msg" type="text" class="form-control" name="msg" placeholder="Nom de Departement" [(ngModel)]="departement.nomDep">
+          <button type="button" class="btn btn-primary btn-md" (click)="ajouter()">Ajouter Departement</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading">Afficher Departement</div>
+    <div class="panel-body">
+      <div class="form-group">
+        <label>Mot Clé</label>
+        <input type="text" [(ngModel)]="motCle"/>
+        <button class="btn btn-primary" (click)="doSearch()">Chercher</button>
+      </div>
+      <table class="table table-striped">
+        <tr>
+          <th>ID</th><th>Nom</th><th>Modifier Departement</th><th>Supprimer Departement</th>
+        </tr>
+        <tr *ngFor="let d of departements">
+          <td>{{d.idDep}}</td>
+          <td>{{d.nomDep}}</td>
+          <td><a (click)="onEditDepartement(d.idDep)" class="clickable">Modifier</a> </td>
+          <td><a (click)="onDeleteDepartement(d)" class="clickable">Supprimer</a> </td>
+        </tr></table>
+    </div>
+  </div>

@@ -1,0 +1,34 @@
+
+<div class="panel panel-primary">
+  <div class="panel-heading">Ajouter Grade</div>
+  <div class="panel-body">
+    <div>
+      <form class="form-inline">
+        <div class="form-group">
+          <label class="control-label">Titre de Grade :</label>
+          <input id="msg" type="text" class="form-control" name="msg" placeholder="Titre de Grade" [(ngModel)]="grade.titre">
+          <button type="button" class="btn btn-primary btn-md" (click)="ajouter()">Ajouter Grade</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading">Afficher Grade</div>
+    <div class="panel-body">
+      <div class="form-group">
+        <label>Mot Clé</label>
+        <input type="text" [(ngModel)]="motCle"/>
+        <button class="btn btn-primary" (click)="doSearch()">Chercher</button>
+      </div>
+      <table class="table table-striped">
+        <tr>
+          <th>ID</th><th>Titre</th><th>Modifier Grade</th><th>Supprimer Grade</th>
+        </tr>
+        <tr *ngFor="let g of grades">
+          <td>{{g.id}}</td>
+          <td>{{g.titre}}</td>
+          <td><a (click)="onEditGrade(g.id)" class="clickable">Modifier</a> </td>
+          <td><a (click)="onDeleteGrade(g)" class="clickable">Supprimer</a> </td>
+        </tr></table>
+    </div>
+  </div>
