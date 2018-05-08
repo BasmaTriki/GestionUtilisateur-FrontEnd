@@ -14,5 +14,6 @@ export class Personnel{
   etatcivil:string="";
   nomconjoint:string="";
   profconj:string="";
+  nompere:string="";
 
 }

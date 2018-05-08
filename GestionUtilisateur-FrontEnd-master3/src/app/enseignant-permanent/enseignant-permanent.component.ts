@@ -10,6 +10,8 @@ import {Departement} from "../../model/model.departement";
 import {DiplomeServices} from "../../services/diplome.services";
 import {Diplome} from "../../model/model.diplome";
 import {GradeServices} from "../../services/grade.services";
+import {EnseignantPermanentServices} from "../../services/enseignantpermanent.services";
+
 
 @Component({
   selector: 'app-enseignant-permanent',
@@ -26,8 +28,9 @@ export class EnseignantPermanentComponent implements OnInit {
   departements: Array<Departement> = new Array<Departement>();
   diplomes: Array<Diplome> = new Array<Diplome>();
   grades: Array<Grade> = new Array<Grade>();
+  panelOpenState: boolean = false;
+  constructor(private gradeServices: GradeServices,private enseingnantpermanentService:EnseignantPermanentServices, private diplomeServices: DiplomeServices, private enfantservice: EnfantServices, private departementServices: DepartementServices, public http: Http, public router: Router) {
 
-  constructor(private gradeServices: GradeServices, private diplomeServices: DiplomeServices, private enfantservice: EnfantServices, private departementServices: DepartementServices, public http: Http, public router: Router) {
   }
 
   ngOnInit() {
@@ -37,6 +40,13 @@ export class EnseignantPermanentComponent implements OnInit {
   }
 
   Enregistrer() {
+    this.enseingnantpermanentService.updateEnseignantPermanent(this.enseignantP)
+      .subscribe(data=>{
+        alert("Success d'ajout");
+        console.log(data);
+      },err=>{
+        console.log(err);
+      });
   }
 
   annuler() {
@@ -73,5 +83,23 @@ export class EnseignantPermanentComponent implements OnInit {
       },err=>{
         console.log(err);
       })
+  }
+  EnregistrerGrade() {
+    this.enseingnantpermanentService.updateEnseignantPermanent(this.enseignantP)
+      .subscribe(data=>{
+        alert("Success d'ajout");
+        console.log(data);
+      },err=>{
+        console.log(err);
+      });
+  }
+  EnregistrerDep() {
+    this.enseingnantpermanentService.updateEnseignantPermanent(this.enseignantP)
+      .subscribe(data=>{
+        alert("Success d'ajout");
+        console.log(data);
+      },err=>{
+        console.log(err);
+      });
   }
 }

@@ -2,11 +2,13 @@
   <div class="panel panel-primary">
     <div class="panel-heading">Liste des utilisateurs</div>
   <div class="panel-body">
-    <div class="form-group">
-      <label>Mot Clé</label>
-      <input type="text" [(ngModel)]="motCle"/>
-      <button class="btn btn-primary" (click)="chercher()">Chercher</button>
-    </div>
+  <label>Date de Creation:</label>
+ <mat-form-field>
+      <input matInput [matDatepicker]="picker" placeholder="Date de Creation" [(ngModel)]="motCle">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <button mat-raised-button color="primary" (click)="chercher()">Chercher</button>
 <table class="table table-striped">
   <tr>
     <th>Login</th><th>Mot de Passe</th><th>Date de Creation</th><th>Personnel</th><th>Modifier Utilisateur</th><th>Supprimer Utilisateur</th>

@@ -29,6 +29,12 @@ import { CorpsComponent } from './corps/corps.component';
 import { EditCorpsComponent } from './edit-corps/edit-corps.component';
 import {GradeServices} from "../services/grade.services";
 import {DepartementServices} from "../services/departement.services";
+import {EnseignantPermanentServices} from "../services/enseignantpermanent.services";
+import {AGradeServices} from "../services/agrade.services";
+import {DiplomePersonnelServices} from "../services/diplomepersonnel.services";
+import { MatButtonModule,MatTabsModule,MatExpansionModule, MatInputModule,MatNativeDateModule,MatRadioModule, MatListModule,MatDatepickerModule, MatToolbarModule } from '@angular/material';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import '../polyfills';
 @NgModule ({
   declarations: [
     AppComponent,
@@ -57,10 +63,20 @@ import {DepartementServices} from "../services/departement.services";
     RouterModule,
     AppRoutingModule,
     HttpModule,
-    FormsModule
+    FormsModule,
+    BrowserAnimationsModule,
+    MatButtonModule,
+    MatTabsModule,
+    MatExpansionModule,
+    MatInputModule,
+    MatListModule,
+    MatToolbarModule,
+    MatDatepickerModule,
+    MatRadioModule,
+    MatNativeDateModule
   ],
   schemas:[NO_ERRORS_SCHEMA],
-  providers: [UsersServices,EnfantServices,DiplomeServices,GradeServices,DepartementServices],
+  providers: [UsersServices,EnfantServices,DiplomeServices,GradeServices,DepartementServices,EnseignantPermanentServices,AGradeServices,DiplomePersonnelServices],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

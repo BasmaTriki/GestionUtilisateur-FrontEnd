@@ -7,7 +7,7 @@ export class UsersServices{
 constructor(public http:Http) {
 
 }
-getUsers(motCle:string,page:number,size:number){
+getUsers(motCle:Date,page:number,size:number){
 return this.http.get("http://localhost:8080/chercherUsers?mc="+motCle+"&size="+size+"&page="+page)
   .map(resp=>resp.json())
 }
@@ -16,19 +16,15 @@ return this.http.get("http://localhost:8080/chercherUsers?mc="+motCle+"&size="+s
       .map(resp=>resp.json())
   }
 saveUser(user:User){
-    return this.http.post("http://localhost:8080/users",user)
+    return this.http.post("http://localhost:8080/AjouterUsers",user)
       .map(resp=>resp.json())
   }
 updateUser(user:User){
-    return this.http.put("http://localhost:8080/users/"+user.login,user)
+    return this.http.put("http://localhost:8080/ModifierUsers/"+user.login,user)
       .map(resp=>resp.json())
   }
 deleteUser(login:string){
-    return this.http.delete("http://localhost:8080/users/"+login)
-      .map(resp=>resp.json())
-  }
-  isUser(login:string,motpasse:string){
-    return this.http.get("http://localhost:8080/chercherUser?mc="+login+"&motpasse="+motpasse)
+    return this.http.delete("http://localhost:8080/SupprimerUsers/"+login)
       .map(resp=>resp.json())
   }
   getAllUser()

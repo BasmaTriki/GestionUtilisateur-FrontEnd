@@ -12,7 +12,7 @@ import {Personnel} from '../../model/model.personnel';
 })
 export class UsersComponent implements OnInit {
 pageUsers:any;
-motCle:string="";
+motCle:Date=null;
 currentPage:number=0;
 pages:Array<number>;
 size:number=5;
@@ -20,7 +20,8 @@ size:number=5;
   constructor(public http:Http, public usersservices:UsersServices, public router:Router) {}
 
   ngOnInit() {
-this.chercher();
+  this.chercher();
+  //this.doSearch();
   }
   doSearch(){
     this.usersservices.getUsers(this.motCle,this.currentPage,this.size)
@@ -41,6 +42,7 @@ this.chercher();
       },err=>{
         console.log(err);
       })
+    //this.doSearch();
   }
   gotopage(i:number)
   {
