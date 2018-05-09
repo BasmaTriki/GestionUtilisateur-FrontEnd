@@ -12,7 +12,7 @@ return this.http.get("http://localhost:8080/chercherUsers?mc="+motCle+"&size="+s
   .map(resp=>resp.json())
 }
   getUser(login:string){
-    return this.http.get("http://localhost:8080/user/"+login)
+    return this.http.get("http://localhost:8080/users/"+login)
       .map(resp=>resp.json())
   }
 saveUser(user:User){

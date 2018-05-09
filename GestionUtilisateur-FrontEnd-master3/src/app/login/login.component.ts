@@ -25,8 +25,8 @@ export class LoginComponent implements OnInit {
     this.userService.getUser(this.login)
       .subscribe(data=>{
         alert("Success de s'authentifier");
-        this.router.navigate(['index']);
         console.log(data)
+        this.router.navigate(['index']);
       },err=>{
         console.log(err);
       })
