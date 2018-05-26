@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {User} from '../../model/model.user';
 import {ActivatedRoute, Router} from '@angular/router';
 import {UsersServices} from '../../services/users.services';
+import {Personnel} from "../../model/model.personnel";
 
 @Component({
   selector: 'app-edit-user',
@@ -12,6 +13,8 @@ export class EditUserComponent implements OnInit {
   mode:number=1;
   user:User=new User();
   idUser:string="";
+  personnel:Personnel=new Personnel();
+  personnels:Array<Personnel>=new Array<Personnel>();
   constructor(public activatedRoute:ActivatedRoute,
               public userService:UsersServices,
               public router:Router)
@@ -23,11 +26,24 @@ export class EditUserComponent implements OnInit {
     this.userService.getUser(this.idUser)
       .subscribe(data=> {
         this.user = data;
+        this.personnel=this.user.personnel;
       },err=>{
       console.log(err);
       })
+    this.AfficherPersonnel();
+  }
+  AfficherPersonnel()
+  {
+    this.userService.getAllPersonnel()
+      .subscribe(data=>{
+        this.personnels=data;
+        console.log(data);
+      },err=>{
+        console.log(err);
+      });
   }
   updateUser(){
+    this.user.personnel=this.personnel;
 this.userService.updateUser(this.user)
   .subscribe(data=>{
     console.log(data);
@@ -38,5 +54,5 @@ this.userService.updateUser(this.user)
     alert("Probléme");
   })
   }
-
+annuler(){}
 }

@@ -1,0 +1,42 @@
+<app-index></app-index>
+<div class="container spacer">
+<div class="panel panel-primary">
+  <div class="panel-heading">Congés Enseignant</div>
+  <div class="panel-body">
+    <mat-form-field>
+      <mat-select placeholder="Personnel" [(value)]="personnel">
+        <mat-option *ngFor="let p of personnels" [value]="p">
+          {{ p.prenom +"  "+p.nom  }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field><br>
+    <mat-form-field>
+      <mat-select placeholder="Type de Congé" [(value)]="typeconge">
+        <mat-option *ngFor="let c of typeconges" [value]="c">
+          {{c.libelle}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field><br>
+      <div class="form-group">
+        <label class="control-label">Nombre de jours Max :</label><strong>{{typeconge.nbMaxJrs}}</strong>
+      </div>
+    <mat-form-field>
+      <input matInput [matDatepicker]="picker" placeholder="Date de Debut" [(ngModel)]="conge.dateDebut">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput [matDatepicker]="picker1" placeholder="Date de Fin" [(ngModel)]="conge.dateFin">
+      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+      <mat-datepicker #picker1></mat-datepicker>
+    </mat-form-field><br>
+        <div class="form-group ">
+          <label class="control-label">Nombre de jours:</label>{{CalculerNbjour()}}
+              </div>
+    <div class="form-group ">
+      <label class="control-label">Nombre de jours restants:</label>{{CalculerResteJour()}}
+    </div>
+        <button type="button" class="btn btn-primary btn-md" (click)="ajouter()">Ajouter</button>
+    </div>
+  </div>
+</div>

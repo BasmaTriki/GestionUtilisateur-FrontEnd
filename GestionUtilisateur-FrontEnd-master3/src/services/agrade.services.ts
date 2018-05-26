@@ -1,19 +1,20 @@
 import {Injectable} from '@angular/core';
 import {Http} from '@angular/http';
 import {AGrade} from "../model/model.agrade";
+import {Grade} from "../model/model.grade";
 
 @Injectable()
 export class AGradeServices {
   constructor(public http: Http) {
   }
 
-  getAGrades(motCle: string, page: number, size: number) {
-    return this.http.get("http://localhost:8080/chercherAGrade?mc=" + motCle + "&size=" + size + "&page=" + page)
+  getAGrades(motcle:string, page: number, size: number) {
+    return this.http.get("http://localhost:8080/chercherAGrade?mc="+motcle+"&size=" + size + "&page=" + page)
       .map(resp => resp.json())
   }
 
-  getAGrade(id_grade: number) {
-    return this.http.get("http://localhost:8080/AGrade/" + id_grade)
+  getAGrade(id_agrade: number) {
+    return this.http.get("http://localhost:8080/AGrade/" + id_agrade)
       .map(resp => resp.json())
   }
 
@@ -23,7 +24,7 @@ export class AGradeServices {
   }
 
   updateAGrade(agrade: AGrade) {
-    return this.http.put("http://localhost:8080/ModifierAGrade/" + agrade.id_grade, agrade)
+    return this.http.put("http://localhost:8080/ModifierAGrade/" + agrade.id_agrade, agrade)
       .map(resp => resp.json())
   }
 

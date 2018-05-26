@@ -1,0 +1,20 @@
+<app-index></app-index>
+<div class="panel panel-primary">
+  <div class="panel-heading">Modifier Poste Administrative</div>
+  <div class="panel-body">
+    <div>
+      <form class="form-inline">
+        <div class="form-group">
+          <label class="control-label"> ID:</label>
+          <input id="msg" type="text" class="form-control" name="msg" placeholder="ID de Poste" [(ngModel)]="posteAdmin.id">
+        </div>
+        <div class="form-group">
+          <label class="control-label">Libellé:</label>
+          <input id="msg1" type="text" class="form-control" name="msg1" placeholder="Titre de Poste" [(ngModel)]="posteAdmin.libelle">
+          <button type="button" class="btn btn-primary btn-md" (click)="updatePosteAdmin()">Modifier</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+

@@ -1,27 +1,30 @@
+<app-index></app-index>
 <div class="container spacer">
-<div class="panel panel-primary">
+  <div class="panel panel-primary">
   <div class="panel-heading">Nouveau Utilisateur</div>
   <div class="panel-body">
     <div>
-      <div class="form-group-lg">
-        <label class="control-label">Login:</label>
-        <input class="form-control" type="text" [(ngModel)]="user.login"/>
+        <div class="form-group">
+          <mat-form-field>
+        <input  matInput placeholder="Login" [(ngModel)]="user.login">
+          </mat-form-field>
+        </div>
+      <div class="form-group">
+      <mat-form-field>
+        <input  matInput placeholder="Mot de Passe:"  type="password" [(ngModel)]="user.motpasse"/>
+      </mat-form-field>
       </div>
-      <div class="form-group-lg">
-        <label class="control-label">Mot de Passe:</label>
-        <input class="form-control" type="password" [(ngModel)]="user.motpasse"/>
-      </div>
-      <div class="form-group-lg">
-      <label class="control-label">Date de creation:</label>
-      <input class="form-control" type="date" [(ngModel)]="user.datecreation"/>
-    </div>
-      <div class="form-group-lg">
-        <label for="pers" class="control-label">Personnel :</label>
-        <select class="form-control" id="pers" >
-          <option *ngFor="let personnel of personnels" [(ngModel)]="user.personnel">{{personnel.nom+"   "+personnel.prenom}}</option>
-        </select>
-      </div>
-      <button class="btn btn-primary" (click)="saveUser()">Enregistrer</button>
+      <div class="form-group">
+        <mat-form-field>
+          <mat-select placeholder="Choisir Personnel" [(value)]="personnel">
+            <mat-option *ngFor="let p of personnels" [value]="p">
+              {{p.prenom+"   "+ p.nom }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+     </div>
+      <button mat-raised-button color="primary" (click)="saveUser()">Enregistrer</button>
+      <button mat-raised-button color="primary" (click)="annuler()">Annuler</button>
     </div>
   </div>
 </div>

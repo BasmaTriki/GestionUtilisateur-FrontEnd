@@ -7,7 +7,7 @@ export class UsersServices{
 constructor(public http:Http) {
 
 }
-getUsers(motCle:Date,page:number,size:number){
+getUsers(motCle:string,page:number,size:number){
 return this.http.get("http://localhost:8080/chercherUsers?mc="+motCle+"&size="+size+"&page="+page)
   .map(resp=>resp.json())
 }

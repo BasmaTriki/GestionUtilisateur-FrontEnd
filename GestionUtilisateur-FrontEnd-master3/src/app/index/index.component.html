@@ -1,22 +1,46 @@
 <div>
-      <div class="panel panel-primary">
-        <div class="panel-heading">Accueil</div>
-        <div class="panel-body">
-          <div class="dropdown">
-            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Utlisateurs
-              <span class="caret"></span></button>
-            <ul class="dropdown-menu">
-              <li>  <a routerLink="/users">Utilisateurs</a></li>
-              <li><a routerLink="/new-user">Nouveau Utilisateur</a></li>
-            </ul>
-          </div>
-          <div class="dropdown">
-            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Diplomes
-              <span class="caret"></span></button>
-            <ul class="dropdown-menu">
-              <li>  <a routerLink="/diplome">Nouveau Diplome</a></li>
-            </ul>
-          </div>
-        </div>
-        </div>
-      </div>
+  <mat-toolbar color="primary" role="header">
+    <span> <button mat-button [matMenuTriggerFor]="user">Utilisateur</button></span>
+    <span> <button mat-button [matMenuTriggerFor]="enseignant">Enseignant</button></span>
+    <span> <button mat-button routerLink="/mutation">Mutation</button></span>
+    <span> <button mat-button [matMenuTriggerFor]="conge">Congé</button></span>
+    <span> <button mat-button [matMenuTriggerFor]="donneesbase">Données des Bases</button></span>
+    <span class="example-fill-remaining-space"></span>
+  </mat-toolbar>
+    <mat-menu #donneesbase="matMenu">
+      <button mat-menu-item routerLink="/grade">Grade</button>
+      <button mat-menu-item routerLink="/diplome" >Diplôme</button>
+      <button mat-menu-item routerLink="/departement">Departement</button>
+      <button mat-menu-item routerLink="/corps" >Corps</button>
+      <button mat-menu-item routerLink="/typeConge"> Ajouter Type Congé</button>
+      <button mat-menu-item routerLink="/typeMutation">Ajouter Type Mutation</button>
+  </mat-menu>
+  <mat-menu #enseignant="matMenu">
+    <button mat-menu-item [matMenuTriggerFor]="enseignantpermanent">Enseignant Permanent</button>
+    <button mat-menu-item [matMenuTriggerFor]="enseignantvacataire">Enseignant Vacataire</button>
+  </mat-menu>
+  <mat-menu #user="matMenu">
+    <button mat-menu-item routerLink="/new-user">Ajouter Utilisateur</button>
+    <button mat-menu-item routerLink="/users">Consulter Liste des utilisateurs</button>
+  </mat-menu>
+  <mat-menu #enseignantpermanent="matMenu">
+    <button mat-menu-item routerLink="/enseignantpermanent">Ajouter Enseignant</button>
+    <button mat-menu-item routerLink="/ListeEnseignantP">Consulter la Liste des Enseignants</button>
+    <button mat-menu-item routerLink="/DiplomePersonnel">Dipôme Personnel</button>
+    <button mat-menu-item routerLink="/Agrade">Grade Personnel</button>
+    <button mat-menu-item [matMenuTriggerFor]="poste">Poste Administratif</button>
+  </mat-menu>
+  <mat-menu #enseignantvacataire="matMenu">
+    <button mat-menu-item >Ajouter Enseignant</button>
+    <button mat-menu-item>Consulter la Liste des Enseignants</button>
+  </mat-menu>
+  <mat-menu #conge="matMenu">
+  <button mat-menu-item routerLink="/conge">Ajouter Conge</button>
+  <button mat-menu-item routerLink="/consultationConge">Consulter Liste des demandes</button>
+</mat-menu>
+  <mat-menu #poste="matMenu">
+    <button mat-menu-item routerLink="/posteAdmin">Ajouter Poste</button>
+    <button mat-menu-item routerLink="/periode">Ajouter Periode</button>
+  </mat-menu>
+</div>
+

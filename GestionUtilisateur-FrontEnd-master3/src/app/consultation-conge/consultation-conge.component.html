@@ -1,0 +1,30 @@
+<app-index></app-index>
+<div class="container spacer">
+<div class="panel panel-primary">
+  <div class="panel-heading">Consulter les demandes de congés</div>
+  <div class="panel-body">
+      <table class="table table-striped">
+        <tr>
+          <th>Personnel</th><th>Date de début</th><th>Date de fin</th><th>Type de Congé</th><th align="center">Décision</th>
+        </tr>
+        <tr *ngFor="let c of pageConge?.content">
+          <td>{{c.personnel.prenom+" ben "+c.personnel.nompere+" "+c.personnel.nom}}</td>
+          <td>{{c.dateDebut}}</td>
+          <td>{{c.dateFin}}</td>
+          <td>{{c.typeconge.libelle}}</td>
+          <!--<td>{{CalculerNbj(c)}}</td>-->
+          <td><button mat-raised-button (click)="accepter(c)">Accepter</button>
+          <button mat-raised-button color="warn" (click)="refuser(c)">Refuser</button> </td>
+        </tr>
+      </table>
+    <div class="container">
+      <ul class="nav nav-pills">
+        <li [ngClass]="{'active' :i==currentPage}" *ngFor="let p of pages; let i=index">
+          <a class="clickable" (click)="gotopage(i)">{{i}}</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+  </div>
+</div>
+

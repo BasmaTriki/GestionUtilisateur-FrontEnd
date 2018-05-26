@@ -58,7 +58,7 @@ export class DepartementComponent implements OnInit {
     this.doSearch();
   }
   onEditDepartement(idDep:number){
-    this.router.navigate(['editDepartement',idDep]);
+    this.router.navigate(['editdepartement',idDep]);
   }
   onDeleteDepartement(d:Departement){
     let confirm=window.confirm("Etes-vous sûre?");

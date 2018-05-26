@@ -5,6 +5,6 @@ import {Corps} from "./model.corps";
 export class Enseignant extends Personnel {
   specialite:string="";
   etat:string="";
-  departement:Departement=null;
+  departement:Departement;
   corps:Corps=null;
 }

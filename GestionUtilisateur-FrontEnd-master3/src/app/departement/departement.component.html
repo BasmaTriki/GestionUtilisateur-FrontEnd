@@ -1,33 +1,33 @@
+<app-index></app-index>
+<div class="container spacer">
 <div class="panel panel-primary">
   <div class="panel-heading">Ajouter Departement</div>
   <div class="panel-body">
     <div>
-      <form class="form-inline">
-        <div class="form-group">
-          <label class="control-label">Nom de departement :</label>
-          <input id="msg" type="text" class="form-control" name="msg" placeholder="Nom de Departement" [(ngModel)]="departement.nomDep">
-          <button type="button" class="btn btn-primary btn-md" (click)="ajouter()">Ajouter Departement</button>
-        </div>
+      <form>
+        <mat-form-field>
+          <input matInput type="text" placeholder="Nom de Departement" [(ngModel)]="departement.nomDep">
+        </mat-form-field>
+        <button mat-icon-button color="primary" (click)="ajouter()"><mat-icon>add_circle</mat-icon></button>
       </form>
     </div>
   </div>
+</div>
   <div class="panel panel-default">
     <div class="panel-heading">Afficher Departement</div>
     <div class="panel-body">
-      <div class="form-group">
-        <label>Mot Clé</label>
-        <input type="text" [(ngModel)]="motCle"/>
-        <button class="btn btn-primary" (click)="doSearch()">Chercher</button>
-      </div>
+      <input type ="text" placeholder="Nom de Departement" [(ngModel)]="motCle"/>
+      <button mat-icon-button (click)="doSearch()"><mat-icon>search</mat-icon></button>
       <table class="table table-striped">
         <tr>
-          <th>ID</th><th>Nom</th><th>Modifier Departement</th><th>Supprimer Departement</th>
+          <th>ID</th><th>Nom</th><th>Modifier</th><th>Supprimer</th>
         </tr>
         <tr *ngFor="let d of departements">
           <td>{{d.idDep}}</td>
           <td>{{d.nomDep}}</td>
-          <td><a (click)="onEditDepartement(d.idDep)" class="clickable">Modifier</a> </td>
-          <td><a (click)="onDeleteDepartement(d)" class="clickable">Supprimer</a> </td>
+          <td><a (click)="onEditDepartement(d.idDep)" class="clickable"><mat-icon >create</mat-icon></a> </td>
+          <td><a (click)="onDeleteDepartement(d)" class="clickable"><mat-icon >delete_sweep</mat-icon></a> </td>
         </tr></table>
     </div>
   </div>
+</div>

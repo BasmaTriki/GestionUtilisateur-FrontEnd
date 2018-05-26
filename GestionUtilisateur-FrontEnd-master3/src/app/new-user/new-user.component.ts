@@ -12,6 +12,7 @@ import {Http} from '@angular/http';
 })
 export class NewUserComponent implements OnInit {
 user:User=new User();
+personnel:Personnel=new Personnel();
 personnels:Array<Personnel>=new Array<Personnel>();
   constructor(public http:Http, public userservices:UsersServices, public router:Router) { this.AfficherPersonnel();}
 
@@ -29,6 +30,8 @@ personnels:Array<Personnel>=new Array<Personnel>();
       });
   }
 saveUser(){
+    this.user.personnel=this.personnel;
+    this.user.datecreation=new Date();
   this.userservices.saveUser(this.user)
     .subscribe(data=>{
       alert("Success d'ajout");
@@ -37,6 +40,10 @@ saveUser(){
     },err=>{
       console.log(err);
     });
+
+}
+annuler()
+{
 
 }
 }

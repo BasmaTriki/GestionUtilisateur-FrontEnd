@@ -3,14 +3,12 @@ import {NgModule, NO_ERRORS_SCHEMA} from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { UsersComponent } from './users/users.component';
-import { AboutComponent } from './about/about.component';
 import {RouterModule, Routes} from '@angular/router';
 import {HttpModule} from '@angular/http';
 import {UsersServices} from '../services/users.services';
 import { NewUserComponent } from './new-user/new-user.component';
 import { EditUserComponent } from './edit-user/edit-user.component';
 import { LoginComponent } from './login/login.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
 import { IndexComponent } from './index/index.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { FooterComponent } from './footer/footer.component';
@@ -32,18 +30,62 @@ import {DepartementServices} from "../services/departement.services";
 import {EnseignantPermanentServices} from "../services/enseignantpermanent.services";
 import {AGradeServices} from "../services/agrade.services";
 import {DiplomePersonnelServices} from "../services/diplomepersonnel.services";
-import { MatButtonModule,MatTabsModule,MatExpansionModule, MatInputModule,MatNativeDateModule,MatRadioModule, MatListModule,MatDatepickerModule, MatToolbarModule } from '@angular/material';
+import {
+  MatButtonModule,
+  MatTabsModule,
+  MatSelectModule,
+  MatExpansionModule,
+  MatInputModule,
+  MatNativeDateModule,
+  MatRadioModule,
+  MatListModule,
+  MatDatepickerModule,
+  MatToolbarModule,
+  MatIconModule,
+  MatAutocompleteModule,
+  MatMenuModule,
+  MatTableModule,
+  MatPaginatorModule,
+  MatCardModule,
+  MatTooltipModule
+} from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import '../polyfills';
+import {CorpsServices} from "../services/corps.services";
+import { TypeMutationComponent } from './type-mutation/type-mutation.component';
+import { TypeCongeComponent } from './type-conge/type-conge.component';
+import { EditTypeMutationComponent } from './edit-type-mutation/edit-type-mutation.component';
+import { EditTypeCongeComponent } from './edit-type-conge/edit-type-conge.component';
+import { CongeComponent } from './conge/conge.component';
+import { EditCongeComponent } from './edit-conge/edit-conge.component';
+import { EditMutationComponent } from './edit-mutation/edit-mutation.component';
+import { MutationComponent } from './mutation/mutation.component';
+import { ConsultationCongeComponent } from './consultation-conge/consultation-conge.component';
+import {TypeCongeServices} from "../services/typeConge.services";
+import {CongeServices} from "../services/conge.services";
+import {TypeMutationsServices} from "../services/typeMutation.services";
+import {MutationServices} from "../services/Mutation.services";
+import { AnneeUniversitaireComponent } from './annee-universitaire/annee-universitaire.component';
+import { SemestreComponent } from './semestre/semestre.component';
+import { PosteAdministrativeComponent } from './poste-administrative/poste-administrative.component';
+import { EditPosteAdministrativeComponent } from './edit-poste-administrative/edit-poste-administrative.component';
+import {PosteAdministrativeServices} from "../services/posteAdministrative.services";
+import { DiplomePersonnelComponent } from './diplome-personnel/diplome-personnel.component';
+import {FormControl, Validators} from '@angular/forms';
+import { ListeEnseignantPermanentComponent } from './liste-enseignant-permanent/liste-enseignant-permanent.component';
+import { AGradeComponent } from './a-grade/a-grade.component';
+import { PeriodeComponent } from './periode/periode.component';
+import {PeriodeServices} from "../services/periode.services";
+import { DetailsEnseignantComponent } from './details-enseignant/details-enseignant.component';
+import { HistoriqueCongeComponent } from './historique-conge/historique-conge.component';
+import { EditAgradeComponent } from './edit-agrade/edit-agrade.component';
 @NgModule ({
   declarations: [
     AppComponent,
     UsersComponent,
-    AboutComponent,
     NewUserComponent,
     EditUserComponent,
     LoginComponent,
-    DashboardComponent,
     IndexComponent,
     NavbarComponent,
     FooterComponent,
@@ -56,7 +98,27 @@ import '../polyfills';
     DepartementComponent,
     EditDepartementComponent,
     CorpsComponent,
-    EditCorpsComponent
+    EditCorpsComponent,
+    TypeMutationComponent,
+    TypeCongeComponent,
+    EditTypeMutationComponent,
+    EditTypeCongeComponent,
+    CongeComponent,
+    EditCongeComponent,
+    EditMutationComponent,
+    MutationComponent,
+    ConsultationCongeComponent,
+    AnneeUniversitaireComponent,
+    SemestreComponent,
+    PosteAdministrativeComponent,
+    EditPosteAdministrativeComponent,
+    DiplomePersonnelComponent,
+    ListeEnseignantPermanentComponent,
+    AGradeComponent,
+    PeriodeComponent,
+    DetailsEnseignantComponent,
+    HistoriqueCongeComponent,
+    EditAgradeComponent
   ],
   imports: [
     BrowserModule,
@@ -73,10 +135,19 @@ import '../polyfills';
     MatToolbarModule,
     MatDatepickerModule,
     MatRadioModule,
+    MatSelectModule,
+    MatIconModule,
+    MatAutocompleteModule,
+    MatMenuModule,
+    MatTableModule,
+    MatCardModule,
+    MatTooltipModule,
+    MatPaginatorModule,
     MatNativeDateModule
   ],
   schemas:[NO_ERRORS_SCHEMA],
-  providers: [UsersServices,EnfantServices,DiplomeServices,GradeServices,DepartementServices,EnseignantPermanentServices,AGradeServices,DiplomePersonnelServices],
+  providers: [UsersServices,PeriodeServices,EnfantServices,CorpsServices,DiplomeServices,GradeServices,DepartementServices,EnseignantPermanentServices,AGradeServices,DiplomePersonnelServices,TypeCongeServices,CongeServices,MutationServices,
+    TypeMutationsServices,PosteAdministrativeServices],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -32,7 +32,7 @@ export class EnseignantPermanentServices {
       .map(resp => resp.json())
   }
   getAllEnseignantPermanents() {
-    return this.http.get("http://localhost:8080/EnseignantPermanents")
+    return this.http.get("http://localhost:8080/EnseignantsPermanents")
       .map(resp => resp.json())
   }
 }

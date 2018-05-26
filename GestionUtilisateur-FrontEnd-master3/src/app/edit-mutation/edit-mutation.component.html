@@ -1,0 +1,19 @@
+<app-index></app-index>
+<div class="panel panel-primary">
+  <div class="panel-heading">Modifier Mutation</div>
+  <div class="panel-body">
+    <div>
+      <form class="form-inline">
+        <div class="form-group">
+          <label class="control-label"> ID Mutation:</label>
+          <input id="msg" type="text" class="form-control" name="msg" placeholder="ID de Mutation" [(ngModel)]="mutation.idMut">
+        </div>
+        <div class="form-group">
+          <label class="control-label"> Organisme d'accueil :</label>
+          <input id="msg1" type="text" class="form-control" name="msg1" placeholder="Organisme d'accueil" [(ngModel)]="mutation.orgAccueil">
+          <button type="button" class="btn btn-primary btn-md" (click)="updateMutation()">Modifier</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

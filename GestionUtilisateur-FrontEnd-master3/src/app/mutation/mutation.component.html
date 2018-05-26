@@ -1,0 +1,50 @@
+<app-index></app-index>
+<div class="panel panel-primary">
+  <div class="panel-heading">Ajouter Mutation</div>
+  <div class="panel-body">
+    <div>
+      <form class="form-inline">
+        <mat-form-field>
+          <mat-select placeholder="Personnel" [(value)]="personnel">
+            <mat-option *ngFor="let p of personnels " [value]="p">
+              {{ p.prenom +" "+p.nom }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="Organisme d'accueil" [(ngModel)]="mutation.orgAccueil">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-select placeholder="Type Mutation" [(value)]="typeMutation">
+            <mat-option *ngFor="let tm of typeMutations" [value]="tm">
+              {{tm.designation}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <button mat-raised-button color="primary" (click)="ajouter()">Ajouter</button>
+      </form>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading">Afficher Mutation</div>
+    <div class="panel-body">
+      <div class="form-group">
+        <label>Mutation: </label>
+        <input type="text" [(ngModel)]="motCle"/>
+        <button class="btn btn-primary" (click)="doSearch()">Chercher</button>
+      </div>
+      <table class="table table-striped">
+        <tr>
+          <th>ID</th><th>Personnel</th><th>Type de Mutation</th><th>Organisation d'accueil</th><th>Modifier Mutation</th><th>Supprimer Mutation</th>
+        </tr>
+        <tr *ngFor="let m of mutations">
+          <td>{{m.idMut}}</td>
+          <td>{{m.personnel.prenom+"  "+m.personnel.nom}}</td>
+          <td>{{m.typemutation.designation}}</td>
+          <td>{{m.orgAccueil}}</td>
+          <td><a (click)="onEditMutation(m.idMut)" class="clickable">Modifier</a> </td>
+          <td><a (click)="onDeleteMutation(m)" class="clickable">Supprimer</a> </td>
+        </tr></table>
+    </div>
+  </div>
+</div>

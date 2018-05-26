@@ -1,0 +1,22 @@
+<app-index></app-index>
+<div class="panel panel-primary">
+  <div class="panel-heading">Modifier Congé</div>
+  <div class="panel-body">
+    <div>
+      <form class="form-inline">
+        <div class="form-group">
+          <label class="control-label"> ID :</label>
+          <input id="msg" type="text" class="form-control" name="msg" placeholder="Titre de congé" [(ngModel)]="conge.idCong">
+        </div>
+        <div class="form-group ">
+          <label class="control-label" for="date">Date de Debut:</label>
+          <input class="form-control" type="date" id="date" [(ngModel)]="conge.dateDebut">
+        </div>
+        <div class="form-group ">
+          <label class="control-label" for="date1">Date de Fin:</label>
+          <input class="form-control" type="date" id="date1" [(ngModel)]="conge.dateFin">
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,57 @@
+<app-index></app-index>
+<div class="container spacer">
+<div class="panel panel-primary">
+  <div class="panel-heading">Ajouter Période</div>
+  <div class="panel-body">
+   <mat-form-field>
+  <mat-select placeholder="Personnel" [(value)]="personnel">
+  <mat-option *ngFor="let p of personnels" [value]="p">
+    {{ p.prenom +"  "+p.nom  }}
+  </mat-option>
+  </mat-select>
+    </mat-form-field><br>
+    <mat-form-field>
+  <mat-select placeholder="Poste Administratif" [(value)]="posteAdmin">
+    <mat-option *ngFor="let p of postes" [value]="p">
+      {{ p.libelle}}
+    </mat-option>
+  </mat-select>
+      </mat-form-field><br>
+    <mat-form-field>
+  <input matInput [matDatepicker]="picker" placeholder="Date de Debut" [(ngModel)]="periode.dateDebut">
+  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-datepicker #picker></mat-datepicker>
+</mat-form-field><br>
+<mat-form-field>
+  <input matInput [matDatepicker]="picker1" placeholder="Date de Fin" [(ngModel)]="periode.dateFin">
+  <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+  <mat-datepicker #picker1></mat-datepicker>
+</mat-form-field><br>
+    <button mat-raised-button color="primary" (click)="ajouter()">Ajouter</button>
+</div>
+</div>
+  <div class="panel panel-default">
+    <div class="panel-heading">Afficher Période</div>
+    <div class="panel-body">
+      <mat-form-field>
+        <input matInput placeholder="Periode"  [(ngModel)]="motCle">
+      </mat-form-field>
+      <button mat-icon-button (click)="doSearch()">
+        <mat-icon >search</mat-icon>
+      </button>
+      <table class="table table-striped">
+        <tr>
+          <th>ID</th><th>Personnel</th><th>Poste</th><th>Date Debut</th><th>Date Fin</th><th>Modifier</th><th>Supprimer</th>
+        </tr>
+        <tr *ngFor="let p of periodes">
+          <td>{{p.id_periode}}</td>
+          <td>{{p.personnel.nom+" "+p.personnel.prenom}}</td>
+          <td>{{p.posteAdmin.libelle}}</td>
+          <td>{{p.dateDebut}}</td>
+          <td>{{p.dateFin}}</td>
+          <td><a (click)="onEditPeriode(p.id_periode)" class="clickable"><mat-icon >create</mat-icon></a> </td>
+          <td><a (click)="onDeletePeriode(p)" class="clickable"><mat-icon >delete</mat-icon></a> </td>
+        </tr></table>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,36 @@
+<app-index></app-index>
+<div class="panel panel-primary">
+  <div class="panel-heading">Ajouter Poste Administrative</div>
+  <div class="panel-body">
+    <div>
+      <form class="form-inline">
+        <div class="form-group">
+          <label class="control-label">Libellé :</label>
+          <input id="msg" type="text" class="form-control" name="msg" placeholder="libellé" [(ngModel)]="poste.libelle">
+          <button type="button" class="btn btn-primary btn-md" (click)="ajouter()">Ajouter</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading">Afficher Poste</div>
+    <div class="panel-body">
+      <div class="form-group">
+        <label>Libellé</label>
+        <input type="text" [(ngModel)]="motCle"/>
+        <button class="btn btn-primary" (click)="doSearch()">Chercher</button>
+      </div>
+      <table class="table table-striped">
+        <tr>
+          <th>ID</th><th>Libellé</th><th>Modifier Poste</th><th>Supprimer Poste</th>
+        </tr>
+        <tr *ngFor="let p of postes">
+          <td>{{p.id}}</td>
+          <td>{{p.libelle}}</td>
+          <td><a (click)="onEditPoste(p.id)" class="clickable">Modifier</a> </td>
+          <td><a (click)="onDeletePoste(p)" class="clickable">Supprimer</a> </td>
+        </tr></table>
+    </div>
+  </div>
+</div>
+

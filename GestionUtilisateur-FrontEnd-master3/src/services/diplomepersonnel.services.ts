@@ -23,12 +23,12 @@ export class DiplomePersonnelServices {
   }
 
   updateDiplomePersonnel(diplomepersonnel: DiplomePersonnel) {
-    return this.http.put("http://localhost:8080/ModifierDiplomePersonnel/" + diplomepersonnel.idDipP, diplomepersonnel)
+    return this.http.put("http://localhost:8080/ModifierDiplomePersonnel/" + diplomepersonnel.id_DipP, diplomepersonnel)
       .map(resp => resp.json())
   }
 
-  deleteDiplomePersonnel(idDipP: number) {
-    return this.http.delete("http://localhost:8080/SupprimerDiplomePersonnel/" + idDipP)
+  deleteDiplomePersonnel(id_DipP: number) {
+    return this.http.delete("http://localhost:8080/SupprimerDiplomePersonnel/" + id_DipP)
       .map(resp => resp.json())
   }
   getAllDiplomePersonnels() {

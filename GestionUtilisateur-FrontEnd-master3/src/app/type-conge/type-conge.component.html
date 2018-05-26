@@ -1,0 +1,45 @@
+<app-index></app-index>
+<div class="panel panel-primary">
+  <div class="panel-heading">Ajouter Type Congé</div>
+  <div class="panel-body">
+    <div>
+      <form class="form-inline">
+        <div class="form-group">
+          <label class="control-label">Nom de congé :</label>
+          <input id="msg" type="text" class="form-control" name="msg" placeholder="Nom de Congé" [(ngModel)]="typeConge.libelle">
+        </div>
+        <div class="form-group">
+          <label class="control-label">Description :</label>
+          <input id="msg1" type="text" class="form-control" name="msg1" [(ngModel)]="typeConge.description">
+        </div>
+        <div class="form-gr1oup">
+          <label class="control-label">Nombre de jours :</label>
+          <input id="msg2" type="text" class="form-control" name="msg2" [(ngModel)]="typeConge.nbMaxJrs">
+        </div>
+        <button type="button" class="btn btn-primary btn-md" (click)="ajouter()">Ajouter</button>
+      </form>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading">Afficher Congé</div>
+    <div class="panel-body">
+      <div class="form-group">
+        <label>Titre</label>
+        <input type="text" [(ngModel)]="motCle"/>
+        <button class="btn btn-primary" (click)="doSearch()">Chercher</button>
+      </div>
+      <table class="table table-striped">
+        <tr>
+          <th>ID</th><th>Titre</th><th>Description</th><th>Nombre De Jours</th><th>Modifier type Congé</th><th>Supprimer type congé</th>
+        </tr>
+        <tr *ngFor="let tc of typeConges">
+          <td>{{tc.idCg}}</td>
+          <td>{{tc.libelle}}</td>
+          <td>{{tc.description}}</td>
+          <td>{{tc.nbMaxJrs}}</td>
+          <td><a (click)="onEditTypeConge(tc.idCg)" class="clickable">Modifier</a> </td>
+          <td><a (click)="onDeleteTypeConge(tc)" class="clickable">Supprimer</a> </td>
+        </tr></table>
+    </div>
+  </div>
+</div>
