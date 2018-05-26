@@ -1,197 +1,124 @@
-<mat-accordion>
+<app-index></app-index>
+<div class="container spacer">
+    <div class="panel panel-primary">
+      <div class="panel-heading">AJOUTER ENSEIGNANT</div>
+      <div class="panel-body">
+    <mat-accordion>
+      <form #fe>
   <mat-expansion-panel>
     <mat-expansion-panel-header>
       <mat-panel-title>
         Données Personnelle
       </mat-panel-title>
       <mat-panel-description>
-        Entrez les données personnelle de l'enseignant
-      </mat-panel-description>
+    </mat-panel-description>
     </mat-expansion-panel-header>
 
-    <mat-form-field>
-      <input matInput placeholder="Matricule" [(ngModel)]="enseignantP.matricule">
+    <mat-form-field matTooltip="Max 8 chiffre" matTooltipPosition="above">
+      <input matInput #input maxlength="8" placeholder="Matricule" [(ngModel)]="enseignantP.matricule" required>
+      <mat-hint align="end">{{input.value?.length||0}}/8</mat-hint>
     </mat-form-field>
-
-    <mat-form-field>
-      <input matInput placeholder="CIN"  [(ngModel)]="enseignantP.cin">
-    </mat-form-field>
-    <mat-form-field>
-      <input matInput placeholder="Nom"  [(ngModel)]="enseignantP.nom">
+    <mat-form-field matTooltip="Max 8 caractére" matTooltipPosition="above">
+      <input matInput #input1 maxlength="8" placeholder="CIN"  [(ngModel)]="enseignantP.cin" required>
+      <mat-hint align="end">{{input1.value?.length||0}}/8</mat-hint>
     </mat-form-field>
     <mat-form-field>
-      <input matInput placeholder="Prenom"  [(ngModel)]="enseignantP.prenom">
+      <input matInput placeholder="Nom"  [(ngModel)]="enseignantP.nom" required>
     </mat-form-field>
     <mat-form-field>
-      <input matInput placeholder="Nom de Pére"  [(ngModel)]="enseignantP.nompere">
+      <input matInput placeholder="Prenom"  [(ngModel)]="enseignantP.prenom" required>
     </mat-form-field>
     <mat-form-field>
-      <input matInput [matDatepicker]="picker" placeholder="Date de Naissance" [(ngModel)]="enseignantP.datenaissance">
+      <input matInput placeholder="Nom de Pére"  [(ngModel)]="enseignantP.nompere" required>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput [matDatepicker]="picker" placeholder="Date de Naissance" [(ngModel)]="enseignantP.datenaissance" required>
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Lieu de Naissance"  [(ngModel)]="enseignantP.lieuNaissance">
     </mat-form-field>
     <mat-radio-group [(ngModel)]="enseignantP.sexe">
       <mat-radio-button value="F">Femme</mat-radio-button>
       <mat-radio-button value="H">Homme</mat-radio-button>
     </mat-radio-group>
-  </mat-expansion-panel>
-</mat-accordion>
-<mat-tab-group>
-  <mat-tab label="Données Personnelle">
-    <div class="panel panel-default">
-      <div class="panel-heading">AJOUTER ENSEIGNANT</div>
-      <div class="panel-body">
-        <form class="form-default">
-          <div class="form-group">
-            <label class="control-label col-sm-2" for="matricule">Matricule:</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="matricule" placeholder="Entrer matricule" [(ngModel)]="enseignantP.matricule">
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="control-label col-sm-2" for="cin">CIN:</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="cin" placeholder="Entrer votre cin"  [(ngModel)]="enseignantP.cin">
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="control-label col-sm-2" for="nom">Nom:</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="nom" placeholder="Entrer votre nom"  [(ngModel)]="enseignantP.nom">
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="control-label col-sm-2" for="prenom">Prénom:</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="prenom" placeholder="Entrer votre prenom" [(ngModel)]="enseignantP.prenom">
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="control-label col-sm-2" for="nomPere">Nom Pére:</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="nomPere" placeholder="Entrer nom pére" [(ngModel)]="enseignantP.nompere">
-            </div>
-          </div>
-          <div class="form-group ">
-            <label class="control-label col-sm-2" for="date">Date de naissance:</label>
-            <div class="col-sm-10">
-              <input class="form-control" type="date" value="2011-08-19" id="date" placeholder="Entrer votre date de naissance" [(ngModel)]="enseignantP.datenaissance">
-            </div>
-          </div>
-          <label class="col-sm-2 col-form-label">Sexe:</label>
-          <mat-radio-group [(ngModel)]="enseignantP.sexe">
-            <mat-radio-button value="F">Femme</mat-radio-button>
-            <mat-radio-button value="H">Homme</mat-radio-button>
-          </mat-radio-group>
-          <div class="form-group">
-            <label class="control-label col-sm-2" for="telephone">Téléphone:</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="telephone" placeholder="Entrer  votre numéro du téléphone" [(ngModel)]="enseignantP.tel">
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="control-label col-sm-2" for="email">E-mail:</label>
-            <div class="col-sm-10">
-              <input type="email" class="form-control" id="email" placeholder="exemple@xyy.com" [(ngModel)]="enseignantP.email">
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="control-label col-sm-2" for="adresse">Adresse :</label>
-            <div class="col-sm-10">
-              <textarea class="form-control" id="adresse" rows="3" [(ngModel)]="enseignantP.adresse"></textarea>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="control-label col-sm-2" for="codep">Code Postal:</label>
-            <div class="col-sm-10">
-              <input type="codep" class="form-control" id="codep" [(ngModel)]="enseignantP.codepostal">
-            </div>
-          </div>
-          <label class="col-sm-2 col-form-label">Etat civil:</label>
-          <mat-radio-group [(ngModel)]="enseignantP.etatcivil">
-            <mat-radio-button value="Célibataire">Célibataire</mat-radio-button>
-            <mat-radio-button value="Marié(e)">Marié(e)</mat-radio-button>
-            <mat-radio-button value="Divorcé(e)">Divorcé(e)</mat-radio-button>
-          </mat-radio-group>
-         <div class="form-group">
-            <label class="control-label col-sm-2" for="nomcj">Nom Conjoint:</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="nomcj" [(ngModel)]="enseignantP.nomconjoint">
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="control-label col-sm-2" for="profcj">Profession Conjoint:</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="profcj" [(ngModel)]="enseignantP.profconj">
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="control-label col-sm-2" for="spec">Spécialité:</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="spec" [(ngModel)]="enseignantP.specialite">
-            </div>
-          </div>
-          <button type="submit" class="btn btn-info" (click)="Enregistrer()">Ajouter</button>
-          <button type="submit" class="btn btn-info" (click)="annuler()">Annuler</button>
-        </form>
-      </div>
-    </div>
-    </mat-tab>
-  <mat-tab label="Département et Carriére">
-    <div class="panel panel-default">
-      <div class="panel-heading">AJOUTER ENSEIGNANT</div>
-      <div class="panel-body">
-    <div class="form-group">
-      <label class="col-sm-2" for="dep">Département:</label>
-      <div class="col-sm-10">
-        <select class="form-control" id="dep">
-          <option *ngFor="let d of departements">{{d.nomDep}}</option>
-        </select>
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="col-sm-2" for="carri">Plan de carriére:</label>
-      <div class="col-sm-10">
-        <select class="form-control" id="carri">
-          <option>Directeur de l'Institut</option>
-          <option>Directeur des Etudes</option>
-          <option>Directeur du Département</option>
-        </select>
-      </div>
-    </div>
-        <button type="submit" class="btn btn-info" (click)="EnregistrerDep()">Ajouter</button>
-        <button type="submit" class="btn btn-info" (click)="annuler()">Annuler</button>
-      </div>
-    </div>
-  </mat-tab>
-    <mat-tab label="Diplôme et Grade">
-      <div class="panel panel-default">
-        <div class="panel-heading">AJOUTER ENSEIGNANT</div>
-        <div class="panel-body">
-    <div class="form-group">
-      <label class="col-sm-2" for="dip">Diplôme:</label>
-      <div class="col-sm-10">
-        <select class="form-control" id="dip">
-          <option *ngFor="let dip of diplomes">{{dip.titre}}</option>
-        </select>
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="col-sm-2" for="grd">Grade:</label>
-      <div class="col-sm-10">
-        <select class="form-control" id="grd">
-          <option *ngFor="let grd of grades">{{grd.titre}}</option>
-        </select>
-      </div>
-    </div>
-          <mat-radio-group [(ngModel)]="enseignantP.etat">
-            <mat-radio-button value="actif">Actif</mat-radio-button>
-            <mat-radio-button value="non-actif">Non-Actif</mat-radio-button>
-          </mat-radio-group>
-          <button type="submit" class="btn btn-info" (click)="EnregistrerGrade()">Ajouter</button>
-          <button type="submit" class="btn btn-info" (click)="annuler()">Annuler</button>
-        </div>
-      </div>
-      </mat-tab>
-</mat-tab-group>
+     <mat-form-field>
+      <input matInput placeholder="Téléphone"  [(ngModel)]="enseignantP.telephone">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Email" type="email" [(ngModel)]="enseignantP.email"  required>
+      <!--<mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>-->
+    </mat-form-field>
+    <mat-form-field>
+      <textarea matInput placeholder="Adresse"  [(ngModel)]="enseignantP.adresse" required></textarea>
+    </mat-form-field>
+    <mat-form-field matTooltip="Max 4 caractére" matTooltipPosition="above">
+      <input matInput #input2 maxlength="4" placeholder="Code Postal"  [(ngModel)]="enseignantP.codepostal">
+      <mat-hint align="end">{{input2.value?.length||0}}/4</mat-hint>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Spécialité"  [(ngModel)]="enseignantP.specialite" required>
+    </mat-form-field>
+    <mat-form-field hintLabel="Max 20 caractére">
+      <input matInput #input3 maxlength="20" placeholder="RIB"  [(ngModel)]="enseignantP.rib" required>
+      <mat-hint align="end">{{input3.value?.length||0}}/20</mat-hint>
+    </mat-form-field><br>
+    <mat-radio-group [(ngModel)]="enseignantP.etatCivil" required>
+      <mat-radio-button value="Celibataire">Célibataire</mat-radio-button>
+      <mat-radio-button value="Marie">Marié(e)</mat-radio-button>
+      <mat-radio-button value="Divorce">Divorcé(e)</mat-radio-button>
+    </mat-radio-group>
+    <mat-form-field>
+      <input matInput placeholder="Nom Conjoint"  [(ngModel)]="enseignantP.nomconjoint">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Profession Conjoint"  [(ngModel)]="enseignantP.profconj">
+    </mat-form-field>
 
+    </mat-expansion-panel>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Données Professionnelles
+      </mat-panel-title>
+      <mat-panel-description>
+       {{enseignantP.prenom+"   "+enseignantP.nom}}
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <mat-form-field>
+      <mat-select placeholder="Departement" [(value)]="departement" required>
+        <mat-option *ngFor="let d of departements" [value]="d">
+          {{ d.nomDep }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-select placeholder="Corps" [(value)]="corp" required>
+        <mat-option *ngFor="let c of corps" [value]="c">
+          {{ c.libelle }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput [matDatepicker]="picker3" placeholder="Date de Recrutement" [(ngModel)]="enseignantP.dateRecrutement">
+      <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+      <mat-datepicker #picker3></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput [matDatepicker]="picker4" placeholder="Date de Titularisation" [(ngModel)]="enseignantP.dateDemarcation">
+      <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+      <mat-datepicker #picker4></mat-datepicker>
+    </mat-form-field><br>
+    <mat-radio-group [(ngModel)]="enseignantP.etat" required>
+      <mat-radio-button value="actif">Actif</mat-radio-button>
+      <mat-radio-button value="non-actif">Non-Actif</mat-radio-button>
+    </mat-radio-group>
+  </mat-expansion-panel>
+      <button mat-raised-button color="primary" (click)="Enregistrer()">Ajouter</button>
+      <button mat-raised-button color="primary" (click)="fe.reset()">Annuler</button>
+      </form>
+</mat-accordion>
+      </div>
+    </div>
+</div>
