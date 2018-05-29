@@ -37,6 +37,8 @@ import {AGradeComponent} from "./a-grade/a-grade.component";
 import {PeriodeComponent} from "./periode/periode.component";
 import {DetailsEnseignantComponent} from "./details-enseignant/details-enseignant.component";
 import {EditAgradeComponent} from "./edit-agrade/edit-agrade.component";
+import {EditEnseignantPermanentComponent} from "./edit-enseignant-permanent/edit-enseignant-permanent.component";
+import {HistoriqueCongeComponent} from "./historique-conge/historique-conge.component";
 
 
 const appRoutes:Routes=[
@@ -53,7 +55,7 @@ const appRoutes:Routes=[
   {path:'departement',component:DepartementComponent},
   {path:'editdepartement/:idDep',component:EditDepartementComponent},
   {path:'corps',component:CorpsComponent},
-  {path:'editCorps/:idcrp',component:EditCorpsComponent},
+  {path:'editCorps/:idcps',component:EditCorpsComponent},
   {path:'grade',component:GradeComponent},
   {path:'editGrade/:id',component:EditGradeComponent},
   {path:'conge',component:CongeComponent},
@@ -70,9 +72,11 @@ const appRoutes:Routes=[
   {path:'Agrade',component:AGradeComponent},
   {path:'editAgrade/:id_agrade',component:EditAgradeComponent},
   {path:'periode',component:PeriodeComponent},
-  {path:'DetailsEnseignant/:matricule',component:DetailsEnseignantComponent},
+  {path:'DetailsEnseignantP/:matricule',component:DetailsEnseignantComponent},
+  {path:'EditEnseignantP/:matricule',component:EditEnseignantPermanentComponent},
   {path:'editPosteAdmin/:id',component:EditPosteAdministrativeComponent},
   {path:'editMutation/:idMut',component:EditMutationComponent},
+  {path:'historiqueConge',component:HistoriqueCongeComponent},
   {path:'',redirectTo:'/login',pathMatch:'full'}
 
 ];

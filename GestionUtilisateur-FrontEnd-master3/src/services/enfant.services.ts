@@ -9,8 +9,8 @@ export class EnfantServices {
     return this.http.get("http://localhost:8080/chercherEnfants?mc="+motCle+"&size="+size+"&page="+page)
       .map(resp=>resp.json())
   }
-  getEnfant(numero:number){
-    return this.http.get("http://localhost:8080/enfants/"+numero)
+  getEnfant(num:number){
+    return this.http.get("http://localhost:8080/enfants/"+num)
       .map(resp=>resp.json())
   }
   saveEnfant(enfant:Enfant){
@@ -18,11 +18,11 @@ export class EnfantServices {
       .map(resp=>resp.json())
   }
   updateEnfant(enfant:Enfant){
-    return this.http.put("http://localhost:8080/enfants/"+enfant.numero,enfant)
+    return this.http.put("http://localhost:8080/enfants/"+enfant.num,enfant)
       .map(resp=>resp.json())
   }
-  deleteEnfant(numero:number){
-    return this.http.delete("http://localhost:8080/enfants/"+numero)
+  deleteEnfant(num:number){
+    return this.http.delete("http://localhost:8080/enfants/"+num)
       .map(resp=>resp.json())
   }
   getAllEnfant()

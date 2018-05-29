@@ -1,0 +1,23 @@
+<app-index></app-index>
+<div class="container spacer">
+<div class="panel panel-primary">
+  <div class="panel-heading">Afficher liste des enseignants</div>
+  <div class="panel-body">
+  <table class="table table-striped">
+    <tr>
+      <th>Matricule</th><th>CIN</th><th>Nom</th><th>Prenom</th><th>Telephone</th><th>E-mail</th><th>Departement</th><th>Modifier</th><th>Détails</th>
+    </tr>
+    <tr *ngFor="let e of enseignantPs">
+      <td>{{e.matricule}}</td>
+      <td>{{e.cin}}</td>
+      <td>{{e.nom}}</td>
+      <td>{{e.prenom}}</td>
+      <td>{{e.telephone}}</td>
+      <td>{{e.email}}</td>
+      <td>{{e.departement.nomDep}}</td>
+      <td><a (click)="onEditEnseignant(e.matricule)" class="clickable"><mat-icon>create</mat-icon></a> </td>
+      <td><a (click)="onDetailsEnseignant(e.matricule)" class="clickable"><mat-icon >list_alt</mat-icon></a> </td>
+    </tr></table>
+</div>
+</div>
+</div>

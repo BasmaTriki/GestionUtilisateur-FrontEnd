@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Personnel} from '../../model/model.personnel';
 import {PosteAdministrative} from '../../model/model.posteAdministrative';
 import {Periode} from '../../model/model.periode';
-import {UsersServices} from '../../services/users.services';
+import {PersonnelServices} from '../../services/personnel.services';
 import {Http} from '@angular/http';
 import {Router} from '@angular/router';
 import {PosteAdministrativeServices} from '../../services/posteAdministrative.services';
@@ -26,7 +26,7 @@ export class PeriodeComponent implements OnInit {
   periodes: Array<Periode> = new Array<Periode>();
   posteAdmin:PosteAdministrative;
 
-  constructor(private periodeServices:PeriodeServices,private posteServices: PosteAdministrativeServices, private userservices: UsersServices, public http: Http, public router: Router) {
+  constructor(private periodeServices:PeriodeServices,private posteServices: PosteAdministrativeServices, private personnelServices: PersonnelServices, public http: Http, public router: Router) {
   }
 
   ngOnInit() {
@@ -48,7 +48,7 @@ export class PeriodeComponent implements OnInit {
   }
   AfficherPersonnel()
   {
-    this.userservices.getAllPersonnel()
+    this.personnelServices.getAllPersonnel()
       .subscribe(data=>{
         this.personnels=data;
         console.log(data);

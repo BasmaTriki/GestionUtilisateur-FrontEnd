@@ -35,7 +35,7 @@ ajouter(){
     this.diplomeServices.getDiplomes(this.motCle,this.currentPage,this.size)
       .subscribe(data=>{
         console.log(data);
-        this.diplomes=data;
+        this.pageDiplome=data;
         this.pages=new Array(data.totalPages);
       },err=>{
         console.log(err);

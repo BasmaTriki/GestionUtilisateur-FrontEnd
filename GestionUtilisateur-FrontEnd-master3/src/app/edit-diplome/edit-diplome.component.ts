@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Diplome} from '../../model/model.diplome';
 import {ActivatedRoute, Router} from '@angular/router';
+import {UsersServices} from '../../services/users.services';
 import {DiplomeServices} from '../../services/diplome.services';
 
 @Component({

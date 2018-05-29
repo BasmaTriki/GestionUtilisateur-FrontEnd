@@ -79,6 +79,9 @@ import {PeriodeServices} from "../services/periode.services";
 import { DetailsEnseignantComponent } from './details-enseignant/details-enseignant.component';
 import { HistoriqueCongeComponent } from './historique-conge/historique-conge.component';
 import { EditAgradeComponent } from './edit-agrade/edit-agrade.component';
+import { EnfantsComponent } from './enfants/enfants.component';
+import {PersonnelServices} from "../services/personnel.services";
+import { EditEnseignantPermanentComponent } from './edit-enseignant-permanent/edit-enseignant-permanent.component';
 @NgModule ({
   declarations: [
     AppComponent,
@@ -118,7 +121,9 @@ import { EditAgradeComponent } from './edit-agrade/edit-agrade.component';
     PeriodeComponent,
     DetailsEnseignantComponent,
     HistoriqueCongeComponent,
-    EditAgradeComponent
+    EditAgradeComponent,
+    EnfantsComponent,
+    EditEnseignantPermanentComponent
   ],
   imports: [
     BrowserModule,
@@ -147,7 +152,7 @@ import { EditAgradeComponent } from './edit-agrade/edit-agrade.component';
   ],
   schemas:[NO_ERRORS_SCHEMA],
   providers: [UsersServices,PeriodeServices,EnfantServices,CorpsServices,DiplomeServices,GradeServices,DepartementServices,EnseignantPermanentServices,AGradeServices,DiplomePersonnelServices,TypeCongeServices,CongeServices,MutationServices,
-    TypeMutationsServices,PosteAdministrativeServices],
+    TypeMutationsServices,PosteAdministrativeServices,PersonnelServices],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

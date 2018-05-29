@@ -1,0 +1,29 @@
+<app-index></app-index>
+<div class="container spacer">
+  <div class="panel panel-primary">
+    <div class="panel-heading">Historique des Congés Personnel</div>
+    <div class="panel-body">
+      <mat-form-field>
+        <mat-select placeholder="Personnel" [(value)]="personnel" aria-selected="true">
+          <mat-option *ngFor="let p of personnels" [value]="p">
+            {{p.prenom+"   "+ p.nom }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button mat-icon-button (click)="doSearch()"><mat-icon>search</mat-icon></button>
+<h3>Historique:</h3>
+<br>
+<table class="table table-striped">
+  <tr>
+    <th>Date Debut</th><th>Date Fin</th><th>Type Congé</th><th>Nombre Jours</th><th>Décision</th>
+  </tr>
+  <tr *ngFor="let c of pageConge?.content">
+    <td>{{c.dateDebut}}</td>
+    <td>{{c.dateFin}}</td>
+    <td>{{c.typeconge.libelle}} </td>
+    <td>{{c.typeconge.nbMaxJrs}}</td>
+    <td>{{c.valide}}</td>
+  </tr></table>
+    </div>
+  </div>
+</div>

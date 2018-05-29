@@ -3,6 +3,6 @@ import {Enfant} from "./model.enfant";
 
 export class EnseignantPermanent extends Enseignant {
 dateRecrutement:Date=null;
-dateDemarcation:Date=null;
-enfant:Array<Enfant>=new Array<Enfant>();
+dateTitularisation:Date=null;
+enfants:Array<Enfant>=new Array<Enfant>();
 }

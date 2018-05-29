@@ -15,67 +15,77 @@
     </mat-expansion-panel-header>
 
     <mat-form-field matTooltip="Max 8 chiffre" matTooltipPosition="above">
-      <input matInput #input maxlength="8" placeholder="Matricule" [(ngModel)]="enseignantP.matricule" required>
+      <input matInput type="text" name="matricule" #input maxlength="8" placeholder="Matricule" [(ngModel)]="enseignantP.matricule" required>
       <mat-hint align="end">{{input.value?.length||0}}/8</mat-hint>
     </mat-form-field>
     <mat-form-field matTooltip="Max 8 caractére" matTooltipPosition="above">
-      <input matInput #input1 maxlength="8" placeholder="CIN"  [(ngModel)]="enseignantP.cin" required>
+      <input matInput type="text" name="cin" #input1 maxlength="8" placeholder="CIN"  [(ngModel)]="enseignantP.cin" required>
       <mat-hint align="end">{{input1.value?.length||0}}/8</mat-hint>
     </mat-form-field>
     <mat-form-field>
-      <input matInput placeholder="Nom"  [(ngModel)]="enseignantP.nom" required>
+      <input matInput placeholder="Nom" type="text" name="nom"  [(ngModel)]="enseignantP.nom" required>
     </mat-form-field>
     <mat-form-field>
-      <input matInput placeholder="Prenom"  [(ngModel)]="enseignantP.prenom" required>
+      <input matInput placeholder="Prenom" type="text" name="prenom" [(ngModel)]="enseignantP.prenom" required>
     </mat-form-field>
     <mat-form-field>
-      <input matInput placeholder="Nom de Pére"  [(ngModel)]="enseignantP.nompere" required>
+      <input matInput placeholder="Nom de Pére" type="text" name="nompere" [(ngModel)]="enseignantP.nompere" required>
     </mat-form-field>
     <mat-form-field>
-      <input matInput [matDatepicker]="picker" placeholder="Date de Naissance" [(ngModel)]="enseignantP.datenaissance" required>
+      <input matInput [matDatepicker]="picker" placeholder="Date de Naissance" name="datenais" [(ngModel)]="enseignantP.datenaissance" required>
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
     <mat-form-field>
-      <input matInput placeholder="Lieu de Naissance"  [(ngModel)]="enseignantP.lieuNaissance">
+      <input matInput placeholder="Lieu de Naissance" type="text" name="lieu" [(ngModel)]="enseignantP.lieuNaissance">
     </mat-form-field>
-    <mat-radio-group [(ngModel)]="enseignantP.sexe">
+    <mat-radio-group [(ngModel)]="enseignantP.sexe" name="sexe">
       <mat-radio-button value="F">Femme</mat-radio-button>
       <mat-radio-button value="H">Homme</mat-radio-button>
     </mat-radio-group>
      <mat-form-field>
-      <input matInput placeholder="Téléphone"  [(ngModel)]="enseignantP.telephone">
+      <input matInput placeholder="Téléphone" type="text" name="telephone" [(ngModel)]="enseignantP.telephone">
     </mat-form-field>
     <mat-form-field>
-      <input matInput placeholder="Email" type="email" [(ngModel)]="enseignantP.email"  required>
+      <input matInput placeholder="Email" type="email" name="email" [(ngModel)]="enseignantP.email" required>
       <!--<mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>-->
     </mat-form-field>
     <mat-form-field>
-      <textarea matInput placeholder="Adresse"  [(ngModel)]="enseignantP.adresse" required></textarea>
+      <textarea matInput placeholder="Adresse" type="text" name="adresse" [(ngModel)]="enseignantP.adresse" required></textarea>
     </mat-form-field>
     <mat-form-field matTooltip="Max 4 caractére" matTooltipPosition="above">
-      <input matInput #input2 maxlength="4" placeholder="Code Postal"  [(ngModel)]="enseignantP.codepostal">
+      <input matInput #input2 maxlength="4" placeholder="Code Postal" type="text" name="code" [(ngModel)]="enseignantP.codepostal">
       <mat-hint align="end">{{input2.value?.length||0}}/4</mat-hint>
     </mat-form-field>
     <mat-form-field>
-      <input matInput placeholder="Spécialité"  [(ngModel)]="enseignantP.specialite" required>
+      <input matInput placeholder="Spécialité" type="text" name="specialite" [(ngModel)]="enseignantP.specialite" required>
     </mat-form-field>
     <mat-form-field hintLabel="Max 20 caractére">
-      <input matInput #input3 maxlength="20" placeholder="RIB"  [(ngModel)]="enseignantP.rib" required>
+      <input matInput #input3 maxlength="20" placeholder="RIB" type="text" name="rib" [(ngModel)]="enseignantP.rib" required>
       <mat-hint align="end">{{input3.value?.length||0}}/20</mat-hint>
     </mat-form-field><br>
-    <mat-radio-group [(ngModel)]="enseignantP.etatCivil" required>
+    <mat-radio-group [(ngModel)]="enseignantP.etatCivil" name="etatcivil" #etatcivil>
       <mat-radio-button value="Celibataire">Célibataire</mat-radio-button>
       <mat-radio-button value="Marie">Marié(e)</mat-radio-button>
       <mat-radio-button value="Divorce">Divorcé(e)</mat-radio-button>
     </mat-radio-group>
-    <mat-form-field>
-      <input matInput placeholder="Nom Conjoint"  [(ngModel)]="enseignantP.nomconjoint">
+    <mat-form-field *ngIf="enseignantP.etatCivil=='Marie'">
+      <input matInput placeholder="Nom Conjoint" type="text" name="nomconj" [(ngModel)]="enseignantP.nomConjoint">
     </mat-form-field>
-    <mat-form-field>
-      <input matInput placeholder="Profession Conjoint"  [(ngModel)]="enseignantP.profconj">
+    <mat-form-field *ngIf="enseignantP.etatCivil=='Marie'">
+    <input matInput placeholder="Profession Conjoint" type="text" name="profConj" [(ngModel)]="enseignantP.profConjoint">
     </mat-form-field>
-
+ <!-- <form *ngIf="enseignantP.etatCivil=='Marie'||enseignantP.etatCivil=='Divorce'">
+        <mat-form-field>
+          <input matInput placeholder="Nom Enfant" type="text" name="nomenf" required [(ngModel)]="enfant.nom">
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput [matDatepicker]="pickerEn" placeholder="Date de Naissance" name="date_nais" required [(ngModel)]="enfant.date_nais">
+          <mat-datepicker-toggle matSuffix [for]="pickerEn"></mat-datepicker-toggle>
+          <mat-datepicker #pickerEn></mat-datepicker>
+        </mat-form-field>
+      </form>-->
+      <!--<button mat-mini-fab color="primary"><mat-icon>add_circle</mat-icon></button>-->
     </mat-expansion-panel>
   <mat-expansion-panel>
     <mat-expansion-panel-header>
@@ -101,16 +111,16 @@
       </mat-select>
     </mat-form-field>
     <mat-form-field>
-      <input matInput [matDatepicker]="picker3" placeholder="Date de Recrutement" [(ngModel)]="enseignantP.dateRecrutement">
+      <input matInput [matDatepicker]="picker3" placeholder="Date de Recrutement" [(ngModel)]="enseignantP.dateRecrutement" name="dateR">
       <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
       <mat-datepicker #picker3></mat-datepicker>
     </mat-form-field>
     <mat-form-field>
-      <input matInput [matDatepicker]="picker4" placeholder="Date de Titularisation" [(ngModel)]="enseignantP.dateDemarcation">
+      <input matInput [matDatepicker]="picker4" placeholder="Date de Titularisation" [(ngModel)]="enseignantP.dateTitularisation" name="dateT">
       <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
       <mat-datepicker #picker4></mat-datepicker>
     </mat-form-field><br>
-    <mat-radio-group [(ngModel)]="enseignantP.etat" required>
+    <mat-radio-group [(ngModel)]="enseignantP.etat" required name="etat">
       <mat-radio-button value="actif">Actif</mat-radio-button>
       <mat-radio-button value="non-actif">Non-Actif</mat-radio-button>
     </mat-radio-group>

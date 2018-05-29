@@ -1,6 +1,5 @@
 export class Enfant {
-  numero:number=0;
+  num:number;
   nom:string;
-  prenom:string;
-  date_naissance:Date;
+  date_nais:Date;
 }

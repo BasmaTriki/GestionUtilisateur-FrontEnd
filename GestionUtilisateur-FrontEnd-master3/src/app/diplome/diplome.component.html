@@ -1,35 +1,37 @@
 <app-index></app-index>
+<div class="container spacer">
 <div class="panel panel-primary">
   <div class="panel-heading">Ajouter Diplôme</div>
   <div class="panel-body">
     <div>
-    <form class="form-inline">
-      <div class="form-group">
-        <label class="control-label">Titre de diplôme :</label>
-        <input id="msg" type="text" class="form-control" name="msg" placeholder="Titre de Diplôme" [(ngModel)]="diplome.titre">
-        <button type="button" class="btn btn-primary btn-md" (click)="ajouter()">Ajouter Diplôme</button>
-      </div>
-    </form>
+      <mat-form-field>
+        <input matInput placeholder="Titre" [(ngModel)]="diplome.titre">
+      </mat-form-field>
+
+      <button  mat-icon-button (click)="ajouter()">
+        <mat-icon>add_circle</mat-icon></button>
     </div>
   </div>
+</div>
       <div class="panel panel-default">
         <div class="panel-heading">Afficher Diplôme</div>
         <div class="panel-body">
     <div class="form-group">
-      <label>Mot Clé</label>
-      <input type="text" [(ngModel)]="motCle"/>
-      <button class="btn btn-primary" (click)="doSearch()">Chercher</button>
+      <input type="text" placeholder="Titre" [(ngModel)]="motCle"/>
+      <button mat-icon-button color="" (click)="doSearch()">
+        <mat-icon>search</mat-icon></button>
     </div>
     <table class="table table-striped">
       <tr>
-        <th>ID</th><th>Titre</th><th>Modifier Diplôme</th><th>Supprimer Diplôme</th>
+        <th>ID</th><th>Titre</th><th>Modifier</th><th>Supprimer</th>
       </tr>
       <tr *ngFor="let d of diplomes">
         <td>{{d.idDip}}</td>
         <td>{{d.titre}}</td>
-        <td><a (click)="onEditDiplome(d.idDip)" class="clickable">Modifier</a> </td>
-        <td><a (click)="onDeleteDiplome(d)" class="clickable">Supprimer</a> </td>
+        <td><a (click)="onEditDiplome(d.idDip)" class="clickable"><mat-icon>create</mat-icon></a> </td>
+        <td><a (click)="onDeleteDiplome(d)" class="clickable"><mat-icon color="#B00020">delete_sweep</mat-icon></a> </td>
       </tr></table>
   </div>
   </div>
+</div>
 

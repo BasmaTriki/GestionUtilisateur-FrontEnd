@@ -1,0 +1,32 @@
+<app-index></app-index>
+<div class="container spacer">
+  <div class="panel panel-primary">
+    <div class="panel-heading">Modifier Grade Personnel</div>
+    <div class="panel-body">
+      <mat-form-field>
+      <input matInput placeholder="ID" [(ngModel)]="agrade.id_agrade">
+      </mat-form-field >
+      <mat-form-field>
+        <mat-select placeholder="Personnel" [(value)]="personnel">
+          <mat-option *ngFor="let p of personnels " [value]="p">
+            {{ p.prenom +" "+p.nom }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-select placeholder="Grade" [(value)]="grade">
+          <mat-option *ngFor="let grd of grades" [value]="grd">
+            {{ grd.titre }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput [matDatepicker]="picker1" placeholder="Date de Grade" [(ngModel)]="agrade.dateEvaluation">
+        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+      </mat-form-field>
+      <button mat-icon-button color="primary" (click)="update()"><mat-icon>border_color</mat-icon></button>
+      <button mat-icon-button color="primary" (click)="annuler()"><mat-icon>cancel</mat-icon></button>
+    </div>
+  </div>
+</div>

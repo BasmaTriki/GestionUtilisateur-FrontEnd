@@ -32,9 +32,4 @@ deleteUser(login:string){
     return this.http.get("http://localhost:8080/users")
       .map(resp=>resp.json())
   }
-  getAllPersonnel()
-  {
-    return this.http.get("http://localhost:8080/Personnels")
-      .map(resp=>resp.json())
-  }
 }

@@ -1,7 +1,7 @@
 <app-index></app-index>
 <div class="container spacer">
-  <div class="panel panel-primary" *ngIf="mode==1">
-    <div class="panel-heading">Editer Utilisateur</div>
+  <div class="panel panel-primary">
+    <div class="panel-heading">Modifier Utilisateur</div>
     <div class="panel-body">
       <div>
         <div class="form-group">
@@ -11,12 +11,13 @@
         </div>
         <div class="form-group">
           <mat-form-field>
-            <input  matInput placeholder="Mot de Passe:"  type="password" [(ngModel)]="user.motpasse"/>
+            <input  matInput placeholder="Mot de Passe:"  [type]="hide ? 'password' : 'text'" [(ngModel)]="user.motpasse"/>
+            <mat-icon matSuffix class="clickable" (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
           </mat-form-field>
         </div>
         <div class="form-group">
           <mat-form-field>
-            <mat-select placeholder="Modifier Personnel" [(value)]="personnel">
+            <mat-select placeholder="Modifier Personnel" [(value)]="personnel" aria-selected="true">
               <mat-option *ngFor="let p of personnels" [value]="p">
                 {{p.prenom+"   "+ p.nom }}
               </mat-option>

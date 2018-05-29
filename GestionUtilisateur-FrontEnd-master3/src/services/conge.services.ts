@@ -31,4 +31,9 @@ export class CongeServices{
     return this.http.delete("http://localhost:8080/SupprimerConge/"+idCong)
       .map(resp=>resp.json())
   }
+  getCongesPersonnel(motCle:number,page:number,size:number)
+  {
+    return this.http.get("http://localhost:8080/chercherCongesP?mc="+motCle+"&size="+size+"&page="+page)
+      .map(resp=>resp.json())
+  }
 }

@@ -1,24 +1,27 @@
 <app-index></app-index>
+<div class="container spacer">
 <div class="panel panel-primary">
   <div class="panel-heading">Ajouter Grade</div>
   <div class="panel-body">
     <div>
-      <form class="form-inline">
-        <div class="form-group">
-          <label class="control-label">Titre de Grade :</label>
-          <input id="msg" type="text" class="form-control" name="msg" placeholder="Titre de Grade" [(ngModel)]="grade.titre">
-          <button type="button" class="btn btn-primary btn-md" (click)="ajouter()">Ajouter Grade</button>
+      <mat-form-field>
+        <input matInput placeholder="Titre" [(ngModel)]="grade.titre">
+      </mat-form-field>
+
+          <button  mat-icon-button (click)="ajouter()">
+            <mat-icon>add_circle</mat-icon></button>
         </div>
-      </form>
     </div>
   </div>
   <div class="panel panel-default">
     <div class="panel-heading">Afficher Grade</div>
     <div class="panel-body">
-      <div class="form-group">
-        <label>Titre</label>
-        <input type="text" [(ngModel)]="motCle"/>
-        <button class="btn btn-primary" (click)="doSearch()">Chercher</button>
+      <mat-form-field>
+        <input matInput placeholder="Titre" [(ngModel)]="motCle">
+      </mat-form-field>
+        <button mat-icon-button color="" (click)="doSearch()">
+          <mat-icon>search</mat-icon>
+        </button>
       </div>
       <table class="table table-striped">
         <tr>
@@ -27,8 +30,9 @@
         <tr *ngFor="let g of grades">
           <td>{{g.id}}</td>
           <td>{{g.titre}}</td>
-          <td><a (click)="onEditGrade(g.id)" class="clickable">Modifier</a> </td>
-          <td><a (click)="onDeleteGrade(g)" class="clickable">Supprimer</a> </td>
+          <td><a (click)="onEditGrade(g.id)" class="clickable"> <mat-icon>create</mat-icon></a> </td>
+          <td><a (click)="onDeleteGrade(g)" class="clickable"> <mat-icon color="#B00020">delete_sweep</mat-icon></a> </td>
         </tr></table>
     </div>
   </div>
+

@@ -7,6 +7,7 @@ import {Personnel} from '../../model/model.personnel';
 import {UsersServices} from '../../services/users.services';
 import {TypeMutation} from "../../model/model.typeMutation";
 import {TypeMutationsServices} from "../../services/typeMutation.services";
+import {PersonnelServices} from "../../services/personnel.services";
 
 @Component({
   selector: 'app-mutation',
@@ -25,7 +26,7 @@ export class MutationComponent implements OnInit {
   personnel:Personnel=new Personnel();
   typeMutation:TypeMutation;
   typeMutations:Array<TypeMutation>=new Array<TypeMutation>();
-  constructor(private typeMutationServices:TypeMutationsServices,private mutationServices:MutationServices,private userservices:UsersServices,public http:Http,public router:Router) { }
+  constructor(private typeMutationServices:TypeMutationsServices,private mutationServices:MutationServices,private personnelServices:PersonnelServices,public http:Http,public router:Router) { }
 
   ngOnInit() {
     this.chercher();
@@ -34,7 +35,7 @@ export class MutationComponent implements OnInit {
   }
   AfficherPersonnel()
   {
-    this.userservices.getAllPersonnel()
+    this.personnelServices.getAllPersonnel()
       .subscribe(data=>{
         this.personnels=data;
         console.log(data);

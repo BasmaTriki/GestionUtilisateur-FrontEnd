@@ -14,8 +14,8 @@ export class Personnel{
   sexe:string="";
   rib:string="";
   etatCivil:string="";
-  nomconjoint:string="";
-  profconj:string="";
+  nomConjoint:string="";
+  profConjoint:string="";
   nompere:string="";
   conges:Array<Conge>=new Array<Conge>();
 }

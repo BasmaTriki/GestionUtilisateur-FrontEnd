@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {User} from '../../model/model.user';
 import {ActivatedRoute, Router} from '@angular/router';
-import {UsersServices} from '../../services/users.services';
+import {PersonnelServices} from '../../services/personnel.services';
 import {Personnel} from "../../model/model.personnel";
+import {UsersServices} from "../../services/users.services";
 
 @Component({
   selector: 'app-edit-user',
@@ -15,8 +16,10 @@ export class EditUserComponent implements OnInit {
   idUser:string="";
   personnel:Personnel=new Personnel();
   personnels:Array<Personnel>=new Array<Personnel>();
+  hide = true;
   constructor(public activatedRoute:ActivatedRoute,
               public userService:UsersServices,
+              public personnelService:PersonnelServices,
               public router:Router)
   {
   this.idUser=activatedRoute.snapshot.params['login'];
@@ -34,7 +37,7 @@ export class EditUserComponent implements OnInit {
   }
   AfficherPersonnel()
   {
-    this.userService.getAllPersonnel()
+    this.personnelService.getAllPersonnel()
       .subscribe(data=>{
         this.personnels=data;
         console.log(data);

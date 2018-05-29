@@ -1,0 +1,18 @@
+<app-index></app-index>
+<div class="container spacer">
+<div class="panel panel-primary">
+  <div class="panel-heading">Modifier Poste Administratif</div>
+  <div class="panel-body">
+    <div>
+      <mat-form-field>
+        <input matInput placeholder="Identifiant" [(ngModel)]="posteAdmin.id">
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Libellé" [(ngModel)]="posteAdmin.libelle">
+      </mat-form-field>
+          <button mat-icon-button (click)="updatePosteAdmin()"><mat-icon>create</mat-icon></button>
+        </div>
+    </div>
+  </div>
+</div>
+

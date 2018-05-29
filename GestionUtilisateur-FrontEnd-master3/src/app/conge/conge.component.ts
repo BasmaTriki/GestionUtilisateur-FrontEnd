@@ -4,7 +4,7 @@ import {Router} from '@angular/router';
 import {CongeServices} from '../../services/conge.services';
 import {Conge} from '../../model/model.conge';
 import {Personnel} from '../../model/model.personnel';
-import {UsersServices} from '../../services/users.services';
+import {PersonnelServices} from '../../services/personnel.services';
 import {TypeConge} from '../../model/model.typeConge';
 import {TypeCongeServices} from '../../services/typeConge.services';
 
@@ -26,7 +26,7 @@ export class CongeComponent implements OnInit {
   typeconges:Array<TypeConge> =new Array<TypeConge>();
   nbjour:number=0;
   nbjourRest:number=0;
-  constructor(private congeServices:CongeServices, private typeCongeServices:TypeCongeServices,private userservices: UsersServices,public http:Http,public router:Router) { }
+  constructor(private congeServices:CongeServices, private typeCongeServices:TypeCongeServices,private personnelServices: PersonnelServices,public http:Http,public router:Router) { }
 
   ngOnInit() {
     this.AfficherPersonnel();
@@ -46,11 +46,18 @@ export class CongeComponent implements OnInit {
         console.log(err);
       });
     this.personnel.conges.push(this.conge);
+    this.personnelServices.updatePersonnel(this.personnel)
+      .subscribe(data=>{
+       // alert("Succès d'ajout");
+        console.log(data);
+      },err=>{
+        console.log(err);
+      });
     //this.pesonnelS
   }
   AfficherPersonnel()
   {
-    this.userservices.getAllPersonnel()
+    this.personnelServices.getAllPersonnel()
       .subscribe(data=>{
         this.personnels=data;
         console.log(data);

@@ -21,7 +21,7 @@ export class ConsultationCongeComponent implements OnInit {
   conges: Array<Conge> = new Array<Conge>();
   personnels: Array<Personnel> = new Array<Personnel>();
 
-  constructor(private congeServices: CongeServices, private userservices: UsersServices, public http: Http, public router: Router) {
+  constructor(private congeServices: CongeServices, public http: Http, public router: Router) {
   }
 
   ngOnInit() {

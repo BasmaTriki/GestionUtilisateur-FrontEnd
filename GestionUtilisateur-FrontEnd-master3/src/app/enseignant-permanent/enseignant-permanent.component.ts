@@ -25,8 +25,6 @@ import {AGradeServices} from "../../services/agrade.services";
 })
 export class EnseignantPermanentComponent implements OnInit {
   email = new FormControl('', [Validators.required, Validators.email]);
-  pageEnseignantP: any;
-  motCle: string = "";
   currentPage: number = 0;
   pages: Array<number>;
   size: number = 5;
@@ -41,8 +39,11 @@ export class EnseignantPermanentComponent implements OnInit {
   agrade:AGrade=new AGrade();
   grade:Grade=new Grade();
   corp:Corps=new Corps();
+  nbEnfant:number;
+  enfants:Array<Enfant>;
+  enfant:Enfant;
+  pagesEnf:Array<number>;
   constructor(private agradeServices:AGradeServices,private posteService:PosteAdministrativeServices,private gradeServices: GradeServices,private corpsServices: CorpsServices,private enseingnantpermanentService:EnseignantPermanentServices, private enfantservice: EnfantServices, private departementServices: DepartementServices, public http: Http, public router: Router) {
-
   }
 
   ngOnInit() {
@@ -50,6 +51,8 @@ export class EnseignantPermanentComponent implements OnInit {
     this.chercherGrad();
     this.chercherCorp();
     this. chercherPoste();
+    this.enfants==new Array<Enfant>(this.nbEnfant);
+
   }
   getErrorMessage() {
     return this.email.hasError('required') ? 'Vous devez entrer une valeur' :

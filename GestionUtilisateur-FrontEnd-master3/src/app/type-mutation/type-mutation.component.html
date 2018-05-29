@@ -1,36 +1,39 @@
 <app-index></app-index>
+<div class="container spacer">
 <div class="panel panel-primary">
   <div class="panel-heading">Ajouter Type Mutation</div>
   <div class="panel-body">
     <div>
       <form class="form-inline">
         <div class="form-group">
-          <label class="control-label">Designation du Mutation :</label>
-          <input id="msg" type="text" class="form-control" name="msg" placeholder="Nom de mutation" [(ngModel)]="typeMutation.designation">
-          <button type="button" class="btn btn-primary btn-md" (click)="ajouter()">Ajouter</button>
+          <mat-form-field>
+            <input matInput placeholder="Désignation" [(ngModel)]="typeMutation.designation">
+          </mat-form-field>
+          <button  mat-icon-button (click)="ajouter()">
+            <mat-icon>add_circle</mat-icon></button>
         </div>
       </form>
     </div>
   </div>
+</div>
   <div class="panel panel-default">
     <div class="panel-heading">Afficher Mutation</div>
     <div class="panel-body">
-      <div class="form-group">
-        <label>Libellé</label>
-        <input type="text" [(ngModel)]="motCle"/>
-        <button class="btn btn-primary" (click)="doSearch()">Chercher</button>
+      <mat-form-field>
+        <input matInput placeholder="Type Mutation" [(ngModel)]="motCle">
+      </mat-form-field>
+      <button mat-icon-button color="" (click)="doSearch()">
+        <mat-icon>search</mat-icon></button>
       </div>
       <table class="table table-striped">
         <tr>
-          <th>ID</th><th>Titre</th><th>Modifier type Mutation</th><th>Supprimer type Mutation</th>
+          <th>ID</th><th>Titre</th><th>Modifier</th><th>Supprimer</th>
         </tr>
         <tr *ngFor="let tm of typeMutations">
           <td>{{tm.code}}</td>
           <td>{{tm.designation}}</td>
-          <td><a (click)="onEditTypeMutation(tm.code)" class="clickable">Modifier</a> </td>
-          <td><a (click)="onDeleteTypeMutation(tm)" class="clickable">Supprimer</a> </td>
+          <td><a (click)="onEditTypeMutation(tm.code)" class="clickable"> <mat-icon>create</mat-icon></a> </td>
+          <td><a (click)="onDeleteTypeMutation(tm)" class="clickable"> <mat-icon color="#B00020">delete_sweep</mat-icon></a> </td>
         </tr></table>
     </div>
   </div>
-
-

@@ -1,0 +1,10 @@
+<form #formEnf>
+  <mat-form-field>
+    <input matInput placeholder="Nom Enfant" type="text" name="nomenf" required [(ngModel)]="enfant.nom">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput [matDatepicker]="pickerEn" placeholder="Date de Naissance" name="date_nais" required [(ngModel)]="enfant.date_nais">
+    <mat-datepicker-toggle matSuffix [for]="pickerEn"></mat-datepicker-toggle>
+    <mat-datepicker #pickerEn></mat-datepicker>
+  </mat-form-field>
+</form>

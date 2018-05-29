@@ -4,6 +4,7 @@ import {UsersServices} from '../../services/users.services';
 import {Router} from '@angular/router';
 import {Personnel} from '../../model/model.personnel';
 import {Http} from '@angular/http';
+import {PersonnelServices} from "../../services/personnel.services";
 
 @Component({
   selector: 'app-new-user',
@@ -14,14 +15,15 @@ export class NewUserComponent implements OnInit {
 user:User=new User();
 personnel:Personnel=new Personnel();
 personnels:Array<Personnel>=new Array<Personnel>();
-  constructor(public http:Http, public userservices:UsersServices, public router:Router) { this.AfficherPersonnel();}
+hide = true;
+constructor(public http:Http, public userservices:UsersServices, public personnelServices:PersonnelServices, public router:Router) { this.AfficherPersonnel();}
 
   ngOnInit() {
 
   }
   AfficherPersonnel()
   {
-    this.userservices.getAllPersonnel()
+    this.personnelServices.getAllPersonnel()
       .subscribe(data=>{
       this.personnels=data;
         console.log(data);

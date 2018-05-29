@@ -1,35 +1,37 @@
 <app-index></app-index>
+<div class="container spacer">
 <div class="panel panel-primary">
   <div class="panel-heading">Ajouter Corps</div>
   <div class="panel-body">
     <div>
-      <form class="form-inline">
-        <div class="form-group">
-          <label class="control-label">Libelle de corps :</label>
-          <input id="msg" type="text" class="form-control" name="msg" placeholder="Nom de Corps" [(ngModel)]="corps.libelle">
-          <button type="button" class="btn btn-primary btn-md" (click)="ajouter()">Ajouter Corps</button>
-        </div>
-      </form>
+      <mat-form-field>
+        <input matInput placeholder="Libellé" [(ngModel)]="corps.libelle">
+      </mat-form-field>
+
+      <button  mat-icon-button (click)="ajouter()">
+        <mat-icon>add_circle</mat-icon></button>
     </div>
   </div>
+</div>
   <div class="panel panel-default">
     <div class="panel-heading">Afficher Corps</div>
     <div class="panel-body">
       <div class="form-group">
-        <label>Libélle</label>
-        <input type="text" [(ngModel)]="motCle"/>
-        <button class="btn btn-primary" (click)="doSearch()">Chercher</button>
+        <input type="text" placeholder="Libellé" [(ngModel)]="motCle"/>
+        <button mat-icon-button color="" (click)="doSearch()">
+          <mat-icon>search</mat-icon></button>
       </div>
       <table class="table table-striped">
         <tr>
-          <th>ID</th><th>Libélle</th><th>Modifier Corps</th><th>Supprimer Corps</th>
+          <th>ID</th><th>Libellé</th><th>Modifier</th><th>Supprimer</th>
         </tr>
         <tr *ngFor="let c of corpss">
           <td>{{c.idcps}}</td>
           <td>{{c.libelle}}</td>
-          <td><a (click)="onEditCorps(c.idcps)" class="clickable">Modifier</a> </td>
-          <td><a (click)="onDeleteCorps(c)" class="clickable">Supprimer</a> </td>
+          <td><a (click)="onEditCorps(c.idcps)" class="clickable"><mat-icon>create</mat-icon></a> </td>
+          <td><a (click)="onDeleteCorps(c)" class="clickable"><mat-icon color="#B00020">delete_sweep</mat-icon></a> </td>
         </tr></table>
     </div>
   </div>
+</div>
 

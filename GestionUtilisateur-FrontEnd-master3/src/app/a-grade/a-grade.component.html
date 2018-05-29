@@ -1,0 +1,69 @@
+<app-index></app-index>
+<div class="container spacer">
+<div class="panel panel-primary">
+  <div class="panel-heading">Ajouter Grade Personnel</div>
+  <div class="panel-body">
+    <mat-form-field>
+      <mat-select placeholder="Personnel" [(value)]="personnel">
+        <mat-option *ngFor="let p of personnels " [value]="p">
+          {{ p.prenom +" "+p.nom }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-select placeholder="Grade" [(value)]="grade">
+        <mat-option *ngFor="let grd of grades" [value]="grd">
+          {{ grd.titre }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput [matDatepicker]="picker1" placeholder="Date de Grade" [(ngModel)]="agrade.dateEvaluation">
+      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+      <mat-datepicker #picker1></mat-datepicker>
+    </mat-form-field>
+    <button mat-icon-button color="primary" (click)="Enregistrer()"><mat-icon>add_circle</mat-icon></button>
+    <button mat-icon-button color="primary" (click)="annuler()"><mat-icon>clear</mat-icon></button>
+  </div>
+</div>
+     <!-- <mat-form-field>
+        <input matInput placeholder="Personnel"  [(ngModel)]="motCle">
+      </mat-form-field>
+      <button mat-icon-button (click)="chercherPersonnel()">
+        <mat-icon >search</mat-icon>
+      </button>-->
+      <div class="panel panel-default">
+        <div class="panel-heading">Afficher Grade Personnel</div>
+        <div class="panel-body">
+          <div>
+            <mat-form-field>
+              <mat-select placeholder="Grade" [(value)]="grade1">
+                <mat-option *ngFor="let grd of grades" [value]="grd">
+                  {{ grd.titre }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <button mat-icon-button (click)="doSearch()"><mat-icon>search</mat-icon></button>
+      <table class="table table-striped">
+        <tr>
+          <th>ID</th><th>Personnel</th><th>Grade</th><th>Date Promotion</th><th>Modifier</th><th>Supprimer</th>
+        </tr>
+        <tr *ngFor="let ag of pageAgrade?.content">
+          <td>{{ag.id_agrade}}</td>
+          <td>{{ag.personnel.prenom+" "+ag.personnel.nom}}</td>
+          <td>{{ag.grade.titre}}</td>
+          <td>{{ag.dateEvaluation}}</td>
+          <td><a (click)="onEditAgrade(ag.id_agrade)" class="clickable"><mat-icon >create</mat-icon></a> </td>
+          <td><a (click)="onDeleteAgrade(ag)" class="clickable"><mat-icon >delete_sweep</mat-icon></a> </td>
+        </tr></table>
+            <div class="container">
+              <ul class="nav nav-pills">
+                <li [ngClass]="{'active' :i==currentPage}" *ngFor="let p of pages; let i=index">
+                  <a class="clickable" (click)="gotopage(i)">{{i}}</a>
+                </li>
+              </ul>
+            </div>
+    </div>
+  </div>
+</div>
+</div>

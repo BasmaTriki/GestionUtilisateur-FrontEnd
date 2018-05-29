@@ -1,0 +1,37 @@
+<app-index></app-index>
+<div class="container spacer">
+<mat-card class="example-card">
+  <mat-card-header>
+    <div mat-card-avatar class="example-header-image"></div>
+    <mat-card-title>Enseignant Détails</mat-card-title>
+    <mat-card-subtitle>{{enseignantP.prenom+"  "+enseignantP.nom}}</mat-card-subtitle>
+  </mat-card-header>
+  <!--<img mat-card-image src="./assets/images/enseig.png'" alt="Enseignant">-->
+  <mat-card-content>
+
+<h4>Données Personnelles</h4>
+    <hr>
+    Nom et Prenom :{{enseignantP.prenom +" "+enseignantP.nom}}<br>
+    Nom de Pére : {{enseignantP.nompere}}<br>
+    Date de Naissance: {{enseignantP.datenaissance}}<br>
+    Lieu de Naissance: {{enseignantP.lieuNaissance}}<br>
+    Sexe: {{enseignantP.sexe}}<br>
+    E-mail: {{enseignantP.email}}<br>
+    Téléphone: {{enseignantP.telephone}}<br>
+    Adresse: {{enseignantP.adresse}}<br>
+    Etat Civil: {{enseignantP.etatCivil}}<br>
+    Nom Conjoint: {{enseignantP.nomconjoint}}<br>
+    Code Postal: {{enseignantP.codepostal}}<br>
+    Spécialité: {{enseignantP.specialite}}<br>
+    RIB: {{enseignantP.rib}}<br>
+    <h4>Données Professionnelles</h4>
+    <hr>
+    Date de Recrutement: {{enseignantP.dateRecrutement}}<br>
+    Date de Titularisation: {{enseignantP.dateDemarcation}}<br>
+
+  </mat-card-content>
+  <mat-card-actions>
+ <!--<button mat-button>Imprimer</button>-->
+  </mat-card-actions>
+</mat-card>
+</div>
