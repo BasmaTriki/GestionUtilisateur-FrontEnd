@@ -47,7 +47,7 @@ import {
   MatTableModule,
   MatPaginatorModule,
   MatCardModule,
-  MatTooltipModule
+  MatTooltipModule, MatSidenavModule
 } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import '../polyfills';
@@ -82,6 +82,20 @@ import { EditAgradeComponent } from './edit-agrade/edit-agrade.component';
 import { EnfantsComponent } from './enfants/enfants.component';
 import {PersonnelServices} from "../services/personnel.services";
 import { EditEnseignantPermanentComponent } from './edit-enseignant-permanent/edit-enseignant-permanent.component';
+import { SpecialiteComponent } from './specialite/specialite.component';
+import { OrganismeAccueilComponent } from './organisme-accueil/organisme-accueil.component';
+import {SpecialiteServices} from "../services/specialite.services";
+import { EditSpecialiteComponent } from './edit-specialite/edit-specialite.component';
+import {OrganismeAccueilServices} from "../services/organismeAccueil.services";
+import { ServiceComponent } from './service/service.component';
+import {ServiceServices} from "../services/service.services";
+import {AdministratifServices} from "../services/administratif.services";
+import { AdministratifComponent } from './administratif/administratif.component';
+import { PersonnelComponent } from './personnel/personnel.component';
+import { EditServiceComponent } from './edit-service/edit-service.component';
+import { EnseignantVactaireComponent } from './enseignant-vactaire/enseignant-vactaire.component';
+import { IndexEnseignantComponent } from './index-enseignant/index-enseignant.component';
+import { ProfileComponent } from './profile/profile.component';
 @NgModule ({
   declarations: [
     AppComponent,
@@ -123,7 +137,17 @@ import { EditEnseignantPermanentComponent } from './edit-enseignant-permanent/ed
     HistoriqueCongeComponent,
     EditAgradeComponent,
     EnfantsComponent,
-    EditEnseignantPermanentComponent
+    EditEnseignantPermanentComponent,
+    SpecialiteComponent,
+    OrganismeAccueilComponent,
+    EditSpecialiteComponent,
+    ServiceComponent,
+    AdministratifComponent,
+    PersonnelComponent,
+    EditServiceComponent,
+    EnseignantVactaireComponent,
+    IndexEnseignantComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -148,11 +172,13 @@ import { EditEnseignantPermanentComponent } from './edit-enseignant-permanent/ed
     MatCardModule,
     MatTooltipModule,
     MatPaginatorModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatSidenavModule
   ],
   schemas:[NO_ERRORS_SCHEMA],
   providers: [UsersServices,PeriodeServices,EnfantServices,CorpsServices,DiplomeServices,GradeServices,DepartementServices,EnseignantPermanentServices,AGradeServices,DiplomePersonnelServices,TypeCongeServices,CongeServices,MutationServices,
-    TypeMutationsServices,PosteAdministrativeServices,PersonnelServices],
+    TypeMutationsServices,PosteAdministrativeServices,PersonnelServices,SpecialiteServices,OrganismeAccueilServices,ServiceServices,AdministratifServices],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

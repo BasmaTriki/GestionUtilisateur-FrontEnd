@@ -9,5 +9,5 @@ export class Conge{
   valide:string;
   typeconge:TypeConge=null;
   personnel:Personnel=null;
-  nbJourRest:number;
+  nbJour:number;
 }

@@ -11,9 +11,8 @@ import {UsersServices} from "../../services/users.services";
   styleUrls: ['./edit-user.component.css']
 })
 export class EditUserComponent implements OnInit {
-  mode:number=1;
   user:User=new User();
-  idUser:string="";
+  idUser:number;
   personnel:Personnel=new Personnel();
   personnels:Array<Personnel>=new Array<Personnel>();
   hide = true;
@@ -22,7 +21,7 @@ export class EditUserComponent implements OnInit {
               public personnelService:PersonnelServices,
               public router:Router)
   {
-  this.idUser=activatedRoute.snapshot.params['login'];
+  this.idUser=activatedRoute.snapshot.params['idUser'];
   }
 
   ngOnInit() {

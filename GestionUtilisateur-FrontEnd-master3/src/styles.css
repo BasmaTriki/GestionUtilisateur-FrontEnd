@@ -3,6 +3,7 @@
 @import "../node_modules/font-awesome/css/font-awesome.css";
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import 'https://fonts.googleapis.com/icon?family=Material+Icons';
+@import './assets/css/fonts.css';
 .spacer{
   margin-top:30px;
 }
@@ -11,9 +12,10 @@
 }
 .bg
 {
-  background: url('./assets/images/bg.jpg')no-repeat;
+  background: url('assets/images/bg.jpeg')repeat;
   width:100%;
   height:100vh;
+  background-size: cover;
 }
 .example-fill-remaining-space {
   /* This fills the remaining space, by using flexbox.
@@ -22,8 +24,12 @@
 }
 .example-card {
   max-width: 400px;
+  position: center;
 }
-
+li > a
+{
+  color:black;
+}
 .example-header-image {
   background-image: url('./assets/images/enseig.png');
   background-size: cover;

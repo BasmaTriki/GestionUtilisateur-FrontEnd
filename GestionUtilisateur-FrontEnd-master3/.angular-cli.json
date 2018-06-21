@@ -24,7 +24,8 @@
         "../node_modules/bootstrap/dist/css/bootstrap.css",
         "./assets/css/waves.css",
         "./assets/css/all-themes.css",
-        "./assets/css/animate.css"
+        "./assets/css/animate.css",
+        "./assets/css/fonts.css"
       ],
       "scripts": [
         "../node_modules/chart.js/dist/Chart.js",

@@ -31,29 +31,22 @@ export class CongeComponent implements OnInit {
   ngOnInit() {
     this.AfficherPersonnel();
     this.AfficherTypeConge();
-    //this.conge.nbJourRest=this.typeconge.nbMaxJrs;
   }
   ajouter(){
     this.conge.typeconge=this.typeconge;
     this.conge.personnel=this.personnel;
-    this.conge.nbJourRest=this.nbjourRest;
+    this.conge.nbJour=this.nbjour;
     this.conge.valide="en-attente";
     this.congeServices.saveConge(this.conge)
       .subscribe(data=>{
         alert("Succès d'ajout");
         console.log(data);
-      },err=>{
-        console.log(err);
-      });
-    this.personnel.conges.push(this.conge);
-    this.personnelServices.updatePersonnel(this.personnel)
-      .subscribe(data=>{
-       // alert("Succès d'ajout");
+        this.personnel.conges.push(data);
+        this.personnelServices.updatePersonnel(this.personnel);
         console.log(data);
       },err=>{
         console.log(err);
       });
-    //this.pesonnelS
   }
   AfficherPersonnel()
   {
@@ -94,15 +87,31 @@ export class CongeComponent implements OnInit {
     }
   }
   CalculerNbjour()
-  {if(this.conge!=null)
+  {if(this.conge.dateFin!=null && this.conge.dateDebut!=null)
     return this.nbjour=((Number(this.conge.dateFin) - Number(this.conge.dateDebut))/86400000)+1;
   else
     return 0;
   }
   CalculerResteJour()
-  {if(this.typeconge!=null)
-    return this.nbjourRest=this.typeconge.nbMaxJrs-this.nbjour;
+  {
+    if(this.conge.typeconge!=null && this.conge.personnel!=null)
+  {
+    this.congeServices.getNbJourParType(this.personnel.matricule,this.typeconge.libelle,this.currentPage,this.size)
+      .subscribe(data=>{
+       this.pageConge=data;
+        for(let c of data)
+        {
+          this.nbjourRest+=c.nbJour;
+        }
+        console.log(data);
+      },err=>{
+        console.log(err);
+      });
+
+    return this.typeconge.nbMaxJrs-this.nbjourRest;
+  }
   else
     return 0;
   }
+
 }

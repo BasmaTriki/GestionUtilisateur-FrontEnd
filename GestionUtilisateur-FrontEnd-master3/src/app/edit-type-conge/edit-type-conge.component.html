@@ -11,11 +11,13 @@
         <input matInput placeholder="Titre" [(ngModel)]="typeConge.libelle">
       </mat-form-field><br>
       <mat-form-field>
-        <textarea matInput placeholder="Description"  [(ngModel)]="typeConge.description"></textarea>
-      </mat-form-field><br>
-      <mat-form-field>
         <input matInput placeholder="Nombre de jours" [(ngModel)]="typeConge.nbMaxJrs">
       </mat-form-field>
+      <mat-radio-group [(ngModel)]="typeConge.autorisation" name="autorisation">
+        <mat-label>Autoriser</mat-label>
+        <mat-radio-button value="true">Oui</mat-radio-button>
+        <mat-radio-button value="false">Non</mat-radio-button>
+      </mat-radio-group>
           <button mat-icon-button color="primary" (click)="updateTypeConge()"><mat-icon>border_color</mat-icon></button>
         </div>
     </div>

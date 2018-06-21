@@ -76,5 +76,12 @@ export class TypeCongeComponent implements OnInit {
         })
     }
   }
+  autoriser(autorisation:boolean)
+  {
+    if(autorisation)
+      return "Oui"
+    else
+      return "Non"
+  }
 
 }

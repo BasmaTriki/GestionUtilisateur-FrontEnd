@@ -16,10 +16,12 @@ user:User=new User();
 personnel:Personnel=new Personnel();
 personnels:Array<Personnel>=new Array<Personnel>();
 hide = true;
-constructor(public http:Http, public userservices:UsersServices, public personnelServices:PersonnelServices, public router:Router) { this.AfficherPersonnel();}
+constructor(public http:Http, public userservices:UsersServices, public personnelServices:PersonnelServices, public router:Router)
+{}
 
   ngOnInit() {
-
+    this.AfficherPersonnel();
+    this.concatination();
   }
   AfficherPersonnel()
   {
@@ -36,12 +38,25 @@ saveUser(){
     this.user.datecreation=new Date();
   this.userservices.saveUser(this.user)
     .subscribe(data=>{
-      alert("Success d'ajout");
+      alert("Success d'ajout un utilisateur");
       this.router.navigate(['users']);
     console.log(data);
     },err=>{
       console.log(err);
     });
+
+}
+concatination()
+{if(this.personnel!=null)
+{
+  this.user.login=this.personnel.prenom+""+this.personnel.matricule;
+  this.user.motpasse=this.personnel.prenom+""+this.personnel.matricule;
+}
+else
+{
+  this.user.login="admin";
+  this.user.motpasse="admin";
+}
 
 }
 annuler()

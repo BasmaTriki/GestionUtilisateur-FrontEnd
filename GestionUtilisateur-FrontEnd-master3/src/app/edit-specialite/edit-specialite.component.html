@@ -1,0 +1,15 @@
+<app-index></app-index>
+<div class="container spacer">
+  <div class="panel panel-primary">
+    <div class="panel-heading">Modifier Specialité</div>
+    <div class="panel-body">
+      <div>
+        <mat-form-field>
+          <input matInput placeholder="Libellé" [(ngModel)]="specialite.libelleSp">
+        </mat-form-field>
+
+        <button  mat-icon-button color="primary" (click)="updateSpecialite()">
+          <mat-icon>border_color</mat-icon></button>
+      </div>
+    </div>
+  </div>

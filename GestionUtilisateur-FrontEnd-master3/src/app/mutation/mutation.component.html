@@ -11,17 +11,26 @@
               {{ p.prenom +" "+p.nom }}
             </mat-option>
           </mat-select>
-        </mat-form-field>
+        </mat-form-field><br>
         <mat-form-field>
-          <input matInput type="text" name="orgAccueil" placeholder="Organisme d'accueil" [(ngModel)]="mutation.orgAccueil">
-        </mat-form-field>
+          <mat-select placeholder="Organisme d'accueil" [(value)]="orgAccueil">
+            <mat-option *ngFor="let or of orgAccueils" [value]="or">
+              {{or.libelleOrg}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field><br>
         <mat-form-field>
-          <mat-select placeholder="Type" [(value)]="typeMutation">
+          <mat-select placeholder="Type Mutation" [(value)]="typeMutation">
             <mat-option *ngFor="let tm of typeMutations" [value]="tm">
               {{tm.designation}}
             </mat-option>
           </mat-select>
-        </mat-form-field>
+        </mat-form-field><br>
+        <mat-form-field>
+          <input matInput [matDatepicker]="picker1" placeholder="Date de Mutation" name="dateMut" [(ngModel)]="mutation.date_mut">
+          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+          <mat-datepicker #picker1></mat-datepicker>
+        </mat-form-field><br>
         <button  mat-icon-button (click)="ajouter()">
           <mat-icon>add_circle</mat-icon></button>
       </form>
@@ -39,16 +48,24 @@
         <mat-icon>search</mat-icon></button>
       <table class="table table-striped">
         <tr>
-          <th>ID</th><th>Personnel</th><th>Type de Mutation</th><th>Organisation d'accueil</th><th>Modifier</th><th>Supprimer</th>
+          <th>ID</th><th>Personnel</th><th>Type de Mutation</th><th>Organisation d'accueil</th><th>Date de Mutatuion</th><th>Modifier</th><th>Supprimer</th>
         </tr>
-        <tr *ngFor="let m of mutations">
+        <tr *ngFor="let m of pageMutation?.content">
           <td>{{m.idMut}}</td>
           <td>{{m.personnel.prenom+"  "+m.personnel.nom}}</td>
           <td>{{m.typemutation.designation}}</td>
-          <td>{{m.orgAccueil}}</td>
+          <td>{{m.organismeAccueil.libelleOrg}}</td>
+          <td>{{m.date_mut}}</td>
           <td><a (click)="onEditMutation(m.idMut)" class="clickable"><mat-icon>create</mat-icon></a> </td>
           <td><a (click)="onDeleteMutation(m)" class="clickable"><mat-icon color="#B00020">delete_sweep</mat-icon></a> </td>
         </tr></table>
+      <div class="container">
+        <ul class="nav nav-pills">
+          <li [ngClass]="{'active' :i==currentPage}" *ngFor="let p of pages; let i=index">
+            <a class="clickable" (click)="gotopage(i)">{{i}}</a>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </div>

@@ -1,0 +1,21 @@
+<app-index></app-index>
+<div class="container spacer">
+  <div class="panel panel-primary">
+    <div class="panel-heading">Ajouter Personnel</div>
+    <div class="panel-body">
+        <mat-form-field>
+          <mat-select placeholder="Type de Personnel" [(value)]="type"  required>
+            <mat-option *ngFor="let t of TypePersonnel" [value]="t.value">
+              {{ t.value }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      <div *ngIf="type=='Enseignant'">
+        <app-enseignant-permanent></app-enseignant-permanent>
+      </div>
+      <div *ngIf="type=='Administratif'">
+        <app-administratif></app-administratif>
+      </div>
+    </div>
+  </div>
+</div>

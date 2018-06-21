@@ -1,19 +1,17 @@
 <app-index></app-index>
+<div class="container spacer">
 <div class="panel panel-primary">
   <div class="panel-heading">Modifier Type Mutation</div>
   <div class="panel-body">
     <div>
-      <form class="form-inline">
-        <div class="form-group">
-          <label class="control-label"> Code:</label>
-          <input id="msg" type="text" class="form-control" name="msg" placeholder="ID de type mutation" [(ngModel)]="typeMutation.code">
+      <mat-form-field>
+        <input matInput placeholder="Code" [(ngModel)]="typeMutation.code">
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Designation" [(ngModel)]="typeMutation.designation">
+      </mat-form-field>
+          <button mat-icon-button (click)="updateTypeMutation()"><mat-icon>border_color</mat-icon></button>
         </div>
-        <div class="form-group">
-          <label class="control-label"> Designation :</label>
-          <input id="msg1" type="text" class="form-control" name="msg1" placeholder="Designation de type mutation" [(ngModel)]="typeMutation.designation">
-          <button type="button" class="btn btn-primary btn-md" (click)="updateTypeMutation()">Modifier</button>
-        </div>
-      </form>
     </div>
   </div>
 </div>

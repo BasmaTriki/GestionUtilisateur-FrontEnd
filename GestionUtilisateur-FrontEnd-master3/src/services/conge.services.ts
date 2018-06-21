@@ -36,4 +36,10 @@ export class CongeServices{
     return this.http.get("http://localhost:8080/chercherCongesP?mc="+motCle+"&size="+size+"&page="+page)
       .map(resp=>resp.json())
   }
+  getNbJourParType(matricule:number,libelle:string,page:number,size:number)
+  {
+    return this.http.get("http://localhost:8080/chercherNbJourParType?mc="+matricule+"&mt="+libelle+"&page="+page+"&size="+size)
+      .map(resp=>resp.json())
+  }
+
 }

@@ -39,15 +39,24 @@ import {DetailsEnseignantComponent} from "./details-enseignant/details-enseignan
 import {EditAgradeComponent} from "./edit-agrade/edit-agrade.component";
 import {EditEnseignantPermanentComponent} from "./edit-enseignant-permanent/edit-enseignant-permanent.component";
 import {HistoriqueCongeComponent} from "./historique-conge/historique-conge.component";
+import {Specialite} from "../model/model.specialite";
+import {SpecialiteComponent} from "./specialite/specialite.component";
+import {EditSpecialiteComponent} from "./edit-specialite/edit-specialite.component";
+import {OrganismeAccueilComponent} from "./organisme-accueil/organisme-accueil.component";
+import {ServiceComponent} from "./service/service.component";
+import {PersonnelComponent} from "./personnel/personnel.component";
+import {AdministratifComponent} from "./administratif/administratif.component";
+import {IndexEnseignantComponent} from "./index-enseignant/index-enseignant.component";
 
 
 const appRoutes:Routes=[
   {path:'login',component:LoginComponent},
   {path:'users',component:UsersComponent},
   {path:'new-user',component:NewUserComponent},
-  {path:'editUser/:login',component:EditUserComponent},
+  {path:'editUser/:idUser',component:EditUserComponent},
   {path:'navbar',component:NavbarComponent},
   {path:'sidebar',component:SideBarComponent},
+  {path:'index1/:idUser',component:IndexComponent},
   {path:'index',component:IndexComponent},
   {path:'enseignantpermanent',component:EnseignantPermanentComponent},
   {path:'diplome',component:DiplomeComponent},
@@ -76,7 +85,14 @@ const appRoutes:Routes=[
   {path:'EditEnseignantP/:matricule',component:EditEnseignantPermanentComponent},
   {path:'editPosteAdmin/:id',component:EditPosteAdministrativeComponent},
   {path:'editMutation/:idMut',component:EditMutationComponent},
+  {path:'editSpecialite/:idSp',component:EditSpecialiteComponent},
   {path:'historiqueConge',component:HistoriqueCongeComponent},
+  {path:'specialite',component:SpecialiteComponent},
+  {path:'service',component:ServiceComponent},
+  {path:'personnel',component:PersonnelComponent},
+  {path:'administratif',component:AdministratifComponent},
+  {path:'indexEnseignant',component:IndexEnseignantComponent},
+  {path:'OrgAccueil',component:OrganismeAccueilComponent},
   {path:'',redirectTo:'/login',pathMatch:'full'}
 
 ];

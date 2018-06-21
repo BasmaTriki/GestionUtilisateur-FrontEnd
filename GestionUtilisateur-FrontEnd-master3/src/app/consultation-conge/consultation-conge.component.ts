@@ -73,10 +73,6 @@ export class ConsultationCongeComponent implements OnInit {
     this.currentPage = i;
     this.doSearch();
   }
-  CalculerNbj(c:Conge)
-  {
-     return ((Number(c.dateFin) - Number(c.dateDebut))/86400000)+1;
-  }
 }
 
 

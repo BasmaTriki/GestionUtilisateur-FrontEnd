@@ -5,16 +5,16 @@
   <div class="panel-body">
       <table class="table table-striped">
         <tr>
-          <th>Personnel</th><th>Date de début</th><th>Date de fin</th><th>Type de Congé</th><th align="center">Accepter</th><th align="center">Refuser</th>
+          <th>Personnel</th><th>Date de début</th><th>Date de fin</th><th>Type de Congé</th><th>Nombre de Jours</th><th align="center">Accepter</th><th align="center">Refuser</th>
         </tr>
         <tr *ngFor="let c of pageConge?.content">
           <td>{{c.personnel.prenom+" ben "+c.personnel.nompere+" "+c.personnel.nom}}</td>
           <td>{{c.dateDebut}}</td>
           <td>{{c.dateFin}}</td>
           <td>{{c.typeconge.libelle}}</td>
-          <!--<td>{{CalculerNbj(c)}}</td>-->
-          <td> <button mat-icon-button  (click)="accepter(c)" color="primary"><mat-icon>check_circle_outline</mat-icon></button></td>
-         <td> <button mat-icon-button color="warn" (click)="refuser(c)"><mat-icon>cancel</mat-icon></button></td>
+          <td>{{c.nbJour}}</td>
+          <td> <button mat-icon-button  (click)="accepter(c)" color="primary" *ngIf="c.typeconge.autorisation"><mat-icon>check_circle_outline</mat-icon></button></td>
+         <td> <button mat-icon-button color="warn" (click)="refuser(c)" *ngIf="c.typeconge.autorisation"><mat-icon>cancel</mat-icon></button></td>
         </tr>
       </table>
     <div class="container">

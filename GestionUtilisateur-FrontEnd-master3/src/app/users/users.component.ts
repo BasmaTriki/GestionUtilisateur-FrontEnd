@@ -53,14 +53,14 @@ size:number=5;
 this.currentPage=i;
 this.doSearch();
   }
-  onEditUser(login:string){
-this.router.navigate(['editUser',login]);
+  onEditUser(idUser:number){
+this.router.navigate(['editUser',idUser]);
   }
   onDeleteUser(u:User){
     let confirm=window.confirm("Etes-vous sûre?");
     if(confirm==true)
     {
-      this.usersservices.deleteUser(u.login)
+      this.usersservices.deleteUser(u.idUser)
         .subscribe(data=> {
           this.pageUsers.content.splice(
             this.pageUsers.content.indexOf(u),1

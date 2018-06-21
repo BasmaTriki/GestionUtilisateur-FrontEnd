@@ -1,31 +1,49 @@
 <div>
-  <mat-toolbar color="primary" role="header">
-    <span> <button mat-button [matMenuTriggerFor]="user">Utilisateur</button></span>
-    <span> <button mat-button [matMenuTriggerFor]="enseignant">Enseignant</button></span>
-    <span> <button mat-button routerLink="/mutation">Mutation</button></span>
-    <span> <button mat-button [matMenuTriggerFor]="conge">Congé</button></span>
-    <span> <button mat-button [matMenuTriggerFor]="donneesbase">Données des Bases</button></span>
+  <mat-toolbar  role="header">
+     <div id="logo">
+      <img src="../../assets/images/iset.png" alt="ISET Sfax"/>
+    </div>
+    <span> <button mat-button class="button_b" [matMenuTriggerFor]="utilisateur">Utilisateur</button></span>
+    <span> <button mat-button class="button_b"[matMenuTriggerFor]="personnels">Personnel</button></span>
+    <span> <button mat-button class="button_b" routerLink="/mutation">Mutation</button></span>
+    <span> <button mat-button class="button_b" [matMenuTriggerFor]="conge">Congé</button></span>
+    <span> <button mat-button class="button_b" [matMenuTriggerFor]="donneesbase">Données des Bases</button></span>
     <span class="example-fill-remaining-space"></span>
+    <mat-icon matBadge="15" matBadgeColor="warn">notification</mat-icon>
+      <li class="dropdown">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+        <img src="../../assets/images/userF.jpg" class="profile-image img-circle"></a>
+      <ul class="dropdown-menu">
+        <li><a href="#"><i class="fa fa-user-circle"></i>{{personnel.prenom}}</a></li>
+        <li class="divider"></li>
+        <li><a href="#"><i class="fa fa-cog"></i>Profile</a></li>
+        <li class="divider"></li>
+        <li><a href="#"><i class="fa fa-sign-out"></i>Déconnexion</a></li>
+      </ul>
+    </li>
   </mat-toolbar>
     <mat-menu #donneesbase="matMenu">
       <button mat-menu-item routerLink="/grade">Grade</button>
       <button mat-menu-item routerLink="/diplome" >Diplôme</button>
       <button mat-menu-item routerLink="/departement">Departement</button>
       <button mat-menu-item routerLink="/corps" >Corps</button>
-      <button mat-menu-item routerLink="/typeConge"> Ajouter Type Congé</button>
-      <button mat-menu-item routerLink="/typeMutation">Ajouter Type Mutation</button>
+      <button mat-menu-item routerLink="/typeConge">Type Congé</button>
+      <button mat-menu-item routerLink="/typeMutation">Type Mutation</button>
+      <button mat-menu-item routerLink="/specialite">Specialité</button>
+      <button mat-menu-item routerLink="/OrgAccueil">Organisme d'Accueil</button>
+      <button mat-menu-item routerLink="/service">Service</button>
   </mat-menu>
-  <mat-menu #enseignant="matMenu">
+ <!-- <mat-menu #enseignant="matMenu">
     <button mat-menu-item [matMenuTriggerFor]="enseignantpermanent">Enseignant Permanent</button>
     <button mat-menu-item [matMenuTriggerFor]="enseignantvacataire">Enseignant Vacataire</button>
-  </mat-menu>
-  <mat-menu #user="matMenu">
+  </mat-menu>-->
+  <mat-menu #utilisateur="matMenu">
     <button mat-menu-item routerLink="/new-user">Ajouter Utilisateur</button>
     <button mat-menu-item routerLink="/users">Consulter Liste des utilisateurs</button>
   </mat-menu>
-  <mat-menu #enseignantpermanent="matMenu">
-    <button mat-menu-item routerLink="/enseignantpermanent">Ajouter Enseignant</button>
-    <button mat-menu-item routerLink="/ListeEnseignantP">Consulter la Liste des Enseignants</button>
+  <mat-menu #personnels="matMenu">
+    <button mat-menu-item routerLink="/personnel">Ajouter Personnel</button>
+    <button mat-menu-item routerLink="/ListeEnseignantP">Consulter la Liste des Personnel</button>
     <button mat-menu-item routerLink="/DiplomePersonnel">Dipôme Personnel</button>
     <button mat-menu-item routerLink="/Agrade">Grade Personnel</button>
     <button mat-menu-item [matMenuTriggerFor]="poste">Poste Administratif</button>
@@ -44,4 +62,13 @@
     <button mat-menu-item routerLink="/periode">Ajouter Periode</button>
   </mat-menu>
 </div>
+<mat-sidenav-container class="example-container">
+  <mat-sidenav mode="side" opened>
+    <span> <button mat-button [matMenuTriggerFor]="utilisateur">Utilisateur</button></span>
+    <span> <button mat-button [matMenuTriggerFor]="personnels">Personnel</button></span>
+    <span> <button mat-button routerLink="/mutation">Mutation</button></span>
+    <span> <button mat-button [matMenuTriggerFor]="conge">Congé</button></span>
+    <span> <button mat-button [matMenuTriggerFor]="donneesbase">Données des Bases</button></span>
+  </mat-sidenav>
+</mat-sidenav-container>
 

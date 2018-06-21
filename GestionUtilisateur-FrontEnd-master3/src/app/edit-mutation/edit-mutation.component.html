@@ -8,7 +8,11 @@
         <input matInput placeholder="Identifiant" [(ngModel)]="mutation.idMut">
       </mat-form-field>
       <mat-form-field>
-        <input matInput placeholder="Organisme d'accueil" [(ngModel)]="mutation.orgAccueil">
+        <mat-select placeholder="Organisme d'accueil" [(value)]="orgAccueil">
+          <mat-option *ngFor="let or of orgAccueils" [value]="or">
+            {{or.libelleOrg}}
+          </mat-option>
+        </mat-select>
       </mat-form-field><br>
       <mat-form-field>
         <mat-select placeholder="Personnel" [(value)]="personnel">
@@ -19,10 +23,15 @@
       </mat-form-field>
       <mat-form-field>
         <mat-select placeholder="Type" [(value)]="typeMutation">
-          <mat-option *ngFor="let tm of typeMutations" [value]="tm">
+          <mat-option *ngFor="let tm of typeMutations" (value)="typeMutation" [value]="tm">
             {{tm.designation}}
           </mat-option>
         </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput [matDatepicker]="picker1" placeholder="Date de Mutation" name="dateMut" [(ngModel)]="mutation.date_mut">
+        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
       </mat-form-field>
           <button mat-icon-button color="primary" (click)="updateMutation()"><mat-icon>border_color</mat-icon></button>
         </div>

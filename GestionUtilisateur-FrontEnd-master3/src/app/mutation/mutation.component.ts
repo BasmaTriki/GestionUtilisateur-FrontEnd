@@ -8,6 +8,8 @@ import {UsersServices} from '../../services/users.services';
 import {TypeMutation} from "../../model/model.typeMutation";
 import {TypeMutationsServices} from "../../services/typeMutation.services";
 import {PersonnelServices} from "../../services/personnel.services";
+import {OrganismeAccueil} from "../../model/model.organismeAccueil";
+import {OrganismeAccueilServices} from "../../services/organismeAccueil.services";
 
 @Component({
   selector: 'app-mutation',
@@ -26,12 +28,15 @@ export class MutationComponent implements OnInit {
   personnel:Personnel=new Personnel();
   typeMutation:TypeMutation;
   typeMutations:Array<TypeMutation>=new Array<TypeMutation>();
-  constructor(private typeMutationServices:TypeMutationsServices,private mutationServices:MutationServices,private personnelServices:PersonnelServices,public http:Http,public router:Router) { }
+  orgAccueil:OrganismeAccueil=new OrganismeAccueil();
+  orgAccueils:Array<OrganismeAccueil>=new Array<OrganismeAccueil>();
+  constructor(private typeMutationServices:TypeMutationsServices,private orgAccueilServices:OrganismeAccueilServices,private mutationServices:MutationServices,private personnelServices:PersonnelServices,public http:Http,public router:Router) { }
 
   ngOnInit() {
     this.chercher();
     this.AfficherPersonnel();
     this.chercherType();
+    this. chercherOrg();
   }
   AfficherPersonnel()
   {
@@ -54,22 +59,44 @@ export class MutationComponent implements OnInit {
         console.log(err);
       })
   }
+  chercherOrg()
+  {
+    this.orgAccueilServices.allOrganismeAccueils()
+      .subscribe(data=>{
+        this.orgAccueils=data;
+        this.pages=new Array(data.totalPages);
+        console.log(data);
+      },err=>{
+        console.log(err);
+      })
+  }
   ajouter(){
+    this.personnel.etat=false;
     this.mutation.personnel=this.personnel;
     this.mutation.typemutation=this.typeMutation;
+    this.mutation.organismeAccueil=this.orgAccueil;
     this.mutationServices.saveMutation(this.mutation)
       .subscribe(data=>{
         alert("Success d'ajout");
         console.log(data);
+        //this.personnel.mutation.push(data);
+        console.log(this.personnel);
       },err=>{
         console.log(err);
-      });
+      })
+    this.personnelServices.updatePersonnel(this.personnel)
+      .subscribe(data=>{
+        alert("Success de mise à jour");
+        console.log(data);
+      },err=>{
+        console.log(err);
+      })
   }
   doSearch(){
     this.mutationServices.getMutations(this.motCle,this.currentPage,this.size)
       .subscribe(data=>{
         console.log(data);
-        this.mutations=data;
+        this.pageMutation=data;
         this.pages=new Array(data.totalPages);
       },err=>{
         console.log(err);
