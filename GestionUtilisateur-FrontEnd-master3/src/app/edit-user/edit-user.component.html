@@ -1,27 +1,18 @@
 <app-index></app-index>
 <div class="container spacer">
   <div class="panel panel-primary">
-    <div class="panel-heading">Modifier Utilisateur</div>
+    <div class="panel-heading">Modifier Compte {{personnel.prenom+"   "+ personnel.nom }}</div>
     <div class="panel-body">
       <div>
         <div class="form-group">
           <mat-form-field>
-            <input  matInput placeholder="Login" [(ngModel)]="user.login">
+            <input  matInput placeholder="Login" [(ngModel)]="personnel.login">
           </mat-form-field>
         </div>
         <div class="form-group">
           <mat-form-field>
-            <input  matInput placeholder="Mot de Passe:"  [type]="hide ? 'password' : 'text'" [(ngModel)]="user.motpasse"/>
+            <input  matInput placeholder="Mot de Passe:"  [type]="hide ? 'password' : 'text'" [(ngModel)]="personnel.motpasse"/>
             <mat-icon matSuffix class="clickable" (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-          </mat-form-field>
-        </div>
-        <div class="form-group">
-          <mat-form-field>
-            <mat-select placeholder="Modifier Personnel" [(value)]="personnel" aria-selected="true">
-              <mat-option *ngFor="let p of personnels" [value]="p">
-                {{p.prenom+"   "+ p.nom }}
-              </mat-option>
-            </mat-select>
           </mat-form-field>
         </div>
         <button mat-raised-button color="primary" (click)="updateUser()">Modifier</button>

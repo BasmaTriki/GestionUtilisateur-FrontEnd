@@ -15,6 +15,17 @@ import {GradeServices} from "../../services/grade.services";
 import {CorpsServices} from "../../services/corps.services";
 import {EnfantServices} from "../../services/enfant.services";
 import {DepartementServices} from "../../services/departement.services";
+import { Diplome } from '../../model/model.diplome';
+import { DiplomePersonnel } from '../../model/model.diplomepersonnel';
+import { Specialite } from '../../model/model.specialite';
+import { SpecialiteServices } from '../../services/specialite.services';
+import { Personnel } from '../../model/model.personnel';
+import { MatDialog } from '@angular/material';
+import { EnfantsComponent } from '../enfants/enfants.component';
+import { DiplomePersonnelServices } from '../../services/diplomepersonnel.services';
+import { DiplomeServices } from '../../services/diplome.services';
+import { DiplomePersonnelComponent } from '../diplome-personnel/diplome-personnel.component';
+import { AGradeComponent } from '../a-grade/a-grade.component';
 
 @Component({
   selector: 'app-edit-enseignant-permanent',
@@ -33,10 +44,33 @@ export class EditEnseignantPermanentComponent implements OnInit {
   agrade:AGrade=new AGrade();
   grade:Grade=new Grade();
   corp:Corps=new Corps();
-  nbEnfant:number;
-  enfants:Array<Enfant>;
   matricule:number;
-  constructor(public activatedRoute:ActivatedRoute,private agradeServices:AGradeServices,private posteService:PosteAdministrativeServices,private gradeServices: GradeServices,private corpsServices: CorpsServices,private enseingnantpermanentService:EnseignantPermanentServices, private enfantservice: EnfantServices, private departementServices: DepartementServices, public http: Http, public router: Router)
+  AGrades:Array<AGrade>=new Array<AGrade>();
+  NewAGrades:Array<AGrade>=new Array<AGrade>();
+  enfants:Array<Enfant>=new Array<Enfant>();
+  newEnfants:Array<Enfant>=new Array<Enfant>();
+  enfant:Enfant=new Enfant();
+  newdiplomes:Array<DiplomePersonnel>=new Array<DiplomePersonnel>();
+  diplome:Diplome=new Diplome();
+  diplomes:Array<Diplome>=new Array<Diplome>()
+  diplomep:DiplomePersonnel=new DiplomePersonnel();
+  diplomepers:Array<DiplomePersonnel>=new Array<DiplomePersonnel>();
+  specialite:Specialite=new Specialite();
+  specialites:Array<Specialite>=new Array<Specialite>();
+  constructor(public activatedRoute:ActivatedRoute,
+    private agradeServices:AGradeServices,
+    private posteService:PosteAdministrativeServices,
+    private gradeServices: GradeServices,
+    private corpsServices: CorpsServices,
+    private specialiteServices:SpecialiteServices,
+    private enseingnantpermanentService:EnseignantPermanentServices,
+    private enfantservice: EnfantServices, 
+    private departementServices: DepartementServices,
+    private diplomePersonnelServices: DiplomePersonnelServices,
+    private diplomeServices:DiplomeServices,
+    public http: Http,
+    public dialog: MatDialog,
+    public router: Router)
   {
     this.matricule=activatedRoute.snapshot.params['matricule'];
   }
@@ -45,15 +79,70 @@ export class EditEnseignantPermanentComponent implements OnInit {
     this.enseingnantpermanentService.getEnseignantPermanent(this.matricule)
       .subscribe(data=>{
         this.enseignantP=data;
+        console.log(this.enseignantP.etat);
         console.log(data);
+        this.chercherEnfant(data);
+        this.chercherAGrade(data);
+        this.chercherDiplome(data);
+        this.specialite=this.enseignantP.specialite;
       },err=>{
         console.log(err);
       });
     this.chercherDep();
     this.chercherGrad();
     this.chercherCorp();
-    this. chercherPoste();
-    this.enfants==new Array<Enfant>(this.nbEnfant);
+    this.chercherPoste();
+    this.chercherSpecialite();
+    this.chercherDip();
+    
+  }
+  chercherDip() {
+    this.diplomeServices.allDiplomes()
+      .subscribe(data => {
+        this.diplomes = data;
+        console.log(data);
+      }, err => {
+        console.log(err);
+      })
+  }
+  chercherSpecialite()
+  {
+    this.specialiteServices.allSpecialites()
+      .subscribe(data=>{
+        this.specialites=data;
+      },err=>{
+        console.log(err);
+      })
+  }
+  chercherEnfant(e:EnseignantPermanent)
+  {
+    this.enfantservice.getEnfantsPersonnel(e.matricule)
+    .subscribe(data=>{
+      this.enfants=data;
+      console.log(data);
+    },err=>{
+      console.log(err);
+    })
+  }
+  chercherAGrade(e:EnseignantPermanent)
+  {
+    this.agradeServices.getAGradesPersonnel(e.matricule)
+    .subscribe(data=>{
+      this.AGrades=data;
+      console.log(data);
+    },err=>{
+      console.log(err);
+    })
+  }
+  chercherDiplome(e:EnseignantPermanent)
+  {
+    this.diplomePersonnelServices.getPersonnelDiplome(e.matricule)
+    .subscribe(data=>{
+    this.diplomepers=data;
+      console.log(data);
+    },err=>{
+      console.log(err);
+    })
   }
   chercherPoste()
   {
@@ -68,9 +157,13 @@ export class EditEnseignantPermanentComponent implements OnInit {
   updateEnseignant() {
     this.enseignantP.departement=this.departement;
     this.enseignantP.corps=this.corp;
+    this.enseignantP.specialite=this.specialite;
     this.enseingnantpermanentService.updateEnseignantPermanent(this.enseignantP)
       .subscribe(data=>{
         alert("Mise à jour effectuée");
+        this.ajouterenfants(data);
+        this.EnregistrerDiplomeP(data);
+        this.EnregistrerAgrade(data);
         this.router.navigate(['ListeEnseignantP']);
         console.log(data);
       },err=>{
@@ -78,10 +171,6 @@ export class EditEnseignantPermanentComponent implements OnInit {
       });
     //this.EnregistrerAgrade();
   }
-
-  annuler() {
-  }
-
   chercherDep() {
     this.departementServices.allDepartements()
       .subscribe(data => {
@@ -112,5 +201,80 @@ export class EditEnseignantPermanentComponent implements OnInit {
       },err=>{
         console.log(err);
       })
+  }
+  ajouterenfants(e:EnseignantPermanent)
+  {
+    for(let enf of this.newEnfants)
+    {enf.personnel=e;
+      this.enfantservice.saveEnfant(enf)
+        .subscribe(data => {
+          console.log("Success d'ajouter enfant");
+          e.enfants.push(enf);
+        }, err => {
+          console.log(err);
+        });
+    }
+    this.enseingnantpermanentService.updateEnseignantPermanent(e)
+    .subscribe(data=>{
+      console.log(data);
+    },err=>{
+      console.log(err);
+    })
+  }
+  ajouterDiplome()
+  {
+    this.diplomep=new DiplomePersonnel();
+    this.diplomep.diplome=new Diplome();
+    this.newdiplomes.push(this.diplomep);
+   
+  }
+  ajouterEnfants()
+  {
+    this.enfant = new Enfant();
+    this.newEnfants.push(this.enfant);
+  }
+  ajouterGrade()
+  {
+    this.agrade=new AGrade();
+    this.agrade.grade=new Grade();
+    this.NewAGrades.push(this.agrade);
+   
+  }
+  ModifierEnfants(e:Enfant)
+  {
+    let dialogRef = this.dialog.open(EnfantsComponent, {data:{name:e.num,nom:e.nom}});
+    this.chercherEnfant(this.enseignantP);
+  }
+  ModifierDiplome(d:DiplomePersonnel)
+  {
+    let dialogRef = this.dialog.open(DiplomePersonnelComponent, {data:{num:d.id_DipP}});
+  }
+  ModifierGrade(g:AGrade)
+  {
+    let dialogRef = this.dialog.open(AGradeComponent, {data:{num:g.id_agrade}});
+  }
+  EnregistrerAgrade(en:EnseignantPermanent) {
+    for (let agrd of this.NewAGrades) {
+      agrd.personnel=en;
+    this.agradeServices.saveAGrade(agrd)
+      .subscribe(data => {
+        console.log("Success d'ajout grades");
+        console.log(data);
+      }, err => {
+        console.log(err);
+      });
+  }
+}
+  EnregistrerDiplomeP(en:EnseignantPermanent) {
+    for (let dip of this.newdiplomes) {
+      dip.personnel = en;
+      this.diplomePersonnelServices.saveDiplomePersonnel(dip)
+        .subscribe(data => {
+          console.log("Success d'ajout diplomes");
+          console.log(data);
+        }, err => {
+          console.log(err);
+        });
+    }
   }
 }

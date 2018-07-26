@@ -3,6 +3,6 @@ import {Personnel} from "./model.personnel";
 export class Enfant {
   num:number;
   nom:string;
-  date_nais:Date;
+  dateNais:Date;
   personnel:Personnel=null;
 }

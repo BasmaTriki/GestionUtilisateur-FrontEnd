@@ -1,0 +1,88 @@
+<simple-layout>
+	<img src="assets/images/blurred-bg/blurred-bg-1.jpg" class="login-img wow fadeIn" alt="">
+	<div class="center-vertical">
+		<div class="center-content row">
+			<form #loginForm="ngForm" action="/login/" (ngSubmit)="onSubmit()" id="login-validation" class="col-md-4 col-sm-5 col-xs-11 col-lg-3 center-margin" method="POST">
+				{{model.name}}
+				<div id="login-form" class="content-box bg-default">
+					<div class="content-box-wrapper pad20A">
+						<img class="mrg25B center-margin radius-all-100 display-block" src="https://agileui.com/demo/monarch/assets/image-resources/gravatar.jpg" alt="" />
+						<div *ngIf="errorMessage" class="alert alert-danger">
+							{{errorMessage}}
+						</div>
+						<div *ngIf="(username.errors && (username.dirty || username.touched)) || (password.errors && (password.dirty || password.touched))" class="alert alert-danger">
+							<div *ngIf="username.errors && (username.dirty || username.touched)">
+								<div [hidden]="!username.errors.required">
+									Username is required
+								</div>
+								<div [hidden]="!username.errors.minlength">
+									Username must be at least 6 characters long.
+								</div>
+								<div [hidden]="!username.errors.maxlength">
+									Username cannot be more than 24 characters long.
+								</div>
+							</div>
+							<div *ngIf="password.errors && (password.dirty || password.touched)">
+								<div [hidden]="!password.errors.required">
+									Password is required
+								</div>
+								<div [hidden]="!password.errors.minlength">
+									Password must be at least 6 characters long.
+								</div>
+								<div [hidden]="!password.errors.maxlength">
+									Password cannot be more than 24 characters long.
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="input-group">
+								<span class="input-group-addon addon-inside bg-gray">
+									<i class="glyph-icon icon-envelope-o"></i>
+								</span>
+								<input type="text" class="form-control" name="username" id="username" [(ngModel)]="model.username" placeholder="Enter username" minlength="4" maxlength="24" required #username="ngModel" />
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="input-group">
+								<span class="input-group-addon addon-inside bg-gray">
+									<i class="glyph-icon icon-unlock-alt"></i>
+								</span>
+								<input type="password" class="form-control" name="password" id="password" [(ngModel)]="model.password" #password="ngModel" minlength="4" maxlength="24" placeholder="Password" required />
+							</div>
+						</div>
+						<div class="form-group">
+							<button type="submit" [disabled]="!loginForm.form.valid" class="btn btn-block btn-primary">Login</button>
+						</div>
+						<div class="row">
+							<div class="checkbox-primary col-md-6" style="height: 20px;">
+								<label>
+									<input type="checkbox" id="loginCheckbox1" class="custom-checkbox"> Remember me
+								</label>
+							</div>
+							<div class="text-right col-md-6">
+								<a href="#" class="switch-button" switch-target="#login-forgot" switch-parent="#login-form" title="Recover password">Forgot your password?</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div id="login-forgot" class="content-box bg-default hide">
+					<div class="content-box-wrapper pad20A">
+						<div class="form-group">
+							<label for="exampleInputEmail2">Email address:</label>
+							<div class="input-group">
+								<span class="input-group-addon addon-inside bg-gray">
+																<i class="glyph-icon icon-envelope-o"></i>
+														</span>
+								<input type="email" class="form-control" id="exampleInputEmail2" placeholder="Enter email">
+							</div>
+						</div>
+					</div>
+					<div class="button-pane text-center">
+						<button type="submit" class="btn btn-md btn-primary">Recover Password</button>
+						<a href="#" class="btn btn-md btn-link switch-button" switch-target="#login-form" switch-parent="#login-forgot" title="Cancel">Cancel</a>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</simple-layout>

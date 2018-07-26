@@ -1,6 +1,7 @@
 import {Conge} from "./model.conge";
 import {Enfant} from "./model.enfant";
 import {Mutation} from "./model.mutation";
+import { Role } from "./model.role";
 
 export class Personnel{
   matricule:number;
@@ -20,7 +21,10 @@ export class Personnel{
   profConjoint:string="";
   nompere:string="";
   etat:boolean;
-  conges:Array<Conge>=new Array<Conge>();
-  enfants:Array<Enfant>=new Array<Enfant>();
-  mutation:Array<Mutation>=new Array<Mutation>();
+  login:string="";
+  motpasse:string="";
+  conges:Array<Conge>;
+  enfants:Array<Enfant>;
+  mutation:Array<Mutation>;
+  role:Role;
 }

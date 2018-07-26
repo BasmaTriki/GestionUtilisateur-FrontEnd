@@ -5,7 +5,6 @@ import { AppComponent } from './app.component';
 import { UsersComponent } from './users/users.component';
 import {RouterModule, Routes} from '@angular/router';
 import {HttpModule} from '@angular/http';
-import {UsersServices} from '../services/users.services';
 import { NewUserComponent } from './new-user/new-user.component';
 import { EditUserComponent } from './edit-user/edit-user.component';
 import { LoginComponent } from './login/login.component';
@@ -30,6 +29,7 @@ import {DepartementServices} from "../services/departement.services";
 import {EnseignantPermanentServices} from "../services/enseignantpermanent.services";
 import {AGradeServices} from "../services/agrade.services";
 import {DiplomePersonnelServices} from "../services/diplomepersonnel.services";
+import {NotificationsModule, NotificationsService} from 'angular4-notify';
 import {
   MatButtonModule,
   MatTabsModule,
@@ -47,8 +47,10 @@ import {
   MatTableModule,
   MatPaginatorModule,
   MatCardModule,
-  MatTooltipModule, MatSidenavModule
+  MatTooltipModule, MatSidenavModule, MatDialogModule
 } from '@angular/material';
+// For MDB Angular Free
+import { NavbarModule, WavesModule } from 'angular-bootstrap-md'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import '../polyfills';
 import {CorpsServices} from "../services/corps.services";
@@ -93,9 +95,23 @@ import {AdministratifServices} from "../services/administratif.services";
 import { AdministratifComponent } from './administratif/administratif.component';
 import { PersonnelComponent } from './personnel/personnel.component';
 import { EditServiceComponent } from './edit-service/edit-service.component';
-import { EnseignantVactaireComponent } from './enseignant-vactaire/enseignant-vactaire.component';
 import { IndexEnseignantComponent } from './index-enseignant/index-enseignant.component';
 import { ProfileComponent } from './profile/profile.component';
+import { EnseignantVacataireComponent } from './enseignant-vacataire/enseignant-vacataire.component';
+import { DemandeVacationServices } from '../services/demandeVacation.services';
+import { CongePersonnelComponent } from './conge-personnel/conge-personnel.component';
+import { DataTablesModule } from 'angular-datatables';
+import { ModalCongeComponent } from './modal-conge/modal-conge.component';
+import { HttpClientModule } from '@angular/common/http';
+import { EditAdministratifComponent } from './edit-administratif/edit-administratif.component';
+import { RepriseCongeComponent } from './reprise-conge/reprise-conge.component';
+import { RoleServices } from '../services/role.services';
+import { PersonnelHistoriqueComponent } from './personnel-historique/personnel-historique.component';
+import { ConsultationVacationComponent } from './consultation-vacation/consultation-vacation.component';
+import { AjouterVacataireComponent } from './ajouter-vacataire/ajouter-vacataire.component';
+import { ModalVacationComponent } from './modal-vacation/modal-vacation.component';
+import { EnseignantFonctionnaireEtatServices } from '../services/enseignantFonctionnaireEtat.services';
+import { EnseignantLibreServices } from '../services/enseignantlibre.services';
 @NgModule ({
   declarations: [
     AppComponent,
@@ -145,15 +161,24 @@ import { ProfileComponent } from './profile/profile.component';
     AdministratifComponent,
     PersonnelComponent,
     EditServiceComponent,
-    EnseignantVactaireComponent,
     IndexEnseignantComponent,
-    ProfileComponent
+    ProfileComponent,
+    EnseignantVacataireComponent,
+    CongePersonnelComponent,
+    ModalCongeComponent,
+    EditAdministratifComponent,
+    RepriseCongeComponent,
+    PersonnelHistoriqueComponent,
+    ConsultationVacationComponent,
+    AjouterVacataireComponent,
+    ModalVacationComponent
   ],
   imports: [
     BrowserModule,
     RouterModule,
     AppRoutingModule,
     HttpModule,
+    HttpClientModule,
     FormsModule,
     BrowserAnimationsModule,
     MatButtonModule,
@@ -173,11 +198,15 @@ import { ProfileComponent } from './profile/profile.component';
     MatTooltipModule,
     MatPaginatorModule,
     MatNativeDateModule,
-    MatSidenavModule
+    MatSidenavModule,
+    NavbarModule,
+    MatDialogModule,
+    NotificationsModule,
+    DataTablesModule
   ],
   schemas:[NO_ERRORS_SCHEMA],
-  providers: [UsersServices,PeriodeServices,EnfantServices,CorpsServices,DiplomeServices,GradeServices,DepartementServices,EnseignantPermanentServices,AGradeServices,DiplomePersonnelServices,TypeCongeServices,CongeServices,MutationServices,
-    TypeMutationsServices,PosteAdministrativeServices,PersonnelServices,SpecialiteServices,OrganismeAccueilServices,ServiceServices,AdministratifServices],
+  providers: [PeriodeServices,EnfantServices,CorpsServices,DiplomeServices,GradeServices,DepartementServices,EnseignantPermanentServices,AGradeServices,DiplomePersonnelServices,TypeCongeServices,CongeServices,MutationServices,
+    TypeMutationsServices,RoleServices,NotificationsService,PosteAdministrativeServices,DemandeVacationServices,PersonnelServices,SpecialiteServices,OrganismeAccueilServices,ServiceServices,AdministratifServices,EnseignantFonctionnaireEtatServices,EnseignantLibreServices],
   bootstrap: [AppComponent]
 })
 export class AppModule {

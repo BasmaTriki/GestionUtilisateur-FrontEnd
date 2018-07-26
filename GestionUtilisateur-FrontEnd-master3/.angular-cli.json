@@ -25,20 +25,23 @@
         "./assets/css/waves.css",
         "./assets/css/all-themes.css",
         "./assets/css/animate.css",
-        "./assets/css/fonts.css"
+        "./assets/css/fonts.css",
+        "../node_modules/datatables.net-dt/css/jquery.dataTables.min.css"
+        
       ],
       "scripts": [
         "../node_modules/chart.js/dist/Chart.js",
         "../node_modules/hammerjs/hammer.min.js",
         "../node_modules/waves/dist/waves.js",
-        "../node_modules/jquery/dist/jquery.min.js",
+        "../node_modules/jquery/dist/jquery.js",
         "../node_modules/jquery-slimscroll/jquery.slimscroll.js",
         "../node_modules/bootstrap-select/dist/js/bootstrap-select.js",
         "../node_modules/bootstrap/dist/js/bootstrap.js",
         "../node_modules/bootstrap-notify/bootstrap-notify.js",
-        "./assets/js/admin.js",
-        "./assets/js/demo.js",
-        "./assets/js/index.js"
+        "../node_modules/datatables.net/js/jquery.dataTables.min.js",
+        "../node_modules/datatables.net-dt/js/dataTables.dataTables.min.js",
+        "../node_modules/datatables.net-bs/js/dataTables.bootstrap.min.js",
+        "../node_modules/datatables.net/js/jquery.dataTables.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

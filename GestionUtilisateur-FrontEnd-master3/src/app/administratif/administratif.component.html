@@ -1,6 +1,3 @@
-  <div class="panel panel-primary">
-    <div class="panel-heading">Ajouter Administratif </div>
-    <div class="panel-body">
       <mat-accordion>
         <form #fe>
           <mat-expansion-panel>
@@ -82,10 +79,10 @@
             </mat-expansion-panel-header>
             <form *ngFor="let e of enfants; let i=index">
               <mat-form-field>
-                <input matInput placeholder="Nom Enfant" type="text" name="nomenf" required [(ngModel)]="enfant.nom">
+                <input matInput placeholder="Nom Enfant" type="text" name="nomenf" required [(ngModel)]="e.nom">
               </mat-form-field>
               <mat-form-field>
-                <input matInput [matDatepicker]="pickerEn" placeholder="Date de Naissance" name="date_nais" required [(ngModel)]="enfant.date_nais">
+                <input matInput [matDatepicker]="pickerEn" placeholder="Date de Naissance" name="date_nais" required [(ngModel)]="e.dateNais">
                 <mat-datepicker-toggle matSuffix [for]="pickerEn"></mat-datepicker-toggle>
                 <mat-datepicker #pickerEn></mat-datepicker>
               </mat-form-field>
@@ -95,7 +92,7 @@
           <mat-expansion-panel>
             <mat-expansion-panel-header>
               <mat-panel-title>
-                Données Professionnelles
+                Privileges
               </mat-panel-title>
               <mat-panel-description>
                 {{administratif.prenom+"   "+administratif.nom}}
@@ -123,5 +120,3 @@
           <button mat-raised-button color="primary" (click)="fe.reset()">Annuler</button>
         </form>
       </mat-accordion>
-    </div>
-  </div>

@@ -1,0 +1,141 @@
+<app-index></app-index>
+<div class="container spacer">
+<div class="panel panel-primary">
+  <div class="panel-heading">Modifier Administratif</div>
+  <div class="panel-body">
+<mat-accordion>
+  <form #fe>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Données Personnelle
+        </mat-panel-title>
+        <mat-panel-description>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <mat-form-field matTooltip="Max 12 chiffre" matTooltipPosition="above">
+        <input matInput type="text" name="matricule" #input maxlength="12" placeholder="Matricule" [(ngModel)]="administratif.matricule" required>
+        <mat-hint align="end">{{input.value?.length||0}}/12</mat-hint>
+      </mat-form-field>
+      <mat-form-field matTooltip="Max 8 caractére" matTooltipPosition="above">
+        <input matInput type="text" name="cin" #input1 maxlength="8" placeholder="CIN"  [(ngModel)]="administratif.cin" required>
+        <mat-hint align="end">{{input1.value?.length||0}}/8</mat-hint>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Nom" type="text" name="nom"  [(ngModel)]="administratif.nom" required>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Prenom" type="text" name="prenom" [(ngModel)]="administratif.prenom" required>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Nom de Pére" type="text" name="nompere" [(ngModel)]="administratif.nompere" required>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput [matDatepicker]="picker" placeholder="Date de Naissance" name="datenais" [(ngModel)]="administratif.datenaissance" required>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Lieu de Naissance" type="text" name="lieu" [(ngModel)]="administratif.lieuNaissance">
+      </mat-form-field>
+      <mat-radio-group [(ngModel)]="administratif.sexe" name="sexe">
+        <mat-radio-button value="F">Femme</mat-radio-button>
+        <mat-radio-button value="H">Homme</mat-radio-button>
+      </mat-radio-group>
+      <mat-form-field>
+        <input matInput placeholder="Téléphone" type="text" name="telephone" [(ngModel)]="administratif.telephone">
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Email" type="email" name="email" [(ngModel)]="administratif.email" required>
+        <!--<mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>-->
+      </mat-form-field>
+      <mat-form-field>
+        <textarea matInput placeholder="Adresse" type="text" name="adresse" [(ngModel)]="administratif.adresse" required></textarea>
+      </mat-form-field>
+      <mat-form-field matTooltip="Max 4 caractére" matTooltipPosition="above">
+        <input matInput #input2 maxlength="4" placeholder="Code Postal" type="text" name="code" [(ngModel)]="administratif.codepostal">
+        <mat-hint align="end">{{input2.value?.length||0}}/4</mat-hint>
+      </mat-form-field>
+      <mat-form-field hintLabel="Max 20 caractére">
+        <input matInput #input3 maxlength="20" placeholder="RIB" type="text" name="rib" [(ngModel)]="administratif.rib" required>
+        <mat-hint align="end">{{input3.value?.length||0}}/20</mat-hint>
+      </mat-form-field><br>
+      <mat-radio-group [(ngModel)]="administratif.etatCivil" name="etatcivil" #etatcivil>
+        <mat-radio-button value="Celibataire">Célibataire</mat-radio-button>
+        <mat-radio-button value="Marie">Marié(e)</mat-radio-button>
+        <mat-radio-button value="Divorce">Divorcé(e)</mat-radio-button>
+      </mat-radio-group>
+      <mat-form-field *ngIf="administratif.etatCivil=='Marie'">
+        <input matInput placeholder="Nom Conjoint" type="text" name="nomconj" [(ngModel)]="administratif.nomConjoint">
+      </mat-form-field>
+      <mat-form-field *ngIf="administratif.etatCivil=='Marie'">
+        <input matInput placeholder="Profession Conjoint" type="text" name="profConj" [(ngModel)]="administratif.profConjoint">
+      </mat-form-field>
+
+    </mat-expansion-panel>
+    <mat-expansion-panel *ngIf="administratif.etatCivil=='Marie'||administratif.etatCivil=='Divorce'">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Enfants
+        </mat-panel-title>
+        <mat-panel-description>
+          {{administratif.prenom+"   "+administratif.nom}}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <form #enfant *ngFor="let enf of enfants; let i=index">
+        <mat-form-field>
+          <input matInput placeholder="Nom Enfant" type="text" name="nomenf" required [(ngModel)]="enf.nom" disabled>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput [matDatepicker]="En" placeholder="Date de Naissance" name="nomdate" required [(ngModel)]="enf.dateNais" disabled>
+          <mat-datepicker-toggle matSuffix [for]="En"></mat-datepicker-toggle>
+          <mat-datepicker #En></mat-datepicker>
+        </mat-form-field>
+        <button mat-mini-fab color="black" (click)="ModifierEnfants(enf)"><mat-icon>edit</mat-icon></button>
+      </form>
+      <form *ngFor="let e of newEnfants; let i=index">
+        <mat-form-field>
+          <input matInput placeholder="Nom Enfant" type="text" name="nomenf" required [(ngModel)]="e.nom" >
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput [matDatepicker]="pickerEn" placeholder="Date de Naissance" name="datenf" [(ngModel)]="e.dateNais">
+          <mat-datepicker-toggle matSuffix [for]="pickerEn"></mat-datepicker-toggle>
+          <mat-datepicker #pickerEn></mat-datepicker>
+        </mat-form-field>
+      </form>
+      <button mat-mini-fab color="primary" (click)="ajouterEnfants()"><mat-icon>add</mat-icon></button>
+    </mat-expansion-panel>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Privilèges
+        </mat-panel-title>
+        <mat-panel-description>
+          {{administratif.prenom+"   "+administratif.nom}}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <mat-form-field>
+        <mat-select placeholder="Service" [(value)]="service">
+          <mat-option *ngFor="let s of services" [value]="s">
+            {{ s.libelle }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Taille" type="text" name="taille" [(ngModel)]="administratif.taille">
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Pointure" type="text" name="pointure" [(ngModel)]="administratif.pointure">
+      </mat-form-field>
+      <mat-radio-group [(ngModel)]="administratif.etat" required name="etat">
+        <mat-radio-button value="true">Actif</mat-radio-button>
+        <mat-radio-button value="false">Non-Actif</mat-radio-button>
+      </mat-radio-group>
+    </mat-expansion-panel>
+    <button mat-raised-button color="primary" (click)="updateAdmin()">Modifier</button>
+    <button mat-raised-button color="primary" (click)="fe.reset()">Annuler</button>
+  </form>
+</mat-accordion>
+</div>
+</div>
+</div>

@@ -1,9 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import {Http} from '@angular/http';
 import "rxjs/add/operator/map";
-import {UsersServices} from '../../services/users.services';
 import {Router} from '@angular/router';
-import {User} from '../../model/model.user';
+import { Personnel } from '../../model/model.personnel';
+import { PersonnelServices } from '../../services/personnel.services';
+//var $  = require( 'jquery' );
+//var dt = require('datatables.net' )( window, $ );
+import dt from 'datatables.net-dt';
+import 'datatables.net-dt/css/jquery.datatables.css';
+declare var $;
+
 
 @Component({
   selector: 'app-u',
@@ -16,15 +22,21 @@ motCle:string="";
 currentPage:number=0;
 pages:Array<number>;
 size:number=5;
-  users:Array<User>=new Array<User>();
-  constructor(public http:Http, public usersservices:UsersServices, public router:Router) {}
+
+  personnels:Array<Personnel>=new Array<Personnel>();
+  constructor(public http:Http, public personnelServices:PersonnelServices, public router:Router) {
+   
+  }
 
   ngOnInit() {
-  this.chercher();
-
+    this.doSearch();
+    //$(document).ready( function () {
+     // $('#users').DataTable();
+  //} );
+    
   }
   doSearch(){
-    this.usersservices.getUsers(this.motCle,this.currentPage,this.size)
+    this.personnelServices.getPersonnelsActif(this.motCle,this.currentPage,this.size)
       .subscribe(data=>{
         console.log(data);
         this.pageUsers=data;
@@ -32,17 +44,6 @@ size:number=5;
       },err=>{
         console.log(err);
       })
-  }
-  chercher()
-  {
-    this.usersservices.getAllUser()
-      .subscribe(data=>{
-        this.pageUsers=data;
-        this.pages=new Array(data.totalPages);
-      },err=>{
-        console.log(err);
-      })
-    //this.doSearch();
   }
   chercherLogin()
   {
@@ -56,14 +57,16 @@ this.doSearch();
   onEditUser(idUser:number){
 this.router.navigate(['editUser',idUser]);
   }
-  onDeleteUser(u:User){
+  onDeleteUser(p:Personnel){
     let confirm=window.confirm("Etes-vous sûre?");
     if(confirm==true)
     {
-      this.usersservices.deleteUser(u.idUser)
+      p.login="";
+      p.motpasse="";
+      this.personnelServices.updatePersonnel(p)
         .subscribe(data=> {
           this.pageUsers.content.splice(
-            this.pageUsers.content.indexOf(u),1
+            this.pageUsers.content.indexOf(p),1
           );
         },err=>{
           console.log(err);

@@ -6,7 +6,14 @@
 }
 mat-toolbar
 {
-background: rgba(0,0,0,.5);
+  background: #EDEDED;
+}
+mat-icon
+{
+  color: #ffff;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  margin-right: 20px;
 }
 .button_b
 {
@@ -24,7 +31,7 @@ li
 }
 ul li
 {
-  margin-right: 1px;
+  margin-right: -1px;
   flex: 1 1 auto;
 }
 i{
@@ -34,8 +41,8 @@ i{
 {
   position:relative;
   top: -5px;
-  float: left;
-  left: -5px;
+  float: right;
+  right: 10px;
 
 }
 .profile-image  {
@@ -43,6 +50,7 @@ i{
   padding-bottom: 0px;
   height: 30px;
   width: 30px;
+  margin: 10px 0;
 
 }
 .coret

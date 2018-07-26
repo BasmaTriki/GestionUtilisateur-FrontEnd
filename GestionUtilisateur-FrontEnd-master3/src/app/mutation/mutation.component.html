@@ -1,6 +1,6 @@
 <app-index></app-index>
 <div class="container spacer">
-<div class="panel panel-primary">
+<div class="panel panel-default">
   <div class="panel-heading">Ajouter Mutation</div>
   <div class="panel-body">
     <div>
@@ -35,12 +35,6 @@
           <mat-icon>add_circle</mat-icon></button>
       </form>
     </div>
-  </div>
-</div>
-
-  <div class="panel panel-default">
-    <div class="panel-heading">Afficher Mutation</div>
-    <div class="panel-body">
       <mat-form-field>
         <input matInput placeholder="Mutation" [(ngModel)]="motCle">
       </mat-form-field>
@@ -48,7 +42,7 @@
         <mat-icon>search</mat-icon></button>
       <table class="table table-striped">
         <tr>
-          <th>ID</th><th>Personnel</th><th>Type de Mutation</th><th>Organisation d'accueil</th><th>Date de Mutatuion</th><th>Modifier</th><th>Supprimer</th>
+          <th>ID</th><th>Personnel</th><th>Type de Mutation</th><th>Organisme d'accueil</th><th>Date de Mutatuion</th><th>Modifier</th><th>Supprimer</th>
         </tr>
         <tr *ngFor="let m of pageMutation?.content">
           <td>{{m.idMut}}</td>

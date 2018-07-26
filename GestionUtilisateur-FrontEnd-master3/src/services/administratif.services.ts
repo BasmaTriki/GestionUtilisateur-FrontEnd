@@ -10,7 +10,10 @@ export class AdministratifServices {
     return this.http.get("http://localhost:8080/chercherAdministratif?mc="+motcle+"&size=" + size + "&page=" + page)
       .map(resp => resp.json())
   }
-
+  getAdministratifPernom(motcle1:string, page: number, size: number) {
+    return this.http.get("http://localhost:8080/chercherAdministratifPrenom?mp="+motcle1+"&size=" + size + "&page=" + page)
+      .map(resp => resp.json())
+  }
   getAdministratif(matricule: number) {
     return this.http.get("http://localhost:8080/Administratif/" +matricule)
       .map(resp => resp.json())

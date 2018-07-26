@@ -1,12 +1,9 @@
-    <div class="panel panel-primary">
-      <div class="panel-heading">Ajouter Enseignant</div>
-      <div class="panel-body">
     <mat-accordion>
       <form #fe>
   <mat-expansion-panel>
     <mat-expansion-panel-header>
       <mat-panel-title>
-        Données Personnelle
+        Données Personnelles
       </mat-panel-title>
       <mat-panel-description>
     </mat-panel-description>
@@ -82,10 +79,10 @@
           </mat-expansion-panel-header>
           <form *ngFor="let e of enfants; let i=index">
             <mat-form-field>
-              <input matInput placeholder="Nom Enfant" type="text" name="nomenf" required [(ngModel)]="enfant.nom">
+              <input matInput placeholder="Nom Enfant" type="text" name="nomenf" required [(ngModel)]="e.nom">
             </mat-form-field>
             <mat-form-field>
-              <input matInput [matDatepicker]="pickerEn" placeholder="Date de Naissance" name="date_nais" required [(ngModel)]="enfant.date_nais">
+              <input matInput [matDatepicker]="pickerEn" placeholder="Date de Naissance" name="date_nais" required [(ngModel)]="e.date_nais">
               <mat-datepicker-toggle matSuffix [for]="pickerEn"></mat-datepicker-toggle>
               <mat-datepicker #pickerEn></mat-datepicker>
             </mat-form-field>
@@ -148,14 +145,14 @@
           </mat-expansion-panel-header>
           <form *ngFor="let d of diplomepers; let i=index">
           <mat-form-field>
-            <mat-select placeholder="Diplôme" [(value)]="diplome">
+            <mat-select placeholder="Diplôme" [(value)]="d.diplome">
               <mat-option *ngFor="let dip of diplomes" [value]="dip">
                 {{ dip.titre }}
               </mat-option>
             </mat-select>
           </mat-form-field>
           <mat-form-field>
-            <input matInput [matDatepicker]="dip" placeholder="Date de Diplôme" name="datedip" [(ngModel)]="diplomep.date">
+            <input matInput [matDatepicker]="dip" placeholder="Date de Diplôme" name="datedip" [(ngModel)]="d.date">
             <mat-datepicker-toggle matSuffix [for]="dip"></mat-datepicker-toggle>
             <mat-datepicker #dip></mat-datepicker>
           </mat-form-field>
@@ -171,23 +168,23 @@
               {{enseignantP.prenom+"   "+enseignantP.nom}}
             </mat-panel-description>
           </mat-expansion-panel-header>
+          <form *ngFor="let g of AGrades; let i=index">
           <mat-form-field>
-            <mat-select placeholder="Grade" [(value)]="grade">
+            <mat-select placeholder="Grade" [(value)]="g.grade">
               <mat-option *ngFor="let grd of grades" [value]="grd">
                 {{ grd.titre }}
               </mat-option>
             </mat-select>
           </mat-form-field>
           <mat-form-field>
-            <input matInput [matDatepicker]="picker1" placeholder="Date de Grade" [(ngModel)]="agrade.dateEvaluation">
+            <input matInput [matDatepicker]="picker1" placeholder="Date de Grade" name="dategrade" [(ngModel)]="g.dateEvaluation">
             <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
             <mat-datepicker #picker1></mat-datepicker>
           </mat-form-field>
-          <button mat-mini-fab color="primary"><mat-icon>add</mat-icon></button>
+        </form>
+          <button mat-mini-fab color="primary" (click)="ajouterGrade()"><mat-icon>add</mat-icon></button>
         </mat-expansion-panel>
       <button mat-raised-button color="primary" (click)="Enregistrer()">Ajouter</button>
       <button mat-raised-button color="primary" (click)="fe.reset()">Annuler</button>
       </form>
       </mat-accordion>
-      </div>
-    </div>

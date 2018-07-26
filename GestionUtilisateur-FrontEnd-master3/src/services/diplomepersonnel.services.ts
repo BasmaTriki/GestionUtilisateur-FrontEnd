@@ -35,4 +35,9 @@ export class DiplomePersonnelServices {
     return this.http.get("http://localhost:8080/DiplomePersonnels")
       .map(resp => resp.json())
   }
+  
+  getPersonnelDiplome(motCle:number) {
+    return this.http.get("http://localhost:8080/chercherPersonnelDiplome?mc=" + motCle)
+      .map(resp => resp.json())
+  }
 }

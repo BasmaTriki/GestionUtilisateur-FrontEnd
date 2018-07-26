@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewChild } from '@angular/core';
+import { Component, OnInit,ViewChild, Inject } from '@angular/core';
 import {Diplome} from "../../model/model.diplome";
 import {DiplomeServices} from "../../services/diplome.services";
 import {Personnel} from "../../model/model.personnel";
@@ -7,7 +7,7 @@ import {Router} from "@angular/router";
 import {Http} from "@angular/http";
 import {DiplomePersonnelServices} from "../../services/diplomepersonnel.services";
 import {DiplomePersonnel} from "../../model/model.diplomepersonnel";
-import {MatPaginator, MatTableDataSource} from '@angular/material';
+import {MatPaginator, MatTableDataSource, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 @Component({
   selector: 'app-diplome-personnel',
   templateUrl: './diplome-personnel.component.html',
@@ -15,8 +15,8 @@ import {MatPaginator, MatTableDataSource} from '@angular/material';
 })
 export class DiplomePersonnelComponent implements OnInit {
   diplomes: Array<Diplome> = new Array<Diplome>();
-  pageDiplomep:any;
   motCle:string="";
+  idDep:number;
   currentPage:number=0;
   size:number=5;
   pages: Array<number>;
@@ -24,81 +24,50 @@ export class DiplomePersonnelComponent implements OnInit {
   personnels:Array<Personnel>=new Array<Personnel>();
   diplome:Diplome=new Diplome();
   diplomep:DiplomePersonnel=new DiplomePersonnel();
-  diplomeps:Array<DiplomePersonnel>=new Array<DiplomePersonnel>();
   displayedColumns = ['id_DipP', 'personnel', 'diplome', 'date'];
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  dataSource=new MatTableDataSource<DiplomePersonnel>(this.diplomeps);
-  constructor( private diplomeServices: DiplomeServices,private diplomepService:DiplomePersonnelServices,public http:Http, private personnelServices:PersonnelServices, public router:Router)
+  //dataSource=new MatTableDataSource<DiplomePersonnel>(this.diplomeps);
+  constructor( private diplomeServices: DiplomeServices,
+    private diplomepService:DiplomePersonnelServices,
+    public http:Http,
+    public dialogRef: MatDialogRef<DiplomePersonnelComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    public router:Router)
   { }
 
   ngOnInit() {
+    this.idDep=this.data.num;
     this.chercherDip();
-  this.AfficherPersonnel();
-    this.dataSource.paginator = this.paginator;
-    this.chercherDipPers();
+   // this.dataSource.paginator = this.paginator;
+    this.diplomepService.getDiplomePersonnel(this.idDep)
+    .subscribe(data => {
+      this.diplomep = data;
+    }, err => {
+      console.log(err);
+    })
+    
   }
   chercherDip() {
     this.diplomeServices.allDiplomes()
       .subscribe(data => {
         this.diplomes = data;
-        this.pages = new Array(data.totalPages);
-        console.log(data);
       }, err => {
         console.log(err);
       })
   }
   Enregistrer()
-  {this.diplomep.personnel=this.personnel;
-   this.diplomep.diplome=this.diplome;
-   this.diplomepService.saveDiplomePersonnel(this.diplomep)
+  { this.diplomep.diplome=this.diplome;
+   this.diplomepService.updateDiplomePersonnel(this.diplomep)
   .subscribe(data => {
-    alert("Success d'ajout");
-    window.location.reload();
-   // this.router.navigate(['users']);
-    console.log(data);
+    this.Close();
   }, err => {
     console.log(err);
   })
   }
-  annuler()
-  {}
-  AfficherPersonnel()
+  Close()
   {
-    this.personnelServices.getAllPersonnel()
-      .subscribe(data=>{
-        this.personnels=data;
-        console.log(data);
-      },err=>{
-        console.log(err);
-      });
+    this.dialogRef.close();
+   
   }
-  chercherDipPers() {
-    this.diplomepService.getAllDiplomePersonnels()
-      .subscribe(data => {
-        this.diplomeps = data;
-        this.dataSource = data;
-       this.pages = new Array(data.totalPages);
-        console.log(data);
-      }, err => {
-        console.log(err);
-      })
-  }
-  onEditDiplomeP(idDipP:number){
-    this.router.navigate(['editDiplome',idDipP]);
-  }
-  onDeleteDiplomeP(d:DiplomePersonnel){
-    let confirm=window.confirm("Etes-vous sûre?");
-    if(confirm==true)
-    {
-      this.diplomeServices.deleteDiplome(d.id_DipP)
-        .subscribe(data=> {
-          this.pageDiplomep.content.splice(
-            this.pageDiplomep.content.indexOf(d),1
-          );
-          console.log(data);
-        },err=>{
-          console.log(err);
-        })
-    }
-  }
+  
 }

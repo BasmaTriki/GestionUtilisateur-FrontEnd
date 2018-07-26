@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import {UsersServices} from "../../services/users.services";
 import {ActivatedRoute, Router} from "@angular/router";
-import {User} from "../../model/model.user";
 import {Http} from "@angular/http";
 import {EnseignantPermanent} from "../../model/model.enseignantpermanent";
 import {Personnel} from "../../model/model.personnel";
 import {EnseignantPermanentServices} from "../../services/enseignantpermanent.services";
+import { AdministratifServices } from '../../services/administratif.services';
+import { PersonnelServices } from '../../services/personnel.services';
+import {NotificationsService} from 'angular4-notify';
 
 @Component({
   selector: 'app-login',
@@ -18,47 +19,76 @@ export class LoginComponent implements OnInit {
   currentPage:number=0;
   pages:Array<number>;
   size:number=5;
+  idUser:number;
+  type:string="admin";
   personnel:Personnel=new Personnel();
-  public user:User=new User();
   constructor(public http:Http,
-              public userService:UsersServices,
+              public personnelService:PersonnelServices,
               public enseignantPermServices:EnseignantPermanentServices,
-              public router:Router) { }
+              public administratifServices:AdministratifServices,
+              public personnelServices:PersonnelServices,
+              public router:Router,
+              private notificationsService: NotificationsService) { }
 
   ngOnInit() {
   }
   doSearch(){
-    this.userService.getUsersLogin(this.login,this.motpasse,0,5)
+    
+    this.personnelService.getPersonnelLogin(this.login,this.motpasse)
       .subscribe(data=>{
-        this.user=data;
-        console.log(this.login);
-        console.log(this.user);
-        console.log(data.personnel);
-        this.personnel=this.user.personnel;
+        this.personnel=data;
         console.log(this.personnel);
-        alert("Success de s'authentifier");
-       //this.login=this.user.login;
-        if(this.isEnseignant(this.personnel))
-          this.router.navigate(['indexEnseignant']);
-        else
-        this.router.navigate(['index1',this.user.idUser]);
+        console.log(this.personnel.prenom+" "+this.personnel.nom);
+        
+      // this.TypePersonnel(this.user.personnel)
+     // this.isEnseignantP(this.personnel);
+      //this.isAdmin(this.personnel);
+      this.idUser=this.personnel.matricule;
+        sessionStorage.setItem('type',this.type);
+       sessionStorage.setItem('idUser',this.idUser+"");
+       sessionStorage.setItem('nom',this.personnel.prenom+" "+this.personnel.nom);
+       sessionStorage.setItem('role',this.personnel.role.type);
+       this.router.navigate(['index']);
       },err=>{
         console.log(err);
+        this.notificationsService.addError('Verifier votre login et mot de passe');
       })
   }
   chercheUser(){
     this.doSearch();
   }
-  isEnseignant(p:Personnel)
+  TypePersonnel(p:Personnel)
+  {    
+    this.personnelServices.getTypePersonnel(p.matricule)
+    .subscribe(data=>{
+      console.log(data);
+      this.type=data;
+    },err=>{
+      console.log(err);
+    })
+  }
+  isAdmin(p:Personnel)
+  {
+    this.administratifServices.getAdministratif(p.matricule)
+      .subscribe(data=>{
+        console.log(data)
+       this.personnel=data;
+      },err=>{
+        console.log(err);
+      })
+      if(this.personnel!=null)
+      this.type="admin";
+  }
+  isEnseignantP(p:Personnel)
   {
     this.enseignantPermServices.getEnseignantPermanent(p.matricule)
       .subscribe(data=>{
         console.log(data)
-         if(data!=null)
-           return true;
-        else return false;
+       this.personnel=data;
       },err=>{
         console.log(err);
       })
+      if(this.personnel!=null)
+      this.type="enseignant";
   }
 }

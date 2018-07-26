@@ -1,7 +1,4 @@
-<app-index></app-index>
-<div class="panel panel-primary">
-  <div class="panel-heading">Ajouter Diplôme Personnel</div>
-  <div class="panel-body">
+  <h3>Modifier Diplôme de {{diplomep.personnel.prenom+" "+diplomep.personnel.nom}}</h3>
     <mat-form-field>
       <mat-select placeholder="Diplôme" [(value)]="diplome">
         <mat-option *ngFor="let dip of diplomes" [value]="dip">
@@ -10,21 +7,13 @@
       </mat-select>
     </mat-form-field>
     <mat-form-field>
-      <mat-select placeholder="Personnel" [(value)]="personnel">
-        <mat-option *ngFor="let p of personnels " [value]="p">
-          {{ p.prenom +" "+p.nom }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field>
       <input matInput [matDatepicker]="picker1" placeholder="Date de Diplôme" [(ngModel)]="diplomep.date">
       <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
       <mat-datepicker #picker1></mat-datepicker>
     </mat-form-field>
-    <button mat-raised-button color="primary" (click)="Enregistrer()">Ajouter</button>
-    <button mat-raised-button color="primary" (click)="annuler()">Annuler</button>
-    <div>
-    <table class="table table-striped">
+    <button mat-mini-fab color="black" (click)="Enregistrer()"><mat-icon>edit</mat-icon></button>
+    
+   <!-- <div> <table class="table table-striped">
       <tr>
         <th>ID</th><th>Personnel</th><th>Diplôme</th><th>Date</th><th>Modifier Diplome Personnel</th><th>Supprimer Diplome Personnel</th>
       </tr>
@@ -37,7 +26,7 @@
         <td><a (click)="onDeleteDiplomeP(d)" class="clickable">Supprimer</a> </td>
       </tr></table>
     </div>
-   <!-- <div class="example-container mat-elevation-z8">
+   <div class="example-container mat-elevation-z8">
       <table mat-table #table [dataSource]="dataSource">
         &lt;!&ndash; Position Column &ndash;&gt;
         <ng-container matColumnDef="idDipP">
@@ -68,5 +57,3 @@
                      [showFirstLastButtons]="true">
       </mat-paginator>
     </div>-->
-  </div>
-</div>

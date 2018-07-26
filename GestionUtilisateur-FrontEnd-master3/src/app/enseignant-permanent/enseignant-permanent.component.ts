@@ -43,6 +43,7 @@ export class EnseignantPermanentComponent implements OnInit {
   panelOpenState: boolean = false;
   agrade:AGrade=new AGrade();
   grade:Grade=new Grade();
+  AGrades:Array<AGrade>=new Array<AGrade>();
   corp:Corps=new Corps();
   enfants:Array<Enfant>=new Array<Enfant>();
   enfant:Enfant=new Enfant();
@@ -75,6 +76,7 @@ export class EnseignantPermanentComponent implements OnInit {
     this.enfants.push(this.enfant);
     this.diplomep.diplome=this.diplome;
     this.diplomepers.push(this.diplomep);
+    this.AGrades.push(this.agrade);
 
 
   }
@@ -104,17 +106,18 @@ export class EnseignantPermanentComponent implements OnInit {
         console.log(err);
       })
   }
-  EnregistrerAgrade() {
-    this.agrade.grade = this.grade;
-    this.agrade.personnel = this.enseignantP;
-    this.agradeServices.saveAGrade(this.agrade)
+  EnregistrerAgrade(en:EnseignantPermanent) {
+    for (let agrd of this.AGrades) {
+      agrd.personnel=en;
+    this.agradeServices.saveAGrade(agrd)
       .subscribe(data => {
-        alert("Success d'ajout");
+        console.log("Success d'ajout grades");
         console.log(data);
       }, err => {
         console.log(err);
       });
   }
+}
   EnregistrerDiplomeP(en:EnseignantPermanent) {
     for (let dip of this.diplomepers) {
       dip.personnel = en;
@@ -132,12 +135,17 @@ export class EnseignantPermanentComponent implements OnInit {
       {e.personnel=en;
         this.enfantservice.saveEnfant(e)
           .subscribe(data => {
-            console.log("Success d'ajout enfant");
-            console.log(data);
+           en.enfants.push(e);
           }, err => {
             console.log(err);
           });
       }
+      this.enseingnantpermanentService.updateEnseignantPermanent(en)
+      .subscribe(data=>{
+        console.log(data);
+      },err=>{
+        console.log(err);
+      })
   }
   Enregistrer() {
   this.enseignantP.departement=this.departement;
@@ -150,14 +158,12 @@ export class EnseignantPermanentComponent implements OnInit {
         console.log(data);
         this.EnregistrerDiplomeP(data);
         this.EnregistrerEnfant(data);
+        this.EnregistrerAgrade(data);
       },err=>{
         console.log(err);
       });
    //this.EnregistrerAgrade();
 
-  }
-
-  annuler() {
   }
 
   chercherDep() {
@@ -170,7 +176,6 @@ export class EnseignantPermanentComponent implements OnInit {
         console.log(err);
       })
   }
-
 
   chercherGrad()
   {
@@ -193,13 +198,22 @@ export class EnseignantPermanentComponent implements OnInit {
       })
   }
   ajouterDiplome()
-  {console.log(this.diplome);
-    this.diplomep.diplome=this.diplome;
+  {
+    this.diplomep=new DiplomePersonnel();
+    this.diplomep.diplome=new Diplome();
     this.diplomepers.push(this.diplomep);
-    this.diplome=new Diplome();
+   
   }
   ajouterEnfants()
   {
+    this.enfant = new Enfant();
     this.enfants.push(this.enfant);
+  }
+  ajouterGrade()
+  {
+    this.agrade=new AGrade();
+    this.agrade.grade=new Grade();
+    this.AGrades.push(this.agrade);
+   
   }
 }

@@ -10,4 +10,8 @@ export class Conge{
   typeconge:TypeConge=null;
   personnel:Personnel=null;
   nbJour:number;
+  dateReprise:Date=null;
+  dateConge:Date;
+  adresseConge:string="";
+  telephoneConge:string="";
 }

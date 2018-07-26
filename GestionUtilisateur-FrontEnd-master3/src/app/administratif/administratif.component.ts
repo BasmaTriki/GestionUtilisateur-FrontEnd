@@ -30,7 +30,7 @@ export class AdministratifComponent implements OnInit {
     this.chercherService();
   }
   ajouterEnfants()
-  {
+  { this.enfant = new Enfant();
     this.enfants.push(this.enfant);
   }
   EnregistrerEnfant(a:Administratif) {

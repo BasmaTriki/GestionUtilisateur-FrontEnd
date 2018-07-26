@@ -1,42 +1,84 @@
 <app-index></app-index>
 <div class="container spacer">
-<div class="panel panel-primary">
-  <div class="panel-heading">Congés Enseignant</div>
+ <div class="panel panel-primary">
+  <div class="panel-heading">Congés Personnel</div>
   <div class="panel-body">
-    <mat-form-field>
-      <mat-select placeholder="Personnel" [(value)]="personnel">
-        <mat-option *ngFor="let p of personnels" [value]="p">
-          {{ p.prenom +"  "+p.nom  }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field><br>
-    <mat-form-field>
-      <mat-select placeholder="Type de Congé" [(value)]="typeconge">
-        <mat-option *ngFor="let c of typeconges" [value]="c">
-          {{c.libelle}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field><br>
-      <div class="form-group">
-        <label class="control-label">Nombre de jours Max :</label><strong>{{typeconge.nbMaxJrs}}</strong>
-      </div>
-    <mat-form-field>
-      <input matInput [matDatepicker]="picker" placeholder="Date de Debut" [(ngModel)]="conge.dateDebut">
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
-    <mat-form-field>
-      <input matInput [matDatepicker]="picker1" placeholder="Date de Fin" [(ngModel)]="conge.dateFin">
-      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-      <mat-datepicker #picker1></mat-datepicker>
-    </mat-form-field><br>
-        <div class="form-group ">
-          <label class="control-label">Nombre de jours:</label>{{CalculerNbjour()}}
-              </div>
-    <div class="form-group ">
-      <label class="control-label">Nombre de jours restants:</label>{{CalculerResteJour()}}
-    </div>
-        <button type="button" class="btn btn-primary btn-md" (click)="ajouter()">Ajouter</button>
+    <mat-tab-group class="demo-tab-group">
+      <mat-tab label="Enseignant">
+        <div class="demo-tab-content">
+          <mat-form-field>
+            <input matInput placeholder="Nom" [(ngModel)]="motCle">
+           </mat-form-field>
+           <button mat-icon-button (click)="doSearchEng()">
+            <mat-icon>search</mat-icon>
+           </button>
+           <mat-form-field>
+              <input matInput placeholder="Prenom" [(ngModel)]="motCle1">
+            </mat-form-field>
+            <button mat-icon-button (click)="doSearch1()">
+              <mat-icon>search</mat-icon>
+            </button>
+           <table class="table table-striped">
+            <tr>
+              <th>Matricule</th><th>CIN</th><th>Nom</th><th>Prenom</th><th>Telephone</th><th>Demande de Congé</th><th>Etat des Congés</th>
+            </tr>
+            <tr *ngFor="let e of pageEnseignant?.content">
+              <td>{{e.matricule}}</td>
+              <td>{{e.cin}}</td>
+              <td>{{e.nom}}</td>
+              <td>{{e.prenom}}</td>
+              <td>{{e.telephone}}</td>
+              <td align="center"><button mat-icon-button (click)="ajouterConge(e)"><mat-icon>today</mat-icon></button> </td>
+              <td align="center"><button mat-icon-button (click)="EtatConge(e)"><mat-icon>update</mat-icon></button> </td>
+            </tr>
+           </table>
+           <div class="container">
+              <ul class="nav nav-pills">
+                <li [ngClass]="{'active' :i==currentPage}" *ngFor="let p of pages; let i=index">
+                  <a class="clickable" (click)="gotopage(i)">{{i}}</a>
+                </li>
+              </ul>
+            </div>
+        </div>
+      </mat-tab>
+
+      <mat-tab label="Administatif">
+        <div class="demo-tab-content">
+        <mat-form-field>
+        <input matInput placeholder="Nom" [(ngModel)]="motCle1">
+         </mat-form-field>
+         <button mat-icon-button (click)="doSearchAdmin()">
+          <mat-icon>search</mat-icon>
+          </button>
+          <mat-form-field>
+          <input matInput placeholder="Prenom" [(ngModel)]="motCle1">
+        </mat-form-field>
+        <button mat-icon-button (click)="doSearch1()">
+          <mat-icon>search</mat-icon>
+        </button>
+       <table class="table table-striped">
+        <tr>
+          <th>Matricule</th><th>CIN</th><th>Nom</th><th>Prenom</th><th>Telephone</th><th>Demande de Congé</th><th>Etat des congés</th>
+        </tr>
+        <tr *ngFor="let e of pageAdministratif?.content">
+          <td>{{e.matricule}}</td>
+          <td>{{e.cin}}</td>
+          <td>{{e.nom}}</td>
+          <td>{{e.prenom}}</td>
+          <td>{{e.telephone}}</td>
+          <td><button mat-icon-button (click)="ajouterConge(e)"><mat-icon>today</mat-icon></button> </td>
+          <td align="center"><button mat-icon-button (click)="EtatConge(e)"><mat-icon>update</mat-icon></button> </td>
+        </tr>
+       </table>
+       <div class="container">
+          <ul class="nav nav-pills">
+            <li [ngClass]="{'active' :i==currentPageA}" *ngFor="let p of pagesA; let i=index">
+              <a class="clickable" (click)="gotopage1(i)">{{i}}</a>
+            </li>
+          </ul>
+        </div>
+        </div>  
+      </mat-tab>
+    </mat-tab-group>
     </div>
   </div>
-</div>

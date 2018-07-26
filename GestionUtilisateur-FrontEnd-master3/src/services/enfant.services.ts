@@ -30,5 +30,9 @@ export class EnfantServices {
     return this.http.get("http://localhost:8080/Enfants")
       .map(resp=>resp.json())
   }
-
+  
+  getEnfantsPersonnel(motCle:number){
+    return this.http.get("http://localhost:8080/chercherPersonnelEnfant?mc="+motCle)
+      .map(resp=>resp.json())
+  }
 }

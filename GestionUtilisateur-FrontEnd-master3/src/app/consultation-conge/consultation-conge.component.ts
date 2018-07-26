@@ -4,7 +4,6 @@ import {Conge} from '../../model/model.conge';
 import {Router} from '@angular/router';
 import {Http} from '@angular/http';
 import {Personnel} from '../../model/model.personnel';
-import {UsersServices} from '../../services/users.services';
 
 @Component({
   selector: 'app-consultation-conge',
@@ -13,9 +12,12 @@ import {UsersServices} from '../../services/users.services';
 })
 export class ConsultationCongeComponent implements OnInit {
   pageConge: any;
+  pageCongeA: any;
   motCle: string = "en-attente";
   currentPage: number = 0;
+  currentPageA: number = 0;
   pages: Array<number>;
+  pagesA: Array<number>;
   size: number = 5;
   conge: Conge = new Conge();
   conges: Array<Conge> = new Array<Conge>();
@@ -25,8 +27,8 @@ export class ConsultationCongeComponent implements OnInit {
   }
 
   ngOnInit() {
-    //this.chercher();
     this.doSearch();
+    this.doSearchnonautoriser();
   }
 
   accepter(c: Conge) {
@@ -41,7 +43,18 @@ export class ConsultationCongeComponent implements OnInit {
         console.log(err);
       })
   }
-
+  valider(c: Conge) {
+    c.valide = "validé";
+    this.congeServices.updateConge(c)
+      .subscribe(data => {
+        this.pageCongeA.content.splice(
+          this.pageCongeA.content.indexOf(c), 1
+        );
+        console.log(data);
+      }, err => {
+        console.log(err);
+      })
+  }
   refuser(c: Conge) {
     let confirm = window.confirm("Etes-vous sûre?");
     if (confirm == true) {
@@ -59,7 +72,7 @@ export class ConsultationCongeComponent implements OnInit {
   }
 
   doSearch() {
-    this.congeServices.getConges(this.motCle, this.currentPage, this.size)
+    this.congeServices.getCongesAutoriser(true,this.motCle, this.currentPage, this.size)
       .subscribe(data => {
         console.log(data);
         this.pageConge = data;
@@ -72,6 +85,21 @@ export class ConsultationCongeComponent implements OnInit {
   gotopage(i: number) {
     this.currentPage = i;
     this.doSearch();
+  }
+  doSearchnonautoriser() {
+    this.congeServices.getCongesAutoriser(false,this.motCle, this.currentPage, this.size)
+      .subscribe(data => {
+        console.log(data);
+        this.pageCongeA = data;
+        this.pagesA = new Array(data.totalPages);
+      }, err => {
+        console.log(err);
+      })
+  }
+
+  gotopage1(i: number) {
+    this.currentPageA = i;
+    this.doSearchnonautoriser();
   }
 }
 

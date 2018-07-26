@@ -1,24 +1,133 @@
 <app-index></app-index>
 <div class="container spacer">
-  <div class="panel panel-primary">
-    <div class="panel-heading">Données Personnel</div>
-    <hr>
-    Nom et Prenom :{{enseignantP.prenom +" "+enseignantP.nom}}<br>
-    Nom de Pére : {{enseignantP.nompere}}<br>
-    Date de Naissance: {{enseignantP.datenaissance}}<br>
-    Lieu de Naissance: {{enseignantP.lieuNaissance}}<br>
-    Sexe: {{enseignantP.sexe}}<br>
-    E-mail: {{enseignantP.email}}<br>
-    Téléphone: {{enseignantP.telephone}}<br>
-    Adresse: {{enseignantP.adresse}}<br>
-    Etat Civil: {{enseignantP.etatCivil}}<br>
-    Nom Conjoint: {{enseignantP.nomConjoint}}<br>
-    Code Postal: {{enseignantP.codepostal}}<br>
-    Spécialité: {{enseignantP.specialite}}<br>
-    RIB: {{enseignantP.rib}}<br>
-    <h4>Données Professionnelles</h4>
-    <hr>
-    Date de Recrutement: {{enseignantP.dateRecrutement}}<br>
-    Date de Titularisation: {{enseignantP.dateTitularisation}}<br>
-  </div>
+    <div class="panel panel-info">
+        <div class="panel-heading">
+          <h3 class="panel-title">{{enseignantP.prenom +" "+enseignantP.nom}}</h3>
+        </div>
+        <div class="panel-body">
+    <div class="row"  *ngIf='mode==0'>
+    <div class="col-md-3 col-lg-3" align="center"> <img alt="User Pic" src="../../assets/images/img.jpg" class="img-circle img-responsive"> </div>
+    <div class=" col-md-9 col-lg-9"> 
+        <table class="table table-user-information">
+          <tbody>
+            <tr>
+              <td>
+                  Nom et Prenom :
+              </td>
+              <td>
+                  {{enseignantP.prenom +" "+enseignantP.nom}}
+                </td>
+            </tr>
+            <tr>
+            <td>
+                Date de Naissance: 
+            </td>
+            <td>
+                {{enseignantP.datenaissance|date:'dd/MM/yyyy'}} 
+              </td>
+          </tr>
+          <tr>
+            <td>
+                Lieu de Naissance:
+            </td>
+            <td>
+                {{enseignantP.lieuNaissance}}
+              </td>
+          </tr>
+          <tr>
+            <td>
+                Adresse:
+            </td>
+            <td>
+                {{enseignantP.adresse}}
+              </td>
+          </tr>
+          <tr>
+            <td>
+                Téléphone:
+            </td>
+            <td>
+                {{enseignantP.telephone}}
+              </td>
+          </tr>
+          <tr>
+              <td>
+                E-mail:
+              </td>
+              <td>
+                {{enseignantP.email}}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Login:
+                </td>
+                <td>
+                    {{enseignantP.login}}
+                  </td>
+              </tr>
+              <tr>
+                <td>
+                    Mot de Passe:
+                </td>
+                <td>
+                    {{enseignantP.motpasse}}
+                  </td>
+              </tr>
+              <tr>
+                <td>
+                </td>
+                <td align="right">
+                    <button mat-mini-fab color="accent" (click)="ModifierProfile()"><mat-icon>edit</mat-icon></button>
+                  </td>
+              </tr>
+            </tbody></table>
+        </div>
+    </div>
+            <div *ngIf='mode==1'>
+            <div class="row">
+                    <div class="col-md-3 col-lg-3 " align="center"> <img alt="User Pic" src="../../assets/images/img.jpg" class="img-circle img-responsive"> </div>
+                    <div class=" col-md-9 col-lg-9 "> 
+            
+                <mat-form-field>
+                <input matInput placeholder="Nom" type="text" name="nnom"  [(ngModel)]="enseignantP.nom" required>
+                </mat-form-field>
+                <br>
+            <mat-form-field>
+            <input matInput placeholder="Prénom" type="text" name="nprenom"  [(ngModel)]="enseignantP.prenom" required>
+            </mat-form-field><br>
+            <mat-form-field>
+            <input matInput [matDatepicker]="picker" placeholder="Date de Naissance" [(ngModel)]="enseignantP.datenaissance" required>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker [(ngModel)]="enseignantP.datenaissance"></mat-datepicker>
+            </mat-form-field><br>
+            <mat-form-field>
+                <input matInput placeholder="Lieu de Naissance" type="text" name="nlieuNais" [(ngModel)]="enseignantP.lieuNaissance" required>
+              </mat-form-field><br>
+            <mat-form-field>
+                <textarea matInput placeholder="Adresse" type="text" name="nadresse" [(ngModel)]="enseignantP.adresse" required></textarea>
+              </mat-form-field><br>
+            <mat-form-field>
+            <input matInput placeholder="Téléphone" type="text" name="ntelephone" [(ngModel)]="enseignantP.telephone">
+            </mat-form-field><br>
+            <mat-form-field>
+            <input matInput placeholder="Email" type="email" name="nemail" [(ngModel)]="enseignantP.email" required>
+                    <!--<mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>-->
+            </mat-form-field><br>
+            
+                      <mat-form-field>
+                            <input matInput placeholder="Login" type="text" name="log" [(ngModel)]="enseignantP.login">
+                          </mat-form-field><br>
+                          <mat-form-field>
+                                <input matInput placeholder="Mot de Passe" type="text" name="motpass" [(ngModel)]="enseignantP.motpasse">
+                              </mat-form-field>
+                        </div>
+                   <table> <tbody>
+                       <tr>
+                      <td align="right">
+                          <button mat-mini-fab color="primary" (click)="UpdateProfile()"><mat-icon>edit</mat-icon></button>
+                        </td>
+                    </tr>
+                  </tbody></table>
+</div>
 </div>

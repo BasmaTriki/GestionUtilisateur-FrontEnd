@@ -1,0 +1,80 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "project": {
+    "name": "my-app-angular"
+  },
+  "apps": [
+    {
+      "root": "app",
+      "outDir": "dist",
+      "assets": [
+        "assets",
+        "favicon.ico"
+      ],
+      "index": "index.html",
+      "main": "raven.ts",
+      "polyfills": "polyfills.ts",
+      "test": "test.ts",
+      "tsconfig": "tsconfig.app.json",
+      "testTsconfig": "tsconfig.spec.json",
+      "prefix": "app",
+      "styles": [
+        "assets/css/styles-minified.css",
+		"assets/bootstrap/css/bootstrap.css",
+		"assets/css/styles-all-minified.css",
+		"assets/icons/fontawesome/fontawesome.css",
+		"assets/icons/linecons/linecons.css",
+		"assets/icons/spinnericon/spinnericon.css"
+      ],
+      "scripts": [
+		"assets/js-core/jquery-core.js",
+		"assets/bootstrap/js/bootstrap.js",
+		"assets/widgets/progressbar/progressbar.js",
+		"assets/widgets/superclick/superclick.js",
+		"assets/widgets/input-switch/inputswitch-alt.js",
+		"assets/widgets/slimscroll/slimscroll.js",
+		"assets/widgets/content-box/contentbox.js",
+		"assets/widgets/overlay/overlay.js",
+		"assets/widgets/datatable/datatable.js",
+		"assets/widgets/datatable/datatable-bootstrap.js",
+		"assets/widgets/datatable/datatable-tabletools.js",
+		"assets/widgets/datatable/datatable-responsive.js",
+		"assets/widgets/jgrowl-notifications/jgrowl.js",
+		"assets/widgets/noty-notifications/noty.js"
+	  ],
+      "environmentSource": "environments/environment.ts",
+      "environments": {
+        "dev": "environments/environment.ts",
+        "prod": "environments/environment.prod.ts"
+      }
+    }
+  ],
+  "e2e": {
+    "protractor": {
+      "config": "./protractor.conf.js"
+    }
+  },
+  "lint": [
+    {
+      "project": "app/tsconfig.app.json",
+      "exclude": "**/node_modules/**"
+    },
+    {
+      "project": "app/tsconfig.spec.json",
+      "exclude": "**/node_modules/**"
+    },
+    {
+      "project": "e2e/tsconfig.e2e.json",
+      "exclude": "**/node_modules/**"
+    }
+  ],
+  "test": {
+    "karma": {
+      "config": "./karma.conf.js"
+    }
+  },
+  "defaults": {
+    "styleExt": "css",
+    "component": {}
+  }
+}

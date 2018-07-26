@@ -1,28 +1,21 @@
 <app-index></app-index>
 <div class="container spacer">
   <div class="panel panel-primary">
-    <div class="panel-heading">Ajouter Organisme d'Accueil</div>
+    <div class="panel-heading">Organisme d'Accueil</div>
     <div class="panel-body">
       <div>
         <mat-form-field>
           <input matInput placeholder="Libellé" [(ngModel)]="orgAccueil.libelleOrg">
         </mat-form-field>
-
         <button  mat-icon-button color="primary" (click)="ajouter()">
           <mat-icon>add_circle</mat-icon></button>
       </div>
-    </div>
-  </div>
-  <div class="panel panel-default">
-    <div class="panel-heading">Afficher Specilalité</div>
-    <div class="panel-body">
       <mat-form-field>
         <input matInput placeholder="Libellé" [(ngModel)]="motCle">
       </mat-form-field>
       <button mat-icon-button (click)="doSearch()">
         <mat-icon>search</mat-icon>
       </button>
-    </div>
     <table class="table table-striped">
       <tr>
         <th>ID</th><th>Libellé</th><th>Modifier</th><th>Supprimer</th>
@@ -39,6 +32,7 @@
           <a class="clickable" (click)="gotopage(i)">{{i}}</a>
         </li>
       </ul>
+    </div>
     </div>
   </div>
 </div>

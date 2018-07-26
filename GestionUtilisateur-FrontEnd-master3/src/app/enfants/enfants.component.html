@@ -1,10 +1,14 @@
+<h3>Modifier Les données de  {{nom}}</h3>
+<div>
 <form #formEnf>
   <mat-form-field>
     <input matInput placeholder="Nom Enfant" type="text" name="nomenf" required [(ngModel)]="enfant.nom">
   </mat-form-field>
   <mat-form-field>
-    <input matInput [matDatepicker]="pickerEn" placeholder="Date de Naissance" name="date_nais" required [(ngModel)]="enfant.date_nais">
-    <mat-datepicker-toggle matSuffix [for]="pickerEn"></mat-datepicker-toggle>
-    <mat-datepicker #pickerEn></mat-datepicker>
+    <input matInput [matDatepicker]="picker" placeholder="Date de Naissance" name="dateenf" [(ngModel)]="enfant.dateNais" [ngModelOptions]="{standalone: true}">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker [(ngModel)]="enfant.dateNais"></mat-datepicker>
   </mat-form-field>
+  <button mat-mini-fab color="black" (click)="ModifierEnfants()"><mat-icon>edit</mat-icon></button>
 </form>
+</div>

@@ -1,29 +1,30 @@
 <app-index></app-index>
 <div class="container spacer">
   <div class="panel panel-primary">
-    <div class="panel-heading">Historique des Congés Personnel</div>
+    <div class="panel-heading">Etats des Congés de {{personnel.prenom+" "+personnel.nom}}</div>
     <div class="panel-body">
-      <mat-form-field>
-        <mat-select placeholder="Personnel" [(value)]="personnel" aria-selected="true">
-          <mat-option *ngFor="let p of personnels" [value]="p">
-            {{p.prenom+"   "+ p.nom }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <button mat-icon-button (click)="doSearch()"><mat-icon>search</mat-icon></button>
-<h3>Historique:</h3>
+  <h3>Etats des Congés de {{personnel.prenom+" "+personnel.nom}}</h3>
 <br>
 <table class="table table-striped">
   <tr>
-    <th>Date Debut</th><th>Date Fin</th><th>Type Congé</th><th>Nombre Jours</th><th>Décision</th>
+    <th>Date Debut</th><th>Date Fin</th><th>Type Congé</th><th>Nombre Jours</th><th>Décision</th><th>Reprise</th><th>Modifier la reprise</th>
   </tr>
   <tr *ngFor="let c of pageConge?.content">
     <td>{{c.dateDebut}}</td>
     <td>{{c.dateFin}}</td>
-    <td>{{c.typeconge.libelle}} </td>
+    <td>{{c.typeconge.libelle}}</td>
     <td>{{c.nbJour}}</td>
     <td>{{c.valide}}</td>
+    <td>{{c.reprise}}</td>
+    <td align="center"><button mat-icon-button (click)="RepriseConge(c)"><mat-icon>alarm_on</mat-icon></button> </td>
   </tr></table>
+  <div class="container">
+    <ul class="nav nav-pills">
+      <li [ngClass]="{'active' :i==currentPage}" *ngFor="let p of pages; let i=index">
+        <a class="clickable" (click)="gotopage(i)">{{i}}</a>
+      </li>
+    </ul>
+  </div>
     </div>
   </div>
 </div>

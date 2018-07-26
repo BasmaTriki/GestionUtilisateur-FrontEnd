@@ -1,0 +1,253 @@
+<app-index></app-index>
+<div class="container spacer">
+<div class="panel panel-info">
+  <div class="panel-heading">Ajouter Enseignant Vacataire</div>
+  <div class="panel-body">
+<mat-accordion>
+      <mat-radio-group name="typeneseig" [(ngModel)]="type">
+          <mat-radio-button  *ngFor="let t of TypeEnseignant" [value]="t.value">{{t.value}}</mat-radio-button>
+        </mat-radio-group>
+<form #fe *ngIf="type=='Enseignant Libre'">
+<mat-expansion-panel>
+<mat-expansion-panel-header>
+  <mat-panel-title>
+    Données Personnelles
+  </mat-panel-title>
+  <mat-panel-description>
+</mat-panel-description>
+</mat-expansion-panel-header>
+<mat-form-field matTooltip="Max 8 caractére" matTooltipPosition="above">
+  <input matInput type="text" name="cin" #input1 maxlength="8" placeholder="CIN"  [(ngModel)]="enseignantLibre.cin" required>
+  <mat-hint align="end">{{input1.value?.length||0}}/8</mat-hint>
+</mat-form-field>
+<mat-form-field>
+  <input matInput placeholder="Nom" type="text" name="nom"  [(ngModel)]="enseignantLibre.nom" required>
+</mat-form-field>
+<mat-form-field>
+  <input matInput placeholder="Prenom" type="text" name="prenom" [(ngModel)]="enseignantLibre.prenom" required>
+</mat-form-field>
+<mat-form-field>
+  <input matInput placeholder="Nom de Pére" type="text" name="nompere" [(ngModel)]="enseignantLibre.nompere" required>
+</mat-form-field>
+<mat-form-field>
+  <input matInput [matDatepicker]="picker" placeholder="Date de Naissance" name="datenais" [(ngModel)]="enseignantLibre.datenaissance" required>
+  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-datepicker #picker></mat-datepicker>
+</mat-form-field>
+<mat-form-field>
+  <input matInput placeholder="Lieu de Naissance" type="text" name="lieu" [(ngModel)]="enseignantLibre.lieuNaissance">
+</mat-form-field><br>
+<mat-radio-group [(ngModel)]="enseignantLibre.sexe" name="sexe">
+  <mat-radio-button value="F">Femme</mat-radio-button>
+  <mat-radio-button value="H">Homme</mat-radio-button>
+</mat-radio-group><br>
+ <mat-form-field>
+  <input matInput placeholder="Téléphone" type="text" name="telephone" [(ngModel)]="enseignantLibre.telephone">
+</mat-form-field>
+<mat-form-field>
+  <input matInput placeholder="Email" type="email" name="email" [(ngModel)]="enseignantLibre.email" required>
+  <!--<mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>-->
+</mat-form-field>
+<mat-form-field>
+  <textarea matInput placeholder="Adresse" type="text" name="adresse" [(ngModel)]="enseignantLibre.adresse" required></textarea>
+</mat-form-field>
+<mat-form-field matTooltip="Max 4 caractére" matTooltipPosition="above">
+  <input matInput #input2 maxlength="4" placeholder="Code Postal" type="text" name="code" [(ngModel)]="enseignantLibre.codepostal">
+  <mat-hint align="end">{{input2.value?.length||0}}/4</mat-hint>
+</mat-form-field>
+   <mat-form-field hintLabel="Max 20 caractére">
+  <input matInput #input3 maxlength="20" placeholder="RIB" type="text" name="rib" [(ngModel)]="enseignantLibre.rib" required>
+  <mat-hint align="end">{{input3.value?.length||0}}/20</mat-hint>
+</mat-form-field><br>
+<mat-radio-group [(ngModel)]="enseignantLibre.etatCivil" name="etatcivil" #etatcivil>
+  <mat-radio-button value="Celibataire">Célibataire</mat-radio-button>
+  <mat-radio-button value="Marie">Marié(e)</mat-radio-button>
+  <mat-radio-button value="Divorce">Divorcé(e)</mat-radio-button>
+</mat-radio-group>
+</mat-expansion-panel>
+<mat-expansion-panel>
+<mat-expansion-panel-header>
+  <mat-panel-title>
+    Données Professionnelles
+  </mat-panel-title>
+  <mat-panel-description>
+   {{enseignantLibre.prenom+"   "+enseignantLibre.nom}}
+  </mat-panel-description>
+</mat-expansion-panel-header>
+<mat-form-field>
+  <mat-select placeholder="Spécialité" [(value)]="specialite" required>
+    <mat-option *ngFor="let s of specialites" [value]="s">
+      {{ s.libelleSp }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+<mat-form-field>
+  <mat-select placeholder="Departement" [(value)]="departement" required>
+    <mat-option *ngFor="let d of departements" [value]="d">
+      {{ d.nomDep }}
+    </mat-option>
+  </mat-select>
+</mat-form-field><br>
+    <label>Importer le pratique...</label>
+    <input type="file" name="pratique" (change)="onFileSelected($event)"><br><br>
+    <label>Importer la déclaration d'honneur...</label>
+    <input type="file" name="declaration" (change)="onFileSelected($event)"><br><br>
+<mat-radio-group [(ngModel)]="enseignantLibre.etat" required name="etat">
+  <mat-radio-button value="true">Actif</mat-radio-button>
+  <mat-radio-button value="false">Non-Actif</mat-radio-button>
+</mat-radio-group>
+</mat-expansion-panel>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Diplômes
+        </mat-panel-title>
+        <mat-panel-description>
+          {{enseignantLibre.prenom+"   "+enseignantLibre.nom}}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <form *ngFor="let d of diplomepers; let i=index">
+      <mat-form-field>
+        <mat-select placeholder="Diplôme" [(value)]="d.diplome">
+          <mat-option *ngFor="let dip of diplomes" [value]="dip">
+            {{ dip.titre }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput [matDatepicker]="dip" placeholder="Date de Diplôme" name="datedip" [(ngModel)]="d.date">
+        <mat-datepicker-toggle matSuffix [for]="dip"></mat-datepicker-toggle>
+        <mat-datepicker #dip></mat-datepicker>
+      </mat-form-field>
+     </form>
+      <button mat-mini-fab color="primary" (click)="ajouterDiplome()"><mat-icon>add</mat-icon></button>
+    </mat-expansion-panel>
+  <button mat-raised-button color="primary" (click)="Enregistrer()">Ajouter</button>
+  <button mat-raised-button color="primary" (click)="fe.reset()">Annuler</button>
+  </form>
+  <!--Ajouter Enseignant Fonctionnaire de l'etat -->
+  <form #fenF *ngIf="type=='Enseignant Fonctionnaire'">
+      <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Données Personnelles
+        </mat-panel-title>
+        <mat-panel-description>
+      </mat-panel-description>
+      </mat-expansion-panel-header>
+      <mat-form-field matTooltip="Max 8 caractére" matTooltipPosition="above">
+        <input matInput type="text" name="cin" #input1 maxlength="8" placeholder="CIN"  [(ngModel)]="enseignantFonct.cin" required>
+        <mat-hint align="end">{{input1.value?.length||0}}/8</mat-hint>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Nom" type="text" name="nom"  [(ngModel)]="enseignantFonct.nom" required>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Prenom" type="text" name="prenom" [(ngModel)]="enseignantFonct.prenom" required>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Nom de Pére" type="text" name="nompere" [(ngModel)]="enseignantFonct.nompere" required>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput [matDatepicker]="picker" placeholder="Date de Naissance" name="datenais" [(ngModel)]="enseignantFonct.datenaissance" required>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Lieu de Naissance" type="text" name="lieu" [(ngModel)]="enseignantFonct.lieuNaissance">
+      </mat-form-field><br>
+      <mat-radio-group [(ngModel)]="enseignantFonct.sexe" name="sexe">
+        <mat-radio-button value="F">Femme</mat-radio-button>
+        <mat-radio-button value="H">Homme</mat-radio-button>
+      </mat-radio-group><br>
+       <mat-form-field>
+        <input matInput placeholder="Téléphone" type="text" name="telephone" [(ngModel)]="enseignantFonct.telephone">
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Email" type="email" name="email" [(ngModel)]="enseignantFonct.email" required>
+        <!--<mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>-->
+      </mat-form-field>
+      <mat-form-field>
+        <textarea matInput placeholder="Adresse" type="text" name="adresse" [(ngModel)]="enseignantFonct.adresse" required></textarea>
+      </mat-form-field>
+      <mat-form-field matTooltip="Max 4 caractére" matTooltipPosition="above">
+        <input matInput #input2 maxlength="4" placeholder="Code Postal" type="text" name="code" [(ngModel)]="enseignantFonct.codepostal">
+        <mat-hint align="end">{{input2.value?.length||0}}/4</mat-hint>
+      </mat-form-field>
+         <mat-form-field hintLabel="Max 20 caractére">
+        <input matInput #input3 maxlength="20" placeholder="RIB" type="text" name="rib" [(ngModel)]="enseignantFonct.rib" required>
+        <mat-hint align="end">{{input3.value?.length||0}}/20</mat-hint>
+      </mat-form-field><br>
+      <mat-radio-group [(ngModel)]="enseignantFonct.etatCivil" name="etatcivil" #etatcivil>
+        <mat-radio-button value="Celibataire">Célibataire</mat-radio-button>
+        <mat-radio-button value="Marie">Marié(e)</mat-radio-button>
+        <mat-radio-button value="Divorce">Divorcé(e)</mat-radio-button>
+      </mat-radio-group>
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Données Professionnelles
+        </mat-panel-title>
+        <mat-panel-description>
+         {{enseignantFonct.prenom+"   "+enseignantFonct.nom}}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <mat-form-field>
+        <mat-select placeholder="Spécialité" [(value)]="specialite" required>
+          <mat-option *ngFor="let s of specialites" [value]="s">
+            {{ s.libelleSp }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-select placeholder="Departement" [(value)]="departement" required>
+          <mat-option *ngFor="let d of departements" [value]="d">
+            {{ d.nomDep }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+          <mat-form-field>
+          <input matInput #input3 type="number" placeholder="Nomber Max d'heures" name="maxheure" [(ngModel)]="enseignantFonct.rib" required>
+          </mat-form-field><br>  
+              <label>Importer l'autorisation...</label>
+              <input type="file" name="declaration" (change)="onFileSelected($event)">
+            <br>
+      <mat-radio-group [(ngModel)]="enseignantFonct.etat" required name="etat">
+        <mat-radio-button value="true">Actif</mat-radio-button>
+        <mat-radio-button value="false">Non-Actif</mat-radio-button>
+      </mat-radio-group>
+      </mat-expansion-panel>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Diplômes
+              </mat-panel-title>
+              <mat-panel-description>
+                {{enseignantFonct.prenom+"   "+enseignantFonct.nom}}
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <form *ngFor="let d of diplomepers; let i=index">
+            <mat-form-field>
+              <mat-select placeholder="Diplôme" [(value)]="d.diplome">
+                <mat-option *ngFor="let dip of diplomes" [value]="dip">
+                  {{ dip.titre }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field>
+              <input matInput [matDatepicker]="dip" placeholder="Date de Diplôme" name="datedip" [(ngModel)]="d.date">
+              <mat-datepicker-toggle matSuffix [for]="dip"></mat-datepicker-toggle>
+              <mat-datepicker #dip></mat-datepicker>
+            </mat-form-field>
+           </form>
+            <button mat-mini-fab color="primary" (click)="ajouterDiplome()"><mat-icon>add</mat-icon></button>
+          </mat-expansion-panel>
+        <button mat-raised-button color="primary" (click)="EnregistrerFonct()">Ajouter</button>
+        <button mat-raised-button color="primary" (click)="fenF.reset()">Annuler</button>
+        </form>
+        <!--end of ajouter enseignant fonctionnaire de l'etat-->
+  </mat-accordion>
+</div>
+</div>
+</div>

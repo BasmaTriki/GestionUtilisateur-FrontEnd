@@ -12,7 +12,10 @@ export class AGradeServices {
     return this.http.get("http://localhost:8080/chercherAGrade?mc="+motcle+"&size=" + size + "&page=" + page)
       .map(resp => resp.json())
   }
-
+  getAGradesPersonnel(motcle:number) {
+    return this.http.get("http://localhost:8080/chercherPersonnelGrade?mc="+motcle)
+      .map(resp => resp.json())
+  }
   getAGrade(id_agrade: number) {
     return this.http.get("http://localhost:8080/AGrade/" + id_agrade)
       .map(resp => resp.json())

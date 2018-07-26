@@ -36,10 +36,15 @@ export class CongeServices{
     return this.http.get("http://localhost:8080/chercherCongesP?mc="+motCle+"&size="+size+"&page="+page)
       .map(resp=>resp.json())
   }
-  getNbJourParType(matricule:number,libelle:string,page:number,size:number)
+  getNbJourParType(matricule:number,idCg:number)
   {
-    return this.http.get("http://localhost:8080/chercherNbJourParType?mc="+matricule+"&mt="+libelle+"&page="+page+"&size="+size)
+    return this.http.get("http://localhost:8080/chercherNbJourParType?mc="+matricule+"&mt="+idCg)
+      .map(resp=>resp.json());
+  }
+  getCongesAutoriser(motCle:boolean,motcle1:string,page:number,size:number)
+  {
+    return this.http.get("http://localhost:8080/chercherCongeAutoriser?mc="+motCle+"&mp="+motcle1+"&size="+size+"&page="+page)
       .map(resp=>resp.json())
   }
-
+  
 }

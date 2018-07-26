@@ -58,7 +58,11 @@
               <mat-hint align="end">{{input2.value?.length||0}}/4</mat-hint>
             </mat-form-field>
             <mat-form-field>
-              <input matInput placeholder="Spécialité" type="text" name="specialite" [(ngModel)]="enseignantP.specialite" required>
+              <mat-select placeholder="Spécialité" [(ngModel)]="specialite" name="spec" required>
+                <mat-option *ngFor="let s of specialites" [ngValue]="s">
+                  {{ s.libelleSp }}
+                </mat-option>
+              </mat-select>
             </mat-form-field>
             <mat-form-field hintLabel="Max 20 caractére">
               <input matInput #input3 maxlength="20" placeholder="RIB" type="text" name="rib" [(ngModel)]="enseignantP.rib" required>
@@ -75,15 +79,41 @@
             <mat-form-field *ngIf="enseignantP.etatCivil=='Marie'">
               <input matInput placeholder="Profession Conjoint" type="text" name="profConj" [(ngModel)]="enseignantP.profConjoint">
             </mat-form-field>
-            <form *ngIf="enseignantP.etatCivil=='Marie'||enseignantP.etatCivil=='Divorce'">
-              <mat-form-field>
-                <input matInput placeholder="Nomber d'enfant" type="text" name="nbenfant" #nbenf [(ngModel)]="nbEnfant">
-              </mat-form-field>
-              <div *ngFor="let e of enfants">
-                <app-enfants></app-enfants>
-              </div>
-            </form>
           </mat-expansion-panel>
+        <mat-expansion-panel *ngIf="enseignantP.etatCivil=='Marie'||enseignantP.etatCivil=='Divorce'">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Enfants
+            </mat-panel-title>
+            <mat-panel-description>
+              {{enseignantP.prenom+"   "+enseignantP.nom}}
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <div *ngIf="enfants!=null">
+          <form #enfant *ngFor="let enf of enfants; let i=index">
+            <mat-form-field>
+              <input matInput placeholder="Nom Enfant" type="text" name="nomenf" required [(ngModel)]="enf.nom" disabled>
+            </mat-form-field>
+            <mat-form-field>
+              <input matInput [matDatepicker]="En" placeholder="Date de Naissance" name="nomdate" required [(ngModel)]="enf.dateNais" disabled>
+              <mat-datepicker-toggle matSuffix [for]="En"></mat-datepicker-toggle>
+              <mat-datepicker #En></mat-datepicker>
+            </mat-form-field>
+            <button mat-mini-fab color="black" (click)="ModifierEnfants(enf)"><mat-icon>edit</mat-icon></button>
+          </form>
+        </div>
+          <form *ngFor="let e of newEnfants; let i=index">
+            <mat-form-field>
+              <input matInput placeholder="Nom Enfant" type="text" name="nomenf" required [(ngModel)]="e.nom" >
+            </mat-form-field>
+            <mat-form-field>
+              <input matInput [matDatepicker]="pickerEn" placeholder="Date de Naissance" name="datenf" [(ngModel)]="e.dateNais">
+              <mat-datepicker-toggle matSuffix [for]="pickerEn"></mat-datepicker-toggle>
+              <mat-datepicker #pickerEn></mat-datepicker>
+            </mat-form-field>
+          </form>
+          <button mat-mini-fab color="primary" (click)="ajouterEnfants()"><mat-icon>add</mat-icon></button>
+        </mat-expansion-panel>
           <mat-expansion-panel>
             <mat-expansion-panel-header>
               <mat-panel-title>
@@ -115,12 +145,88 @@
             <mat-form-field>
               <input matInput [matDatepicker]="picker4" placeholder="Date de Titularisation" [(ngModel)]="enseignantP.dateTitularisation" name="dateT">
               <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
-              <mat-datepicker #picker4></mat-datepicker>
+              <mat-datepicker #picker4 [(ngModel)]="enseignantP.dateTitularisation"></mat-datepicker>
             </mat-form-field><br>
-            <mat-radio-group [(ngModel)]="enseignantP.etat" required name="etat">
-              <mat-radio-button value="actif">Actif</mat-radio-button>
-              <mat-radio-button value="non-actif">Non-Actif</mat-radio-button>
+            <mat-radio-group [(ngModel)]="enseignantP.etat" name="etatens">
+              <mat-radio-button value="true">Actif</mat-radio-button>
+              <mat-radio-button value="false">Non-Actif</mat-radio-button>
             </mat-radio-group>
+          </mat-expansion-panel>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Diplômes
+              </mat-panel-title>
+              <mat-panel-description>
+                {{enseignantP.prenom+"   "+enseignantP.nom}}
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <div *ngIf="diplomepers!=null">
+            <form *ngFor="let d of diplomepers; let i=index">
+                <mat-form-field>
+                    <input matInput placeholder="Diplôme" type="text" name="dip" required [(ngModel)]="d.diplome.titre" disabled>
+                  </mat-form-field>
+            <mat-form-field>
+              <input matInput [matDatepicker]="dip" placeholder="Date de Diplôme" name="datedip" [(ngModel)]="d.date" disabled>
+              <mat-datepicker-toggle matSuffix [for]="dip"></mat-datepicker-toggle>
+              <mat-datepicker #dip></mat-datepicker>
+            </mat-form-field>
+            <button mat-mini-fab color="black" (click)="ModifierDiplome(d)"><mat-icon>edit</mat-icon></button> 
+           </form>
+          </div>
+           <form *ngFor="let d of newdiplomes; let i=index">
+              <mat-form-field >
+                  <mat-select placeholder="Diplôme" [(value)]="d.diplome">
+                    <mat-option *ngFor="let dip of diplomes" [value]="dip">
+                      {{ dip.titre }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <mat-form-field>
+                  <input matInput [matDatepicker]="dip" placeholder="Date de Diplôme" name="datedip" [(ngModel)]="d.date">
+                  <mat-datepicker-toggle matSuffix [for]="dip"></mat-datepicker-toggle>
+                  <mat-datepicker #dip></mat-datepicker>
+                </mat-form-field>
+           </form>
+            <button mat-mini-fab color="primary" (click)="ajouterDiplome()"><mat-icon>add</mat-icon></button>
+          </mat-expansion-panel>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Grade
+              </mat-panel-title>
+              <mat-panel-description>
+                {{enseignantP.prenom+"   "+enseignantP.nom}}
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <div *ngIf="AGrades!=null">
+            <form *ngFor="let g of AGrades; let i=index">
+                <mat-form-field>
+                    <input matInput placeholder="Grade" type="text" name="grad" required [(ngModel)]="g.grade.titre" disabled>
+                  </mat-form-field>
+            <mat-form-field>
+              <input matInput [matDatepicker]="picker1" placeholder="Date de Grade" name="dategrade" [(ngModel)]="g.dateEvaluation" disabled>
+              <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+              <mat-datepicker #picker1></mat-datepicker>
+            </mat-form-field>
+            <button mat-mini-fab color="black" (click)="ModifierGrade(g)"><mat-icon>edit</mat-icon></button>
+          </form>
+        </div>
+          <form *ngFor="let g of NewAGrades; let i=index">
+              <mat-form-field>
+                <mat-select placeholder="Grade" [(value)]="g.grade">
+                  <mat-option *ngFor="let grd of grades" [value]="grd">
+                    {{ grd.titre }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field>
+                <input matInput [matDatepicker]="picker1" placeholder="Date de Grade" name="dategrade" [(ngModel)]="g.dateEvaluation">
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+              </mat-form-field>
+            </form>
+            <button mat-mini-fab color="primary" (click)="ajouterGrade()"><mat-icon>add</mat-icon></button>
           </mat-expansion-panel>
           <button mat-raised-button color="primary" (click)=" updateEnseignant()">Modifier</button>
           <button mat-raised-button color="primary" (click)="fe.reset()">Annuler</button>

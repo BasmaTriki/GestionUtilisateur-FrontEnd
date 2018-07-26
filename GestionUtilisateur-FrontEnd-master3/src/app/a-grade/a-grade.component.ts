@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import {Personnel} from "../../model/model.personnel";
 import {Http} from "@angular/http";
 import {Router} from "@angular/router";
@@ -7,6 +7,7 @@ import {AGradeServices} from "../../services/agrade.services";
 import {Grade} from "../../model/model.grade";
 import {GradeServices} from "../../services/grade.services";
 import {AGrade} from "../../model/model.agrade";
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
 
 @Component({
@@ -15,35 +16,37 @@ import {AGrade} from "../../model/model.agrade";
   styleUrls: ['./a-grade.component.css']
 })
 export class AGradeComponent implements OnInit {
-  pageAgrade: any;
-  motCle: string = "";
-  currentPage: number = 0;
-  size: number = 5;
-  pages: Array<number>;
-  personnel: Personnel = new Personnel();
-  personnels: Array<Personnel> = new Array<Personnel>();
   grades: Array<Grade> = new Array<Grade>();
   grade: Grade = new Grade();
-  grade1: Grade = new Grade();
   agrade: AGrade = new AGrade();
   agrades: Array<AGrade> = new Array<AGrade>();
+  idGrade:number;
 
-  constructor(private gradeServices: GradeServices, private agradeService: AGradeServices, public http: Http, private personnelServices: PersonnelServices, public router: Router) {
+  constructor(private gradeServices: GradeServices,
+    public dialogRef: MatDialogRef<AGradeComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any, 
+    private agradeService: AGradeServices, 
+    public http: Http, 
+    private personnelServices: PersonnelServices,
+     public router: Router) {
   }
 
   ngOnInit() {
-    this.AfficherPersonnel();
+    this.idGrade=this.data.num;
     this.chercherGrad();
-    this.chercherAGrad();
+    this.agradeService.getAGrade(this.idGrade)
+    .subscribe(data=>{
+    this.agrade=data;
+    },err=>{
+      console.log(err);
+    })
   }
 
   Enregistrer() {
     this.agrade.grade = this.grade;
-    this.agrade.personnel = this.personnel;
-    this.agradeService.saveAGrade(this.agrade)
+    this.agradeService.updateAGrade(this.agrade)
       .subscribe(data => {
-        alert("Success d'ajout");
-        console.log(data);
+        this.Close();
       }, err => {
         console.log(err);
       });
@@ -70,46 +73,9 @@ export class AGradeComponent implements OnInit {
         console.log(err);
       })
   }
-  AfficherPersonnel() {
-    this.personnelServices.getAllPersonnel()
-      .subscribe(data => {
-        this.personnels = data;
-        console.log(data);
-      }, err => {
-        console.log(err);
-      });
-  }
-  gotopage(i:number)
+  Close()
   {
-    this.currentPage=i;
-    this.doSearch();
+    this.dialogRef.close();
+   
   }
-  doSearch(){
-    this.agradeService.getAGrades(this.grade1.titre,this.currentPage,this.size)
-      .subscribe(data=>{
-        console.log(data);
-        this.pageAgrade=data;
-        this.pages=new Array(data.totalPages);
-      },err=>{
-        console.log(err);
-      })
-  }
-  onEditAgrade(id_agrade: number) {
-    this.router.navigate(['editAgrade', id_agrade]);
-  }
-
-  onDeleteAgrade(ag: AGrade) {
-    let confirm = window.confirm("Etes-vous sûre?");
-    if (confirm == true) {
-      this.agradeService.deleteAGrade(ag.id_agrade)
-        .subscribe(data => {
-          this.pageAgrade.content.splice(
-            this.pageAgrade.content.indexOf(ag), 1
-          );
-        }, err => {
-          console.log(err);
-        })
-    }
-  }
-
 }

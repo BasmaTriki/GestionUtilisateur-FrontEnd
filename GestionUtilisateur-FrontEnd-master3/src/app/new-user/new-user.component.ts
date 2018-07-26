@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {User} from '../../model/model.user';
-import {UsersServices} from '../../services/users.services';
 import {Router} from '@angular/router';
 import {Personnel} from '../../model/model.personnel';
 import {Http} from '@angular/http';
 import {PersonnelServices} from "../../services/personnel.services";
+import { RoleServices } from '../../services/role.services';
+import { Role } from '../../model/model.role';
 
 @Component({
   selector: 'app-new-user',
@@ -12,55 +12,62 @@ import {PersonnelServices} from "../../services/personnel.services";
   styleUrls: ['./new-user.component.css']
 })
 export class NewUserComponent implements OnInit {
-user:User=new User();
 personnel:Personnel=new Personnel();
 personnels:Array<Personnel>=new Array<Personnel>();
+roles:Array<Role>=new Array<Role>();
+role:Role;
+loginU:string="admin";
+motpassU:string="admin";
 hide = true;
-constructor(public http:Http, public userservices:UsersServices, public personnelServices:PersonnelServices, public router:Router)
+constructor(public http:Http, 
+  public personnelServices:PersonnelServices,
+  public router:Router,
+  private roleServices:RoleServices)
 {}
 
   ngOnInit() {
     this.AfficherPersonnel();
-    this.concatination();
+    this.AfficherRole();
   }
   AfficherPersonnel()
   {
-    this.personnelServices.getAllPersonnel()
+    this.personnelServices.getPersonnelsLogin(true)
       .subscribe(data=>{
       this.personnels=data;
+      },err=>{
+        console.log(err);
+      });
+  }
+  AfficherRole()
+  {
+    this.roleServices.allRoles()
+      .subscribe(data=>{
+      this.roles=data;
         console.log(data);
       },err=>{
         console.log(err);
       });
   }
 saveUser(){
-    this.user.personnel=this.personnel;
-    this.user.datecreation=new Date();
-  this.userservices.saveUser(this.user)
+    this.personnel.login=this.loginU;
+    this.personnel.motpasse=this.motpassU;
+    this.personnel.role=this.role;
+    this.personnelServices.updatePersonnel(this.personnel)
     .subscribe(data=>{
       alert("Success d'ajout un utilisateur");
       this.router.navigate(['users']);
-    console.log(data);
     },err=>{
       console.log(err);
     });
 
 }
 concatination()
-{if(this.personnel!=null)
 {
-  this.user.login=this.personnel.prenom+""+this.personnel.matricule;
-  this.user.motpasse=this.personnel.prenom+""+this.personnel.matricule;
-}
-else
+  var  mat= (this.personnel.matricule+"").substr(5,3);
+  if(this.personnel!=null)
 {
-  this.user.login="admin";
-  this.user.motpasse="admin";
+  this.loginU=this.personnel.prenom+mat;
+  this.motpassU=this.personnel.prenom+mat;
 }
-
-}
-annuler()
-{
-
 }
 }
