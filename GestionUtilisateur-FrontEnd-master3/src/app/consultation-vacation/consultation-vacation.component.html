@@ -6,14 +6,14 @@
         <div class="demo-tab-content">
           <table class="table table-striped">
             <tr>
-              <th>CIN</th><th>Nom</th><th>Prenom</th><th>E-mail</th><th>Specialité</th><th align="center">Détails</th>
+              <th>CIN</th><th>Nom</th><th>Prenom</th><th>E-mail</th><th>Specialité</th><th align="center" *ngIf="role=='DirecteurES'">Détails</th><th align="center" *ngIf="role=='AgentGRH'">Détails</th>
             </tr>
             <tr *ngFor="let d of pageDemande?.content">
               <td>{{d.cin}}</td>
               <td>{{d.nom}}</td>
               <td>{{d.prenom}}</td>
               <td>{{d.email}}</td>
-              <td>{{d.specialite.libelleSp}}</td>
+              <td *ngIf="specialite!=null">{{d.specialite.libelleSp}}</td>
               <td> <button mat-icon-button  (click)="Detail(d)" color="primary" ><mat-icon>list_alt</mat-icon></button></td>
             </tr>
           </table>

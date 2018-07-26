@@ -57,6 +57,7 @@ ajouter(){
   this.conge.personnel=this.personnel;
   this.conge.nbJour=this.nbjour;
   this.conge.valide="en-attente";
+  this.conge.dateCreationConge=new Date();
   this.congeServices.saveConge(this.conge)
     .subscribe(data=>{
       alert("Succès d'ajout");

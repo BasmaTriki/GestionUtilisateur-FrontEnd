@@ -20,6 +20,12 @@
 <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
 <mat-datepicker #picker1 [(ngModel)]="conge.dateFin" ngDefaultControl ></mat-datepicker>
 </mat-form-field><br>
+<mat-form-field>
+  <textarea  matInput placeholder="Adresse Congé" type="text" name="adresse" [(ngModel)]="conge.adresseConge" required></textarea>
+</mat-form-field>
+<mat-form-field>
+  <input matInput placeholder="Téléphone Congé" type="text" name="telephone" [(ngModel)]="conge.telephoneConge">
+</mat-form-field>
 <div class="form-group ">
   <label *ngIf="nomberJour" class="control-label">Nombre de jours:</label>
   <div *ngIf="nomberJour" [innerHTML]="nomberJour"></div>

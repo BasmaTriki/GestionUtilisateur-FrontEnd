@@ -18,10 +18,14 @@ export class ConsultationVacationComponent implements OnInit {
   currentPage: number = 0;
   pages: Array<number>;
   size: number = 5;
+  role:string="";
   constructor(private demandeServices:DemandeVacationServices,
     public http: Http,
     public dialog: MatDialog,
-     public router: Router) { }
+     public router: Router) 
+     {
+       this.role=sessionStorage.getItem("role");
+      }
 
   ngOnInit()
   {

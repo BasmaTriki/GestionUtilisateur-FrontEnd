@@ -11,7 +11,7 @@ export class Conge{
   personnel:Personnel=null;
   nbJour:number;
   dateReprise:Date=null;
-  dateConge:Date;
+  dateCreationConge:Date;
   adresseConge:string="";
   telephoneConge:string="";
 }
