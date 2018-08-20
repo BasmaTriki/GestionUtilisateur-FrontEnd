@@ -1,50 +1,51 @@
 <app-index></app-index>
 <div class="container spacer">
-<div class="panel panel-primary">
+<div class="panel panel-default">
   <div class="panel-heading">Ajouter Type Congé</div>
   <div class="panel-body">
+    <div>
     <mat-form-field>
-      <input matInput placeholder="libelle" [(ngModel)]="typeConge.libelle">
-    </mat-form-field>
-    <br>
+      <input matInput placeholder="Libellé" [(ngModel)]="typeConge.libelleType" name="typecongefr">
+    </mat-form-field> <br>
     <mat-form-field>
-      <input matInput placeholder="Nombre de jours" [(ngModel)]="typeConge.nbMaxJrs">
-    </mat-form-field><br>
+        <input matInput placeholder="نوع العطلة" [(ngModel)]="typeConge.libelleTypeAr" name="typecongear">
+      </mat-form-field><br>
+    <mat-form-field> 
+      <input matInput placeholder="Nombre de jours/عدد الأيام" [(ngModel)]="typeConge.nbMaxJrs" name="nbJourfr">
+    </mat-form-field> <br>
     <mat-radio-group [(ngModel)]="typeConge.autorisation" name="autorisation">
-      <mat-label>Autoriser</mat-label>
-      <mat-radio-button value="true">Oui</mat-radio-button>
-      <mat-radio-button value="false">Non</mat-radio-button>
+        <mat-label>Autoriser/التصريح</mat-label>
+      <mat-radio-button [value]="true">Oui/نعم</mat-radio-button>
+      <mat-radio-button [value]="false">Non/لا</mat-radio-button>
     </mat-radio-group><br>
-    <button  mat-raised-button color="primary" (click)="ajouter()">Ajouter</button>
-  </div>
-</div>
-  <div class="panel panel-default">
-    <div class="panel-heading">Afficher Congé</div>
-    <div class="panel-body">
-      <mat-form-field>
-        <input matInput placeholder="Titre" [(ngModel)]="motCle">
-      </mat-form-field>
-      <button mat-icon-button color="" (click)="doSearch()">
-        <mat-icon>search</mat-icon></button>
-      </div>
-      <table class="table table-striped">
+    <button  mat-mini-fab color="primary" (click)="ajouter()"><mat-icon>add</mat-icon></button>
+    <br>
+    <hr>
+    <mat-tab-group class="demo-tab-group">
+        <mat-tab label="Liste des Types Congés">
+          <div class="demo-tab-content">
+            <br>
+      <table class="table table-hover" cellspacing="0">
+        <thead>
         <tr>
-          <th>ID</th><th>Titre</th><th>Autorisation</th><th>Nombre De Jours</th><th>Modifier</th><th>Supprimer</th>
+          <th>ID</th><th>Titre</th><th>نوع العطلة</th><th>Autorisation</th><th>Nombre De Jours</th><th>Modifier</th><th>Supprimer</th>
         </tr>
+      </thead>
+      <tbody>
         <tr *ngFor="let tc of pageTypeConge?.content">
           <td>{{tc.idCg}}</td>
-          <td>{{tc.libelle}}</td>
+          <td>{{tc.libelleType}}</td>
+          <td>{{tc.libelleTypeAr}}</td>
           <td>{{autoriser(tc.autorisation)}}</td>
           <td>{{tc.nbMaxJrs}}</td>
           <td><a (click)="onEditTypeConge(tc.idCg)" class="clickable"><mat-icon>create</mat-icon></a> </td>
           <td><a (click)="onDeleteTypeConge(tc)" class="clickable"> <mat-icon>delete_sweep</mat-icon></a> </td>
-        </tr></table>
-    <div class="container">
-      <ul class="nav nav-pills">
-        <li [ngClass]="{'active' :i==currentPage}" *ngFor="let p of pages; let i=index">
-          <a class="clickable" (click)="gotopage(i)">{{i}}</a>
-        </li>
-      </ul>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</mat-tab>
+</mat-tab-group>
     </div>
     </div>
   </div>

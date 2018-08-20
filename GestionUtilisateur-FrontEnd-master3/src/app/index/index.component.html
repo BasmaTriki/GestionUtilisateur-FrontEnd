@@ -1,5 +1,5 @@
-<div class="main">
   <mat-toolbar role="header">
+      <span><div id="logo"><img class="img-circle profile_img" src="../../assets/images/iset.png"/></div></span>
          <span class="example-fill-remaining-space"></span>
               <div class="nav toggle">
                 <a id="menu_toggle" (click)="toggleClicked($event)"><i fa [icon]="'bars'"></i></a>
@@ -26,7 +26,7 @@
                       <li>
                           <div class="text-center">
                             <a routerLink="/consultationConge">
-                              <strong>Voir Tous</strong>
+                              <strong>{{'navBar.MVoirTous'| translate}}</strong>
                               <i class="fa fa-angle-right"></i>
                             </a>
                           </div>
@@ -39,13 +39,13 @@
                     <span class="fa fa-angle-down"></span>
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">
-                    <li><a routerLink="/profile"><strong>{{nom}}</strong></a></li> 
-                    <li><a routerLink="/profile"> Profile</a></li>
-                    <li><a routerLink="/login"><i class="fa fa-sign-out pull-right"></i> Déconnexion</a></li>
+                    <li><a routerLink="/profile"><strong *ngIf="langu==='fr'">{{nom}}</strong><strong *ngIf="langu==='ar'">{{nomAr}}</strong></a></li> 
+                    <li><a routerLink="/profile"> {{'navBar.Mprofile'| translate}}</a></li>
+                    <li><a routerLink="/login"><i class="fa fa-sign-out pull-right"></i>{{'navBar.Mdeconnexion'| translate}}</a></li>
                   </ul>
                 </li>
               </ul>
        </mat-toolbar>
        <div class="menu"><app-side-bar></app-side-bar></div>
-</div>
+      
 

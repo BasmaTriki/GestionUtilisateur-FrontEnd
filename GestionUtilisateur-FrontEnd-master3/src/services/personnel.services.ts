@@ -12,8 +12,8 @@ getTypePersonnel(motCle:number) {
       .map(resp => resp.json())
   }
 
-  getPersonnel(matricule: number) {
-    return this.http.get("http://localhost:8080/Personnel/" + matricule)
+  getPersonnel(idPers: number) {
+    return this.http.get("http://localhost:8080/Personnel/" +idPers)
       .map(resp => resp.json())
   }
 
@@ -23,12 +23,12 @@ getTypePersonnel(motCle:number) {
   }
 
   updatePersonnel(personnel:Personnel) {
-    return this.http.put("http://localhost:8080/ModifierPersonnel/" + personnel.matricule, personnel)
+    return this.http.put("http://localhost:8080/ModifierPersonnel/" + personnel.idPers, personnel)
       .map(resp => resp.json())
   }
 
-  deletePersonnel(matricule: number) {
-    return this.http.delete("http://localhost:8080/SupprimerPersonnel/" + matricule)
+  deletePersonnel(idPers: number) {
+    return this.http.delete("http://localhost:8080/SupprimerPersonnel/" + idPers)
       .map(resp => resp.json())
   }
   getAllPersonnel()
@@ -42,15 +42,21 @@ getTypePersonnel(motCle:number) {
     return this.http.get("http://localhost:8080/chercherPersonnelLogin?mc="+login+"&mp="+motpasse)
       .map(resp=>resp.json())
   }
-  getPersonnelsLogin(etat:boolean)
+  getPersonnelsLogin(etat:number)
   {
     return this.http.get("http://localhost:8080/chercherPersonnel?mc="+etat)
       .map(resp=>resp.json())
   }
   
-  getPersonnelsActif(login:string, page: number, size: number)
+  getPersonnelsCompte(login:string, page: number, size: number)
   {
     return this.http.get("http://localhost:8080/chercherPersonnelActif?mc="+login+ "&size=" + size + "&page=" + page)
+      .map(resp=>resp.json())
+  }
+  
+  ImprimerAttestation(idPers:number,sexe:string)
+  {
+    return this.http.get("http://localhost:8080/AttestationTravail?mc="+idPers+"&mp="+sexe)
       .map(resp=>resp.json())
   }
 }

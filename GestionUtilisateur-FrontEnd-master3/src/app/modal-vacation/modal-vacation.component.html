@@ -1,5 +1,4 @@
-            
-            <div class="row">
+ <div class="row">
               <div class="col-md-3 col-lg-3 " align="center"> <img alt="User Pic" src="../../assets/images/user_pic.png" class="img-circle img-responsive"> </div>
               <div class=" col-md-9 col-lg-9 "> 
                 <table class="table table-user-information">
@@ -36,20 +35,34 @@
                     </tr>
                     <tr>
                         <td>Specialité</td>
-                        <td>{{demandeVacation.specialite.libelleSp}}
+                        <td *ngIf="demandeVacation.specialite!=null">{{demandeVacation.specialite.libelleSp}}
                         </td>
+                        <td *ngIf="demandeVacation.specialite==null">{{demandeVacation.specialite}}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                        </td>
+                        <td align="right">
+                            <button mat-mini-fab color="primary" (click)="AjouterAnnee()"><mat-icon>add</mat-icon></button>
+                          </td>
                       </tr>
                   </tbody>
                 </table>
-                
+                <div *ngIf="type"><label>Année Universitaire:</label>
+                  <br>
+                <input type="number" name="anneeDebut" placeholder="Année Debut:" [(ngModel)]="anneeUniv.anneeDebut"><br>
+               <input type="number" name="anneeFin" placeholder="Année Fin:" [(ngModel)]="anneeUniv.anneeFin">
+                </div><br>
                 <button  class="btn btn-primary"(click)="Accepter()">Accepter Demande</button>
                 <button class="btn btn-warning" (click)="Refuser()">Refuser Demande</button>
               </div>
                <div class="panel-footer">
                       <a data-original-title="Broadcast Message" data-toggle="tooltip" type="button" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-envelope"></i></a>
-                      <span class="pull-right">
+                      <a data-original-title="Remove this user" (click)="Close()" data-toggle="tooltip" type="button" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
+                      <!-- <span class="pull-right">
                           <a data-original-title="Remove this user" (click)="Close()" data-toggle="tooltip" type="button" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
-                      </span>
+                      </span> -->
                   </div>
         </div>
  

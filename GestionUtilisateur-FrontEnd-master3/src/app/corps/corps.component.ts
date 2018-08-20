@@ -1,9 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import {Corps} from "../../model/model.corps";
 import {Router} from "@angular/router";
 import {CorpsServices} from "../../services/corps.services";
 import {Http} from "@angular/http";
-
+import * as $ from 'jquery';
+import 'datatables.net';
+import 'datatables.net-bs4';
+import { HttpClient } from '../../../node_modules/@angular/common/http';
 @Component({
   selector: 'app-corps',
   templateUrl: './corps.component.html',
@@ -14,45 +17,40 @@ export class CorpsComponent implements OnInit {
   motCle:string="";
   currentPage:number=0;
   pages:Array<number>;
-  size:number=5;
+  size:number=100;
   corps:Corps=new Corps();
   corpss:Array<Corps>=new Array<Corps>();
-  constructor(private corpsServices:CorpsServices,public http:Http,public router:Router) { }
+  dataTable: any;
+  constructor(private corpsServices:CorpsServices,
+    private chRef: ChangeDetectorRef, 
+    private http: HttpClient,
+    public router:Router) { }
 
   ngOnInit() {
-    this.chercher();
+    this.doSearch();
   }
   ajouter(){
     this.corpsServices.saveCorps(this.corps)
       .subscribe(data=>{
-        alert("Success d'ajout");
-        console.log(data);
+        alert("Success d'ajouter corps");
+        this.doSearch();
       },err=>{
         console.log(err);
       });
   }
   doSearch(){
     this.corpsServices.getCorpss(this.motCle,this.currentPage,this.size)
-      .subscribe(data=>{
-        console.log(data);
-        this.corpss=data;
-        this.pages=new Array(data.totalPages);
-      },err=>{
-        console.log(err);
-      })
-  }
-  chercher()
-  {
-    this.corpsServices.allCorpss()
-      .subscribe(data=>{
-        this.corpss=data;
+    .subscribe((data: any[]) => {
         this.pageCorps=data;
-        this.pages=new Array(data.totalPages);
-        console.log(data);
+        this.chRef.detectChanges();
+        // Now you can use jQuery DataTables :
+        const table: any = $('table');
+        this.dataTable = table.DataTable();
       },err=>{
         console.log(err);
       })
   }
+
   gotopage(i:number)
   {
     this.currentPage=i;

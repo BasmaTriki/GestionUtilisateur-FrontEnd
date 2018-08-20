@@ -1,0 +1,22 @@
+<div class="demo-tab-content">
+<table class="table table-hover" cellspacing="0">
+    <thead>
+<tr>
+  <th>ID</th> <th>Matricule</th><th>CIN</th><th>Nom</th><th>Prenom</th><th>Telephone</th><th>E-mail</th><th>Modifier</th><th>Détails</th>
+</tr>
+</thead>
+<tbody>
+<tr *ngFor="let e of pageAdministratif?.content">
+  <td>{{e.idPers}}</td>
+  <td>{{e.matricule}}</td>
+  <td>{{e.cin}}</td>
+  <td>{{e.nom}}</td>
+  <td>{{e.prenom}}</td>
+  <td>{{e.telephone}}</td>
+  <td>{{e.email}}</td>
+  <td><a (click)="onEditAdministratif(e.idPers)" class="clickable"><mat-icon>create</mat-icon></a> </td>
+  <td><a (click)="onDetailsAdministratif(e.idPers)" class="clickable"><mat-icon >list_alt</mat-icon></a> </td>
+</tr>
+</tbody>
+</table>
+</div>  

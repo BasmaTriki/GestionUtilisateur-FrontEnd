@@ -1,6 +1,9 @@
 ///<reference path="../../../node_modules/@angular/core/src/metadata/directives.d.ts"/>
 import { Component, OnInit } from '@angular/core';
 import * as $ from 'jquery';
+import { CongeMensuelComponent } from '../conge-mensuel/conge-mensuel.component';
+import { MatDialog } from '@angular/material';
+import { TranslateService } from '../../../node_modules/@ngx-translate/core';
 
 @Component({
   selector: 'app-side-bar',
@@ -16,19 +19,23 @@ private $LEFT_COL;
 private $RIGHT_COL;
 private $NAV_MENU;
 private $FOOTER;
-messages=
-[
-{value:'Ajouter Personnel'},
-{value:'Consulter Liste des Personnels'}
-]
 role:string;
 matricule:number;
-  constructor() { }
+lang:string;
+nomAr:string;
+  constructor(public dialog: MatDialog,
+    private translate: TranslateService) 
+    {
+    this.lang=sessionStorage.getItem("lang");
+    translate.use(this.lang);
+     }
 
   ngOnInit() {
     this.nom=sessionStorage.getItem('nom');
     this.role=sessionStorage.getItem('role');
     this.matricule=Number(sessionStorage.getItem('idUser'));
+    this.nomAr=sessionStorage.getItem('nomAr');
+    
   }
   anchorClicked(event: MouseEvent)
   {
@@ -122,4 +129,8 @@ matricule:number;
 
       this.$RIGHT_COL.css('min-height', contentHeight);
   };
+  congeMois(type:string)
+  {
+    let dialogRef = this.dialog.open(CongeMensuelComponent, {data:{name:type}});
+  }
 }

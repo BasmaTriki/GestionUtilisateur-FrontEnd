@@ -1,9 +1,8 @@
 import {Semestre} from "./model.semestre";
 
-export class Anneeuniversitaire
+export class AnneeUniversitaire
 {
   id:number;
   anneeDebut:number;
   anneeFin:number;
-  semestres:Array<Semestre>=new Array<Semestre>();
 }

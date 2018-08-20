@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import {Router} from '@angular/router';
 import {Http} from '@angular/http';
 import {PosteAdministrative} from '../../model/model.posteAdministrative';
 import {PosteAdministrativeServices} from '../../services/posteAdministrative.services';
-import {Grade} from '../../model/model.grade';
-
+import * as $ from 'jquery';
+import 'datatables.net';
+import 'datatables.net-bs4';
+import { HttpClient } from '../../../node_modules/@angular/common/http';
 
 @Component({
   selector: 'app-poste-administrative',
@@ -16,18 +18,23 @@ export class PosteAdministrativeComponent implements OnInit {
   motCle:string="";
   currentPage:number=0;
   pages:Array<number>;
-  size:number=5;
+  size:number=1000;
   poste:PosteAdministrative=new PosteAdministrative();
   postes:Array<PosteAdministrative>=new Array<PosteAdministrative>();
-  constructor(private posteServices:PosteAdministrativeServices,public http:Http,public router:Router) { }
+  dataTable: any;
+  constructor(private posteServices:PosteAdministrativeServices,
+    private chRef: ChangeDetectorRef, 
+    private http: HttpClient,
+    public router:Router) { }
 
   ngOnInit() {
-    this.chercher();
+    this.doSearch();
   }
   ajouter(){
     this.posteServices.savePoste(this.poste)
       .subscribe(data=>{
-        alert("Success d'ajout");
+        alert("Success d'ajout poste Administratif");
+        this.doSearch();
         console.log(data);
       },err=>{
         console.log(err);
@@ -35,21 +42,12 @@ export class PosteAdministrativeComponent implements OnInit {
   }
   doSearch(){
     this.posteServices.getPostes(this.motCle,this.currentPage,this.size)
-      .subscribe(data=>{
-        console.log(data);
-        this.postes=data;
-        this.pages=new Array(data.totalPages);
-      },err=>{
-        console.log(err);
-      })
-  }
-  chercher()
-  {
-    this.posteServices.getAllPostes()
-      .subscribe(data=>{
-        this.postes=data;
-        this.pages=new Array(data.totalPages);
-        console.log(data);
+    .subscribe((data: any[]) => {
+      this.pagePoste=data;
+      this.chRef.detectChanges();
+      // Now you can use jQuery DataTables :
+      const table: any = $('table');
+      this.dataTable = table.DataTable();
       },err=>{
         console.log(err);
       })

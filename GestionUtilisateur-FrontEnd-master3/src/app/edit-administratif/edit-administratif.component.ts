@@ -8,6 +8,8 @@ import { ServiceServices } from '../../services/service.services';
 import { EnfantServices } from '../../services/enfant.services';
 import { EnfantsComponent } from '../enfants/enfants.component';
 import { MatDialog } from '@angular/material';
+import { Etat } from '../../model/model.etat';
+import { EtatServices } from '../../services/etat.services';
 
 @Component({
   selector: 'app-edit-administratif',
@@ -15,25 +17,28 @@ import { MatDialog } from '@angular/material';
   styleUrls: ['./edit-administratif.component.css']
 })
 export class EditAdministratifComponent implements OnInit {
-matricule:number;
+idPers:number;
 administratif:Administratif=new Administratif();
 enfants:Array<Enfant>=new Array<Enfant>();
 newEnfants:Array<Enfant>=new Array<Enfant>();
 enfant:Enfant=new Enfant();
 services:Array<Service>=new Array<Service>();
 service:Service=new Service();
+etat:Etat=new Etat();
+  etats:Array<Etat>=new Array<Etat>();
   constructor(public activatedRoute:ActivatedRoute,
     public administratifService:AdministratifServices,
     public router:Router,
     public dialog: MatDialog,
+    private etatServices:EtatServices,
     private serviceServices:ServiceServices,
     private enfantService:EnfantServices) 
     {
-      this.matricule=activatedRoute.snapshot.params['matricule'];
+      this.idPers=activatedRoute.snapshot.params['idPers'];
      }
 
   ngOnInit() {
-    this.administratifService.getAdministratif(this.matricule)
+    this.administratifService.getAdministratif(this.idPers)
     .subscribe(data=> {
       this.administratif = data;
       this.chercherEnfant(data);
@@ -41,10 +46,22 @@ service:Service=new Service();
     console.log(err);
     })
     this.chercherService();
+    this.chercherEtats();
+  }
+  chercherEtats()
+  {
+    this.etatServices.getAllEtats()
+      .subscribe(data=>{
+        this.etats=data;
+        console.log(data);
+      },err=>{
+        console.log(err);
+      })
   }
   updateAdmin()
   {
     this.administratif.service=this.service;
+    this.administratif.etat=this.etat;
     this.administratifService.updateAdministratif(this.administratif)
       .subscribe(data=>{
         alert("Success de Mise à jour");
@@ -75,16 +92,24 @@ service:Service=new Service();
     this.chercherEnfant(this.administratif);
   }
   EnregistrerEnfant(a:Administratif) {
-    for(let e of this.newEnfants)
-    {e.personnel=a;
-      this.enfantService.saveEnfant(e)
-        .subscribe(data => {
-          console.log("Success d'ajout enfant");
-          console.log(data);
-        }, err => {
-          console.log(err);
-        });
+    if(a.etatCivil=="Celibataire")
+    {
+      return;
     }
+    else
+    {
+      for(let e of this.newEnfants)
+      {e.personnel=a;
+        this.enfantService.saveEnfant(e)
+          .subscribe(data => {
+            console.log("Success d'ajout enfant");
+            console.log(data);
+          }, err => {
+            console.log(err);
+          });
+      }
+    }
+    
   }
   chercherService()
   {

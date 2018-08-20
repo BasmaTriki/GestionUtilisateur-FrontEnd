@@ -7,6 +7,7 @@ import {EnseignantPermanentServices} from "../../services/enseignantpermanent.se
 import { AdministratifServices } from '../../services/administratif.services';
 import { PersonnelServices } from '../../services/personnel.services';
 import {NotificationsService} from 'angular4-notify';
+import { TranslateService } from '../../../node_modules/@ngx-translate/core';
 
 @Component({
   selector: 'app-login',
@@ -28,25 +29,25 @@ export class LoginComponent implements OnInit {
               public administratifServices:AdministratifServices,
               public personnelServices:PersonnelServices,
               public router:Router,
+              private translate: TranslateService,
               private notificationsService: NotificationsService) { }
 
   ngOnInit() {
+  }
+  switchLanguage(Language:string)
+  {
+    this.translate.use(Language);
+    sessionStorage.setItem("lang",Language);
   }
   doSearch(){
     
     this.personnelService.getPersonnelLogin(this.login,this.motpasse)
       .subscribe(data=>{
-        this.personnel=data;
-        console.log(this.personnel);
-        console.log(this.personnel.prenom+" "+this.personnel.nom);
-        
-      // this.TypePersonnel(this.user.personnel)
-     // this.isEnseignantP(this.personnel);
-      //this.isAdmin(this.personnel);
-      this.idUser=this.personnel.matricule;
-        sessionStorage.setItem('type',this.type);
-       sessionStorage.setItem('idUser',this.idUser+"");
+        this.personnel=data; 
+        console.log(this.personnel.idPers);
+       sessionStorage.setItem('idUser',this.personnel.idPers+"");
        sessionStorage.setItem('nom',this.personnel.prenom+" "+this.personnel.nom);
+       sessionStorage.setItem('nomAr',this.personnel.prenomAr+" "+this.personnel.nomAr);
        sessionStorage.setItem('role',this.personnel.role.type);
        this.router.navigate(['index']);
       },err=>{
@@ -57,7 +58,7 @@ export class LoginComponent implements OnInit {
   chercheUser(){
     this.doSearch();
   }
-  TypePersonnel(p:Personnel)
+ /*  TypePersonnel(p:Personnel)
   {    
     this.personnelServices.getTypePersonnel(p.matricule)
     .subscribe(data=>{
@@ -90,5 +91,5 @@ export class LoginComponent implements OnInit {
       })
       if(this.personnel!=null)
       this.type="enseignant";
-  }
+  } */
 }

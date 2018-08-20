@@ -57,6 +57,7 @@ ajouter(){
   this.conge.personnel=this.personnel;
   this.conge.nbJour=this.nbjour;
   this.conge.valide="en-attente";
+  this.conge.valideAr="في الإنتظار";
   this.conge.dateCreationConge=new Date();
   this.congeServices.saveConge(this.conge)
     .subscribe(data=>{
@@ -64,7 +65,7 @@ ajouter(){
       console.log(data);
       this.personnel.conges.push(data);
       this.personnelServices.updatePersonnel(this.personnel);
-      if(this.typeconge.libelle=="Maladie")
+      if(this.typeconge.libelleType=="Maladie")
       {
         this.upload(data.idCong);
       }

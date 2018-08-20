@@ -2,7 +2,8 @@
 <div class="container spacer">
     <div class="panel panel-info">
         <div class="panel-heading">
-          <h3 class="panel-title">{{enseignantP.prenom +" "+enseignantP.nom}}</h3>
+          <h3 class="panel-title" *ngIf="lang==='fr'">{{nom}}</h3>
+          <h3 class="panel-title" *ngIf="lang==='ar'">{{nomAr}}</h3>
         </div>
         <div class="panel-body">
     <div class="row"  *ngIf='mode==0'>
@@ -10,7 +11,7 @@
     <div class=" col-md-9 col-lg-9"> 
         <table class="table table-user-information">
           <tbody>
-            <tr>
+            <tr *ngIf="lang==='fr'">
               <td>
                   Nom et Prenom :
               </td>
@@ -18,15 +19,31 @@
                   {{enseignantP.prenom +" "+enseignantP.nom}}
                 </td>
             </tr>
-            <tr>
+                <tr *ngIf="lang==='ar'">
+                <td>
+                    {{enseignantP.prenomAr +" "+enseignantP.nomAr}}
+                </td>
+                <td>
+                   :الإسم و اللقب
+                  </td>
+            </tr>
+            <tr  *ngIf="lang==='fr'">
             <td>
                 Date de Naissance: 
             </td>
             <td>
                 {{enseignantP.datenaissance|date:'dd/MM/yyyy'}} 
               </td>
+              </tr>
+              <tr *ngIf="lang==='ar'">
+              <td>
+                    {{enseignantP.datenaissance|date:'yyyy/MM/dd'}} 
+                  </td>
+              <td>
+                    :تاريخ الولادة
+            </td>
           </tr>
-          <tr>
+          <tr *ngIf="lang==='fr'">
             <td>
                 Lieu de Naissance:
             </td>
@@ -34,7 +51,15 @@
                 {{enseignantP.lieuNaissance}}
               </td>
           </tr>
-          <tr>
+          <tr *ngIf="lang==='ar'">
+                <td>
+                        {{enseignantP.lieuNaissanceAr}} 
+                </td>
+                <td>
+                    :مكان الولادة
+                  </td>
+              </tr>
+          <tr *ngIf="lang==='fr'">
             <td>
                 Adresse:
             </td>
@@ -42,37 +67,58 @@
                 {{enseignantP.adresse}}
               </td>
           </tr>
+          <tr *ngIf="lang==='ar'">
+                <td>
+                        {{enseignantP.adresseAr}} 
+                </td>
+                <td>
+                  : العنوان الشخصي
+                  </td>
+              </tr>
           <tr>
-            <td>
+            <td *ngIf="lang==='fr'">
                 Téléphone:
             </td>
             <td>
                 {{enseignantP.telephone}}
               </td>
+              <td *ngIf="lang==='ar'">
+                  : الهاتف
+                </td>
           </tr>
+          
           <tr>
-              <td>
+              <td *ngIf="lang==='fr'">
                 E-mail:
               </td>
               <td>
                 {{enseignantP.email}}
                 </td>
+                <td *ngIf="lang==='ar'">
+                        : البريد الإلكتروني
+                      </td>
             </tr>
             <tr>
-                <td>
+                <td *ngIf="lang==='fr'">
                     Login:
                 </td>
                 <td>
                     {{enseignantP.login}}
                   </td>
+                  <td *ngIf="lang==='ar'">
+                        :إسم المستخدم
+                      </td>
               </tr>
               <tr>
-                <td>
+                <td *ngIf="lang==='fr'">
                     Mot de Passe:
                 </td>
                 <td>
                     {{enseignantP.motpasse}}
                   </td>
+                  <td *ngIf="lang==='ar'">
+                        : كلمة السر
+                      </td>
               </tr>
               <tr>
                 <td>
@@ -88,7 +134,7 @@
             <div class="row">
                     <div class="col-md-3 col-lg-3 " align="center"> <img alt="User Pic" src="../../assets/images/img.jpg" class="img-circle img-responsive"> </div>
                     <div class=" col-md-9 col-lg-9 "> 
-            
+            <div *ngIf="lang==='fr'">
                 <mat-form-field>
                 <input matInput placeholder="Nom" type="text" name="nnom"  [(ngModel)]="enseignantP.nom" required>
                 </mat-form-field>
@@ -122,6 +168,44 @@
                                 <input matInput placeholder="Mot de Passe" type="text" name="motpass" [(ngModel)]="enseignantP.motpasse">
                               </mat-form-field>
                         </div>
+      <!--Formulaire Arabe-->
+        <div *ngIf="lang==='ar'">
+                <mat-form-field>
+        <input matInput placeholder="الإسم" type="text" name="nprenom"  [(ngModel)]="enseignantP.prenomAr" required>
+         </mat-form-field><br>
+        <mat-form-field>
+        <input matInput placeholder="اللقب" type="text" name="nnom"  [(ngModel)]="enseignantP.nomAr" required>
+        </mat-form-field>
+        <br>
+   
+    <mat-form-field>
+    <input matInput [matDatepicker]="picker" placeholder="تاريخ الولادة" [(ngModel)]="enseignantP.datenaissance" required>
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker [(ngModel)]="enseignantP.datenaissance"></mat-datepicker>
+    </mat-form-field><br>
+    <mat-form-field>
+        <input matInput placeholder="مكان الولادة" type="text" name="nlieuNais" [(ngModel)]="enseignantP.lieuNaissanceAr" required>
+      </mat-form-field><br>
+    <mat-form-field>
+        <textarea matInput placeholder="العنوان" type="text" name="nadresse" [(ngModel)]="enseignantP.adresseAr" required></textarea>
+      </mat-form-field><br>
+    <mat-form-field>
+    <input matInput placeholder="الهاتف" type="text" name="ntelephone" [(ngModel)]="enseignantP.telephone">
+    </mat-form-field><br>
+    <mat-form-field>
+    <input matInput placeholder="البريد الإلكتروني" type="email" name="nemail" [(ngModel)]="enseignantP.email" required>
+            <!--<mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>-->
+    </mat-form-field><br>
+
+   <mat-form-field>
+ <input matInput placeholder="إسم المستخدم" type="text" name="log" [(ngModel)]="enseignantP.login">
+</mat-form-field><br>
+<mat-form-field>
+<input matInput placeholder="كلمة السر" type="text" name="motpass" [(ngModel)]="enseignantP.motpasse">
+</mat-form-field>
+</div>
+</div>
+      <!--end Formulaire Arabe-->                  
                    <table> <tbody>
                        <tr>
                       <td align="right">

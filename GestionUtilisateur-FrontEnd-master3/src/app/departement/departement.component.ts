@@ -1,9 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import {Departement} from "../../model/model.departement";
 import {Router} from "@angular/router";
 import {Http} from "@angular/http";
 import {DepartementServices} from "../../services/departement.services";
-
+import * as $ from 'jquery';
+import 'datatables.net';
+import 'datatables.net-bs4';
+import { HttpClient } from '../../../node_modules/@angular/common/http';
 @Component({
   selector: 'app-departement',
   templateUrl: './departement.component.html',
@@ -14,18 +17,23 @@ export class DepartementComponent implements OnInit {
   motCle:string="";
   currentPage:number=0;
   pages:Array<number>;
-  size:number=5;
+  size:number=100;
   departement:Departement=new Departement();
   departements:Array<Departement>=new Array<Departement>();
-  constructor(private departementServices:DepartementServices,public http:Http,public router:Router) { }
+  dataTable: any;
+  constructor(private departementServices:DepartementServices,
+    private chRef: ChangeDetectorRef, 
+    private http: HttpClient,
+    public router:Router) { }
 
   ngOnInit() {
-    this.chercher();
+    this.doSearch();
   }
   ajouter(){
     this.departementServices.saveDepartement(this.departement)
       .subscribe(data=>{
-        alert("Success d'ajout");
+        alert("Success d'ajout departement");
+        this.doSearch();
         console.log(data);
       },err=>{
         console.log(err);
@@ -33,21 +41,12 @@ export class DepartementComponent implements OnInit {
   }
   doSearch(){
     this.departementServices.getDepartements(this.motCle,this.currentPage,this.size)
-      .subscribe(data=>{
-        console.log(data);
-        this.departements=data;
-        this.pages=new Array(data.totalPages);
-      },err=>{
-        console.log(err);
-      })
-  }
-  chercher()
-  {
-    this.departementServices.allDepartements()
-      .subscribe(data=>{
-        this.departements=data;
-        this.pages=new Array(data.totalPages);
-        console.log(data);
+    .subscribe((data: any[]) => {
+      this.pageDepartement=data;
+      this.chRef.detectChanges();
+      // Now you can use jQuery DataTables :
+      const table: any = $('table');
+      this.dataTable = table.DataTable();
       },err=>{
         console.log(err);
       })

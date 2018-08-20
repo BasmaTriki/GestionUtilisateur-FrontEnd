@@ -1,9 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import {TypeConge} from '../../model/model.typeConge';
 import {TypeCongeServices} from '../../services/typeConge.services';
 import {Router} from '@angular/router';
 import {Http} from '@angular/http';
-
+import * as $ from 'jquery';
+import 'datatables.net';
+import 'datatables.net-bs4';
+import { HttpClient } from '../../../node_modules/@angular/common/http';
 
 @Component({
   selector: 'app-type-conge',
@@ -15,18 +18,23 @@ export class TypeCongeComponent implements OnInit {
   motCle:string="";
   currentPage:number=0;
   pages:Array<number>;
-  size:number=5;
+  size:number=100;
   typeConge:TypeConge=new TypeConge();
   typeConges:Array<TypeConge>=new Array<TypeConge>();
-  constructor(private typeCongeServices:TypeCongeServices,public http:Http,public router:Router) { }
+  dataTable: any;
+  constructor(private typeCongeServices:TypeCongeServices,
+    private chRef: ChangeDetectorRef, 
+    private http: HttpClient,
+    public router:Router) { }
 
   ngOnInit() {
-    this.chercher();
+    this.doSearch();
   }
   ajouter(){
     this.typeCongeServices.saveTypeConge(this.typeConge)
       .subscribe(data=>{
-        alert("Succès d'ajout");
+        alert("Succès d'ajout type de congé");
+        this.doSearch();
         console.log(data);
       },err=>{
         console.log(err);
@@ -34,21 +42,12 @@ export class TypeCongeComponent implements OnInit {
   }
   doSearch(){
     this.typeCongeServices.getTypeConges(this.motCle,this.currentPage,this.size)
-      .subscribe(data=>{
-        console.log(data);
-        this.pageTypeConge=data;
-        this.pages=new Array(data.totalPages);
-      },err=>{
-        console.log(err);
-      })
-  }
-  chercher()
-  {
-    this.typeCongeServices.allTypesConges()
-      .subscribe(data=>{
-        this.typeConges=data;
-        this.pages=new Array(data.totalPages);
-        console.log(data);
+    .subscribe((data: any[]) => {
+      this.pageTypeConge=data;
+      this.chRef.detectChanges();
+      // Now you can use jQuery DataTables :
+      const table: any = $('table');
+      this.dataTable = table.DataTable();
       },err=>{
         console.log(err);
       })

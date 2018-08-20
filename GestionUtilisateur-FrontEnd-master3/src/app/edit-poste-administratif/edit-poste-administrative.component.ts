@@ -11,7 +11,6 @@ import {PosteAdministrativeServices} from '../../services/posteAdministrative.se
 export class EditPosteAdministrativeComponent implements OnInit {
   posteAdmin: PosteAdministrative = new PosteAdministrative();
   id: number = 0;
-
   constructor(public activatedRoute: ActivatedRoute,
               public posteAdminService: PosteAdministrativeServices,
               public router: Router) {
@@ -33,7 +32,7 @@ export class EditPosteAdministrativeComponent implements OnInit {
       .subscribe(data => {
         console.log(data);
         alert("Mise à jour effectuée");
-        this.router.navigate(['poste']);
+        this.router.navigate(['posteAdmin']);
       }, err => {
         console.log(err);
         alert("Probléme");

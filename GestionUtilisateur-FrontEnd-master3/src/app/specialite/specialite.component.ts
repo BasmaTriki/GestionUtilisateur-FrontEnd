@@ -1,11 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import {Grade} from "../../model/model.grade";
 import {Router} from "@angular/router";
 import {GradeServices} from "../../services/grade.services";
 import {Http} from "@angular/http";
 import {Specialite} from "../../model/model.specialite";
 import {SpecialiteServices} from "../../services/specialite.services";
-
+import * as $ from 'jquery';
+import 'datatables.net';
+import 'datatables.net-bs4';
+import { HttpClient } from '../../../node_modules/@angular/common/http';
 @Component({
   selector: 'app-specialite',
   templateUrl: './specialite.component.html',
@@ -16,28 +19,35 @@ export class SpecialiteComponent implements OnInit {
   motCle:string="";
   currentPage:number=0;
   pages:Array<number>;
-  size:number=5;
+  size:number=100;
   specialite:Specialite=new Specialite();
   specialites:Array<Specialite>=new Array<Specialite>();
-  constructor(private specialiteServices:SpecialiteServices,public http:Http,public router:Router) { }
+  dataTable: any;
+  constructor(private specialiteServices:SpecialiteServices,
+    private chRef: ChangeDetectorRef, 
+    private http: HttpClient,
+    public router:Router) { }
 
   ngOnInit() {
+    this.doSearch();
   }
   ajouter(){
     this.specialiteServices.saveSpecialite(this.specialite)
       .subscribe(data=>{
         alert("Success d'ajout");
-        console.log(data);
+        this.doSearch();
       },err=>{
         console.log(err);
       });
   }
   doSearch(){
     this.specialiteServices.getSpecialites(this.motCle,this.currentPage,this.size)
-      .subscribe(data=>{
-        console.log(data);
-        this.pageSpecialite=data;
-        this.pages=new Array(data.totalPages);
+    .subscribe((data: any[]) => {
+      this.pageSpecialite=data;
+      this.chRef.detectChanges();
+      // Now you can use jQuery DataTables :
+      const table: any = $('table');
+      this.dataTable = table.DataTable(); 
       },err=>{
         console.log(err);
       })

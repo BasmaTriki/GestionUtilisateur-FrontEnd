@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef,ViewChild, OnDestroy } from '@angular/core';
 import {EnseignantPermanentServices} from "../../services/enseignantpermanent.services";
 import {Http} from "@angular/http";
 import {Router} from "@angular/router";
@@ -6,114 +6,72 @@ import {EnseignantPermanent} from "../../model/model.enseignantpermanent";
 import { AdministratifServices } from '../../services/administratif.services';
 import { Departement } from '../../model/model.departement';
 import { DepartementServices } from '../../services/departement.services';
-import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 import { Subject } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Subscription } from 'rxjs/Subscription';
+import * as $ from 'jquery';
+import 'datatables.net';
+import 'datatables.net-bs4';
+import { PersonnelServices } from '../../services/personnel.services';
 
 @Component({
   selector: 'app-liste-enseignant-permanent',
   templateUrl: './liste-enseignant-permanent.component.html',
   styleUrls: ['./liste-enseignant-permanent.component.css']
 })
-export class ListeEnseignantPermanentComponent implements OnDestroy,OnInit {
-  dtOptions: DataTables.Settings = {};
-  dtTrigger: Subject<any> = new Subject();
+export class ListeEnseignantPermanentComponent implements OnInit {
   enseignantPs:Array<EnseignantPermanent> = new Array<EnseignantPermanent>();
   pages: Array<number>;
   pageEnseignant:any;
   motCle:string="";
   currentPage:number=0;
-  size:number=5;
+  size:number=2000;
   departement:Departement=new Departement();
   departements:Array<Departement>=new Array<Departement>();
   motCle1:string="";
   currentPageA:number=0;
   pagesA:Array<number>;
   pageAdministratif:any;
-  displayedColumns = ['matricule', 'cin', 'nom', 'prenom'];
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
-  dataSource:MatTableDataSource<EnseignantPermanent>;
+  dataTable: any;
+  lang:string;
   constructor(private departementServices:DepartementServices,
     private adminService:AdministratifServices,
-    private enseingnantpermanentService:EnseignantPermanentServices, 
-    public http: Http, public router: Router) 
+    private enseingnantpermanentService:EnseignantPermanentServices,
+    private personnelServices:PersonnelServices,
+    private chRef: ChangeDetectorRef, 
+    private http: HttpClient, public router: Router) 
     { 
-      this.dataSource = new MatTableDataSource();
+     // this.dataSource = new MatTableDataSource();
+     this.lang=sessionStorage.getItem("lang");
     }
 
   ngOnInit() {
    this.chercherDepartement();
    this.doSearchEng();
-   this.doSearchAdmin();
-   this.dtOptions = {
-    pagingType: 'full_numbers',
-    pageLength: 5
-  };
-  }
-  ngOnDestroy(): void {
-    this.dtTrigger.unsubscribe();
-  }
-  gotopageD(i:number)
-  {
-    this.currentPage=i;
-    this.doSearchD();
-  }
-  Imprimer()
-  {
-    this.enseingnantpermanentService.ImprimerEnseignantPermanent(this.departement.idDep)
-    .subscribe(data=>{
-      console.log(data);
-    },err=>{
-      console.log(err);
-    })
   }
   doSearchEng()
   { 
      this.enseingnantpermanentService.getEnseignantPermanents(this.motCle,this.currentPage,this.size)
-      .subscribe(data=>{
-        this.pageEnseignant=data;
-        this.enseignantPs=data;
-        this.dataSource.data=data;
-        this.pages=new Array(data.totalPages);
-        this.dtTrigger.next();
-        return data.items;
+        .subscribe((data: any[]) => {
+          this.pageEnseignant = data;
+          console.log(data);
+          // You'll have to wait that changeDetection occurs and projects data into 
+          // the HTML template, you can ask Angular to that for you ;-)
+          this.chRef.detectChanges();
+          // Now you can use jQuery DataTables :
+          const table: any = $('table');
+          this.dataTable = table.DataTable();   
       },err=>{
         console.log(err);
       })
-      //this.dataSource.paginator = this.paginator;
-      //this.dataSource.sort = this.sort;
+  }
+  onEditEnseignant(idPers:number){
+    this.router.navigate(['EditEnseignantP',idPers]);
+  }
+  onDetailsEnseignant(idPers:number) {
+    this.router.navigate(['DetailsEnseignantP',idPers]);
+  }
 
-  }
-  doSearchAdmin()
-  {
-  this.adminService.getAdministratifs(this.motCle1,this.currentPageA,this.size)
-  .subscribe(data=>{
-    this.pageAdministratif=data;
-    this.pagesA=new Array(data.totalPages);
-    console.log(data);
-  },err=>{
-    console.log(err);
-  })
-}
-  gotopage(i:number)
-  {
-    this.currentPage=i;
-    this.doSearchEng();
-  }
-  gotopage1(i:number)
-  {
-    this.currentPageA=i;
-    this.doSearchAdmin();
-  }
-  onEditEnseignant(matricule:number){
-    this.router.navigate(['EditEnseignantP',matricule]);
-  }
-  onDetailsEnseignant(matricule:number) {
-    this.router.navigate(['DetailsEnseignantP',matricule]);
-  }
-  onEditAdministratif(matricule:number){
-    this.router.navigate(['EditAdministratif',matricule]);
-  }
   chercherDepartement()
   {
     this.departementServices.allDepartements()
@@ -125,31 +83,13 @@ export class ListeEnseignantPermanentComponent implements OnDestroy,OnInit {
         console.log(err);
       })
   }
-  doSearchD()
+  Imprimer(idPers:number,sexe:string)
   {
-    this.enseingnantpermanentService.getEnseignantPermanentDepartement(this.departement.idDep,this.currentPage,this.size)
-    .subscribe(data=>{
-      this.pageEnseignant=data;
-      this.pages=new Array(data.totalPages);
-      console.log(data);
-    },err=>{
-      console.log(err);
-    })
-  }
-  applyFilter(filterValue: string) {
-    filterValue = filterValue.trim(); // Remove whitespace
-    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
-    this.dataSource.filter = filterValue;
+this.personnelServices.ImprimerAttestation(idPers,sexe)
+.subscribe(data=>{
+  console.log(data);
+},err=>{
+  console.log(err);
+})
   }
 }
-export interface Element {
-  Matricule: number;
-  cin:number;
-  nom:string;
-  prenom:string;
-  adresse:string;
-  telephone:string;
-  email:string;
-  departement:Departement;
-}
-

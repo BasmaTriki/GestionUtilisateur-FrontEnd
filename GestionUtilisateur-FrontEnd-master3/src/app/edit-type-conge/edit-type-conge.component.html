@@ -1,24 +1,27 @@
 <app-index></app-index>
 <div class="container spacer">
-<div class="panel panel-primary">
+<div class="panel panel-default">
   <div class="panel-heading">Modifier Type Congé</div>
   <div class="panel-body">
     <div>
       <mat-form-field>
-        <input matInput placeholder="Identifiant" [(ngModel)]="typeConge.idCg">
+        <input matInput placeholder="ID" [(ngModel)]="typeConge.idCg" disabled>
       </mat-form-field><br>
       <mat-form-field>
-        <input matInput placeholder="Titre" [(ngModel)]="typeConge.libelle">
+        <input matInput placeholder="Libellé" [(ngModel)]="typeConge.libelleType">
       </mat-form-field><br>
       <mat-form-field>
-        <input matInput placeholder="Nombre de jours" [(ngModel)]="typeConge.nbMaxJrs">
-      </mat-form-field>
+          <input matInput placeholder="نوع العطلة" [(ngModel)]="typeConge.libelleTypeAr">
+        </mat-form-field><br>
+      <mat-form-field>
+        <input matInput placeholder="Nombre de jours/عدد الأيام" [(ngModel)]="typeConge.nbMaxJrs">
+      </mat-form-field><br>
       <mat-radio-group [(ngModel)]="typeConge.autorisation" name="autorisation">
-        <mat-label>Autoriser</mat-label>
-        <mat-radio-button value="true">Oui</mat-radio-button>
-        <mat-radio-button value="false">Non</mat-radio-button>
-      </mat-radio-group>
-          <button mat-icon-button color="primary" (click)="updateTypeConge()"><mat-icon>border_color</mat-icon></button>
+        <mat-label> Autoriser/تصريح </mat-label>
+        <mat-radio-button [value]="true"> Oui / نعم </mat-radio-button>
+        <mat-radio-button [value]="false"> Non / لا </mat-radio-button>
+      </mat-radio-group><br>
+          <button mat-mini-fab color="primary" (click)="updateTypeConge()"><mat-icon>create</mat-icon></button>
         </div>
     </div>
   </div>

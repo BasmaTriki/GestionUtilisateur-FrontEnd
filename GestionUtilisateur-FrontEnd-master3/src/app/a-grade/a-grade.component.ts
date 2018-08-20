@@ -26,8 +26,7 @@ export class AGradeComponent implements OnInit {
     public dialogRef: MatDialogRef<AGradeComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any, 
     private agradeService: AGradeServices, 
-    public http: Http, 
-    private personnelServices: PersonnelServices,
+    public http: Http,
      public router: Router) {
   }
 

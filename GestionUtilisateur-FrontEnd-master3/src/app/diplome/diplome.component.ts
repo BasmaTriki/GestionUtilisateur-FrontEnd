@@ -1,9 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import {DiplomeServices} from '../../services/diplome.services';
 import {Diplome} from '../../model/model.diplome';
 import {Http} from '@angular/http';
 import {Router} from '@angular/router';
-
+import * as $ from 'jquery';
+import 'datatables.net';
+import 'datatables.net-bs4';
+import { HttpClient } from '../../../node_modules/@angular/common/http';
 @Component({
   selector: 'app-diplome',
   templateUrl: './diplome.component.html',
@@ -14,29 +17,38 @@ export class DiplomeComponent implements OnInit {
   motCle:string="";
   currentPage:number=0;
   pages:Array<number>;
-  size:number=5;
+  size:number=100;
   diplome:Diplome=new Diplome();
   diplomes:Array<Diplome>=new Array<Diplome>();
-  constructor(private diplomeServices:DiplomeServices,public http:Http,public router:Router) { }
+  dataTable: any;
+  constructor(private diplomeServices:DiplomeServices,
+    private chRef: ChangeDetectorRef, 
+    private http: HttpClient,
+    public router:Router) { }
 
   ngOnInit() {
-    this.chercher();
+    this.doSearch();
   }
 ajouter(){
   this.diplomeServices.saveDiplome(this.diplome)
     .subscribe(data=>{
-      alert("Success d'ajout");
+      alert("Success d'ajout diplôme");
+      this.doSearch();
       console.log(data);
     },err=>{
       console.log(err);
     });
+   
 }
   doSearch(){
     this.diplomeServices.getDiplomes(this.motCle,this.currentPage,this.size)
-      .subscribe(data=>{
-        console.log(data);
-        this.pageDiplome=data;
-        this.pages=new Array(data.totalPages);
+    .subscribe((data: any[]) => {
+      this.pageDiplome=data;
+      this.chRef.detectChanges();
+      // Now you can use jQuery DataTables :
+      const table: any = $('table');
+      this.dataTable = table.DataTable(); 
+      console.log(data);
       },err=>{
         console.log(err);
       })

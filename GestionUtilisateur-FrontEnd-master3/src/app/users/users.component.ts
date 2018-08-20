@@ -1,14 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ChangeDetectorRef } from '@angular/core';
 import {Http} from '@angular/http';
 import "rxjs/add/operator/map";
 import {Router} from '@angular/router';
 import { Personnel } from '../../model/model.personnel';
 import { PersonnelServices } from '../../services/personnel.services';
-//var $  = require( 'jquery' );
-//var dt = require('datatables.net' )( window, $ );
-import dt from 'datatables.net-dt';
-import 'datatables.net-dt/css/jquery.datatables.css';
-declare var $;
+import { HttpClient } from '@angular/common/http';
+import { Subscription } from 'rxjs/Subscription';
+import * as $ from 'jquery';
+import 'datatables.net';
+import 'datatables.net-bs4';
+import { TranslateService } from '../../../node_modules/@ngx-translate/core';
 
 
 @Component({
@@ -21,26 +22,33 @@ pageUsers:any;
 motCle:string="";
 currentPage:number=0;
 pages:Array<number>;
-size:number=5;
-
-  personnels:Array<Personnel>=new Array<Personnel>();
-  constructor(public http:Http, public personnelServices:PersonnelServices, public router:Router) {
-   
-  }
+size:number=1000;
+dataTable: any;
+lang:string;
+  constructor(private chRef: ChangeDetectorRef,
+    private http: HttpClient, 
+    public personnelServices:PersonnelServices,
+     public router:Router,
+     translate: TranslateService) 
+     {
+     this.lang=sessionStorage.getItem("lang");
+     translate.use(this.lang);
+      }
 
   ngOnInit() {
     this.doSearch();
-    //$(document).ready( function () {
-     // $('#users').DataTable();
-  //} );
     
   }
   doSearch(){
-    this.personnelServices.getPersonnelsActif(this.motCle,this.currentPage,this.size)
-      .subscribe(data=>{
-        console.log(data);
+    this.personnelServices.getPersonnelsCompte(this.motCle,this.currentPage,this.size)
+      .subscribe((data: any[]) => {
         this.pageUsers=data;
-        this.pages=new Array(data.totalPages);
+        // You'll have to wait that changeDetection occurs and projects data into 
+        // the HTML template, you can ask Angular to that for you ;-)
+        this.chRef.detectChanges();
+        // Now you can use jQuery DataTables :
+        const table: any = $('table');
+        this.dataTable = table.DataTable();
       },err=>{
         console.log(err);
       })
@@ -61,16 +69,16 @@ this.router.navigate(['editUser',idUser]);
     let confirm=window.confirm("Etes-vous sûre?");
     if(confirm==true)
     {
-      p.login="";
-      p.motpasse="";
+      p.login=null;
+      p.motpasse=null;
       this.personnelServices.updatePersonnel(p)
         .subscribe(data=> {
-          this.pageUsers.content.splice(
-            this.pageUsers.content.indexOf(p),1
+        this.pageUsers.content.splice(
+        this.pageUsers.content.indexOf(p),1
           );
         },err=>{
           console.log(err);
         })
-    }
+    } 
   }
 }

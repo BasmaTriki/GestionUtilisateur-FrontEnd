@@ -1,6 +1,7 @@
 export class TypeConge{
   idCg:number=0;
-  libelle:string="";
+  libelleType:string="";
+  libelleTypeAr:string="";
   nbMaxJrs:number=0;
   autorisation:boolean;
 }

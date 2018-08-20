@@ -14,8 +14,8 @@ export class AdministratifServices {
     return this.http.get("http://localhost:8080/chercherAdministratifPrenom?mp="+motcle1+"&size=" + size + "&page=" + page)
       .map(resp => resp.json())
   }
-  getAdministratif(matricule: number) {
-    return this.http.get("http://localhost:8080/Administratif/" +matricule)
+  getAdministratif(idPers: number) {
+    return this.http.get("http://localhost:8080/Administratif/"+idPers)
       .map(resp => resp.json())
   }
 
@@ -25,12 +25,12 @@ export class AdministratifServices {
   }
 
   updateAdministratif(administratif: Administratif) {
-    return this.http.put("http://localhost:8080/ModifierAdministratif/" + administratif.matricule, administratif)
+    return this.http.put("http://localhost:8080/ModifierAdministratif/" + administratif.idPers, administratif)
       .map(resp => resp.json())
   }
 
-  deleteAdministratif(matricule: number) {
-    return this.http.delete("http://localhost:8080/SupprimerAdministratif/"+matricule)
+  deleteAdministratif(idPers: number) {
+    return this.http.delete("http://localhost:8080/SupprimerAdministratif/"+idPers)
       .map(resp => resp.json())
   }
   getAllAdministratifs() {

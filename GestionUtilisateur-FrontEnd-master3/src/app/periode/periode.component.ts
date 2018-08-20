@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import {Personnel} from '../../model/model.personnel';
 import {PosteAdministrative} from '../../model/model.posteAdministrative';
 import {Periode} from '../../model/model.periode';
@@ -7,6 +7,7 @@ import {Http} from '@angular/http';
 import {Router} from '@angular/router';
 import {PosteAdministrativeServices} from '../../services/posteAdministrative.services';
 import {PeriodeServices} from '../../services/periode.services';
+import { MatDialogRef, MAT_DIALOG_DATA } from '../../../node_modules/@angular/material';
 
 @Component({
   selector: 'app-periode',
@@ -25,91 +26,54 @@ export class PeriodeComponent implements OnInit {
   personnel:Personnel;
   periodes: Array<Periode> = new Array<Periode>();
   posteAdmin:PosteAdministrative;
-
-  constructor(private periodeServices:PeriodeServices,private posteServices: PosteAdministrativeServices, private personnelServices: PersonnelServices, public http: Http, public router: Router) {
+  id_periode:number;
+  constructor(private periodeServices:PeriodeServices,
+    private posteServices: PosteAdministrativeServices,
+    public dialogRef: MatDialogRef<PeriodeComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any, 
+     public http: Http, public router: Router) 
+     {
+       this.id_periode=data.num;
   }
 
   ngOnInit() {
-    this.AfficherPersonnel();
-    this.chercher();
+    this.doSearch();
     this.chercherPosteAdmin();
   }
 
-  ajouter() {
-    this.periode.personnel=this.personnel;
+  ModifierPoste() {
     this.periode.posteAdmin=this.posteAdmin;
-    this.periodeServices.savePeriode(this.periode)
+    this.periodeServices.updatePeriode(this.periode)
       .subscribe(data => {
-        alert("Success d'ajout");
         console.log(data);
       }, err => {
         console.log(err);
       });
+      this.Close();
   }
-  AfficherPersonnel()
-  {
-    this.personnelServices.getAllPersonnel()
-      .subscribe(data=>{
-        this.personnels=data;
-        console.log(data);
-      },err=>{
-        console.log(err);
-      });
-  }
+
   chercherPosteAdmin()
   {
     this.posteServices.getAllPostes()
       .subscribe(data=>{
         this.postes=data;
-        this.pages=new Array(data.totalPages);
         console.log(data);
       },err=>{
         console.log(err);
       })
   }
   doSearch() {
-    this.periodeServices.getPeriodes(this.motCle, this.currentPage, this.size)
+    this.periodeServices.getPeriode(this.id_periode)
       .subscribe(data => {
         console.log(data);
-        this.periodes = data;
-        this.pages = new Array(data.totalPages);
+        this.periode = data;
       }, err => {
         console.log(err);
       })
   }
-
-  chercher() {
-    this.periodeServices.getAllPeriodes()
-      .subscribe(data => {
-        this.periodes = data;
-        this.pages = new Array(data.totalPages);
-        console.log(data);
-      }, err => {
-        console.log(err);
-      })
-  }
-
-  gotopage(i: number) {
-    this.currentPage = i;
-    this.doSearch();
-  }
-
-  onEditPeriode(id_periode: number) {
-    this.router.navigate(['editPeriode', id_periode]);
-  }
-
-  onDeletePeriode(p: Periode) {
-    let confirm = window.confirm("Etes-vous sûre?");
-    if (confirm == true) {
-      this.periodeServices.deletePeriode(p.id_periode)
-        .subscribe(data => {
-          this.pagePeriode.content.splice(
-            this.pagePeriode.content.indexOf(p), 1
-          );
-          console.log(data);
-        }, err => {
-          console.log(err);
-        })
-    }
+  Close()
+  {
+    this.dialogRef.close();
+   
   }
 }

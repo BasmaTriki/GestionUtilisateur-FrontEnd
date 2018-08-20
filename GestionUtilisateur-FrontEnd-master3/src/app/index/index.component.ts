@@ -4,6 +4,7 @@ import {Personnel} from "../../model/model.personnel";
 import * as $ from 'jquery';
 import { CongeServices } from '../../services/conge.services';
 import { DemandeVacationServices } from '../../services/demandeVacation.services';
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-index',
   templateUrl: './index.component.html',
@@ -20,17 +21,20 @@ export class IndexComponent implements OnInit {
   size: number = 5;
   pageConge: any;
   role:string;
+  langu:string;
+  nomAr:String;
   constructor(private congeServices: CongeServices,
     public activatedRoute:ActivatedRoute,
     private demandeServices:DemandeVacationServices,
+    private translate: TranslateService,
     public router:Router)
   {
     if(sessionStorage.getItem('nom')!=null)
     {
     this.nom=sessionStorage.getItem('nom');
-    console.log(this.nom);
     this.type=sessionStorage.getItem('type');
     this.role=sessionStorage.getItem('role');
+    this.nomAr=sessionStorage.getItem('nomAr');
     }
   }
   ngOnInit() {
@@ -38,7 +42,7 @@ export class IndexComponent implements OnInit {
     {
       this.doSearch();
     }
-    if(this.role=="AgentAdmin")
+    if(this.role=="AgentGRH")
     {
       this.doSearchDemandeAccepter();
     }

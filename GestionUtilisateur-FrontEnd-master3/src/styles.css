@@ -4,6 +4,9 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import 'https://fonts.googleapis.com/icon?family=Material+Icons';
 @import './assets/css/fonts.css';
+@import "~bootstrap/dist/css/bootstrap.css";
+@import "~datatables.net-bs4/css/dataTables.bootstrap4.css";
+
 .spacer{
   margin-top:20px;
 }
@@ -14,15 +17,21 @@ width: 80%;
 .panel
 {
   margin-left: 190px;
-
+  width:92%;
+}
+#lang
+{
+  float: right;
+  position: relative;
 }
 .clickable{
   cursor: pointer ;
 }
 .bg
 {
-  background: url('assets/images/bg-01.jpg')no-repeat;
+  background: url('assets/images/animation-bg.jpg')no-repeat;
   background-size:cover;
+  width:100%
 }
 
 .example-fill-remaining-space {
@@ -2115,3 +2124,11 @@ button,
   padding: 10px;
 }
 /** /inbox **/
+.demo-tab-group {
+	border: 1px solid #e8e8e8;
+  }
+  .data-table
+  {
+    width:80%;
+    margin:20px auto;
+  }

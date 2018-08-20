@@ -1,0 +1,42 @@
+<div class="panel panel-default" *ngIf="type=='CongeMensuel'">
+  <div class="panel-heading">Congé Mensuel</div>
+  <div class="panel-body">
+    <mat-form-field>
+          <input matInput [matDatepicker]="picker" placeholder="Date de Congé" [(ngModel)]="dateConge">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker startView="year" [startAt]="startDate"></mat-datepicker>
+        </mat-form-field>
+        <button mat-raised-button color="primary" (click)="Imprimer()"><mat-icon>print</mat-icon>Imprimer</button>
+    </div>
+  </div>
+  <div class="panel panel-default" *ngIf="type=='CongePersonnel'">
+    <div class="panel-heading">Congé Personnel</div>
+    <div class="panel-body">
+        <mat-form-field>
+            <mat-select placeholder="Choisir Personnel" [(value)]="personnel">
+              <mat-option *ngFor="let p of personnels" [value]="p">
+                {{p.prenom+" ben "+p.nompere+"  "+ p.nom }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <button mat-raised-button color="primary" (click)=" ImprimerPers()"><mat-icon>print</mat-icon>Imprimer</button>
+      </div>
+    </div>
+    <div class="panel panel-default" *ngIf="type=='CongeType'">
+        <div class="panel-heading">Congé Personnel</div>
+        <div class="panel-body">
+            <mat-form-field>
+                <input matInput [matDatepicker]="picker" placeholder="Date de Congé" [(ngModel)]="dateConge">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker startView="year" [startAt]="startDate"></mat-datepicker>
+              </mat-form-field>
+            <mat-form-field>
+                <mat-select placeholder="Choisir Type Congé" [(value)]="typeConge">
+                  <mat-option *ngFor="let t of typeConges" [value]="t">
+                    {{t.libelleType }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <button mat-raised-button color="primary" (click)="Imprimertype()"><mat-icon>print</mat-icon>Imprimer</button>
+          </div>
+        </div>

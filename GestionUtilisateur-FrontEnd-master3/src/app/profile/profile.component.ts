@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Personnel } from '../../model/model.personnel';
 import { Router } from '@angular/router';
 import { PersonnelServices } from '../../services/personnel.services';
+import { TranslateService } from '../../../node_modules/@ngx-translate/core';
 
 @Component({
   selector: 'app-profile',
@@ -12,12 +13,24 @@ export class ProfileComponent implements OnInit {
 enseignantP:Personnel;
 idUser:number=0;
 mode:number=0;
-  constructor(public personnelService:PersonnelServices,public router:Router) { }
+nomAr:string;
+nom:string;
+lang:string;
+  constructor(public personnelService:PersonnelServices,
+    public router:Router,
+    translate: TranslateService) 
+  {
+  this.lang=sessionStorage.getItem("lang");
+  translate.use(this.lang);
+   }
 
   ngOnInit() {
     if(sessionStorage.getItem('idUser')!=null)
     {
     this.idUser=Number(sessionStorage.getItem('idUser'));
+    this.nomAr=sessionStorage.getItem('nomAr');
+    this.nom=sessionStorage.getItem('nom');
+    
     }
     this.doSearch();
   }

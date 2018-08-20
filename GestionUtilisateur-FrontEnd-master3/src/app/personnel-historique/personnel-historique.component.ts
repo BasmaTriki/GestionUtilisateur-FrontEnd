@@ -1,10 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CongeServices } from '../../services/conge.services';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PersonnelServices } from '../../services/personnel.services';
 import { Conge } from '../../model/model.conge';
 import { Personnel } from '../../model/model.personnel';
-
+import * as $ from 'jquery';
+import 'datatables.net';
+import 'datatables.net-bs4';
+import { HttpClient } from '../../../node_modules/@angular/common/http';
 @Component({
   selector: 'app-personnel-historique',
   templateUrl: './personnel-historique.component.html',
@@ -16,21 +19,24 @@ export class PersonnelHistoriqueComponent implements OnInit {
   motCle:string="accepte";
   currentPage:number=0;
   pages:Array<number>;
-  size:number=5;
+  size:number=1000;
   conge:Conge= new Conge();
   personnel:Personnel=new Personnel();
   personnels:Array<Personnel>=new Array<Personnel>();
-  matricule:number;
+  idPers:number;
+  dataTable: any;
   constructor(private congeServices:CongeServices,
     public activatedRoute:ActivatedRoute,
+    private chRef: ChangeDetectorRef, 
+    private http: HttpClient,
     public personnelService:PersonnelServices,
     public router:Router) 
     {
-      this.matricule=Number(sessionStorage.getItem('idUser'));
+      this.idPers=Number(sessionStorage.getItem('idUser'));
      }
 
   ngOnInit() {
-    this.personnelService.getPersonnel(this.matricule)
+    this.personnelService.getPersonnel(this.idPers)
     .subscribe(data=>{
       this.personnel=data;
       console.log(data);
@@ -40,18 +46,24 @@ export class PersonnelHistoriqueComponent implements OnInit {
     this.doSearch();
   }
   doSearch(){
-    this.congeServices.getCongesPersonnel(this.matricule,this.currentPage,this.size)
-      .subscribe(data=>{
-        console.log(data);
-        this.pageConge=data;
-        this.pages=new Array(data.totalPages);
+    this.congeServices.getCongesPersonnel(this.idPers,this.currentPage,this.size)
+    .subscribe((data: any[]) => {
+      this.pageConge=data;
+      this.chRef.detectChanges();
+      // Now you can use jQuery DataTables :
+      const table: any = $('table');
+      this.dataTable = table.DataTable();  
       },err=>{
         console.log(err);
       })
   }
-  gotopage(i:number)
+  RepriseResultat(reprise:boolean)
   {
-    this.currentPage=i;
-    this.doSearch();
+    if(reprise)
+    {
+      return "Oui";
+    }
+    else
+    return "Non";
   }
 }

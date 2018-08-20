@@ -1,38 +1,50 @@
 <app-index></app-index>
 <div class="container spacer">
-<div class="panel panel-primary">
+<div class="panel panel-default">
   <div class="panel-heading">Ajouter Grade</div>
   <div class="panel-body">
     <div>
       <mat-form-field>
         <input matInput placeholder="Titre" [(ngModel)]="grade.titre">
       </mat-form-field>
-
-          <button  mat-icon-button (click)="ajouter()">
-            <mat-icon>add_circle</mat-icon></button>
-        </div>
-    </div>
-  </div>
-  <div class="panel panel-default">
-    <div class="panel-heading">Afficher Grade</div>
-    <div class="panel-body">
       <mat-form-field>
-        <input matInput placeholder="Titre" [(ngModel)]="motCle">
-      </mat-form-field>
-        <button mat-icon-button color="" (click)="doSearch()">
-          <mat-icon>search</mat-icon>
-        </button>
-      </div>
-      <table class="table table-striped">
+          <input matInput placeholder="الرتبة" [(ngModel)]="grade.titreAr">
+        </mat-form-field>
+      <mat-form-field>
+          <mat-select placeholder="Corps / السلك" [(value)]="corps">
+            <mat-option *ngFor="let c of corpss" [value]="c">
+            {{ c.libelleCps+" / "+c.libelleCpsAr }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+          <button  mat-mini-fab color="primary" (click)="ajouter()">
+            <mat-icon>add</mat-icon></button>
+        </div>
+        <mat-tab-group class="demo-tab-group">
+            <mat-tab label="Liste des Grade">
+              <div class="demo-tab-content">
+                <br>
+          <table class="table table-hover" cellspacing="0">
+            <thead>
         <tr>
-          <th>ID</th><th>Titre</th><th>Modifier Grade</th><th>Supprimer Grade</th>
+          <th>ID</th><th>Titre</th><th>الرتبة</th><th>Modifier Grade</th><th>Supprimer Grade</th>
         </tr>
-        <tr *ngFor="let g of grades">
+      </thead>
+      <tbody>
+        <tr *ngFor="let g of pageGrade?.content">
           <td>{{g.id}}</td>
-          <td>{{g.titre}}</td>
+          <td *ngIf="g.titre!=null">{{g.titre}}</td>
+          <td *ngIf="g.titre==null">-</td>
+          <td *ngIf="g.titreAr!=null">{{g.titreAr}}</td>
+          <td *ngIf="g.titreAr==null">-</td>
           <td><a (click)="onEditGrade(g.id)" class="clickable"> <mat-icon>create</mat-icon></a> </td>
-          <td><a (click)="onDeleteGrade(g)" class="clickable"> <mat-icon color="#B00020">delete_sweep</mat-icon></a> </td>
-        </tr></table>
+          <td><a (click)="onDeleteGrade(g)" class="clickable"> <mat-icon>delete_sweep</mat-icon></a> </td>
+        </tr>
+      </table>
+    </div>
+  </mat-tab>
+  </mat-tab-group>
+     </div>
     </div>
   </div>
 

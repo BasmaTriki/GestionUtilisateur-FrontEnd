@@ -5,6 +5,8 @@ import {Http} from '@angular/http';
 import {PersonnelServices} from "../../services/personnel.services";
 import { RoleServices } from '../../services/role.services';
 import { Role } from '../../model/model.role';
+import { MatSnackBar } from '../../../node_modules/@angular/material';
+import { TranslateService } from '../../../node_modules/@ngx-translate/core';
 
 @Component({
   selector: 'app-new-user',
@@ -19,11 +21,18 @@ role:Role;
 loginU:string="admin";
 motpassU:string="admin";
 hide = true;
+lang:string;
 constructor(public http:Http, 
   public personnelServices:PersonnelServices,
   public router:Router,
-  private roleServices:RoleServices)
-{}
+  public snackBar: MatSnackBar,
+  private roleServices:RoleServices,
+  translate: TranslateService) 
+  {
+  this.lang=sessionStorage.getItem("lang");
+  translate.use(this.lang);
+   }
+
 
   ngOnInit() {
     this.AfficherPersonnel();
@@ -31,7 +40,7 @@ constructor(public http:Http,
   }
   AfficherPersonnel()
   {
-    this.personnelServices.getPersonnelsLogin(true)
+    this.personnelServices.getPersonnelsLogin(1)
       .subscribe(data=>{
       this.personnels=data;
       },err=>{
@@ -43,7 +52,6 @@ constructor(public http:Http,
     this.roleServices.allRoles()
       .subscribe(data=>{
       this.roles=data;
-        console.log(data);
       },err=>{
         console.log(err);
       });
@@ -54,7 +62,10 @@ saveUser(){
     this.personnel.role=this.role;
     this.personnelServices.updatePersonnel(this.personnel)
     .subscribe(data=>{
-      alert("Success d'ajout un utilisateur");
+      this.snackBar.open("Success d'ajout un utilisateur", "sucess", {
+        duration: 3000,
+      });
+      //alert("Success d'ajout un utilisateur");
       this.router.navigate(['users']);
     },err=>{
       console.log(err);

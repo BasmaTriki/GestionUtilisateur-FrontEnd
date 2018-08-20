@@ -22,6 +22,11 @@ import {DiplomeServices} from "../../services/diplome.services";
 import {Specialite} from "../../model/model.specialite";
 import {SpecialiteServices} from "../../services/specialite.services";
 import {DiplomePersonnelServices} from "../../services/diplomepersonnel.services";
+import { Etat } from '../../model/model.etat';
+import { EtatServices } from '../../services/etat.services';
+import { Periode } from '../../model/model.periode';
+import { PeriodeServices } from '../../services/periode.services';
+import { Role } from '../../model/model.role';
 
 
 @Component({
@@ -39,7 +44,10 @@ export class EnseignantPermanentComponent implements OnInit {
   grades: Array<Grade> = new Array<Grade>();
   corps: Array<Corps> = new Array<Corps>();
   departement:Departement;
-  poste:PosteAdministrative;
+  poste:PosteAdministrative=new PosteAdministrative();
+  postes:Array<PosteAdministrative>=new Array<PosteAdministrative>();
+  periode:Periode=new Periode();
+  periodes:Array<Periode>=new Array<Periode>();
   panelOpenState: boolean = false;
   agrade:AGrade=new AGrade();
   grade:Grade=new Grade();
@@ -52,9 +60,11 @@ export class EnseignantPermanentComponent implements OnInit {
   diplomep:DiplomePersonnel=new DiplomePersonnel();
   diplomepers:Array<DiplomePersonnel>=new Array<DiplomePersonnel>();
   specialite:Specialite=new Specialite();
+  etat:Etat=new Etat();
+  role:Role=new Role();
+  etats:Array<Etat>=new Array<Etat>();
   specialites:Array<Specialite>=new Array<Specialite>();
   constructor(private agradeServices:AGradeServices,
-              private posteService:PosteAdministrativeServices,
               private gradeServices: GradeServices,
               private corpsServices: CorpsServices,
               private enseingnantpermanentService:EnseignantPermanentServices,
@@ -63,6 +73,9 @@ export class EnseignantPermanentComponent implements OnInit {
               private diplomeService:DiplomeServices,
               private specialiteServices:SpecialiteServices,
               private diplomePServices:DiplomePersonnelServices,
+              private etatServices:EtatServices,
+              private periodeServices:PeriodeServices,
+              private posteServices: PosteAdministrativeServices,
               public http: Http,
               public router: Router) {
   }
@@ -73,10 +86,14 @@ export class EnseignantPermanentComponent implements OnInit {
     this.chercherGrad();
     this.chercherCorp();
     this.chercherSpecialite();
+    this.chercherEtats();
+    this.chercherPosteAdmin();
     this.enfants.push(this.enfant);
     this.diplomep.diplome=this.diplome;
     this.diplomepers.push(this.diplomep);
     this.AGrades.push(this.agrade);
+    this.periode.posteAdmin=this.poste;
+    this.periodes.push(this.periode);
 
 
   }
@@ -85,13 +102,21 @@ export class EnseignantPermanentComponent implements OnInit {
       this.email.hasError('email') ? 'Email non valide' :
         '';
   }
-
+  chercherEtats()
+  {
+    this.etatServices.getAllEtats()
+      .subscribe(data=>{
+        this.etats=data;
+        console.log(data);
+      },err=>{
+        console.log(err);
+      })
+  }
   chercherSpecialite()
   {
     this.specialiteServices.allSpecialites()
       .subscribe(data=>{
         this.specialites=data;
-        this.pages=new Array(data.totalPages);
         console.log(data);
       },err=>{
         console.log(err);
@@ -131,6 +156,12 @@ export class EnseignantPermanentComponent implements OnInit {
     }
   }
     EnregistrerEnfant(en:EnseignantPermanent) {
+    if(en.etatCivil=="Celibataire")
+    {
+      return;
+    }
+    else
+    {
       for(let e of this.enfants)
       {e.personnel=en;
         this.enfantservice.saveEnfant(e)
@@ -146,19 +177,42 @@ export class EnseignantPermanentComponent implements OnInit {
       },err=>{
         console.log(err);
       })
+    }
+  }
+  EnregistrerPoste(en:EnseignantPermanent) {
+    for(let p of this.periodes)
+    {p.personnel=en;
+      this.periodeServices.savePeriode(p)
+        .subscribe(data => {
+          console.log("Success d'ajout periode");
+          console.log(data);
+        }, err => {
+          console.log(err);
+        });
+    }
   }
   Enregistrer() {
+    var  mat= (this.enseignantP.matricule+"").substr(5,3);
   this.enseignantP.departement=this.departement;
-  this.enseignantP.corps=this.corp;
   this.enseignantP.specialite=this.specialite;
-  //this.enseignantP.pos
+  this.enseignantP.etat=this.etat;
+  this.enseignantP.login=this.enseignantP.prenom+mat;
+  this.enseignantP.motpasse=this.enseignantP.prenom+mat;
+  this.role.idRole=2;
+  this.role.type="utilisateur";
+  this.enseignantP.role=this.role;
   this.enseingnantpermanentService.saveEnseignantPermanent(this.enseignantP)
       .subscribe(data=>{
         alert("Success d'ajout");
         console.log(data);
+        this.enseignantP=data;
         this.EnregistrerDiplomeP(data);
-        this.EnregistrerEnfant(data);
+        if(this.enseignantP.etatCivil!='Celibataire')
+        {
+          this.EnregistrerEnfant(data);
+        }
         this.EnregistrerAgrade(data);
+        this.EnregistrerPoste(data);
       },err=>{
         console.log(err);
       });
@@ -197,6 +251,17 @@ export class EnseignantPermanentComponent implements OnInit {
         console.log(err);
       })
   }
+  chercherPosteAdmin()
+  {
+    this.posteServices.getAllPostes()
+      .subscribe(data=>{
+        this.postes=data;
+        this.pages=new Array(data.totalPages);
+        console.log(data);
+      },err=>{
+        console.log(err);
+      })
+  }
   ajouterDiplome()
   {
     this.diplomep=new DiplomePersonnel();
@@ -208,6 +273,14 @@ export class EnseignantPermanentComponent implements OnInit {
   {
     this.enfant = new Enfant();
     this.enfants.push(this.enfant);
+  }
+  ajouterPoste()
+  {if(this.periodes.length<3)
+    {
+    this.periode.posteAdmin=new PosteAdministrative();
+    this.periode = new Periode();
+    this.periodes.push(this.periode);
+  }
   }
   ajouterGrade()
   {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import {Http} from '@angular/http';
 import {Router} from '@angular/router';
 import {Mutation} from '../../model/model.mutation';
@@ -7,9 +7,16 @@ import {Personnel} from '../../model/model.personnel';
 import {TypeMutation} from "../../model/model.typeMutation";
 import {TypeMutationsServices} from "../../services/typeMutation.services";
 import {PersonnelServices} from "../../services/personnel.services";
-import {OrganismeAccueil} from "../../model/model.organismeAccueil";
-import {OrganismeAccueilServices} from "../../services/organismeAccueil.services";
-
+import {Organisme} from "../../model/model.organisme";
+import {OrganismeServices} from "../../services/organisme.services";
+import { EtatServices } from '../../services/etat.services';
+import { EnseignantPermanentServices } from '../../services/enseignantpermanent.services';
+import * as $ from 'jquery';
+import 'datatables.net';
+import 'datatables.net-bs4';
+import { HttpClient } from '../../../node_modules/@angular/common/http';
+import { MatDialog } from '../../../node_modules/@angular/material';
+import { ModalMutationComponent } from '../modal-mutation/modal-mutation.component';
 @Component({
   selector: 'app-mutation',
   templateUrl: './mutation.component.html',
@@ -20,73 +27,36 @@ export class MutationComponent implements OnInit {
   motCle:string="";
   currentPage:number=0;
   pages:Array<number>;
-  size:number=5;
+  size:number=1000;
   mutation:Mutation=new Mutation();
   mutations:Array<Mutation>=new Array<Mutation>();
-  personnels:Array<Personnel>=new Array<Personnel>();
+  pageEnseignant:any;
   personnel:Personnel=new Personnel();
   typeMutation:TypeMutation;
   typeMutations:Array<TypeMutation>=new Array<TypeMutation>();
-  orgAccueil:OrganismeAccueil=new OrganismeAccueil();
-  orgAccueils:Array<OrganismeAccueil>=new Array<OrganismeAccueil>();
-  constructor(private typeMutationServices:TypeMutationsServices,private orgAccueilServices:OrganismeAccueilServices,private mutationServices:MutationServices,private personnelServices:PersonnelServices,public http:Http,public router:Router) { }
+  orgAccueil:Organisme=new Organisme();
+  orgAccueils:Array<Organisme>=new Array<Organisme>();
+  dataTable: any;
+  nom:string;
+  constructor(private mutationServices:MutationServices,
+    private enseingnantpermanentService:EnseignantPermanentServices,
+    private chRef: ChangeDetectorRef, 
+    public dialog: MatDialog,
+    private http: HttpClient,
+    public router:Router) { }
 
   ngOnInit() {
-    this.chercher();
-    this.AfficherPersonnel();
-    this.chercherType();
-    this. chercherOrg();
+    this.doSearchEng();
   }
-  AfficherPersonnel()
-  {
-    this.personnelServices.getAllPersonnel()
-      .subscribe(data=>{
-        this.personnels=data;
-        console.log(data);
-      },err=>{
-        console.log(err);
-      });
-  }
-  chercherType()
-  {
-    this.typeMutationServices.allTypesMutations()
-      .subscribe(data=>{
-        this.typeMutations=data;
-        this.pages=new Array(data.totalPages);
-        console.log(data);
-      },err=>{
-        console.log(err);
-      })
-  }
-  chercherOrg()
-  {
-    this.orgAccueilServices.allOrganismeAccueils()
-      .subscribe(data=>{
-        this.orgAccueils=data;
-        this.pages=new Array(data.totalPages);
-        console.log(data);
-      },err=>{
-        console.log(err);
-      })
-  }
-  ajouter(){
-    this.personnel.etat=false;
-    this.mutation.personnel=this.personnel;
-    this.mutation.typemutation=this.typeMutation;
-    this.mutation.organismeAccueil=this.orgAccueil;
-    this.mutationServices.saveMutation(this.mutation)
-      .subscribe(data=>{
-        alert("Success d'ajout");
-        console.log(data);
-        //this.personnel.mutation.push(data);
-        console.log(this.personnel);
-      },err=>{
-        console.log(err);
-      })
-    this.personnelServices.updatePersonnel(this.personnel)
-      .subscribe(data=>{
-        alert("Success de mise à jour");
-        console.log(data);
+  doSearchEng()
+  { 
+     this.enseingnantpermanentService.getEnseignantPermanentPrenom(this.motCle,this.currentPage,this.size)
+     .subscribe((data: any[]) => {
+      this.pageEnseignant = data;
+      this.chRef.detectChanges();
+      // Now you can use jQuery DataTables :
+      const table: any = $('table');
+      this.dataTable = table.DataTable();
       },err=>{
         console.log(err);
       })
@@ -96,18 +66,6 @@ export class MutationComponent implements OnInit {
       .subscribe(data=>{
         console.log(data);
         this.pageMutation=data;
-        this.pages=new Array(data.totalPages);
-      },err=>{
-        console.log(err);
-      })
-  }
-  chercher()
-  {
-    this.mutationServices.getAllMutations()
-      .subscribe(data=>{
-        this.mutations=data;
-        this.pages=new Array(data.totalPages);
-        console.log(data);
       },err=>{
         console.log(err);
       })
@@ -134,5 +92,16 @@ export class MutationComponent implements OnInit {
           console.log(err);
         })
     }
+  }
+  ajouterMutation(p:Personnel)
+  {
+    if(p!=null)
+    this.nom=p.prenom+" "+p.nom;
+    this.personnel=p;
+    let dialogRef = this.dialog.open(ModalMutationComponent, {data:{name:this.nom,idPers:p.idPers}});
+  }
+  EtatMutation(e)
+  {
+
   }
 }

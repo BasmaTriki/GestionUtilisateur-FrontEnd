@@ -1,0 +1,26 @@
+<div>
+    <h3 class="modal-title" id="lineModalLabel">Mutation de {{nom}}</h3>
+    <form class="form-inline">
+      <mat-form-field>
+        <mat-select placeholder="Organisme d'accueil" [(value)]="orgAccueil">
+          <mat-option *ngFor="let or of orgAccueils" [value]="or">
+            {{or.libelleOrg}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field><br>
+      <mat-form-field>
+        <mat-select placeholder="Type Mutation" [(value)]="typeMutation">
+          <mat-option *ngFor="let tm of typeMutations" [value]="tm">
+            {{tm.designationMutation}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field><br>
+      <mat-form-field>
+        <input matInput [matDatepicker]="picker1" placeholder="Date de Mutation" name="dateMut" [(ngModel)]="mutation.date_mut">
+        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+      </mat-form-field><br>
+      <button  mat-mini-fab color="primary" (click)="ajouter()">
+        <mat-icon>add</mat-icon></button>
+    </form>
+  </div>

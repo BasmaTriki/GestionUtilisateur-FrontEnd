@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import {Http} from '@angular/http';
 import {Router} from '@angular/router';
 import {TypeMutation} from '../../model/model.typeMutation';
 import {TypeMutationsServices} from '../../services/typeMutation.services';
-import {TypeConge} from '../../model/model.typeConge';
-
+import * as $ from 'jquery';
+import 'datatables.net';
+import 'datatables.net-bs4';
+import { HttpClient } from '../../../node_modules/@angular/common/http';
 
 @Component({
   selector: 'app-type-mutation',
@@ -16,18 +18,23 @@ export class TypeMutationComponent implements OnInit {
   motCle:string="";
   currentPage:number=0;
   pages:Array<number>;
-  size:number=5;
+  size:number=100;
   typeMutation:TypeMutation=new TypeMutation();
   typeMutations:Array<TypeMutation>=new Array<TypeMutation>();
-  constructor(private typeMutationServices:TypeMutationsServices,public http:Http,public router:Router) {}
+  dataTable: any;
+  constructor(private typeMutationServices:TypeMutationsServices,
+    private chRef: ChangeDetectorRef, 
+    private http: HttpClient,
+    public router:Router) {}
 
   ngOnInit() {
-  this.chercher();
+    this.doSearch();
 }
 ajouter(){
   this.typeMutationServices.saveTypeMutation(this.typeMutation)
     .subscribe(data=>{
       alert("Succès d'ajout");
+      this.doSearch();
       console.log(data);
     },err=>{
       console.log(err);
@@ -35,21 +42,13 @@ ajouter(){
 }
 doSearch(){
   this.typeMutationServices.getTypeMutations(this.motCle,this.currentPage,this.size)
-    .subscribe(data=>{
-      console.log(data);
-      this.pageTypeMutation=data;
-      this.pages=new Array(data.totalPages);
-    },err=>{
-      console.log(err);
-    })
-}
-chercher()
-{
-  this.typeMutationServices.allTypesMutations()
-    .subscribe(data=>{
-      this.typeMutations=data;
-      this.pages=new Array(data.totalPages);
-      console.log(data);
+  .subscribe((data: any[]) => {
+    this.pageTypeMutation=data;
+    this.chRef.detectChanges();
+    // Now you can use jQuery DataTables :
+    const table: any = $('table');
+    this.dataTable = table.DataTable();
+     
     },err=>{
       console.log(err);
     })

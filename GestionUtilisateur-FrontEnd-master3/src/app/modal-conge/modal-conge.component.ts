@@ -8,8 +8,6 @@ import { Conge } from '../../model/model.conge';
 import { Personnel } from '../../model/model.personnel';
 import { TypeConge } from '../../model/model.typeConge';
 import { HttpClient } from '@angular/common/http';
-import * as $ from 'jquery';
-import { Http } from '@angular/http';
 
 @Component({
   selector: 'app-modal-conge',
@@ -28,9 +26,9 @@ export class ModalCongeComponent implements OnInit {
   typeconges:Array<TypeConge> =new Array<TypeConge>();
   nbjour:number=0;
   nbjourRest:number=0;
-  Sommenbjour:number=0;
+  Sommenbjour:number;
   nom:string="";
-  mat:number=0;
+  idPers:number=0;
 selectedFile:File=null;
   constructor(private congeServices:CongeServices, 
     private typeCongeServices:TypeCongeServices,
@@ -43,12 +41,10 @@ selectedFile:File=null;
   ngOnInit() {
     this.AfficherTypeConge();
     this.nom=this.data.name;
-    this.mat=Number(this.data.matricule);
-    console.log(this.nom+this.mat);
-    this.personnelServices.getPersonnel(this.mat)
+    this.idPers=Number(this.data.idPers);
+    this.personnelServices.getPersonnel(this.idPers)
     .subscribe(data=>{
       this.personnel=data;
-      console.log(data);
     },err=>{
       console.log(err);
     });
@@ -72,46 +68,48 @@ selectedFile:File=null;
   else
     return 0;
   }
-  NomberJour(event)
-  {
-    if(this.conge.dateFin!=null && this.conge.dateDebut!=null)
+  NomberJour()
+  {var somme:number=0;
+    if(this.typeconge)
     {
-      this.congeServices.getNbJourParType(this.personnel.matricule,this.typeconge.idCg)
-        .subscribe(data=>{
-         this.Sommenbjour=data;
-         //alert ("Il vous Reste "+this.nbjourRest);
-          console.log(data);
-        },err=>{
-          console.log(err);
-        });
-  }
+      this.congeServices.getNbJourParType(this.personnel.idPers,this.typeconge.idCg)
+      .subscribe(data=>{
+      this.Sommenbjour=data;
+      somme= data;
+      //alert ("Il vous Reste "+somme);
+      console.log("il reste "+somme);
+      },err=>{
+        console.log(err);
+      });
+    }
+     
+        return somme;
 }
   CalculerResteJour()
   {
     if(this.conge.dateFin!=null && this.conge.dateDebut!=null)
   {
-    this.congeServices.getNbJourParType(this.personnel.matricule,this.typeconge.idCg)
+    this.congeServices.getNbJourParType(this.personnel.idPers,this.typeconge.idCg)
       .subscribe(data=>{
        this.Sommenbjour=data;
        //alert ("Il vous Reste "+this.nbjourRest);
-        console.log(data);
+        console.log(data+" Marwa ");
       },err=>{
         console.log(err);
       });
     }
-    return this.typeconge.nbMaxJrs-(this.Sommenbjour+this.nbjour);
-    //alert (this.nbjourRest+" "+this.typeconge.nbMaxJrs+" "+this.Sommenbjour+"");
+   return this.Sommenbjour;
   }
   Close()
   {
     this.dialogRef.close();
-   
   }
   ajouter(){
     this.conge.typeconge=this.typeconge;
     this.conge.personnel=this.personnel;
     this.conge.nbJour=this.nbjour;
     this.conge.valide="en-attente";
+    this.conge.valideAr="في الإنتظار";
     this.conge.dateCreationConge=new Date();
     this.congeServices.saveConge(this.conge)
       .subscribe(data=>{
@@ -119,7 +117,7 @@ selectedFile:File=null;
         console.log(data);
         this.personnel.conges.push(data);
         this.personnelServices.updatePersonnel(this.personnel);
-        if(this.typeconge.libelle=="Maladie")
+        if(this.typeconge.libelleType==="Maladie")
         {
           this.upload(data.idCong);
         }
@@ -143,22 +141,30 @@ upload(idCong:number)
  })
 }
 nomberJour:any;
-restjour;
+restjour:any;
 onSelected1(event)
 { if(this.restjour)
   {
   this.nomberJour=this.CalculerNbjour();
+  this.Sommenbjour=this.CalculerResteJour();
+  this.restjour=this.typeconge.nbMaxJrs-(this.Sommenbjour+this.nbjour)
   }
-console.log(event);
+
+//console.log(event);
 
 }
 onSelected(event)
 { 
-console.log(event);
   this.nomberJour=this.CalculerNbjour();
-  this.restjour=this.CalculerResteJour();
-  console.log(this.restjour+"-"+this.nomberJour);
- // this.restjour =this.typeconge.nbMaxJrs-(this.Sommenbjour+this.nomberJour);
+  //this.CalculerResteJour();
+ this.NomberJour();
+  this.restjour=this.typeconge.nbMaxJrs-(this.Sommenbjour+this.nbjour);
+  if(this.Sommenbjour==null)
+  {
+    this.restjour=this.typeconge.nbMaxJrs-this.nbjour;
+  }
   console.log(event+" "+this.Sommenbjour+"   "+this.nomberJour);
+ // this.restjour =this.typeconge.nbMaxJrs-(this.Sommenbjour+this.nomberJour);
+ 
 }
 }

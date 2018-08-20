@@ -1,9 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import {Service} from "../../model/model.service";
 import {ServiceServices} from "../../services/service.services";
 import {Http} from "@angular/http";
 import {Router} from "@angular/router";
-
+import * as $ from 'jquery';
+import 'datatables.net';
+import 'datatables.net-bs4';
+import { HttpClient } from '../../../node_modules/@angular/common/http';
 @Component({
   selector: 'app-service',
   templateUrl: './service.component.html',
@@ -14,27 +17,35 @@ export class ServiceComponent implements OnInit {
   motCle:string="";
   currentPage:number=0;
   pages:Array<number>;
-  size:number=5;
+  size:number=1000;
   service:Service=new Service();
-  constructor(private serviceServices:ServiceServices,public http:Http,public router:Router)
+  dataTable: any;
+  constructor(private serviceServices:ServiceServices,
+    private chRef: ChangeDetectorRef, 
+    private http: HttpClient,
+    public router:Router)
   { }
   ngOnInit() {
+this.doSearch();
   }
   ajouter(){
     this.serviceServices.saveService(this.service)
       .subscribe(data=>{
-        alert("Success d'ajout");
+        alert("Success d'ajout Service");
         console.log(data);
+        this.doSearch();
       },err=>{
         console.log(err);
       });
   }
   doSearch(){
     this.serviceServices.getServices(this.motCle,this.currentPage,this.size)
-      .subscribe(data=>{
-        console.log(data);
-        this.pageServices=data;
-        this.pages=new Array(data.totalPages);
+    .subscribe((data: any[]) => {
+      this.pageServices=data;
+      this.chRef.detectChanges();
+      // Now you can use jQuery DataTables :
+      const table: any = $('table');
+      this.dataTable = table.DataTable();
       },err=>{
         console.log(err);
       })

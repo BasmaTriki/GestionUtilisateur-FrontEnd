@@ -28,6 +28,7 @@ conge:Conge=new Conge();
   }
   ModifierConge()
   {this.conge.reprise=true;
+    this.conge.dateReprise=new Date();
     this.congeServices.updateConge(this.conge)
     .subscribe(data=>{
       this.conge=data;

@@ -1,31 +1,32 @@
 <app-index></app-index>
 <div class="container spacer">
 <div class="panel panel-info">
-  <div class="panel-heading">Consulter les demandes de congés</div>
+  <div class="panel-heading">Liste de demandes des congés</div>
   <div class="panel-body">
      <mat-tab-group class="demo-tab-group">
       <mat-tab label="Enseignant">
-        <div class="demo-tab-content">
-          <table class="table table-striped">
+          <div class="demo-tab-content">
+              <br>
+        <table class="table table-hover" cellspacing="0">
+          <thead>
             <tr>
-              <th>Personnel</th><th>Date de Début</th><th>Date de Fin</th><th>Type de Congé</th><th>Nombre de Jours</th><th align="center">Validation</th>
+                <th>ID</th><th>Matricule</th><th>Nom & Prenom</th><th>Date de Début</th><th>Date de Fin</th><th>Type de Congé</th><th>Nombre de Jours</th><th align="center">Validation</th><th align="center">Rattrapé</th>
             </tr>
-            <tr *ngFor="let c of pageCongeA?.content">
-              <td>{{c.personnel.prenom+" ben "+c.personnel.nompere+" "+c.personnel.nom}}</td>
+          </thead>
+          <tbody>
+            <tr *ngFor="let c of pageConge?.content">
+              <td>{{c.personnel.idPers}}</td>
+              <td>{{c.personnel.matricule}}</td>
+              <td>{{c.personnel.nom+" "+c.personnel.prenom}}</td>
               <td>{{c.dateDebut}}</td>
               <td>{{c.dateFin}}</td>
-              <td>{{c.typeconge.libelle}}</td>
+              <td>{{c.typeconge.libelleType}}</td>
               <td>{{c.nbJour}}</td>
               <td> <button mat-icon-button  (click)="valider(c)" color="primary" ><mat-icon>done</mat-icon></button></td>
+              <td> <button mat-icon-button  (click)="rattraper(c)" color="primary" ><mat-icon>collections_bookmark</mat-icon></button></td>
             </tr>
-          </table>
-        <div class="container">
-          <ul class="nav nav-pills">
-            <li [ngClass]="{'active' :i==currentPageA}" *ngFor="let p of pagesA; let i=index">
-              <a class="clickable" (click)="gotopage1(i)">{{i}}</a>
-            </li>
-          </ul>
-        </div>
+          </tbody>
+        </table>
         </div>
       </mat-tab>
       <mat-tab label="Administatif">

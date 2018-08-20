@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, Validators } from '../../../node_modules/@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { EnseignantLibre } from '../../model/model.enseignantLibre';
 import { EnseignantFonctionnaireEtat } from '../../model/model.enseignantFonctEtat';
 import { Departement } from '../../model/model.departement';
@@ -11,9 +11,11 @@ import { DepartementServices } from '../../services/departement.services';
 import { DiplomeServices } from '../../services/diplome.services';
 import { SpecialiteServices } from '../../services/specialite.services';
 import { DiplomePersonnelServices } from '../../services/diplomepersonnel.services';
-import { HttpClient } from '../../../node_modules/@angular/common/http';
-import { Router } from '../../../node_modules/@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { Router, ActivatedRoute } from '@angular/router';
 import { EnseignantFonctionnaireEtatServices } from '../../services/enseignantFonctionnaireEtat.services';
+import { DemandeVacation } from '../../model/model.demandeVacation';
+import { DemandeVacationServices } from '../../services/demandeVacation.services';
 
 @Component({
   selector: 'app-ajouter-vacataire',
@@ -42,14 +44,58 @@ export class AjouterVacataireComponent implements OnInit {
     {value: 'Enseignant Libre'},
     {value: 'Enseignant Fonctionnaire'}
   ];
+  idDemande:number;
+  demandeVacation:DemandeVacation=new DemandeVacation();
   constructor(private enseingnantlibreService:EnseignantLibreServices,
     private enseignantFonctServices:EnseignantFonctionnaireEtatServices,
     private departementServices: DepartementServices,
+    private demandeServices:DemandeVacationServices,
     private diplomeService:DiplomeServices,
     private specialiteServices:SpecialiteServices,
     private diplomePServices:DiplomePersonnelServices,
     public http: HttpClient,
-    public router: Router) { }
+    public activatedRoute:ActivatedRoute,
+    public router: Router) 
+    {
+      this.idDemande=activatedRoute.snapshot.params['idDemande'];
+      if(this.idDemande!=null)
+      {
+        this.demandeServices.getDemandeVacation(this.idDemande)
+        .subscribe(data=>{
+          this.demandeVacation=data;
+          console.log(data);
+        },err=>{
+          console.log(err);
+        })
+      } 
+      if(this.demandeVacation!=null)
+      {
+       if(this.demandeVacation.typeDemande==="EnseignantLibre")
+       {this.type="Enseignant Libre";
+         this.enseignantLibre.cin=this.demandeVacation.cin;
+         this.enseignantLibre.nom=this.demandeVacation.nom;
+         this.enseignantLibre.prenom=this.demandeVacation.prenom;
+         this.enseignantLibre.adresse=this.demandeVacation.adresse;
+         this.enseignantLibre.codepostal=this.demandeVacation.codePostal;
+         this.enseignantLibre.email=this.demandeVacation.email;
+         this.enseignantLibre.telephone=this.demandeVacation.telephone;
+         this.enseignantLibre.specialite=this.demandeVacation.specialite;
+         console.log(this.enseignantLibre.cin);
+       }
+       if(this.demandeVacation.typeDemande==="EnseignantFonctionnaire")
+       {this.type="Enseignant Fonctionnaire";
+         this.enseignantFonct.cin=this.demandeVacation.cin;
+         this.enseignantFonct.nom=this.demandeVacation.nom;
+         this.enseignantFonct.prenom=this.demandeVacation.prenom;
+         this.enseignantFonct.adresse=this.demandeVacation.adresse;
+         this.enseignantFonct.codepostal=this.demandeVacation.codePostal;
+         this.enseignantFonct.email=this.demandeVacation.email;
+         this.enseignantFonct.telephone=this.demandeVacation.telephone;
+         this.enseignantFonct.specialite=this.demandeVacation.specialite;
+       }
+     }
+     console.log( this.enseignantFonct.cin);
+     }
 
   ngOnInit() {
    this.chercherDep();
@@ -58,6 +104,8 @@ export class AjouterVacataireComponent implements OnInit {
     this.diplomep.diplome=this.diplome;
     this.diplomepers.push(this.diplomep);
     console.log(this.type);
+  
+
   }
   chercherSpecialite()
   {

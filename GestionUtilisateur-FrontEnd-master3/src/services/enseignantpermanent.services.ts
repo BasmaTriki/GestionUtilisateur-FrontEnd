@@ -43,8 +43,8 @@ export class EnseignantPermanentServices {
     return this.http.get("http://localhost:8080/EnseignantsPermanents")
       .map(resp => resp.json())
   }
-  ImprimerEnseignantPermanent(idDep: number) {
-    return this.http.get("http://localhost:8080/ListePersonnelDepartement?mc="+idDep)
+  ImprimerEnseignantPermanent(idDep: number,type:string) {
+    return this.http.get("http://localhost:8080/ListePersonnelDepartement?mc="+idDep+"&mp="+type)
       .map(resp => resp.json())
   }
   

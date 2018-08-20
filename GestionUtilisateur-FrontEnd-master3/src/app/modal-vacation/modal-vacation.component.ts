@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { DemandeVacationServices } from '../../services/demandeVacation.services';
 import { DemandeVacation } from '../../model/model.demandeVacation';
+import { AnneeUniversitaireServices } from '../../services/anneeUniversitaire.services';
+import { AnneeUniversitaire } from '../../model/model.anneeuniversitaire';
 
 @Component({
   selector: 'app-modal-vacation',
@@ -13,10 +15,13 @@ import { DemandeVacation } from '../../model/model.demandeVacation';
 export class ModalVacationComponent implements OnInit {
   idDemande:number=0;
   demandeVacation:DemandeVacation=new DemandeVacation();
+  type:boolean=false;
+  anneeUniv:AnneeUniversitaire=new AnneeUniversitaire();
   constructor(public dialogRef: MatDialogRef<ModalVacationComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     public router:Router,
     private demandeServices:DemandeVacationServices,
+    private anneeServices:AnneeUniversitaireServices,
     public http: HttpClient) { }
 
   ngOnInit() {
@@ -34,7 +39,20 @@ export class ModalVacationComponent implements OnInit {
   Close()
   {
     this.dialogRef.close();
-   
+  }
+  AjouterAnnee()
+  {
+    this.type=true;
+  }
+  EnregistrerAnnee()
+  {
+    this.anneeServices.saveAnnee(this.anneeUniv)
+    .subscribe(data => {
+      console.log(data);
+    }, err => {
+      console.log(err);
+    })
+
   }
   Accepter()
   {this.demandeVacation.etatdemande="accepter";
@@ -46,6 +64,7 @@ export class ModalVacationComponent implements OnInit {
       console.log(err);
     })
     this.Close();
+
   }
   Refuser()
   {this.demandeVacation.etatdemande="refuser";

@@ -6,12 +6,14 @@ export class Conge{
   dateDebut:Date=null;
   dateFin:Date=null;
   reprise:boolean;
-  valide:string;
+  valide:string="";
+  valideAr:string="";
   typeconge:TypeConge=null;
   personnel:Personnel=null;
   nbJour:number;
   dateReprise:Date=null;
   dateCreationConge:Date;
   adresseConge:string="";
+  adresseCongeAr:string="";
   telephoneConge:string="";
 }

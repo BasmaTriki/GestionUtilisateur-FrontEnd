@@ -1,6 +1,6 @@
 <app-index></app-index>
 <div class="container spacer">
-  <div class="panel panel-primary">
+  <div class="panel panel-default">
     <div class="panel-heading">Modifier Compte {{personnel.prenom+"   "+ personnel.nom }}</div>
     <div class="panel-body">
       <div>
@@ -14,6 +14,27 @@
             <input  matInput placeholder="Mot de Passe:"  [type]="hide ? 'password' : 'text'" [(ngModel)]="personnel.motpasse"/>
             <mat-icon matSuffix class="clickable" (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
           </mat-form-field>
+        </div>
+        <div class="form-group">
+          <div *ngIf="role!=null && roleModifiable==false">
+            <mat-form-field >
+                <input  matInput placeholder="Rôle" [(ngModel)]="role.type" disabled>
+              </mat-form-field>
+              <button  mat-mini-fab color="" (click)="ModifierRole()"><mat-icon>create</mat-icon></button>
+            </div>
+            <div *ngIf="role==null && roleModifiable==false">
+                <mat-form-field >
+                    <input  matInput placeholder="Rôle" [(ngModel)]="role" disabled>
+                  </mat-form-field>
+                  <button  mat-mini-fab color="" (click)="ModifierRole()"><mat-icon>create</mat-icon></button>
+                </div>
+        <mat-form-field *ngIf="roleModifiable==true">
+            <mat-select placeholder="Rôle" [(value)]="role" required name="role1">
+             <mat-option *ngFor="let r of roles" [value]="r" name="role1">
+                {{ r.type }}
+              </mat-option>
+           </mat-select>
+         </mat-form-field>
         </div>
         <button mat-raised-button color="primary" (click)="updateUser()">Modifier</button>
         <button mat-raised-button color="primary" (click)="annuler()">Annuler</button>

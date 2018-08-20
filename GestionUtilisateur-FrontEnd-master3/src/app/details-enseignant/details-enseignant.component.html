@@ -1,37 +1,93 @@
 <app-index></app-index>
 <div class="container spacer">
-<mat-card class="example-card">
-  <mat-card-header>
-    <div mat-card-avatar class="example-header-image"></div>
-    <mat-card-title>Enseignant Détails</mat-card-title>
-    <mat-card-subtitle>{{enseignantP.prenom+"  "+enseignantP.nom}}</mat-card-subtitle>
-  </mat-card-header>
-  <img mat-card-image src="../../assets/images/enseig.png" alt="Enseignant">
-  <mat-card-content>
-
-<h4>Données Personnelles</h4>
+    <div class="panel panel-info">
+        <div class="panel-heading">Détails Enseignant {{enseignantP.prenom +" "+enseignantP.nom}}</div>
+        <div class="panel-body">
+<h3 class="site-title">Détails Enseignant</h3>
+<div>
+<div class="col-md-5">
+  <img class="img-responsive" src="../../assets/images/user_pic.png" style="width:30%;">
+                <!-- <i class="fa fa-wrench"> Edit</i> -->
+ <div class="clearfix">
+   <h3> {{enseignantP.prenom +" "+enseignantP.nom}}</h3>
+   <i class="fa fa-envelope"></i>{{enseignantP.email}}<br>
+   <i class="fa fa-gift"></i>{{enseignantP.datenaissance|date:'dd/MM/yyyy'}}<br>
+   <i class="fa fa-phone"></i>(+216){{enseignantP.telephone}}<br>
+   <!-- <i class="fa fa-map-marker"></i>{{enseignantP.lieuNaissance}}<br> -->
+   <i class="fa fa-map-marker"></i>{{enseignantP.adresse}}<br>
+  <hr>   
+ </div>
+</div>
+       <div class="col-md-7">
+            <div class="profile-block">
+       <ul class="list-group">
+<li class="list-group-item">Age <span class="badge">30</span></li>
+<li class="list-group-item">Nombre des enfants<span class="badge">{{nbEnfant}}</span></li>
+<li class="list-group-item">Nombre des congés<span class="badge">{{nbConge}}</span></li>
+<li class="list-group-item">Nombre des Diplômes<span class="badge">{{nbdiplome}}</span></li>
+<li class="list-group-item">Nombre des Grades<span class="badge">{{nbGrade}}</span></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li><br><br>
+</ul>
+   </div>
+       </div>
+      </div>
     <hr>
-    Nom et Prenom :{{enseignantP.prenom +" "+enseignantP.nom}}<br>
-    Nom de Pére : {{enseignantP.nompere}}<br>
-    Date de Naissance: {{enseignantP.datenaissance}}<br>
-    Lieu de Naissance: {{enseignantP.lieuNaissance}}<br>
-    Sexe: {{enseignantP.sexe}}<br>
-    E-mail: {{enseignantP.email}}<br>
-    Téléphone: {{enseignantP.telephone}}<br>
-    Adresse: {{enseignantP.adresse}}<br>
-    Etat Civil: {{enseignantP.etatCivil}}<br>
-    Nom Conjoint: {{enseignantP.nomConjoint}}<br>
-    Code Postal: {{enseignantP.codepostal}}<br>
-    Spécialité: {{enseignantP.specialite}}<br>
-    RIB: {{enseignantP.rib}}<br>
-    <h4>Données Professionnelles</h4>
+    <div class="span">
+    <h3>Données Personnelles</h3>
+    <b>Nom et Prenom :</b>{{enseignantP.prenom +" "+enseignantP.nom}}<br>
+    <b>Nom de Pére :</b> {{enseignantP.nompere}}<br>
+    <b>Sexe: </b>{{enseignantP.sexe}}<br>
+    <b>Lieu de Naissance: </b> {{enseignantP.lieuNaissance}}<br>
+    <b>Adresse: </b>{{enseignantP.adresse}}<br>
+    <b>Etat Civil:</b> {{enseignantP.etatCivil}}<br>
+    <b>Nom Conjoint:</b> {{enseignantP.nomConjoint}}<br>
+    <b>Code Postal:</b> {{enseignantP.codepostal}}<br>
+    <div *ngIf="enseignantP.specialite!=null"><b>Spécialité: </b>{{enseignantP.specialite.libelleSp}}</div>
+    <b>RIB:</b> {{enseignantP.rib}}<br>
+  </div>
     <hr>
-    Date de Recrutement: {{enseignantP.dateRecrutement}}<br>
-    Date de Titularisation: {{enseignantP.dateTitularisation}}<br>
-
-  </mat-card-content>
-  <mat-card-actions>
- <!--<button mat-button>Imprimer</button>-->
-  </mat-card-actions>
-</mat-card>
+    <h3>Données Professionnelles</h3>
+    <b>Date de Recrutement:</b>{{enseignantP.dateRecrutement}}<br>
+    <b>Date de Titularisation:</b> {{enseignantP.dateTitularisation}}<br>
+    <div *ngIf="enseignantP.departement!=null"><b>Departement:</b> {{enseignantP.departement.nomDep}}</div>
+    <div *ngIf="enseignantP.Corps!=null"><b>Corps:</b> {{enseignantP.Corps.libelleCps}}</div><br>
+    <b>Diplômes:</b>
+    <div *ngIf="diplomepers!=null">
+        <table class="table table-striped">
+            <tr>
+              <th>Titre</th><th>Date de diplôme</th>
+            </tr>
+            <tr *ngFor="let d of diplomepers; let i=index">
+              <td>{{d.diplome.titreDip}}</td>
+              <td>{{d.date}}</td>
+            </tr></table></div><br>
+        
+    <b>Poste Administratif:</b> {{enseignantP.dateTitularisation}}<br>
+    <b>Grades:</b>
+    <div *ngIf="AGrades!=null">
+      <table class="table table-striped">
+          <tr>
+            <th>Titre</th><th>Date de Grade</th>
+          </tr>
+          <tr *ngFor="let g of AGrades; let i=index">
+            <td>{{g.grade.titre}}</td>
+            <td>{{g.dateEvaluation}}</td>
+          </tr></table></div><br>
+    <!-- <b>Grade Actuel:</b> {{enseignantP.dateTitularisation}}<br> -->
+    <button mat-mini-fab color="primary" (click)="AjouterAnnee()"><mat-icon>print</mat-icon></button>
+    </div>
+  </div>
+      <!--<ul class="list-inline">
+              <li><h5><strong>Date de Recrutement:</strong></h5></li>
+              <li> {{enseignantP.dateRecrutement}}</li>
+          </ul>
+          <ul class="list-inline">
+              <li><h5><strong>Date de Titularisation:</strong></h5></li>
+              <li>{{enseignantP.dateTitularisation}}</li>
+          </ul>
+          <hr> -->       
 </div>

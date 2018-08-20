@@ -1,36 +1,41 @@
 <app-index></app-index>
+<div class="container spacer">
 <div class="panel panel-primary">
   <div class="panel-heading">Ajouter Poste Administrative</div>
   <div class="panel-body">
-    <div>
-      <form class="form-inline">
-        <div class="form-group">
-          <label class="control-label">Libellé :</label>
-          <input id="msg" type="text" class="form-control" name="msg" placeholder="libellé" [(ngModel)]="poste.libelle">
-          <button type="button" class="btn btn-primary btn-md" (click)="ajouter()">Ajouter</button>
+      <div>
+          <mat-form-field>
+            <input matInput placeholder="Libellé" [(ngModel)]="poste.libellePos">
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput placeholder="الخطة الوظيفية" [(ngModel)]="poste.libellePosAr">
+          </mat-form-field>
+          <button  mat-mini-fab color="primary" (click)="ajouter()">
+            <mat-icon>add</mat-icon></button>
         </div>
-      </form>
-    </div>
-  </div>
-  <div class="panel panel-default">
-    <div class="panel-heading">Afficher Poste</div>
-    <div class="panel-body">
-      <div class="form-group">
-        <label>Libellé</label>
-        <input type="text" [(ngModel)]="motCle"/>
-        <button class="btn btn-primary" (click)="doSearch()">Chercher</button>
-      </div>
-      <table class="table table-striped">
+        <mat-tab-group class="demo-tab-group">
+            <mat-tab label="Liste des Postes">
+              <div class="demo-tab-content">
+                <br>
+          <table class="table table-hover" cellspacing="0">
+            <thead>
         <tr>
-          <th>ID</th><th>Libellé</th><th>Modifier Poste</th><th>Supprimer Poste</th>
+          <th>ID</th><th>Libellé</th><th>الخطة الوظيفية</th><th>Modifier Poste</th><th>Supprimer Poste</th>
         </tr>
-        <tr *ngFor="let p of postes">
+      </thead>
+      <tbody>
+        <tr *ngFor="let p of pagePoste?.content">
           <td>{{p.id}}</td>
-          <td>{{p.libelle}}</td>
-          <td><a (click)="onEditPoste(p.id)" class="clickable">Modifier</a> </td>
-          <td><a (click)="onDeletePoste(p)" class="clickable">Supprimer</a> </td>
-        </tr></table>
-    </div>
+          <td>{{p. libellePos}}</td>
+          <td>{{p. libellePosAr}}</td>
+          <td><a (click)="onEditPoste(p.id)" class="clickable"><mat-icon>create</mat-icon></a> </td>
+          <td><a (click)="onDeletePoste(p)" class="clickable"><mat-icon>delete_sweep</mat-icon></a> </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
+</mat-tab>
+</mat-tab-group>
+    </div>
 </div>
-
+</div>

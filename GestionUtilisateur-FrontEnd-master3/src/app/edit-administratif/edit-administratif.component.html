@@ -39,8 +39,8 @@
         <input matInput placeholder="Lieu de Naissance" type="text" name="lieu" [(ngModel)]="administratif.lieuNaissance">
       </mat-form-field>
       <mat-radio-group [(ngModel)]="administratif.sexe" name="sexe">
-        <mat-radio-button value="F">Femme</mat-radio-button>
-        <mat-radio-button value="H">Homme</mat-radio-button>
+        <mat-radio-button value="Femme">Femme</mat-radio-button>
+        <mat-radio-button value="Homme">Homme</mat-radio-button>
       </mat-radio-group>
       <mat-form-field>
         <input matInput placeholder="Téléphone" type="text" name="telephone" [(ngModel)]="administratif.telephone">
@@ -117,7 +117,7 @@
       <mat-form-field>
         <mat-select placeholder="Service" [(value)]="service">
           <mat-option *ngFor="let s of services" [value]="s">
-            {{ s.libelle }}
+            {{ s.libelleServ }}
           </mat-option>
         </mat-select>
       </mat-form-field>
@@ -127,10 +127,13 @@
       <mat-form-field>
         <input matInput placeholder="Pointure" type="text" name="pointure" [(ngModel)]="administratif.pointure">
       </mat-form-field>
-      <mat-radio-group [(ngModel)]="administratif.etat" required name="etat">
-        <mat-radio-button value="true">Actif</mat-radio-button>
-        <mat-radio-button value="false">Non-Actif</mat-radio-button>
-      </mat-radio-group>
+      <mat-form-field>
+        <mat-select placeholder="Etat" [(value)]="etat" required name="etat">
+          <mat-option *ngFor="let e of etats" [value]="e">
+            {{ e.libelleEtat }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
     </mat-expansion-panel>
     <button mat-raised-button color="primary" (click)="updateAdmin()">Modifier</button>
     <button mat-raised-button color="primary" (click)="fe.reset()">Annuler</button>

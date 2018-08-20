@@ -26,6 +26,11 @@ import { DiplomePersonnelServices } from '../../services/diplomepersonnel.servic
 import { DiplomeServices } from '../../services/diplome.services';
 import { DiplomePersonnelComponent } from '../diplome-personnel/diplome-personnel.component';
 import { AGradeComponent } from '../a-grade/a-grade.component';
+import { Etat } from '../../model/model.etat';
+import { EtatServices } from '../../services/etat.services';
+import { Periode } from '../../model/model.periode';
+import { PeriodeServices } from '../../services/periode.services';
+import { PeriodeComponent } from '../periode/periode.component';
 
 @Component({
   selector: 'app-edit-enseignant-permanent',
@@ -57,6 +62,14 @@ export class EditEnseignantPermanentComponent implements OnInit {
   diplomepers:Array<DiplomePersonnel>=new Array<DiplomePersonnel>();
   specialite:Specialite=new Specialite();
   specialites:Array<Specialite>=new Array<Specialite>();
+  etat:Etat=new Etat();
+  etats:Array<Etat>=new Array<Etat>();
+  etatModifiable:boolean=false;
+  departementModifiable:boolean=false;
+  specialiteModifiable:boolean=false;
+  periode:Periode=new Periode();
+  periodes:Array<Periode>=new Array<Periode>();
+  newperiodes:Array<Periode>=new Array<Periode>();
   constructor(public activatedRoute:ActivatedRoute,
     private agradeServices:AGradeServices,
     private posteService:PosteAdministrativeServices,
@@ -64,27 +77,31 @@ export class EditEnseignantPermanentComponent implements OnInit {
     private corpsServices: CorpsServices,
     private specialiteServices:SpecialiteServices,
     private enseingnantpermanentService:EnseignantPermanentServices,
-    private enfantservice: EnfantServices, 
+    private enfantservice: EnfantServices,
+    private etatServices:EtatServices, 
     private departementServices: DepartementServices,
     private diplomePersonnelServices: DiplomePersonnelServices,
     private diplomeServices:DiplomeServices,
+    private periodeServices:PeriodeServices,
     public http: Http,
     public dialog: MatDialog,
     public router: Router)
   {
-    this.matricule=activatedRoute.snapshot.params['matricule'];
+    this.matricule=activatedRoute.snapshot.params['idPers'];
   }
 
   ngOnInit() {
     this.enseingnantpermanentService.getEnseignantPermanent(this.matricule)
       .subscribe(data=>{
         this.enseignantP=data;
-        console.log(this.enseignantP.etat);
-        console.log(data);
+       this.departement=this.enseignantP.departement;
+       this.specialite=this.enseignantP.specialite;
+       this.etat=this.enseignantP.etat;
         this.chercherEnfant(data);
         this.chercherAGrade(data);
         this.chercherDiplome(data);
-        this.specialite=this.enseignantP.specialite;
+        this.chercherPeriode(data);
+        
       },err=>{
         console.log(err);
       });
@@ -94,7 +111,30 @@ export class EditEnseignantPermanentComponent implements OnInit {
     this.chercherPoste();
     this.chercherSpecialite();
     this.chercherDip();
+    this.chercherEtats();
     
+  }
+  ModifierEtat()
+  {
+  this.etatModifiable=true;
+  }
+  ModifierDepartement()
+  {
+  this.departementModifiable=true;
+  }
+  ModifierSpecialite()
+  {
+  this.specialiteModifiable=true;
+  }
+  chercherEtats()
+  {
+    this.etatServices.getAllEtats()
+      .subscribe(data=>{
+        this.etats=data;
+        console.log(data);
+      },err=>{
+        console.log(err);
+      })
   }
   chercherDip() {
     this.diplomeServices.allDiplomes()
@@ -116,7 +156,7 @@ export class EditEnseignantPermanentComponent implements OnInit {
   }
   chercherEnfant(e:EnseignantPermanent)
   {
-    this.enfantservice.getEnfantsPersonnel(e.matricule)
+    this.enfantservice.getEnfantsPersonnel(e.idPers)
     .subscribe(data=>{
       this.enfants=data;
       console.log(data);
@@ -126,7 +166,7 @@ export class EditEnseignantPermanentComponent implements OnInit {
   }
   chercherAGrade(e:EnseignantPermanent)
   {
-    this.agradeServices.getAGradesPersonnel(e.matricule)
+    this.agradeServices.getAGradesPersonnel(e.idPers)
     .subscribe(data=>{
       this.AGrades=data;
       console.log(data);
@@ -134,9 +174,19 @@ export class EditEnseignantPermanentComponent implements OnInit {
       console.log(err);
     })
   }
+  chercherPeriode(e:EnseignantPermanent)
+  {
+    this.periodeServices.getPeriodePersonnel(e.idPers)
+    .subscribe(data=>{
+      this.periodes=data;
+      console.log(data);
+    },err=>{
+      console.log(err);
+    })
+  }
   chercherDiplome(e:EnseignantPermanent)
   {
-    this.diplomePersonnelServices.getPersonnelDiplome(e.matricule)
+    this.diplomePersonnelServices.getPersonnelDiplome(e.idPers)
     .subscribe(data=>{
     this.diplomepers=data;
       console.log(data);
@@ -156,16 +206,17 @@ export class EditEnseignantPermanentComponent implements OnInit {
   }
   updateEnseignant() {
     this.enseignantP.departement=this.departement;
-    this.enseignantP.corps=this.corp;
     this.enseignantP.specialite=this.specialite;
+    this.enseignantP.etat=this.etat;
     this.enseingnantpermanentService.updateEnseignantPermanent(this.enseignantP)
       .subscribe(data=>{
         alert("Mise à jour effectuée");
         this.ajouterenfants(data);
         this.EnregistrerDiplomeP(data);
         this.EnregistrerAgrade(data);
-        this.router.navigate(['ListeEnseignantP']);
+        this.EnregistrerPoste(data);
         console.log(data);
+        this.router.navigate(['ListePersonnel']);
       },err=>{
         console.log(err);
       });
@@ -240,6 +291,44 @@ export class EditEnseignantPermanentComponent implements OnInit {
     this.NewAGrades.push(this.agrade);
    
   }
+  ajouterPoste()
+  {if(this.periodes.length==0 && this.newperiodes.length<3)
+    {
+    this.periode.posteAdmin=new PosteAdministrative();
+    this.periode = new Periode();
+    this.newperiodes.push(this.periode);
+  }
+  else if(this.periodes.length==1 && this.newperiodes.length<2)
+  {
+    this.periode.posteAdmin=new PosteAdministrative();
+    this.periode = new Periode();
+    this.newperiodes.push(this.periode);
+  }
+  else if(this.periodes.length==2 && this.newperiodes.length<1)
+  {
+    this.periode.posteAdmin=new PosteAdministrative();
+    this.periode = new Periode();
+    this.newperiodes.push(this.periode);
+  }
+  else if(this.periodes.length==3)
+  {
+   return;
+  }
+  }
+  EnregistrerPoste(en:EnseignantPermanent) {
+   
+      for(let p of this.newperiodes)
+      {p.personnel=en;
+        this.periodeServices.savePeriode(p)
+          .subscribe(data => {
+            console.log("Success d'ajout periode");
+            console.log(data);
+          }, err => {
+            console.log(err);
+          });
+      
+    }
+  }
   ModifierEnfants(e:Enfant)
   {
     let dialogRef = this.dialog.open(EnfantsComponent, {data:{name:e.num,nom:e.nom}});
@@ -252,6 +341,10 @@ export class EditEnseignantPermanentComponent implements OnInit {
   ModifierGrade(g:AGrade)
   {
     let dialogRef = this.dialog.open(AGradeComponent, {data:{num:g.id_agrade}});
+  }
+  ModifierPoste(p:Periode)
+  {
+    let dialogRef = this.dialog.open(PeriodeComponent, {data:{num:p.id_periode}});
   }
   EnregistrerAgrade(en:EnseignantPermanent) {
     for (let agrd of this.NewAGrades) {

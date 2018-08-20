@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { IndexEnseignantComponent } from './index-enseignant.component';
+import { ModalMutationComponent } from './modal-mutation.component';
 
-describe('IndexEnseignantComponent', () => {
-  let component: IndexEnseignantComponent;
-  let fixture: ComponentFixture<IndexEnseignantComponent>;
+describe('ModalMutationComponent', () => {
+  let component: ModalMutationComponent;
+  let fixture: ComponentFixture<ModalMutationComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ IndexEnseignantComponent ]
+      declarations: [ ModalMutationComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(IndexEnseignantComponent);
+    fixture = TestBed.createComponent(ModalMutationComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

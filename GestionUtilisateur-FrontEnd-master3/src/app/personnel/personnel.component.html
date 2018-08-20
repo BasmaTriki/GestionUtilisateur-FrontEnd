@@ -1,8 +1,10 @@
-<div><app-index></app-index></div>
+<app-index></app-index>
 <div class="container spacer">
-  <div class="panel panel-primary">
-    <div class="panel-heading">Ajouter Personnel</div>
+  <div class="panel panel-default">
+    <div class="panel-heading">{{'Personnel.TITLE' | translate }}</div>
+   <!--  <div class="panel-heading">Personnel</div> -->
     <div class="panel-body">
+    <div *ngIf="lang=='fr'">
         <mat-form-field>
           <mat-select placeholder="Type de Personnel" [(value)]="type"  required>
             <mat-option *ngFor="let t of TypePersonnel" [value]="t.value">
@@ -16,6 +18,22 @@
       <div *ngIf="type=='Administratif'">
         <app-administratif></app-administratif>
       </div>
+      </div>
+      <div *ngIf="lang=='ar'">
+        <mat-form-field>
+          <mat-select placeholder="نوع الشخص" [(value)]="typeAr"  required>
+            <mat-option *ngFor="let t of TypePersonnelAr" [value]="t.value">
+              {{ t.value }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      <div *ngIf="typeAr=='أستاذ'">
+        <app-enseignant-permanent></app-enseignant-permanent>
+      </div>
+      <div *ngIf="typeAr=='إداري'">
+        <app-administratif></app-administratif>
+      </div>
+    </div>
     </div>
   </div>
 </div>

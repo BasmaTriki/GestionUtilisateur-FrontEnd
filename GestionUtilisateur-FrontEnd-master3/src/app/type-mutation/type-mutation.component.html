@@ -1,46 +1,45 @@
 <app-index></app-index>
 <div class="container spacer">
-<div class="panel panel-primary">
+<div class="panel panel-default">
   <div class="panel-heading">Ajouter Type Mutation</div>
   <div class="panel-body">
     <div>
       <form class="form-inline">
         <div class="form-group">
           <mat-form-field>
-            <input matInput placeholder="Désignation" [(ngModel)]="typeMutation.designation" name="desig">
+            <input matInput placeholder="Désignation" [(ngModel)]="typeMutation.designationMutation" name="desig">
           </mat-form-field>
-          <button  mat-icon-button (click)="ajouter()">
-            <mat-icon>add_circle</mat-icon></button>
+          <mat-form-field>
+              <input matInput placeholder="نوع النقلة" [(ngModel)]="typeMutation.designationMutationAr" name="desigAr">
+            </mat-form-field>
+          <button  mat-mini-fab color="primary" (click)="ajouter()">
+            <mat-icon>add</mat-icon></button>
         </div>
       </form>
     </div>
-  </div>
-</div>
-  <div class="panel panel-default">
-    <div class="panel-heading">Afficher Mutation</div>
-    <div class="panel-body">
-      <mat-form-field>
-        <input matInput placeholder="Type Mutation" [(ngModel)]="motCle">
-      </mat-form-field>
-      <button mat-icon-button color="" (click)="doSearch()">
-        <mat-icon>search</mat-icon></button>
-      </div>
-      <table class="table table-striped">
+    <mat-tab-group class="demo-tab-group">
+        <mat-tab label="Liste des Types Mutation">
+          <div class="demo-tab-content">
+            <br>
+      <table class="table table-hover" cellspacing="0">
+        <thead>
         <tr>
-          <th>ID</th><th>Titre</th><th>Modifier</th><th>Supprimer</th>
+          <th>ID</th><th>Titre</th><th>نوع النقلة</th><th>Modifier</th><th>Supprimer</th>
         </tr>
+      </thead>
+      <tbody>
         <tr *ngFor="let tm of pageTypeMutation?.content">
           <td>{{tm.code}}</td>
-          <td>{{tm.designation}}</td>
+          <td>{{tm.designationMutation}}</td>
+          <td>{{tm.designationMutationAr}}</td>
           <td><a (click)="onEditTypeMutation(tm.code)" class="clickable"> <mat-icon>create</mat-icon></a> </td>
           <td><a (click)="onDeleteTypeMutation(tm)" class="clickable"> <mat-icon>delete_sweep</mat-icon></a> </td>
-        </tr></table>
-    <div class="container">
-      <ul class="nav nav-pills">
-        <li [ngClass]="{'active' :i==currentPage}" *ngFor="let p of pages; let i=index">
-          <a class="clickable" (click)="gotopage(i)">{{i}}</a>
-        </li>
-      </ul>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</mat-tab>
+</mat-tab-group>
     </div>
     </div>
   </div>

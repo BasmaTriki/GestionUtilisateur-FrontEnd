@@ -5,9 +5,12 @@ export class DemandeVacation{
   cin:number;
   nom:string="";
   prenom:string="";
+  nomAr:string="";
+  prenomAr:string="";
   email:string="";
   telephone:string="";
   adresse:string="";
+  adresseAr:string="";
   ville:string="";
   codePostal:number;
   specialite:Specialite;

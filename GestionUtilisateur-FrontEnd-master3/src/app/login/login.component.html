@@ -1,15 +1,19 @@
-  <div class="row">
+<!-- <div id="LoginForm">
+<div class="container">
+<div class="row">
+    
     <div class="col-md-4 col-sm-4 col-xs-12"></div>
     <div class="col-md-4 col-sm-4 col-xs-12">
-      <!--form start-->
+   
       <form class="form-container">
-        <h1 align="center">  Welcome </h1>
+          <img alt="User Pic" src="../../assets/images/user_pic.png" class="avatar">
+        <h1 align="center">Bienvenu </h1>
         <div class="form-group">
-          <label for="us">Username</label>
+          <label for="us">Login</label>
           <input type="text" class="form-control" id="us" placeholder="Username" name="login"[(ngModel)]="login">
         </div>
         <div class="form-group">
-          <label for="pas">Password</label>
+          <label for="pas">Mot de passe</label>
           <input type="password" class="form-control" id="pas" placeholder="Password" name="motpasse"[(ngModel)]="motpasse">
         </div>
         <div class="checkbox">
@@ -20,7 +24,40 @@
         <button type="submit" class="btn btn-success btn-block" (click)="chercheUser()">Connexion</button>
       </form>
 
-      <!--form end-->
+    
     </div>
     <div class="col-md-4 col-sm-4 col-xs-12"></div>
   </div>
+</div>
+</div> -->
+<div id="LoginForm">
+    <div id="lang"> <button mat-mini-fab class="buttonColor" (click)="switchLanguage('fr')">FR</button>
+      <button mat-mini-fab class="buttonColor" (click)="switchLanguage('ar')">AR</button></div>
+    <div class="container spacer">
+    <div class="row">
+    
+        <div class="col-md-4 col-sm-4 col-xs-12"></div>
+        <div class="col-md-4 col-sm-4 col-xs-12">
+<div class="login-form">    
+    <form >
+		<div class="avatar"><i class="material-icons">&#xE7FF;</i></div>
+    	<h4 class="modal-title">Page d'authentification</h4>
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Login" name="login" [(ngModel)]="login" required="required">
+        </div>
+        <div class="form-group">
+            <input type="password" class="form-control" placeholder="Mot de Passe" required="required" name="motpasse" [(ngModel)]="motpasse">
+        </div>
+        <div class="form-group small clearfix">
+            <label class="checkbox-inline"><input type="checkbox"> Remember me</label>
+            <a href="/" class="forgot-link">Mot de passe oublié?</a>
+        </div> 
+        <input type="submit" class="btn btn-primary btn-block btn-lg" (click)="chercheUser()" value="Connexion">              
+    </form>		
+    <div class="text-center small">Designed by <i fa fa-heart></i> <a routerLink="login">Marwa&Basma</a></div>
+</div>
+<div class="col-md-4 col-sm-4 col-xs-12"></div>
+</div>
+</div>
+</div>
+</div>

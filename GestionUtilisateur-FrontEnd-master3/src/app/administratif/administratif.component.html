@@ -34,8 +34,8 @@
               <input matInput placeholder="Lieu de Naissance" type="text" name="lieu" [(ngModel)]="administratif.lieuNaissance">
             </mat-form-field>
             <mat-radio-group [(ngModel)]="administratif.sexe" name="sexe">
-              <mat-radio-button value="F">Femme</mat-radio-button>
-              <mat-radio-button value="H">Homme</mat-radio-button>
+              <mat-radio-button value="Femme">Femme</mat-radio-button>
+              <mat-radio-button value="Homme">Homme</mat-radio-button>
             </mat-radio-group>
             <mat-form-field>
               <input matInput placeholder="Téléphone" type="text" name="telephone" [(ngModel)]="administratif.telephone">
@@ -66,9 +66,79 @@
             <mat-form-field *ngIf="administratif.etatCivil=='Marie'">
               <input matInput placeholder="Profession Conjoint" type="text" name="profConj" [(ngModel)]="administratif.profConjoint">
             </mat-form-field>
-
           </mat-expansion-panel>
-          <mat-expansion-panel *ngIf="administratif.etatCivil=='Marie'||administratif.etatCivil=='Divorce'">
+          <!--Formulaire Arabe-->
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                  المعلومات الشخصية 
+                  </mat-panel-title>
+                  <mat-panel-description>
+                </mat-panel-description>
+                </mat-expansion-panel-header>
+                <mat-form-field matTooltip="Max 12 chiffre" matTooltipPosition="above">
+                  <input matInput type="text" name="matricule" #input maxlength="12" placeholder="المعرف الوحيد" [(ngModel)]="administratif.matricule" required>
+                  <mat-hint align="end">{{input.value?.length||0}}/12</mat-hint>
+                </mat-form-field>
+                <mat-form-field matTooltip="Max 8 caractére" matTooltipPosition="above">
+                  <input matInput type="text" name="cin" #input1 maxlength="8" placeholder="ب.ت.و."  [(ngModel)]="administratif.cin" required>
+                  <mat-hint align="end">{{input1.value?.length||0}}/8</mat-hint>
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput placeholder="الإسم" type="text" name="prenomar" [(ngModel)]="administratif.prenomAr" required>
+                  </mat-form-field>
+                <mat-form-field>
+                    <input matInput placeholder="اللقب" type="text" name="nomar"  [(ngModel)]="administratif.nomAr" required>
+                  </mat-form-field>
+                  <mat-form-field>
+                    <input matInput placeholder="إسم الأب" type="text" name="nomperear" [(ngModel)]="administratif.nompereAr" required>
+                  </mat-form-field>
+                <mat-form-field>
+                  <input matInput [matDatepicker]="pickerNai" placeholder="تاريخ الولادة" name="datenais" [(ngModel)]="administratif.datenaissance" required>
+                  <mat-datepicker-toggle matSuffix [for]="pickerNai" startView="year" [startAt]="startDate"></mat-datepicker-toggle>
+                  <mat-datepicker #pickerNai></mat-datepicker>
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput placeholder="مكان الولادة" type="text" name="lieuar" [(ngModel)]="administratif.lieuNaissanceAr">
+                  </mat-form-field>
+                <mat-radio-group [(ngModel)]="administratif.sexeAr" name="sexear">
+                  <mat-radio-button value="أنثى">أنثى</mat-radio-button>
+                  <mat-radio-button value="ذكر">ذكر</mat-radio-button>
+                </mat-radio-group>
+                 <mat-form-field>
+                  <input matInput placeholder="الهاتف" type="text" name="telephone" [(ngModel)]="administratif.telephone">
+                </mat-form-field>
+                <mat-form-field>
+                  <input matInput placeholder="البريد الإلكتروني" type="email" name="email" [(ngModel)]="administratif.email" required>
+                  <!--<mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>-->
+                </mat-form-field>
+                <mat-form-field>
+                    <textarea matInput placeholder="العنوان" type="text" name="adressear" [(ngModel)]="administratif.adresseAr" required></textarea>
+                  </mat-form-field>
+                <mat-form-field matTooltip="Max 4 caractére" matTooltipPosition="above">
+                  <input matInput #input2 maxlength="4" placeholder="الصندوق البريدي" type="text" name="code" [(ngModel)]="administratif.codepostal">
+                  <mat-hint align="end">{{input2.value?.length||0}}/4</mat-hint>
+                </mat-form-field>
+                   <mat-form-field hintLabel="Max 20 caractére">
+                  <input matInput #input3 maxlength="20" placeholder="رقم الحساب الجاري" type="text" name="rib" [(ngModel)]="administratif.rib" required>
+                  <mat-hint align="end">{{input3.value?.length||0}}/20</mat-hint>
+                </mat-form-field><br>
+                <mat-radio-group [(ngModel)]="administratif.etatCivilAr" name="etatcivilar" #etatcivil>
+                  <mat-radio-button *ngIf="administratif.sexeAr==='ذكر' ||administratif.sexeAr===''"value="أعزب">أعزب</mat-radio-button>
+                  <mat-radio-button *ngIf="administratif.sexeAr==='أنثى'"value="عزباء">عزباء</mat-radio-button>
+                  <mat-radio-button value="(متزوج(ة">(متزوج(ة</mat-radio-button>
+                  <mat-radio-button value="(مطلق(ة">(مطلق(ة</mat-radio-button>
+                </mat-radio-group>
+                <mat-form-field *ngIf="administratif.etatCivilAr=='(متزوج(ة'">
+                  <input matInput placeholder="إسم القرين" type="text" name="nomconjar" [(ngModel)]="administratif.nomConjointAr">
+                </mat-form-field>
+                <mat-form-field *ngIf="administratif.etatCivilAr=='(متزوج(ة'">
+                <input matInput placeholder="مهنة القرين" type="text" name="profConjar" [(ngModel)]="administratif.profConjointAr">
+                </mat-form-field>
+                </mat-expansion-panel>
+            <!--end Formulaire Arabe-->
+      
+          <mat-expansion-panel *ngIf="administratif.etatCivil=='Marie'||administratif.etatCivil=='Divorce'||administratif.etatCivilAr=='(متزوج(ة'||administratif.etatCivilAr=='(مطلق(ة'">
             <mat-expansion-panel-header>
               <mat-panel-title>
                 Enfants
@@ -81,6 +151,9 @@
               <mat-form-field>
                 <input matInput placeholder="Nom Enfant" type="text" name="nomenf" required [(ngModel)]="e.nom">
               </mat-form-field>
+              <mat-form-field>
+                  <input matInput placeholder="إسم الطفل" type="text" name="nomenf" required [(ngModel)]="e.nomAr">
+                </mat-form-field>
               <mat-form-field>
                 <input matInput [matDatepicker]="pickerEn" placeholder="Date de Naissance" name="date_nais" required [(ngModel)]="e.dateNais">
                 <mat-datepicker-toggle matSuffix [for]="pickerEn"></mat-datepicker-toggle>
@@ -101,7 +174,7 @@
             <mat-form-field>
               <mat-select placeholder="Service" [(value)]="service">
                 <mat-option *ngFor="let s of services" [value]="s">
-                  {{ s.libelle }}
+                  {{ s.libelleServ+" / "+s.libelleServAr }}
                 </mat-option>
               </mat-select>
             </mat-form-field>
@@ -111,10 +184,13 @@
             <mat-form-field>
               <input matInput placeholder="Pointure" type="text" name="taille" [(ngModel)]="administratif.pointure">
             </mat-form-field>
-            <mat-radio-group [(ngModel)]="administratif.etat" required name="etat">
-              <mat-radio-button value="true">Actif</mat-radio-button>
-              <mat-radio-button value="false">Non-Actif</mat-radio-button>
-            </mat-radio-group>
+            <mat-form-field>
+              <mat-select placeholder="Etat" [(value)]="etat" required name="etat">
+                <mat-option *ngFor="let e of etats" [value]="e">
+                  {{ e.libelleEtat+" / "+e.libelleEtatAr }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
           </mat-expansion-panel>
           <button mat-raised-button color="primary" (click)="Enregistrer()">Ajouter</button>
           <button mat-raised-button color="primary" (click)="fe.reset()">Annuler</button>

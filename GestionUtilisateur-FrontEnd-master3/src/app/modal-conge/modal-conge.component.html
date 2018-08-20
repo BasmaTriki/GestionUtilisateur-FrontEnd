@@ -1,9 +1,9 @@
 <div>
 <h3 class="modal-title" id="lineModalLabel">Demande de Congé de {{data.name}}</h3>
 <mat-form-field>
-<mat-select placeholder="Type de Congé" [(value)]="typeconge" (Change)="NomberJour($event.value)" name="typeconge">
+<mat-select placeholder="Type de Congé" [(ngModel)]="typeconge" name="typeconge">
 <mat-option *ngFor="let c of typeconges" [value]="c">
-  {{c.libelle}}
+  {{c.libelleType}}
 </mat-option>
 </mat-select>
 </mat-form-field>
@@ -11,7 +11,7 @@
 <label class="control-label">Nombre de jours Max :</label><strong>{{typeconge.nbMaxJrs}}</strong>
 </div>
 <mat-form-field>
-<input matInput [matDatepicker]="picker" placeholder="Date de Debut" [(ngModel)]="conge.dateDebut" (dateInput)="onSelected1($event)" (dateChange)="onSelected1($event)" name="datedebut">
+<input matInput [matDatepicker]="picker" placeholder="Date de Debut" [(ngModel)]="conge.dateDebut" (dateInput)="onSelected($event)" (dateChange)="onSelected($event)" name="datedebut">
 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
 <mat-datepicker #picker  ngDefaultControl [(ngModel)]="conge.dateDebut"></mat-datepicker>
 </mat-form-field>
@@ -33,7 +33,7 @@
 <label *ngIf="restjour" class="control-label">Nombre de jours restants:</label>
 <div *ngIf="restjour" [innerHTML]="restjour"></div>
 </div>
-<div *ngIf="typeconge.libelle=='Maladie'">
+<div *ngIf="typeconge.libelleType=='Maladie'">
   <label>Importez votre certeficat médical</label>
   <input placeholder="Certafica" type="file" name="maladie" (change)="onFileSelected($event)">
 </div>

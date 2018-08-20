@@ -28,11 +28,28 @@ export class ConsultationVacationComponent implements OnInit {
       }
 
   ngOnInit()
+  {if(this.role=='DirecteurES')
   {
     this.doSearch();
   }
+  else
+  {
+this.doSearchAccepter();
+  }
+   
+  }
   doSearch() {
     this.demandeServices.getEtatDemandeVacation(this.motCle, this.currentPage, this.size)
+      .subscribe(data => {
+        console.log(data);
+        this.pageDemande = data;
+        this.pages = new Array(data.totalPages);
+      }, err => {
+        console.log(err);
+      })
+  }
+  doSearchAccepter() {
+    this.demandeServices.getEtatDemandeVacation("accepter", this.currentPage, this.size)
       .subscribe(data => {
         console.log(data);
         this.pageDemande = data;
@@ -52,5 +69,9 @@ export class ConsultationVacationComponent implements OnInit {
 {
   this.currentPage=i;
   this.doSearch();
+}
+Ajouter(d:DemandeVacation)
+{
+  this.router.navigate(['AjouterVacataire',d.idDemande]);
 }
 }

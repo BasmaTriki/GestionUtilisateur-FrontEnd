@@ -1,0 +1,33 @@
+<app-index></app-index>
+<div class="container spacer">
+<div class="panel panel-default">
+  <div class="panel-heading">Liste des Mutations</div>
+  <div class="panel-body">
+      <mat-tab-group class="demo-tab-group">
+          <mat-tab label="Mutations">
+            <br>
+           <div class="demo-tab-content">
+           <table class="table table-hover" cellspacing="0">
+              <thead>
+        <tr>
+          <th>ID</th><th>Nom & Prénom</th><th>Type de Mutation</th><th>Organisme d'accueil</th><th>Date de Mutatuion</th><th>Modifier</th><th>Supprimer</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let m of pageMutation?.content">
+          <td>{{m.idMut}}</td>
+          <td>{{m.personnel.prenom+"  "+m.personnel.nom}}</td>
+          <td>{{m.typemutation.designationMutation}}</td>
+          <td>{{m.organismeAccueil.libelleOrg}}</td>
+          <td>{{m.date_mut}}</td>
+          <td><a (click)="onEditMutation(m.idMut)" class="clickable"><mat-icon>create</mat-icon></a> </td>
+          <td><a (click)="onDeleteMutation(m)" class="clickable"><mat-icon>delete_sweep</mat-icon></a> </td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </mat-tab>
+  </mat-tab-group>
+    </div>
+  </div>
+</div>

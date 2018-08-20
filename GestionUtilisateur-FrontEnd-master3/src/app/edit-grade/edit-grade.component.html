@@ -1,16 +1,25 @@
 <app-index></app-index>
 <div class="container spacer">
-<div class="panel panel-primary">
+<div class="panel panel-default">
   <div class="panel-heading">Modifier Grade</div>
   <div class="panel-body">
     <div>
       <mat-form-field>
-        <input matInput placeholder="Identifiant" [(ngModel)]="grade.id">
+        <input matInput placeholder="ID" [(ngModel)]="grade.id" disabled>
       </mat-form-field>
       <mat-form-field>
         <input matInput placeholder="Titre" [(ngModel)]="grade.titre">
       </mat-form-field>
-          <button mat-icon-button color="primary"(click)="updateGrade()"><mat-icon>border_color</mat-icon></button>
+      <mat-form-field>
+          <input matInput placeholder="الرتبة" [(ngModel)]="grade.titreAr">
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Corps" [(ngModel)]="grade.corps.libelleCps" disabled>
+          </mat-form-field>
+          <mat-form-field>
+              <input matInput placeholder="السلك" [(ngModel)]="grade.corps.libelleCpsAr" disabled>
+            </mat-form-field>
+          <button mat-mini-fab color="primary" (click)="updateGrade()"><mat-icon>create</mat-icon></button>
         </div>
     </div>
   </div>

@@ -2,8 +2,11 @@ import {Conge} from "./model.conge";
 import {Enfant} from "./model.enfant";
 import {Mutation} from "./model.mutation";
 import { Role } from "./model.role";
+import { Etat } from "./model.etat";
+import { Organisme } from "./model.organisme";
 
 export class Personnel{
+  idPers:number;
   matricule:number;
   cin:number;
   nom:string="";
@@ -20,11 +23,21 @@ export class Personnel{
   nomConjoint:string="";
   profConjoint:string="";
   nompere:string="";
-  etat:boolean;
+  nomAr:string="";
+  prenomAr:string="";
+  adresseAr:string="";
+  lieuNaissanceAr:string="";
+  etatCivilAr:string="";
+  nomConjointAr:string="";
+  profConjointAr:string="";
+  nompereAr:string="";
+  etat:Etat;
   login:string="";
   motpasse:string="";
   conges:Array<Conge>;
   enfants:Array<Enfant>;
   mutation:Array<Mutation>;
-  role:Role;
+  role:Role=new Role();
+  organismeOrigine:Organisme;
+  dateEntree:Date;
 }

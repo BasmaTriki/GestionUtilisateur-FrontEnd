@@ -6,8 +6,8 @@ import {Personnel} from '../../model/model.personnel';
 import {TypeMutation} from '../../model/model.typeMutation';
 import {TypeMutationsServices} from '../../services/typeMutation.services';
 import {PersonnelServices} from "../../services/personnel.services";
-import {OrganismeAccueil} from "../../model/model.organismeAccueil";
-import {OrganismeAccueilServices} from "../../services/organismeAccueil.services";
+import {Organisme} from "../../model/model.organisme";
+import {OrganismeServices} from "../../services/organisme.services";
 
 @Component({
   selector: 'app-edit-mutation',
@@ -22,13 +22,13 @@ export class EditMutationComponent implements OnInit {
   typeMutation:TypeMutation;
   typeMutations:Array<TypeMutation>=new Array<TypeMutation>();
   id_mut:number=0;
-  orgAccueil:OrganismeAccueil=new OrganismeAccueil();
-  orgAccueils:Array<OrganismeAccueil>=new Array<OrganismeAccueil>();
+  orgAccueil:Organisme=new Organisme();
+  orgAccueils:Array<Organisme>=new Array<Organisme>();
   constructor(public activatedRoute:ActivatedRoute,
               public typeMutationServices:TypeMutationsServices,
               private mutationService:MutationServices,
               private personnelServices:PersonnelServices,
-              private orgAccueilServices:OrganismeAccueilServices,
+              private orgAccueilServices:OrganismeServices,
               public router:Router) {
     this.id_mut=activatedRoute.snapshot.params['idMut'];
   }

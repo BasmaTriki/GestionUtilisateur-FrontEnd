@@ -2,7 +2,7 @@
     <mat-form-field>
       <mat-select placeholder="Diplôme" [(value)]="diplome">
         <mat-option *ngFor="let dip of diplomes" [value]="dip">
-          {{ dip.titre }}
+          {{ dip.titreDip }}
         </mat-option>
       </mat-select>
     </mat-form-field>
@@ -12,48 +12,3 @@
       <mat-datepicker #picker1></mat-datepicker>
     </mat-form-field>
     <button mat-mini-fab color="black" (click)="Enregistrer()"><mat-icon>edit</mat-icon></button>
-    
-   <!-- <div> <table class="table table-striped">
-      <tr>
-        <th>ID</th><th>Personnel</th><th>Diplôme</th><th>Date</th><th>Modifier Diplome Personnel</th><th>Supprimer Diplome Personnel</th>
-      </tr>
-      <tr *ngFor="let d of diplomeps">
-        <td>{{d.id_DipP}}</td>
-        <td>{{d.personnel.prenom+" "+d.personnel.nom}}</td>
-        <td>{{d.diplome.titre}}</td>
-        <td>{{d.date}}</td>
-        <td><a (click)="onEditDiplomeP(d.id_DipP)" class="clickable">Modifier</a> </td>
-        <td><a (click)="onDeleteDiplomeP(d)" class="clickable">Supprimer</a> </td>
-      </tr></table>
-    </div>
-   <div class="example-container mat-elevation-z8">
-      <table mat-table #table [dataSource]="dataSource">
-        &lt;!&ndash; Position Column &ndash;&gt;
-        <ng-container matColumnDef="idDipP">
-          <th mat-header-cell *matHeaderCellDef> ID. </th>
-          <td mat-cell *matCellDef="let diplomep"> {{diplomep.idDipP}} </td>
-        </ng-container>
-        &lt;!&ndash; Name Column &ndash;&gt;
-        <ng-container matColumnDef="personnel">
-          <th mat-header-cell *matHeaderCellDef> Personnel </th>
-          <td mat-cell *matCellDef="let diplomep"> {{diplomep.personnel.prenom+" "+diplomep.personnel.nom}} </td>
-        </ng-container>
-        &lt;!&ndash; Weight Column &ndash;&gt;
-        <ng-container matColumnDef="diplome">
-          <th mat-header-cell *matHeaderCellDef> Diplome </th>
-          <td mat-cell *matCellDef="let diplomep"> {{diplomep.diplome.titre}} </td>
-        </ng-container>
-        &lt;!&ndash; Symbol Column &ndash;&gt;
-        <ng-container matColumnDef="date">
-          <th mat-header-cell *matHeaderCellDef> Date </th>
-          <td mat-cell *matCellDef="let diplomep"> {{diplomep.date}} </td>
-        </ng-container>
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-      </table>
-      <mat-paginator #paginator
-                     [pageSize]="10"
-                     [pageSizeOptions]="[5, 10, 20]"
-                     [showFirstLastButtons]="true">
-      </mat-paginator>
-    </div>-->

@@ -1,16 +1,16 @@
 <app-index></app-index>
 <div class="container spacer">
-  <div class="panel panel-primary">
-  <div class="panel-heading">Nouveau Utilisateur</div>
+  <div class="panel panel-default">
+  <div class="panel-heading">{{'SideBar.SMAjouterUt'| translate}}</div>
   <div class="panel-body">
       <div class="row">
   <div class="col-xs-12 col-sm-6 col-md-4">
     <form #flogin>
     <div class="form-group">
       <mat-form-field>
-        <mat-select placeholder="Choisir Personnel" [(value)]="personnel">
+        <mat-select placeholder="Personnel / الشخص" [(value)]="personnel">
           <mat-option *ngFor="let p of personnels" [value]="p">
-            {{p.prenom+"   "+ p.nom }}
+            {{p.prenom+"   "+ p.nom }}/{{p.prenomAr+"   "+ p.nomAr }}
           </mat-option>
         </mat-select>
       </mat-form-field>
@@ -18,36 +18,36 @@
         <div class="form-group">
           <mat-form-field>
               {{concatination()}}
-        <input  matInput placeholder="Login" #login [(value)]="loginU" name="login">
+        <input  matInput placeholder="Login / إسم المستخدم" #login [(value)]="loginU" name="login">
           </mat-form-field>
         </div>
       <div class="form-group">
       <mat-form-field>
-        <input  matInput placeholder="Mot de Passe:" [(value)]="motpassU" [type]="hide ? 'password' : 'text'" #motpass name="motpasse">
+        <input  matInput placeholder="Mot de Passe / كلمة السر" [(value)]="motpassU" [type]="hide ? 'password' : 'text'" #motpass name="motpasse">
         <mat-icon matSuffix class="clickable" (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
       </mat-form-field>
       </div>
       <div class="form-group">
         <mat-form-field>
-            <mat-select placeholder="Rôle" [(value)]="role" required>
-             <mat-option *ngFor="let r of roles" [value]="r">
+            <mat-select placeholder="Rôle" [(value)]="role" required name="roleU">
+             <mat-option *ngFor="let r of roles" [value]="r" name="roleU">
                 {{ r.type }}
               </mat-option>
            </mat-select>
          </mat-form-field>
       </div>
-      <button mat-raised-button color="primary" (click)="saveUser()">Enregistrer</button>
-      <button mat-raised-button color="primary" (click)="flogin.reset()">Annuler</button>
+      <button mat-raised-button color="primary" (click)="saveUser()">{{'Table.CAjouterBot'| translate}}</button>
+      <button mat-raised-button color="primary" (click)="flogin.reset()">{{'Table.CAnnuler'| translate}}</button>
     </form>
     </div>
-    <div id="team" *ngIf='personnel!=null'>
+    <div id="team">
       <div class="col-xs-12 col-sm-6 col-md-4">
         <div class="image-flip" ontouchstart="this.classList.toggle('hover');">
             <div class="mainflip">
                 <div class="frontside">
-                    <div class="card">
+                    <div class="card" *ngIf="personnel.nom!=null">
                         <div class="card-body text-center">
-                            <p><img class=" img-fluid" src="../../assets/images/img.jpg" alt="card image"></p>
+                            <p><img class=" img-fluid" src="../../assets/images/user_pic.png" alt="card image"></p>
                             <h4 class="card-title">{{personnel.prenom+" "+personnel.nom}}</h4>
                             <p class="card-text">{{personnel.prenom+" ben "+personnel.nompere+" "+personnel.nom +" neé le " +personnel.datenaissance}}</p>
                             <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i></a>

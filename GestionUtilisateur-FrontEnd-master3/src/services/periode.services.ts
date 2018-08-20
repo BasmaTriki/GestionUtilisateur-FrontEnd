@@ -35,4 +35,9 @@ export class PeriodeServices {
     return this.http.get("http://localhost:8080/Periodes")
       .map(resp => resp.json())
   }
+ 
+  getPeriodePersonnel(idPers:number) {
+    return this.http.get("http://localhost:8080/chercherPeriodePersonnel?mc="+idPers)
+      .map(resp => resp.json())
+  }
 }

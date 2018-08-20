@@ -1,44 +1,30 @@
 <app-index></app-index>
 <div class="container spacer">
- <div class="panel panel-primary">
-  <div class="panel-heading">Congés Personnel</div>
+ <div class="panel panel-default">
+  <div class="panel-heading">{{'SideBar.SMConge2'| translate}}</div>
   <div class="panel-body">
     <mat-tab-group class="demo-tab-group">
       <mat-tab label="Enseignant">
         <div class="demo-tab-content">
-          <mat-form-field>
-            <input matInput placeholder="Nom" [(ngModel)]="motCle">
-           </mat-form-field>
-           <button mat-icon-button (click)="doSearchEng()">
-            <mat-icon>search</mat-icon>
-           </button>
-           <mat-form-field>
-              <input matInput placeholder="Prenom" [(ngModel)]="motCle1">
-            </mat-form-field>
-            <button mat-icon-button (click)="doSearch1()">
-              <mat-icon>search</mat-icon>
-            </button>
-           <table class="table table-striped">
+            <table class="table table-hover" cellspacing="0">
+            <thead>
             <tr>
-              <th>Matricule</th><th>CIN</th><th>Nom</th><th>Prenom</th><th>Telephone</th><th>Demande de Congé</th><th>Etat des Congés</th>
+                <th>{{'Table.CID'| translate}}</th><th>{{'Table.CMatricule'| translate}}</th><th>{{'Table.CCIN'| translate}}</th><th>{{'Table.CPrenom'| translate}}&{{'Table.CNom'| translate}}</th><th>{{'Table.CTelephone'| translate}}</th><th>{{'Table.CdemandeConge'| translate}}</th><th>{{'Table.CHistoriqueConge'| translate}}</th>
             </tr>
+          </thead>
+          <tbody>
             <tr *ngFor="let e of pageEnseignant?.content">
+                <td>{{e.idPers}}</td>
               <td>{{e.matricule}}</td>
               <td>{{e.cin}}</td>
-              <td>{{e.nom}}</td>
-              <td>{{e.prenom}}</td>
+              <td *ngIf="lang=='fr'">{{e.prenom+" "+e.nom }}</td>
+              <td *ngIf="lang=='ar'">{{e.prenomAr+" "+e.nomAr }}</td>
               <td>{{e.telephone}}</td>
               <td align="center"><button mat-icon-button (click)="ajouterConge(e)"><mat-icon>today</mat-icon></button> </td>
               <td align="center"><button mat-icon-button (click)="EtatConge(e)"><mat-icon>update</mat-icon></button> </td>
             </tr>
+          </tbody>
            </table>
-           <div class="container">
-              <ul class="nav nav-pills">
-                <li [ngClass]="{'active' :i==currentPage}" *ngFor="let p of pages; let i=index">
-                  <a class="clickable" (click)="gotopage(i)">{{i}}</a>
-                </li>
-              </ul>
-            </div>
         </div>
       </mat-tab>
 

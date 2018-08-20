@@ -1,4 +1,5 @@
 export class Corps {
   idcps:number=0;
-  libelle:string="";
+  libelleCps:string="";
+  libelleCpsAr:string=""; 
 }
