@@ -44,6 +44,16 @@ export class CongeComponent implements OnInit {
   nom:string="";
   dataTable: any;
   lang:string;
+  nomAr:string;
+  TypePersonnel = [
+    {value: 'Enseignant'},
+    {value: 'Administratif'}
+  ];
+  type:string="";
+  TypePersonnelAr = [
+    {value: 'أستاذ'},
+    {value: 'إداري'}
+  ];
   constructor(public dialog: MatDialog,
     private adminService:AdministratifServices,
     private enseingnantpermanentService:EnseignantPermanentServices,
@@ -55,11 +65,18 @@ export class CongeComponent implements OnInit {
     public router:Router) 
     {
       this.lang=sessionStorage.getItem("lang");
+      if(this.lang=='fr')
+      {
+      this.type="Enseignant";
+      }
+      if(this.lang=='ar')
+      {
+      this.type="أستاذ";
+      }
      }
 
   ngOnInit() {
     this.doSearchEng();
-    this.doSearchAdmin();
   }
   onEditConge(idCong:number){
     this.router.navigate(['editConge',idCong]);
@@ -80,7 +97,8 @@ export class CongeComponent implements OnInit {
     }
   } */
   doSearchEng()
-  { 
+  { if(this.type=="Enseignant"||this.type=="أستاذ")
+  {
      this.enseingnantpermanentService.getEnseignantPermanentPrenom(this.motCle,this.currentPage,this.size)
      .subscribe((data: any[]) => {
       this.pageEnseignant = data;
@@ -91,6 +109,20 @@ export class CongeComponent implements OnInit {
       },err=>{
         console.log(err);
       })
+    }
+    else if(this.type=="Administratif"||this.type=="إداري")
+    {
+      this.adminService.getAdministratifs(this.motCle1,this.currentPageA,this.size)
+      .subscribe((data: any[]) => {
+        this.pageEnseignant = data;
+        this.chRef.detectChanges();
+        // Now you can use jQuery DataTables :
+        const table: any = $('table');
+        this.dataTable = table.DataTable();
+        },err=>{
+          console.log(err);
+        })
+    }
   }
   doSearchAdmin()
   {
@@ -106,9 +138,19 @@ export class CongeComponent implements OnInit {
   ajouterConge(p:Personnel)
   {
     if(p!=null)
-    this.nom=p.prenom+" "+p.nom;
+    {
+      this.nom=p.prenom+" "+p.nom;
+      this.nomAr=p.prenomAr+" "+p.nomAr;
+    }
     this.personnel=p;
-    let dialogRef = this.dialog.open(ModalCongeComponent, {data:{name:this.nom,idPers:p.idPers}});
+    if(this.lang=='fr')
+    {
+      let dialogRef = this.dialog.open(ModalCongeComponent, {data:{name:this.nom,idPers:p.idPers}});
+    }
+    if(this.lang=='ar')
+    {
+      let dialogRef = this.dialog.open(ModalCongeComponent, {data:{name:this.nomAr,idPers:p.idPers}});
+    }
   }
   EtatConge(p:Personnel)
   {

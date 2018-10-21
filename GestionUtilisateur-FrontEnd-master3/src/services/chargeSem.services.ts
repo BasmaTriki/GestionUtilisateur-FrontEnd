@@ -9,6 +9,10 @@ export class ChargeSemestreServices {
     return this.http.get("http://localhost:8080/chercherChargeSemestre?mc="+description+"&size="+size+"&page="+page)
       .map(resp=>resp.json())
   }
+  getChargeEnseignant(idPers:number){
+    return this.http.get("http://localhost:8080/chercherChargeEnseignant?eng="+idPers)
+      .map(resp=>resp.json())
+  }
   getChargeSem(idChargeS:number){
     return this.http.get("http://localhost:8080/ChargeSemestre/"+idChargeS)
       .map(resp=>resp.json())

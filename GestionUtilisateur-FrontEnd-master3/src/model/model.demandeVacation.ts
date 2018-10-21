@@ -2,7 +2,7 @@ import { Specialite } from "./model.specialite";
 
 export class DemandeVacation{
   idDemande:number;
-  cin:number;
+  cin:string="";
   nom:string="";
   prenom:string="";
   nomAr:string="";
@@ -17,4 +17,12 @@ export class DemandeVacation{
   diplomes:string=""; 
   etatdemande:string="";
   typeDemande:string="";
+  dateCreationDem:Date=null;
+  datenaissance:Date=null;
+  nompere:string="";
+  nompereAr:string="";
+  lieuNaissance:string="";
+  lieuNaissanceAr:string="";
+  rib:string="";
+  etatCivil:string="";
 }

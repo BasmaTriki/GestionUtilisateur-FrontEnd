@@ -7,7 +7,7 @@ import {Http} from '@angular/http';
 import {Router} from '@angular/router';
 import {PosteAdministrativeServices} from '../../services/posteAdministrative.services';
 import {PeriodeServices} from '../../services/periode.services';
-import { MatDialogRef, MAT_DIALOG_DATA } from '../../../node_modules/@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
   selector: 'app-periode',

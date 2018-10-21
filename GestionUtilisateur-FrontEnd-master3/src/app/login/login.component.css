@@ -10,7 +10,7 @@ h1{
   color: #fff;
 }
 #LoginForm{ 
-  background-image:url("../../assets/images/bg_login.jpg"); 
+  background-image:url("../../assets/images/Imgiset.png"); 
   background-repeat:no-repeat;
    background-position:center; 
    background-size:cover; 
@@ -20,7 +20,7 @@ h1{
 .buttonColor
 {
 /*background:rgba(19, 166, 185, 0.658)*/
-background:#4aba70;
+background:#60C2CB;
 }
   .spacer{
     margin-top:70px;
@@ -33,24 +33,25 @@ background:#4aba70;
   position: absolute;
   top:-50px;
   left:calc(50% - 50px);
+  
 }
 .form-control {
   box-shadow: none;
   border-color: #ddd;
 }
 .form-control:focus {
-  border-color: #4aba70; 
+  border-color: #16B0D4; 
 }
 .login-form {
-      width: 350px;
+  width: 350px;
   margin: 0 auto;
   padding: 30px 0;
 }
   .login-form form {
-      color: #434343;
+  color: #434343;
   border-radius: 1px;
-    margin-bottom: 15px;
-      background: #fff;
+  margin-bottom: 15px;
+  background: #fff;
   border: 1px solid #f3f3f3;
       box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
       padding: 30px;
@@ -58,7 +59,7 @@ background:#4aba70;
 .login-form h4 {
   text-align: center;
   font-size: 22px;
-      margin-bottom: 20px;
+  margin-bottom: 20px;
 }
   .login-form .avatar {
   color: #fff;
@@ -69,7 +70,7 @@ background:#4aba70;
   height: 100px;
   border-radius: 50%;
   z-index: 9;
-  background: #4aba70;
+  background: #60C2CB;
   padding: 15px;
   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
 }
@@ -90,12 +91,12 @@ background:#4aba70;
   right: 15px;
 }
 .login-form .btn {
-  background: #4aba70;
+  background: #60C2CB;
   border: none;
   line-height: normal;
 }
 .login-form .btn:hover, .login-form .btn:focus {
-  background: #42ae68;
+  background: #16B0D4;
 }
   .login-form .checkbox-inline {
       float: left;
@@ -110,5 +111,5 @@ background:#4aba70;
       font-size: 13px;
   }
   .login-form a {
-      color: #4aba70;
+      color: #19519D;
   }

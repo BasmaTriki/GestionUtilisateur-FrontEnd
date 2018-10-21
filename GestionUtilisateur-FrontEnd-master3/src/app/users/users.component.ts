@@ -9,7 +9,7 @@ import { Subscription } from 'rxjs/Subscription';
 import * as $ from 'jquery';
 import 'datatables.net';
 import 'datatables.net-bs4';
-import { TranslateService } from '../../../node_modules/@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({

@@ -1,0 +1,26 @@
+<div *ngIf="lang=='fr'">
+  <div class="panel-heading">Imprimer les Fichiers</div>
+  <div class="panel-body">
+    <mat-form-field>
+      <mat-select placeholder="Type de fichier" [(value)]="type" required>
+        <mat-option *ngFor="let d of documents" [value]="d.value">
+          {{d.value}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+        <button mat-mini-fab color="primary" (click)="Imprimer()"><mat-icon>print</mat-icon></button>
+    </div>
+  </div>
+  <div  *ngIf="lang=='ar'">
+    <div class="panel-heading">طباعة الوثائق</div>
+    <div class="panel-body">
+      <mat-form-field>
+        <mat-select placeholder="نوع الوثيقة" [(value)]="type" required>
+          <mat-option *ngFor="let d of documentsAr" [value]="d.value">
+            {{d.value}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+          <button mat-mini-fab color="primary" (click)="Imprimer()"><mat-icon>print</mat-icon></button>
+      </div>
+    </div>

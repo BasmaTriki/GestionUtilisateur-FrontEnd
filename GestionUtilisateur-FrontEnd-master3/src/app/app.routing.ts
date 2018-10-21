@@ -64,88 +64,107 @@ import { ListeMutationComponent } from './liste-mutation/liste-mutation.componen
 import { EditServiceComponent } from './edit-service/edit-service.component';
 import { EditOrganismeComponent } from './edit-organisme/edit-organisme.component';
 import { ListeCongeRattrapeComponent } from './liste-conge-rattrape/liste-conge-rattrape.component';
-import { HttpClient } from '../../node_modules/@angular/common/http';
-import { TranslateHttpLoader } from '../../node_modules/@ngx-translate/http-loader';
+import { HttpClient } from '@angular/common/http';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { ListeCongeNaccepterComponent } from './liste-conge-naccepter/liste-conge-naccepter.component';
+import { ModalImportationComponent } from './modal-importation/modal-importation.component';
+import { ListeEnseignantFonctionnaireComponent } from './liste-enseignant-fonctionnaire/liste-enseignant-fonctionnaire.component';
+import { ListeEtatComponent } from './liste-etat/liste-etat.component';
+import { StatistiqueComponent } from './statistique/statistique.component';
+import { CongeAdminComponent } from './conge-admin/conge-admin.component';
+import { CongeAutoComponent } from './conge-auto/conge-auto.component';
+import { MutationAdminComponent } from './mutation-admin/mutation-admin.component';
+import { AuthGuard } from '../services/autho-garde.services';
+import { EnseignantContractuelleComponent } from './enseignant-contractuelle/enseignant-contractuelle.component';
+import { ImprimerFicheComponent } from './imprimer-fiche/imprimer-fiche.component';
+import { ListeEnseignantContractuelComponent } from './liste-enseignant-contractuel/liste-enseignant-contractuel.component';
+import { EditEnseignantLibreComponent } from './edit-enseignant-libre/edit-enseignant-libre.component';
+import { ModalDemandeVacComponent } from './modal-demande-vac/modal-demande-vac.component';
+import { PersonnelCongeComponent } from './personnel-conge/personnel-conge.component';
 const appRoutes:Routes=[
   {path:'login',component:LoginComponent},
-  {path:'users',component:UsersComponent},
-  {path:'new-user',component:NewUserComponent},
-  {path:'editUser/:idUser',component:EditUserComponent},
-  {path:'navbar',component:NavbarComponent},
-  {path:'sidebar',component:SideBarComponent},
-  {path:'index',component:IndexComponent},
-  {path:'enseignantpermanent',component:EnseignantPermanentComponent},
-  {path:'diplome',component:DiplomeComponent},
-  {path:'editDiplome/:idDip',component:EditDiplomeComponent},
-  {path:'departement',component:DepartementComponent},
-  {path:'editdepartement/:idDep',component:EditDepartementComponent},
-  {path:'corps',component:CorpsComponent},
-  {path:'editCorps/:idcps',component:EditCorpsComponent},
-  {path:'grade',component:GradeComponent},
-  {path:'editGrade/:id',component:EditGradeComponent},
-  {path:'conge',component:CongeComponent},
-  {path:'consultationConge',component:ConsultationCongeComponent},
-  {path:'typeConge',component:TypeCongeComponent},
-  {path:'typeMutation',component:TypeMutationComponent},
-  {path:'DiplomePersonnel',component:DiplomePersonnelComponent},
-  {path:'mutation',component:MutationComponent},
-  {path:'editConge/:idCong',component:EditCongeComponent},
-  {path:'editTypeConge/:idCg',component:EditTypeCongeComponent},
-  {path:'editTypeMutation/:code',component:EditTypeMutationComponent},
-  {path:'posteAdmin',component:PosteAdministrativeComponent},
-  {path:'ModalMutation',component:ModalMutationComponent},
-  {path:'Agrade',component:AGradeComponent},
-  {path:'ListeMutation',component:ListeMutationComponent},
-  {path:'editAgrade/:id_agrade',component:EditAgradeComponent},
-  {path:'periode',component:PeriodeComponent},
-  {path:'DetailsEnseignantP/:idPers',component:DetailsEnseignantComponent},
-  {path:'EditEnseignantP/:idPers',component:EditEnseignantPermanentComponent},
-  {path:'EditAdministratif/:idPers',component:EditAdministratifComponent},
-  {path:'editPosteAdmin/:id',component:EditPosteAdministrativeComponent},
-  {path:'editMutation/:idMut',component:EditMutationComponent},
-  {path:'congePersonnel',component:CongePersonnelComponent},
-  {path:'editSpecialite/:idSp',component:EditSpecialiteComponent},
-  {path:'historiqueConge/:idPers',component:HistoriqueCongeComponent},
-  {path:'personnelhistorique',component:PersonnelHistoriqueComponent},
-  {path:'specialite',component:SpecialiteComponent},
-  {path:'service',component:ServiceComponent},
-  {path:'personnel',component:PersonnelComponent},
-  {path:'modalConge',component:ModalCongeComponent},
-  {path:'administratif',component:AdministratifComponent},
-  {path:'profile',component:ProfileComponent},
-  {path:'ListePersonnel',component:ListeEnseignantPermanentComponent},
-  {path:'ListeVacation',component:ListeEnseignantVacataireComponent},
-  {path:'OrgAccueil',component:OrganismeAccueilComponent},
-  {path:'CongeRattraper',component:ListeCongeRattrapeComponent},
-  {path:'editOrganisme/:idOrg',component:EditOrganismeComponent},
-  {path:'Enfant',component:EnfantsComponent},
-  {path:'RepriseConge',component:RepriseCongeComponent},
+  {path:'users', canActivate: [AuthGuard],component:UsersComponent},
+  {path:'new-user', canActivate: [AuthGuard],component:NewUserComponent},
+  {path:'editUser/:idUser', canActivate: [AuthGuard],component:EditUserComponent},
+  {path:'navbar', canActivate: [AuthGuard],component:NavbarComponent},
+  {path:'sidebar', canActivate: [AuthGuard],component:SideBarComponent},
+  {path:'index', canActivate: [AuthGuard],component:IndexComponent},
+  {path:'enseignantpermanent', canActivate: [AuthGuard],component:EnseignantPermanentComponent},
+  {path:'diplome', canActivate: [AuthGuard],component:DiplomeComponent},
+  {path:'editDiplome/:idDip', canActivate: [AuthGuard],component:EditDiplomeComponent},
+  {path:'departement', canActivate: [AuthGuard],component:DepartementComponent},
+  {path:'editdepartement/:idDep', canActivate: [AuthGuard],component:EditDepartementComponent},
+  {path:'corps', canActivate: [AuthGuard],component:CorpsComponent},
+  {path:'editCorps/:idcps', canActivate: [AuthGuard],component:EditCorpsComponent},
+  {path:'grade', canActivate: [AuthGuard],component:GradeComponent},
+  {path:'editGrade/:id', canActivate: [AuthGuard],component:EditGradeComponent},
+  {path:'conge', canActivate: [AuthGuard],component:CongeComponent},
+  {path:'congeAdmin', canActivate: [AuthGuard],component:CongeAdminComponent},
+  {path:'consultationConge', canActivate: [AuthGuard],component:ConsultationCongeComponent},
+  {path:'typeConge', canActivate: [AuthGuard],component:TypeCongeComponent},
+  {path:'typeMutation', canActivate: [AuthGuard],component:TypeMutationComponent},
+  {path:'DiplomePersonnel', canActivate: [AuthGuard],component:DiplomePersonnelComponent},
+  {path:'mutation', canActivate: [AuthGuard],component:MutationComponent},
+  {path:'editConge', canActivate: [AuthGuard],component:EditCongeComponent},
+  {path:'editTypeConge/:idCg', canActivate: [AuthGuard],component:EditTypeCongeComponent},
+  {path:'editTypeMutation/:code', canActivate: [AuthGuard],component:EditTypeMutationComponent},
+  {path:'posteAdmin', canActivate: [AuthGuard],component:PosteAdministrativeComponent},
+  {path:'ModalMutation', canActivate: [AuthGuard],component:ModalMutationComponent},
+  {path:'Agrade', canActivate: [AuthGuard],component:AGradeComponent},
+  {path:'ListeMutation', canActivate: [AuthGuard],component:ListeMutationComponent},
+  {path:'editAgrade/:id_agrade', canActivate: [AuthGuard],component:EditAgradeComponent},
+  {path:'periode', canActivate: [AuthGuard],component:PeriodeComponent},
+  {path:'DetailsEnseignantP/:idPers', canActivate: [AuthGuard],component:DetailsEnseignantComponent},
+  {path:'EditEnseignantP/:idPers', canActivate: [AuthGuard],component:EditEnseignantPermanentComponent},
+  {path:'EditAdministratif/:idPers', canActivate: [AuthGuard],component:EditAdministratifComponent},
+  {path:'editPosteAdmin/:id', canActivate: [AuthGuard],component:EditPosteAdministrativeComponent},
+  {path:'editMutation/:idMut', canActivate: [AuthGuard],component:EditMutationComponent},
+  {path:'congePersonnel', canActivate: [AuthGuard],component:CongePersonnelComponent},
+  {path:'editSpecialite/:idSp', canActivate: [AuthGuard],component:EditSpecialiteComponent},
+  {path:'historiqueConge/:idPers', canActivate: [AuthGuard],component:HistoriqueCongeComponent},
+  {path:'personnelhistorique', canActivate: [AuthGuard],component:PersonnelHistoriqueComponent},
+  {path:'specialite', canActivate: [AuthGuard],component:SpecialiteComponent},
+  {path:'service', canActivate: [AuthGuard],component:ServiceComponent},
+  {path:'personnel', canActivate: [AuthGuard],component:PersonnelComponent},
+  {path:'modalConge', canActivate: [AuthGuard],component:ModalCongeComponent},
+  {path:'administratif', canActivate: [AuthGuard],component:AdministratifComponent},
+  {path:'profile', canActivate: [AuthGuard],component:ProfileComponent},
+  {path:'personnelConge', canActivate: [AuthGuard],component:PersonnelCongeComponent},
+  {path:'ListePersonnel', canActivate: [AuthGuard],component:ListeEnseignantPermanentComponent},
+  {path:'ListeVacation', canActivate: [AuthGuard],component:ListeEnseignantVacataireComponent},
+  {path:'OrgAccueil', canActivate: [AuthGuard],component:OrganismeAccueilComponent},
+  {path:'CongeRattraper', canActivate: [AuthGuard],component:ListeCongeRattrapeComponent},
+  {path:'CongeRefuser', canActivate: [AuthGuard],component:ListeCongeNaccepterComponent},
+  {path:'editOrganisme/:idOrg', canActivate: [AuthGuard],component:EditOrganismeComponent},
+  {path:'Enfant', canActivate: [AuthGuard],component:EnfantsComponent},
+  {path:'RepriseConge', canActivate: [AuthGuard],component:RepriseCongeComponent},
   {path:'demandeVacation',component:EnseignantVacataireComponent},
-  {path:'ConsultationVacation',component:ConsultationVacationComponent},
-  {path:'ModalVacation',component:ModalVacationComponent},
-  {path:'ListeConge',component:ListeCongeComponent},
-  {path:'CongeMensuel',component:CongeMensuelComponent},
-  {path:'AjouterVacataire',component:AjouterVacataireComponent},
-  {path:'ListeAdmin',component:ListeAdministratifComponent},
-  {path:'editService/:idServ',component:EditServiceComponent},
-  {path:'AjouterVacataire/:idDemande',component:AjouterVacataireComponent},
+  {path:'ModalDemande',component:ModalDemandeVacComponent},
+  {path:'ConsultationVacation', canActivate: [AuthGuard],component:ConsultationVacationComponent},
+  {path:'ModalVacation', canActivate: [AuthGuard],component:ModalVacationComponent},
+  {path:'enseignantContractuelle', canActivate: [AuthGuard],component:EnseignantContractuelleComponent},
+  {path:'ListeConge', canActivate: [AuthGuard],component:ListeCongeComponent},
+  {path:'CongeMensuel', canActivate: [AuthGuard],component:CongeMensuelComponent},
+  {path:'CongeAutoriser', canActivate: [AuthGuard],component:CongeAutoComponent},
+  {path:'MutationAdmin', canActivate: [AuthGuard],component:MutationAdminComponent},
+  {path:'AjouterVacataire', canActivate: [AuthGuard],component:AjouterVacataireComponent},
+  {path:'ListeEtat', canActivate: [AuthGuard],component:ListeEtatComponent},
+  {path:'Statistique', canActivate: [AuthGuard],component:StatistiqueComponent},
+  {path:'ListeAdmin', canActivate: [AuthGuard],component:ListeAdministratifComponent},
+  {path:'ListeEnseignantFonct', canActivate: [AuthGuard],component:ListeEnseignantFonctionnaireComponent},
+  {path:'importer', canActivate: [AuthGuard],component:ModalImportationComponent},
+  {path:'imprimer', canActivate: [AuthGuard],component:ImprimerFicheComponent},
+  {path:'ListeEnseigContractuel', canActivate: [AuthGuard],component:ListeEnseignantContractuelComponent},
+  {path:'editService/:idServ', canActivate: [AuthGuard],component:EditServiceComponent},
+  {path:'editVacationLibre/:idPers', canActivate: [AuthGuard],component:EditEnseignantLibreComponent},
+  {path:'AjouterVacataire/:idDemande', canActivate: [AuthGuard],component:AjouterVacataireComponent},
   {path:'',redirectTo:'/login',pathMatch:'full'}
 ];
-export function createTranslateLoader(http: HttpClient) {
-  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
-}
 @NgModule({
   imports: [
     CommonModule,
     BrowserModule,
     RouterModule.forRoot(appRoutes),
-/*     TranslateModule.forRoot({
-      loader: {
-          provide: TranslateLoader,
-          useFactory:(createTranslateLoader),
-          deps: [HttpClient]
-      }
-  }) */
   ],
   exports: [RouterModule],
 })

@@ -18,18 +18,29 @@ export class EditUserComponent implements OnInit {
   role:Role=new Role();
   roles:Array<Role>=new Array<Role>();
   roleModifiable:boolean=false;
+  nom:string;
+  lang:string;
   constructor(public activatedRoute:ActivatedRoute,
               public personnelService:PersonnelServices,
               private roleServices:RoleServices,
               public router:Router)
   {
   this.idUser=activatedRoute.snapshot.params['idUser'];
+  this.lang=sessionStorage.getItem("lang");
   }
   ngOnInit() {
     this.personnelService.getPersonnel(this.idUser)
       .subscribe(data=> {
         this.personnel = data;
         this.role=this.personnel.role;
+        if(this.lang=="fr")
+        {
+          this.nom=this.personnel.prenom+" "+this.personnel.nom;
+        }
+        else if(this.lang=="ar")
+        {
+          this.nom=this.personnel.prenomAr+" "+this.personnel.nomAr;
+        }
       },err=>{
       console.log(err);
       })

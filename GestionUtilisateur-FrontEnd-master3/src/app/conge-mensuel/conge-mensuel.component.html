@@ -1,15 +1,22 @@
-<div class="panel panel-default" *ngIf="type=='CongeMensuel'">
+<div *ngIf="type=='CongeMensuel' && lang=='fr'">
   <div class="panel-heading">Congé Mensuel</div>
   <div class="panel-body">
     <mat-form-field>
-          <input matInput [matDatepicker]="picker" placeholder="Date de Congé" [(ngModel)]="dateConge">
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker startView="year" [startAt]="startDate"></mat-datepicker>
+      <input matInput type="month" name="mois" placeholder="Choisir le mois" [(ngModel)]="dateConge">
         </mat-form-field>
-        <button mat-raised-button color="primary" (click)="Imprimer()"><mat-icon>print</mat-icon>Imprimer</button>
+        <button mat-mini-fab color="primary" (click)="Imprimer()"><mat-icon>print</mat-icon></button>
     </div>
   </div>
-  <div class="panel panel-default" *ngIf="type=='CongePersonnel'">
+  <div *ngIf="type=='CongeMensuel' && lang=='ar'">
+    <div class="panel-heading">العطل الشهرية</div>
+    <div class="panel-body">
+      <mat-form-field>
+        <input matInput type="month" name="mois" placeholder="الشهر" [(ngModel)]="dateConge">
+          </mat-form-field>
+          <button mat-mini-fab color="primary" (click)="Imprimer()"><mat-icon>print</mat-icon></button>
+      </div>
+    </div>
+  <div *ngIf="type=='CongePersonnel' && lang=='fr'">
     <div class="panel-heading">Congé Personnel</div>
     <div class="panel-body">
         <mat-form-field>
@@ -22,8 +29,21 @@
           <button mat-raised-button color="primary" (click)=" ImprimerPers()"><mat-icon>print</mat-icon>Imprimer</button>
       </div>
     </div>
-    <div class="panel panel-default" *ngIf="type=='CongeType'">
-        <div class="panel-heading">Congé Personnel</div>
+    <div *ngIf="type=='CongePersonnel' && lang=='ar'">
+      <div class="panel-heading">العطل للأستاذة</div>
+      <div class="panel-body">
+          <mat-form-field>
+              <mat-select placeholder="قائمة الأساتذة" [(value)]="personnel">
+                <mat-option *ngFor="let p of personnels" [value]="p">
+                  {{p.prenomAr+" ben "+p.nompereAr+"  "+ p.nomAr }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <button mat-raised-button color="primary" (click)=" ImprimerPers()"><mat-icon>print</mat-icon>Imprimer</button>
+        </div>
+      </div>
+    <div *ngIf="type=='CongeType' && lang=='fr'">
+        <div class="panel-heading">Congé Par type</div>
         <div class="panel-body">
             <mat-form-field>
                 <input matInput [matDatepicker]="picker" placeholder="Date de Congé" [(ngModel)]="dateConge">
@@ -40,3 +60,21 @@
               <button mat-raised-button color="primary" (click)="Imprimertype()"><mat-icon>print</mat-icon>Imprimer</button>
           </div>
         </div>
+        <div *ngIf="type=='CongeType' && lang=='ar'">
+          <div class="panel-heading">قائمة العطل بالنوع</div>
+          <div class="panel-body">
+              <mat-form-field>
+                  <input matInput [matDatepicker]="picker" placeholder="تاريخ العطلة" [(ngModel)]="dateConge">
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker startView="year" [startAt]="startDate"></mat-datepicker>
+                </mat-form-field>
+              <mat-form-field>
+                  <mat-select placeholder="نوع العطلة" [(value)]="typeConge">
+                    <mat-option *ngFor="let t of typeConges" [value]="t">
+                      {{t.libelleTypeAr }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <button mat-raised-button color="primary" (click)="Imprimertype()"><mat-icon>print</mat-icon>Imprimer</button>
+            </div>
+          </div>

@@ -5,4 +5,7 @@ export class AGrade{
   dateEvaluation:Date=null;
   grade:Grade=null;
   personnel:Personnel=null;
+  gradeActuel:boolean=false;
+	dateRecrutement:Date;
+	dateTitularisation:Date;
 }

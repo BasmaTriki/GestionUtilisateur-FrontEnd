@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Organisme } from '../../model/model.organisme';
-import { ActivatedRoute, Router } from '../../../node_modules/@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { OrganismeServices } from '../../services/organisme.services';
 
 @Component({

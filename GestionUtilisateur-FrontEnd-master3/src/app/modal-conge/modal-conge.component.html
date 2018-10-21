@@ -1,5 +1,6 @@
-<div>
-<h3 class="modal-title" id="lineModalLabel">Demande de Congé de {{data.name}}</h3>
+  <div class="panel-heading"><h3>{{'Table.CModalConge'| translate }} {{data.name}}</h3></div>
+  <div class="panel-body">
+<div *ngIf="lang=='fr'">
 <mat-form-field>
 <mat-select placeholder="Type de Congé" [(ngModel)]="typeconge" name="typeconge">
 <mat-option *ngFor="let c of typeconges" [value]="c">
@@ -16,7 +17,7 @@
 <mat-datepicker #picker  ngDefaultControl [(ngModel)]="conge.dateDebut"></mat-datepicker>
 </mat-form-field>
 <mat-form-field>
-<input matInput [matDatepicker]="picker1" placeholder="Date de Fin"  [(ngModel)]="conge.dateFin" (dateInput)="onSelected($event)" (dateChange)="onSelected($event)" name="datefin">
+<input matInput [matDatepicker]="picker1" placeholder="Date de Fin" [min]="conge.dateDebut" [(ngModel)]="conge.dateFin" (dateInput)="onSelected($event)" (dateChange)="onSelected($event)" name="datefin">
 <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
 <mat-datepicker #picker1 [(ngModel)]="conge.dateFin" ngDefaultControl ></mat-datepicker>
 </mat-form-field><br>
@@ -29,24 +30,67 @@
 <div class="form-group ">
   <label *ngIf="nomberJour" class="control-label">Nombre de jours:</label>
   <div *ngIf="nomberJour" [innerHTML]="nomberJour"></div>
+</div>
 <div class="form-group ">
 <label *ngIf="restjour" class="control-label">Nombre de jours restants:</label>
-<div *ngIf="restjour" [innerHTML]="restjour"></div>
+<div *ngIf="restjour" [ngStyle]="{color: getColor()}" [innerHTML]="restjour"></div>
 </div>
-<div *ngIf="typeconge.libelleType=='Maladie'">
+<div *ngIf="typeconge.libelleType=='Maladie'||typeconge.libelleType=='Maladie Longue durée'">
   <label>Importez votre certeficat médical</label>
   <input placeholder="Certafica" type="file" name="maladie" (change)="onFileSelected($event)">
+</div>    
 </div>
-<div class="modal-footer">
-  <div class="btn-group btn-group-justified" role="group" aria-label="group button">
-    <div class="btn-group" role="group">
-      <button type="button" class="btn btn-default" data-dismiss="modal" (click)="Close()" role="button">Fermer</button>
+    <!--Modale Arabe-->
+    <div *ngIf="lang=='ar'">
+      <mat-form-field>
+      <mat-select placeholder="نوع العطلة" [(ngModel)]="typeconge" name="typeconge">
+      <mat-option *ngFor="let c of typeconges" [value]="c">
+        {{c.libelleTypeAr}}
+      </mat-option>
+      </mat-select>
+      </mat-form-field>
+      <div class="form-group">
+     <strong>{{typeconge.nbMaxJrs}}</strong> 
+     <label class="control-label">:العدد الأقصى للأيام </label>
+      </div>
+      <mat-form-field>
+      <input matInput [matDatepicker]="picker" placeholder="بداية العطلة" [(ngModel)]="conge.dateDebut" (dateInput)="onSelected($event)" (dateChange)="onSelected($event)" name="datedebut">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker  ngDefaultControl [(ngModel)]="conge.dateDebut"></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field>
+      <input matInput [matDatepicker]="picker1" placeholder="نهاية العطلة" [min]="conge.dateDebut" [(ngModel)]="conge.dateFin" (dateInput)="onSelected($event)" (dateChange)="onSelected($event)" name="datefin">
+      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+      <mat-datepicker #picker1 [(ngModel)]="conge.dateFin" ngDefaultControl ></mat-datepicker>
+      </mat-form-field><br>
+      <mat-form-field>
+        <textarea  matInput placeholder="عنوان العطلة" type="text" name="adresse" [(ngModel)]="conge.adresseCongeAr" required></textarea>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="هاتف العطلة" type="text" name="telephone" [(ngModel)]="conge.telephoneConge">
+      </mat-form-field>
+      <div class="form-group ">
+          <label *ngIf="nomberJour" class="control-label">:عدد الأيام المطلوبة </label>
+        <div *ngIf="nomberJour" [innerHTML]="nomberJour"></div>
+        </div>
+      <div class="form-group ">
+      <label *ngIf="restjour" class="control-label">:عدد الأيام المتبقية في رصيدك</label>
+      <div [ngStyle]="{color: getColor()}" *ngIf="restjour" [innerHTML]="restjour"></div>
+      </div>
+      <div *ngIf="typeconge.libelleType=='Maladie'||typeconge.libelleType=='Maladie Longue durée'">
+        <label>:تحميل الشهادة الطبية </label>
+        <input placeholder="الشهادة الطبية" type="file" name="maladie" (change)="onFileSelected($event)">
+      </div>
     </div>
-    <div class="btn-group btn-delete hidden" role="group">
-      <button type="button" id="delImage" class="btn btn-default btn-hover-red" data-dismiss="modal"  role="button">Delete</button>
-    </div>
-    <div class="btn-group" role="group">
-      <button type="button" id="saveImage" class="btn btn-default btn-hover-green" (click)="ajouter()" role="button">Envoyer</button>
-    </div>
+       <!--end Modale Arabe-->
+      <div class="modal-footer">
+        <div class="btn-group btn-group-justified" role="group" aria-label="group button">
+            <div class="btn-group" role="group">
+                <button type="button" id="saveImage" class="btn btn-default btn-hover-green" [disabled]="!congeValide" (click)="ajouter()" role="button">{{'Table.CAjouterBot'| translate}}</button>
+              </div>
+          <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default" data-dismiss="modal" (click)="Close()" role="button">{{'Table.CAnnuler'| translate}}</button>
+          </div>
+        </div>
+      </div>
   </div>
-</div>

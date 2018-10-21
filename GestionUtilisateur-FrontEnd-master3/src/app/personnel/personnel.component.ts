@@ -8,16 +8,17 @@ import {TranslateService} from '@ngx-translate/core';
 })
 export class PersonnelComponent implements OnInit {
   TypePersonnel = [
-    {value: 'Enseignant'},
+    {value: 'Enseignant Permanent'},
+    {value: 'Enseignant Contractuel'},
     {value: 'Administratif'}
   ];
-  type:string="Enseignant";
+  type:string="";
   lang:string;
   TypePersonnelAr = [
-    {value: 'أستاذ'},
+    {value: 'أستاذ قار'},
+    {value: 'أستاذ متعاقد'},
     {value: 'إداري'}
   ];
-  typeAr:string="أستاذ";
   constructor(private translate: TranslateService) 
   {//translate.setDefaultLang('fr');
     this.lang=sessionStorage.getItem("lang");
@@ -25,6 +26,14 @@ export class PersonnelComponent implements OnInit {
   }
 
   ngOnInit() {
+    if(this.lang=='ar')
+    {
+      this.type="أستاذ قار";
+    }
+    else
+    {
+      this.type="Enseignant Permanent";
+    }
   }
 
 }

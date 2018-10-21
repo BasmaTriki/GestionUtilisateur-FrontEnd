@@ -1,95 +1,147 @@
   <!-- top navigation -->
   <div class="top_nav">
-    <div class="nav_menu">
+      <div class="nav_menu">
       <nav>
-        <div class="nav toggle">
-          <a id="menu_toggle" (click)="toggleClicked($event)"><i fa [icon]="'bars'"></i></a>
-        </div>              
-        <ul class="nav navbar-nav navbar-right">
-          <li class="">
-            <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-              <img src="../../assets/images/img.jpg" alt="">John Doe
-              <span class=" fa fa-angle-down"></span>
-            </a>
-            <ul class="dropdown-menu dropdown-usermenu pull-right">
-              <li><a href="javascript:;"> Profile</a></li>
-              <li>
-                <a href="javascript:;">
-                  <span class="badge bg-red pull-right">50%</span>
-                  <span>Settings</span>
-                </a>
-              </li>
-              <li><a href="javascript:;">Help</a></li>
-              <li><a routerLink="/login"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
-            </ul>
-          </li>
-
-          <li role="presentation" class="dropdown">
-            <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
-              <i class="fa fa-envelope-o"></i>
-              <span class="badge bg-green">6</span>
-            </a>
-            <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
-              <li>
-                <a>
-                  <span class="image"><img src="../../assets/images/img.jpg" alt="Profile Image" /></span>
-                  <span>
-                    <span>John Smith</span>
-                    <span class="time">3 mins ago</span>
-                  </span>
-                  <span class="message">
-                    Film festivals used to be do-or-die moments for movie makers. They were where...
-                  </span>
-                </a>
-              </li>
-              <li>
-                <a>
-                  <span class="image"><img src="../../assets/images/img.jpg" alt="Profile Image" /></span>
-                  <span>
-                    <span>John Smith</span>
-                    <span class="time">3 mins ago</span>
-                  </span>
-                  <span class="message">
-                    Film festivals used to be do-or-die moments for movie makers. They were where...
-                  </span>
-                </a>
-              </li>
-              <li>
-                <a>
-                  <span class="image"><img src="../../assets/images/img.jpg" alt="Profile Image" /></span>
-                  <span>
-                    <span>John Smith</span>
-                    <span class="time">3 mins ago</span>
-                  </span>
-                  <span class="message">
-                    Film festivals used to be do-or-die moments for movie makers. They were where...
-                  </span>
-                </a>
-              </li>
-              <li>
-                <a>
-                  <span class="image"><img src="../../assets/images/img.jpg" alt="Profile Image" /></span>
-                  <span>
-                    <span>John Smith</span>
-                    <span class="time">3 mins ago</span>
-                  </span>
-                  <span class="message">
-                    Film festivals used to be do-or-die moments for movie makers. They were where...
-                  </span>
-                </a>
-              </li>
-              <li>
-                <div class="text-center">
-                  <a>
-                    <strong>See All Alerts</strong>
-                    <i class="fa fa-angle-right"></i>
-                  </a>
-                </div>
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </nav>
-    </div>
-  </div>
+          <div class="nav toggle">
+              <a id="menu_toggle" (click)="toggleClicked($event)"><i class="fa fa-bars"></i></a>
+            </div> 
+             <span class="example-fill-remaining-space"></span>   
+                  <ul class="nav navbar-nav navbar-right">
+                    <li class="">
+                      <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                        <img src="../../assets/images/img.jpg" alt="">
+                        <span class="fa fa-angle-down"></span>
+                      </a>
+                      <ul class="dropdown-menu dropdown-usermenu pull-right">
+                        <li><a routerLink="/profile"><strong *ngIf="lang==='fr'">{{nom}}</strong><strong *ngIf="lang==='ar'">{{nomAr}}</strong></a></li> 
+                        <li><a routerLink="/profile"> {{'navBar.Mprofile'| translate}}</a></li>
+                        <li><a (click)="logOut()"><i class="fa fa-sign-out pull-right"></i>{{'navBar.Mdeconnexion'| translate}}</a></li>
+                      </ul>
+                    </li>
+                    <li role="presentation" class="dropdown">
+                      <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
+                        <i class="fa fa-bell"></i>
+                        <span class="badge bg-green">{{nomberConge}}</span>
+                      </a>
+                      <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
+                        <!--Role Admin-->
+                      <div *ngIf="role=='Admin'">
+                        <li *ngFor="let c of pageConge?.content">
+                          <div *ngIf="lang=='fr'">
+                          <a routerLink="/consultationConge">
+                            <span class="image"><img src="../../assets/images/img.jpg" alt="Profile Image" /></span>
+                            <span>
+                              <span>{{c.personnel.prenom+" "+c.personnel.nom}} </span>
+                              <span class="time">{{c.dateCreationConge |date:'dd/MM/yyyy hh:mm'}}</span>
+                            </span>
+                            <span class="message">
+                              {{c.personnel.prenom+" "+c.personnel.nom}} a dépose une demande de congé
+                            </span>
+                          </a>
+                        </div>
+                        <div *ngIf="lang=='ar'">
+                          <a routerLink="/consultationConge">
+                            <span class="image"><img src="../../assets/images/img.jpg" alt="Profile Image" /></span>
+                            <span>
+                              <span>{{c.personnel.prenomAr+" "+c.personnel.nomAr}} </span>
+                              <span class="time">{{c.dateCreationConge|date:'dd/MM/yyyy hh:mm'}}</span>
+                            </span>
+                            <span class="message">
+                            {{c.personnel.prenomAr+" "+c.personnel.nomAr}}  قدم مطلب عطلة 
+                            </span>
+                          </a>
+                        </div>
+                        </li>
+                      <li>
+                          <div class="text-center">
+                            <a routerLink="/consultationConge">
+                              <strong>{{'navBar.MVoirTous'| translate}}</strong>
+                              <i class="fa fa-angle-right"></i>
+                            </a>
+                          </div>
+                        </li>
+                      </div>
+                      <!--end role admin-->
+                      <div *ngIf="role=='AgentGRH'">
+                          <li *ngFor="let c of pageConge?.content">
+                            <div *ngIf="lang=='fr'">
+                            <a routerLink="/AjouterVacataire">
+                              <span class="image"><img src="../../assets/images/img.jpg" alt="Profile Image" /></span>
+                              <span>
+                                <span>{{c.prenom+" "+c.nom}} </span>
+                                <span class="time">{{c.dateCreationDem |date :'dd/MM/yyyy hh:mm'}}</span>
+                              </span>
+                              <span class="message">
+                                {{c.prenom+" "+c.nom}} a dépose une demande de vacation
+                              </span>
+                            </a>
+                          </div>
+                          <div  *ngIf="lang=='ar'">
+                            <a routerLink="/AjouterVacataire">
+                              <span class="image"><img src="../../assets/images/img.jpg" alt="Profile Image" /></span>
+                              <span>
+                                <span>{{c.prenomAr+" "+c.nomAr}} </span>
+                                <span class="time">{{c.dateCreationDem |date :'dd/MM/yyyy hh:mm'}}</span>
+                              </span>
+                              <span class="message">
+                             {{c.prenomAr+" "+c.nomAr}} قدم مطلب لتعاقد وقتي
+                              </span>
+                            </a>
+                          </div>
+                          </li>
+                        <li>
+                            <div class="text-center">
+                              <a routerLink="/AjouterVacataire">
+                                <strong>{{'navBar.MVoirTous'| translate}}</strong>
+                                <i class="fa fa-angle-right"></i>
+                              </a>
+                            </div>
+                          </li>
+                        </div>
+                        <!--end role Agent-->
+                        <div *ngIf="role=='DirecteurES'">
+                            <li *ngFor="let c of pageConge?.content">
+                              <div  *ngIf="lang=='fr'">
+                              <a routerLink="/ConsultationVacation">
+                                <span class="image"><img src="../../assets/images/img.jpg" alt="Profile Image" /></span>
+                                <span>
+                                  <span>{{c.prenom+" "+c.nom}} </span>
+                                  <span class="time">{{c.dateCreationDem |date :'dd/MM/yyyy hh:mm'}}</span>
+                                </span>
+                                <span class="message">
+                                  {{c.prenom+" "+c.nom}} a dépose une demande de vacation
+                                </span>
+                              </a>
+                            </div>
+                            <div *ngIf="lang=='ar'">
+                              <a routerLink="/ConsultationVacation">
+                                <span class="image"><img src="../../assets/images/img.jpg" alt="Profile Image" /></span>
+                                <span>
+                                  <span>{{c.prenomAr+" "+c.nomAr}} </span>
+                                  <span class="time">{{c.dateCreationDem|date :'dd/MM/yyyy hh:mm'}}</span>
+                                </span>
+                                <span class="message">
+                                {{c.prenomAr+" "+c.nomAr}} قدم مطلب لتعاقد وقتي
+                                </span>
+                              </a>
+                            </div>
+                            </li>
+                          <li>
+                              <div class="text-center">
+                                <a routerLink="/ConsultationVacation">
+                                  <strong>{{'navBar.MVoirTous'| translate}}</strong>
+                                  <i class="fa fa-angle-right"></i>
+                                </a>
+                              </div>
+                            </li>
+                          </div>
+                        <!--end role directeur-->
+                      </ul>
+                    </li>
+                  </ul>
+                  <span><img src="../../assets/images/ar.jpg" alt="Profile Image" class="profile-image clickable" (click)="switchLanguage('ar')"/></span> 
+                      <span><img src="../../assets/images/fr.jpg" alt="Profile Image" class="profile-image clickable" (click)="switchLanguage('fr')"/></span>
+                </nav>
+          </div>
+       </div>
   <!-- /top navigation -->

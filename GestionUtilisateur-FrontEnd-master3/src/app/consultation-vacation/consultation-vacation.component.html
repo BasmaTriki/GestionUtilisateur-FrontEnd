@@ -1,31 +1,35 @@
 <app-index></app-index>
 <div class="container spacer">
 <div class="panel panel-info">
-  <div class="panel-heading">Consulter les demandes de vacation</div>
+  <div class="panel-heading">{{'Table.CDemandeVac' | translate}}</div>
   <div class="panel-body">
+      <mat-tab-group class="demo-tab-group">
+          <mat-tab label="Demandes">
         <div class="demo-tab-content">
-          <table class="table table-striped">
-            <tr>
-              <th>CIN</th><th>Nom</th><th>Prenom</th><th>E-mail</th><th>Specialité</th><th *ngIf="role=='DirecteurES'||role=='Admin'">Détails</th><th *ngIf="role=='AgentGRH'">Ajouter</th>
+          <br>
+            <table class="table jambo_table" cellspacing="0">
+                <thead>
+                 <tr>
+                <th>{{'Table.CID'| translate}}</th><th>{{'Table.CCIN'| translate}}</th><th>{{'Table.CPrenom'| translate}}&{{'Table.CNom'| translate}}</th><th>{{'Table.CEmail' | translate}}</th><th>{{'SideBar.MSpecialite' | translate}}</th><th *ngIf="role=='DirecteurES'||role=='Admin'">{{'Table.CDetails'| translate}}</th><th *ngIf="role=='AgentGRH'">{{'Table.CAjouterBot' | translate}}</th>
             </tr>
+          </thead>
+          <tbody>
             <tr *ngFor="let d of pageDemande?.content">
+              <td>{{d.idDemande}}</td>
               <td>{{d.cin}}</td>
-              <td>{{d.nom}}</td>
-              <td>{{d.prenom}}</td>
+              <td *ngIf="lang=='fr'">{{d.prenom}} {{d.nom}}</td>
+              <td *ngIf="lang=='ar'">{{d.prenomAr}} {{d.nomAr}}</td>
               <td>{{d.email}}</td>
-              <td>{{d.specialite.libelleSp}}</td>
+              <td *ngIf="d.specialite!=null">{{d.specialite.libelleSp}}</td>
+              <td *ngIf="d.specialite==null">{{d.specialite}}</td>
               <td *ngIf="role=='DirecteurES'||role=='Admin'"> <button mat-icon-button  (click)="Detail(d)" color="primary" ><mat-icon>list_alt</mat-icon></button></td>
               <td *ngIf="role=='AgentGRH'"><button mat-icon-button  (click)="Ajouter(d)" color="primary" ><mat-icon>person_add</mat-icon></button></td>
             </tr>
-          </table>
-        <div class="container">
-          <ul class="nav nav-pills">
-            <li [ngClass]="{'active' :i==currentPage}" *ngFor="let p of pages; let i=index">
-              <a class="clickable" (click)="gotopage(i)">{{i}}</a>
-            </li>
-          </ul>
+          </tbody>
+        </table>
         </div>
-        </div>
+      </mat-tab>
+    </mat-tab-group>
     </div>
   </div>
 </div>

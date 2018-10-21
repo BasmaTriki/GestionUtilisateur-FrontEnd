@@ -1,0 +1,35 @@
+<app-index></app-index>
+<div class="container spacer">
+<div class="panel panel-default">
+  <div class="panel-heading">{{'SideBar.SMMutation1' | translate}}</div>
+  <div class="panel-body">
+      <mat-tab-group class="demo-tab-group">
+          <mat-tab label="Liste des Administratifs">
+            <div class="demo-tab-content">
+              <br>
+                <table class="table jambo_table" cellspacing="0">
+                <thead>
+                <tr>
+                    <th>{{'Table.CID'| translate}}</th><th>{{'Table.CMatricule'| translate}}</th><th>{{'Table.CCIN'| translate}}</th><th>{{'Table.CPrenom'| translate}}&{{'Table.CNom'| translate}}</th><th>{{'Table.CTelephone'| translate}}</th><th>{{'SideBar.MMutation' | translate}}</th><!--<th>Liste des Mutations</th>-->
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let e of pageEnseignant?.content">
+                  <td>{{e.idPers}}</td>
+                  <td>{{e.matricule}}</td>
+                  <td>{{e.cin}}</td>
+                  <td *ngIf="lang=='fr'">{{e.prenom+" "+e.nom }}</td>
+                  <td *ngIf="lang=='ar'">{{e.prenomAr+" "+e.nomAr }}</td>
+                  <td>{{e.telephone}}</td>
+                  <td align="center"><a class="clickable" (click)="ajouterMutation(e)"><mat-icon>exit_to_app</mat-icon></a> </td>
+                  <!-- <td align="center"><button mat-icon-button (click)="EtatMutation(e)"><mat-icon>update</mat-icon></button> </td> -->
+                </tr>
+              </tbody>
+               </table>
+            </div>
+          </mat-tab>
+          </mat-tab-group>
+    </div>
+  </div>
+</div>
+

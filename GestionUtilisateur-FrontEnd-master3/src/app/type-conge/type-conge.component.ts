@@ -6,7 +6,7 @@ import {Http} from '@angular/http';
 import * as $ from 'jquery';
 import 'datatables.net';
 import 'datatables.net-bs4';
-import { HttpClient } from '../../../node_modules/@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-type-conge',
@@ -22,10 +22,13 @@ export class TypeCongeComponent implements OnInit {
   typeConge:TypeConge=new TypeConge();
   typeConges:Array<TypeConge>=new Array<TypeConge>();
   dataTable: any;
+  lang:string="";
   constructor(private typeCongeServices:TypeCongeServices,
     private chRef: ChangeDetectorRef, 
     private http: HttpClient,
-    public router:Router) { }
+    public router:Router) { 
+      this.lang=sessionStorage.getItem("lang");
+    }
 
   ngOnInit() {
     this.doSearch();
@@ -76,11 +79,35 @@ export class TypeCongeComponent implements OnInit {
     }
   }
   autoriser(autorisation:boolean)
+  {if(this.lang=='fr')
   {
     if(autorisation)
+    return "Oui"
+  else
+    return "Non"
+  }
+  else if(this.lang=='ar')
+  {
+    if(autorisation)
+    return "نعم"
+  else
+    return "لا"
+  }
+  }
+  actif(actif:boolean)
+  {if(this.lang=='fr')
+    {
+      if(actif)
       return "Oui"
     else
       return "Non"
+    }
+    else if(this.lang=='ar')
+    {
+      if(actif)
+      return "نعم"
+    else
+      return "لا"
+    }
   }
-
 }

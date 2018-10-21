@@ -6,7 +6,8 @@ import {PosteAdministrativeServices} from '../../services/posteAdministrative.se
 import * as $ from 'jquery';
 import 'datatables.net';
 import 'datatables.net-bs4';
-import { HttpClient } from '../../../node_modules/@angular/common/http';
+import { HttpClient } from '@angular/common/http';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-poste-administrative',
@@ -22,22 +23,26 @@ export class PosteAdministrativeComponent implements OnInit {
   poste:PosteAdministrative=new PosteAdministrative();
   postes:Array<PosteAdministrative>=new Array<PosteAdministrative>();
   dataTable: any;
+  lang:string;
   constructor(private posteServices:PosteAdministrativeServices,
-    private chRef: ChangeDetectorRef, 
+    private chRef: ChangeDetectorRef,
+    private toastr: ToastrService, 
     private http: HttpClient,
     public router:Router) { }
 
   ngOnInit() {
     this.doSearch();
+    this.lang=sessionStorage.getItem("lang");
   }
   ajouter(){
     this.posteServices.savePoste(this.poste)
       .subscribe(data=>{
-        alert("Success d'ajout poste Administratif");
+      this.showSuccess();
         this.doSearch();
         console.log(data);
       },err=>{
         console.log(err);
+        this.toastr.error("veuillez vérifier les informations saisies")
       });
   }
   doSearch(){
@@ -50,18 +55,14 @@ export class PosteAdministrativeComponent implements OnInit {
       this.dataTable = table.DataTable();
       },err=>{
         console.log(err);
+        this.toastr.error("Erreur")
       })
-  }
-  gotopage(i:number)
-  {
-    this.currentPage=i;
-    this.doSearch();
   }
   onEditPoste(id:number){
     this.router.navigate(['editPosteAdmin',id]);
   }
   onDeletePoste(p:PosteAdministrative){
-    let confirm=window.confirm("Etes-vous sûre?");
+    let confirm=window.confirm("Voulez vous vraiment supprimer la poste?");
     if(confirm==true)
     {
       this.posteServices.deletePoste(p.id)
@@ -71,9 +72,18 @@ export class PosteAdministrativeComponent implements OnInit {
           );
           console.log(data);
         },err=>{console.log(err);
+          this.toastr.error("veuillez vérifier les informations saisies")
         })
     }
   }
-
-
+  showSuccess() {
+    if(this.lang=='fr')
+    {
+      this.toastr.success("Success d'ajout poste Administratif");
+    }
+  else
+    {
+      this.toastr.success("تمت إضافة الخطة الوظيفية");
+    }
+  }
 }

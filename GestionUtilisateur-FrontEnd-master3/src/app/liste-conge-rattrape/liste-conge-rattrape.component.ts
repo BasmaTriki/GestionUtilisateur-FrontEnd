@@ -19,9 +19,13 @@ export class ListeCongeRattrapeComponent implements OnInit {
   motCle:string="";
   currentPage:number=0;
   size:number=1000;
+  lang:string;
   constructor(private congeServices:CongeServices,
     private chRef: ChangeDetectorRef, 
-    private http: HttpClient, public router: Router) { }
+    private http: HttpClient, public router: Router) 
+    {
+      this.lang=sessionStorage.getItem("lang");
+     }
 
   ngOnInit() {
   this.doSearch();

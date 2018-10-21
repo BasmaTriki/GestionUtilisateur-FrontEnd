@@ -11,13 +11,8 @@ export class EnseignantLibreServices {
     return this.http.get("http://localhost:8080/chercherEnseignantLibre?mc=" + motCle + "&size=" + size + "&page=" + page)
       .map(resp => resp.json())
   }
- /* getEnseignantPermanentDepartement(motCle:number, page: number, size: number) {
-    return this.http.get("http://localhost:8080/chercherEnseignantDepartement?mc=" + motCle + "&size=" + size + "&page=" + page)
-      .map(resp => resp.json())
-  }*/
-  
-  getEnseignantLibre(cin: number) {
-    return this.http.get("http://localhost:8080/EnseignantLibre/" + cin)
+  getEnseignantLibre(idPers: number) {
+    return this.http.get("http://localhost:8080/EnseignantLibre/" + idPers)
       .map(resp => resp.json())
   }
 
@@ -27,12 +22,12 @@ export class EnseignantLibreServices {
   }
 
   updateEnseignantLibre(enseignantlibre: EnseignantLibre){
-    return this.http.put("http://localhost:8080/ModifierEnseignantLibre/" + enseignantlibre.cin, enseignantlibre)
+    return this.http.put("http://localhost:8080/ModifierEnseignantLibre/" + enseignantlibre.idPers, enseignantlibre)
       .map(resp => resp.json())
   }
 
-  deleteEnseignantLibre(cin: number) {
-    return this.http.delete("http://localhost:8080/SupprimerEnseignantLibre/" + cin)
+  deleteEnseignantLibre(idPers: number) {
+    return this.http.delete("http://localhost:8080/SupprimerEnseignantLibre/" + idPers)
       .map(resp => resp.json())
   }
   getAllEnseignantLibre() {

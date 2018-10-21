@@ -1,12 +1,15 @@
-import { EnseignantLibre } from "./model.enseignantLibre";
 import { AnneeUniversitaire } from "./model.anneeuniversitaire";
 import { Semestre } from "./model.semestre";
+import { EnseignantVacataire } from "./model.enseignantVacataire";
 
 export class ChargeSem
 {
   idChargeS:number;
   nbHeure:number;
-  enseignantLibre:EnseignantLibre;
+  enseignantvacataire:EnseignantVacataire;
   anneeuniversitaire:AnneeUniversitaire;
   semestre:Semestre;
+  nbrHeuresTD:number;
+  nbrHeuresTP:number;
+  nbrHeuresCR:number;
 }

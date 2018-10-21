@@ -8,8 +8,10 @@ import { Mutation } from '../../model/model.mutation';
 import { Personnel } from '../../model/model.personnel';
 import { TypeMutation } from '../../model/model.typeMutation';
 import { Organisme } from '../../model/model.organisme';
-import { MatDialogRef, MAT_DIALOG_DATA } from '../../../node_modules/@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Etat } from '../../model/model.etat';
+import { EtatPersonnel } from '../../model/model.etatPersonnel';
+import { EtatPersonnelServices } from '../../services/etatPersonnel.services';
 
 @Component({
   selector: 'app-modal-mutation',
@@ -28,13 +30,18 @@ export class ModalMutationComponent implements OnInit {
   nom:string="";
   idPers:number;
   etat:Etat=new Etat();
+  lang:string;
+  etatPersonnel:EtatPersonnel=new EtatPersonnel();
   constructor(private typeMutationServices:TypeMutationsServices,
     private orgAccueilServices:OrganismeServices,
+    private etatPersonnelServices:EtatPersonnelServices,
     public dialogRef: MatDialogRef<ModalMutationComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private mutationServices:MutationServices,
-    private etatServices:EtatServices,
-    private personnelServices:PersonnelServices,) { }
+    private personnelServices:PersonnelServices) 
+    {
+    this.lang=sessionStorage.getItem("lang");
+     }
 
   ngOnInit() {
     this.nom=this.data.name;
@@ -91,5 +98,19 @@ export class ModalMutationComponent implements OnInit {
       },err=>{
         console.log(err);
       })
+    this.etatPersonnel.personnel=this.personnel;
+    this.etatPersonnel.etatInactive=this.typeMutation.designationMutation+" à "+this.orgAccueil.libelleOrg;
+    this.etatPersonnel.etatInactiveAr=this.typeMutation.designationMutationAr+" إلى "+this.orgAccueil.libelleOrgAr;
+    this.etatPersonnelServices.saveEtatPersonnel(this.etatPersonnel)
+     .subscribe(data=>{
+      console.log(data);
+    },err=>{
+      console.log(err);
+    })
+    this.Close();
+  }
+  Close()
+  {
+    this.dialogRef.close();
   }
 }

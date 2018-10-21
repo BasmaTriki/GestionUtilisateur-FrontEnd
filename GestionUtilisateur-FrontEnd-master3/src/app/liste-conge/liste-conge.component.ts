@@ -8,6 +8,7 @@ import 'datatables.net-bs4';
 import { Router } from '@angular/router';
 import { CongeServices } from '../../services/conge.services';
 import { Subject } from 'rxjs';
+import { Conge } from '../../model/model.conge';
 
 @Component({
   selector: 'app-liste-conge',
@@ -22,9 +23,13 @@ export class ListeCongeComponent implements OnInit {
   motCle:string="";
   currentPage:number=0;
   size:number=1000;
+  lang:string;
   constructor(private congeServices:CongeServices,
     private chRef: ChangeDetectorRef, 
-    private http: HttpClient, public router: Router) { }
+    private http: HttpClient, public router: Router) 
+    { 
+      this.lang=sessionStorage.getItem("lang");
+    }
 
   ngOnInit() {
   this.doSearch();
@@ -43,5 +48,22 @@ export class ListeCongeComponent implements OnInit {
     console.log(err);
   })
   }
-
+  download(idCong:number)
+  {
+    this.http.get("http://localhost:8080/downloadCertificat/"+idCong)
+   .subscribe(res=>{
+     console.log(res);
+   })
+  }
+  Certaficat(c:Conge)
+{
+  if(c.certaficat==null||c.certaficat=="")
+  {
+    return true;
+  }
+else
+  {
+    return false;
+  }
+}
 }

@@ -3,11 +3,16 @@ import { Component, OnInit } from '@angular/core';
 import * as $ from 'jquery';
 import { CongeMensuelComponent } from '../conge-mensuel/conge-mensuel.component';
 import { MatDialog } from '@angular/material';
-import { TranslateService } from '../../../node_modules/@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
+import { ModalImportationComponent } from '../modal-importation/modal-importation.component';
+import { ListeEtatComponent } from '../liste-etat/liste-etat.component';
+import { ImpressionServices } from '../../services/Impression.services';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-side-bar',
-  templateUrl: './side-bar.component.html'
+  templateUrl: './side-bar.component.html',
+  providers: [DatePipe]
 })
 export class SideBarComponent implements OnInit {
 nom:string;
@@ -23,11 +28,15 @@ role:string;
 matricule:number;
 lang:string;
 nomAr:string;
+date:any;
+annee:number=0;
   constructor(public dialog: MatDialog,
-    private translate: TranslateService) 
+    private translate: TranslateService,private datePipe: DatePipe,
+    private impressionServices:ImpressionServices) 
     {
     this.lang=sessionStorage.getItem("lang");
     translate.use(this.lang);
+    this.date=this.datePipe.transform(new Date(), 'yyyy');
      }
 
   ngOnInit() {
@@ -47,7 +56,7 @@ nomAr:string;
       if ($li.is('.active')) {
           $li.removeClass('active active-sm');
               $('ul:first', $li).slideUp(function() {
-                  //this.setContentHeight();
+                 // this.setContentHeight();
               });
           } else {
               // prevent closing menu if we are on child menu
@@ -82,7 +91,7 @@ nomAr:string;
           if ($li.is('.active')) {
               $li.removeClass('active active-sm');
               $('ul:first', $li).slideUp(function() {
-                 // this.setContentHeight();
+                 //this.setContentHeight();
               });
           } else {
               // prevent closing menu if we are on child menu
@@ -114,7 +123,7 @@ nomAr:string;
           this.setContentHeight();
       });
 
-  }   
+  }  
   setContentHeight() {
       // reset height
       this.$RIGHT_COL.css('min-height', $(window).height());
@@ -128,9 +137,60 @@ nomAr:string;
       contentHeight -= this.$NAV_MENU.height() + footerHeight;
 
       this.$RIGHT_COL.css('min-height', contentHeight);
-  };
+  }
   congeMois(type:string)
   {
     let dialogRef = this.dialog.open(CongeMensuelComponent, {data:{name:type}});
+  }
+  ListePersonnel(type:string)
+  {
+    this.annee=+this.date+1;
+    var anneeUniv=this.date+"/"+this.annee
+    console.log(anneeUniv);
+      if(type=="Actif")
+      {
+        this.impressionServices.ImprimerListePersonnelActif(anneeUniv)
+        .subscribe(data => {
+            console.log(data);
+          }, err => {
+            console.log(err);
+          })
+      }
+      else if(type=="Inactif")
+      {
+        this.impressionServices.ImprimerListePersonnelInactif(anneeUniv,this.annee-1)
+        .subscribe(data => {
+            console.log(data);
+          }, err => {
+            console.log(err);
+          })
+      }
+      else if(type=="NomberEnseig")
+      {
+        this.impressionServices.ImprimerStatistique(anneeUniv)
+        .subscribe(data => {
+            console.log(data);
+          }, err => {
+            console.log(err);
+          }) 
+      }
+      else if(type=="mutation")
+      {
+        this.impressionServices.ImprimerListeMutation(anneeUniv,this.annee-1)
+        .subscribe(data => {
+            console.log(data);
+          }, err => {
+            console.log(err);
+          }) 
+      }
+      else
+      {
+        let dialogRef = this.dialog.open(ListeEtatComponent, {data:{name:type}});
+      }
+ 
+  }
+  importer()
+  {
+    let dialogRef = this.dialog.open(ModalImportationComponent);
   }
 }

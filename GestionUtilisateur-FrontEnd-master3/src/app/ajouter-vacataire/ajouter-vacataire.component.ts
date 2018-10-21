@@ -16,6 +16,16 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { EnseignantFonctionnaireEtatServices } from '../../services/enseignantFonctionnaireEtat.services';
 import { DemandeVacation } from '../../model/model.demandeVacation';
 import { DemandeVacationServices } from '../../services/demandeVacation.services';
+import { EtatServices } from '../../services/etat.services';
+import { Etat } from '../../model/model.etat';
+import { Role } from '../../model/model.role';
+import { SemestreServices } from '../../services/semestre.services';
+import { AnneeUniversitaireServices } from '../../services/anneeUniversitaire.services';
+import { AnneeUniversitaire } from '../../model/model.anneeuniversitaire';
+import { Semestre } from '../../model/model.semestre';
+import { ChargeSem } from '../../model/model.chargeSem';
+import { ChargeSemestreServices } from '../../services/chargeSem.services';
+import { EnseignantVacataire } from '../../model/model.enseignantVacataire';
 
 @Component({
   selector: 'app-ajouter-vacataire',
@@ -26,8 +36,7 @@ export class AjouterVacataireComponent implements OnInit {
   email = new FormControl('', [Validators.required, Validators.email]);
   currentPage: number = 0;
   pages: Array<number>;
-  size: number = 5;
-  type:string="";
+  type:string;
   enseignantLibre:EnseignantLibre=new EnseignantLibre();
   enseignantFonct:EnseignantFonctionnaireEtat=new EnseignantFonctionnaireEtat();
   departements: Array<Departement> = new Array<Departement>();
@@ -44,8 +53,23 @@ export class AjouterVacataireComponent implements OnInit {
     {value: 'Enseignant Libre'},
     {value: 'Enseignant Fonctionnaire'}
   ];
+  lang:string;
+  TypeEnseignantAr = [
+    {value: 'أستاذ حر'},
+    {value: 'أستاذ لدى الدولة'}
+  ];
+ 
   idDemande:number;
+  etat:Etat=new Etat();
+  etats:Array<Etat>=new Array<Etat>();
+  role:Role=new Role();
+  anneeUniv:AnneeUniversitaire=new AnneeUniversitaire();
+  anneeUnivs:Array<AnneeUniversitaire>=new Array<AnneeUniversitaire>();
+  semestre:Semestre=new Semestre();
+  semestres:Array<Semestre>=new Array<Semestre>();
   demandeVacation:DemandeVacation=new DemandeVacation();
+  ajoutAnnee:boolean=false;
+  chargeSem:ChargeSem=new ChargeSem();
   constructor(private enseingnantlibreService:EnseignantLibreServices,
     private enseignantFonctServices:EnseignantFonctionnaireEtatServices,
     private departementServices: DepartementServices,
@@ -53,10 +77,23 @@ export class AjouterVacataireComponent implements OnInit {
     private diplomeService:DiplomeServices,
     private specialiteServices:SpecialiteServices,
     private diplomePServices:DiplomePersonnelServices,
+    private anneeUnivService:AnneeUniversitaireServices,
+    private chargeSemServices:ChargeSemestreServices,
+    private semestreServices:SemestreServices,
+    private etatServices:EtatServices,
     public http: HttpClient,
     public activatedRoute:ActivatedRoute,
     public router: Router) 
     {
+  this.lang=sessionStorage.getItem("lang");
+  if(this.lang=='ar')
+  {
+    this.type="أستاذ حر";
+  }
+  else
+  {
+    this.type="Enseignant Libre";
+  }
       this.idDemande=activatedRoute.snapshot.params['idDemande'];
       if(this.idDemande!=null)
       {
@@ -94,18 +131,73 @@ export class AjouterVacataireComponent implements OnInit {
          this.enseignantFonct.specialite=this.demandeVacation.specialite;
        }
      }
-     console.log( this.enseignantFonct.cin);
+     console.log(this.enseignantFonct.cin);
      }
 
   ngOnInit() {
    this.chercherDep();
     this.chercherDip();
     this.chercherSpecialite();
+    this.chercherEtats();
     this.diplomep.diplome=this.diplome;
     this.diplomepers.push(this.diplomep);
-    console.log(this.type);
-  
+    this.role.idRole=2;
+    this.role.type="utilisateur";
+    this.chercherAnnee();
+    this.chercherSemestre();
+  }
+  AjouterAnnee()
+  {
+   this.ajoutAnnee=true;
+  }
+  EnregistreAnnee()
+  {
+  this.anneeUnivService.saveAnnee(this.anneeUniv)
+    .subscribe(data=>{
+      this.anneeUniv=data;
+    },err=>{
+      console.log(err);
+    })
 
+  }
+  EnregistreChargeSem(en:EnseignantVacataire)
+  {this.chargeSem.semestre=this.semestre;
+    this.chargeSem.anneeuniversitaire=this.anneeUniv;
+    this.chargeSem.enseignantvacataire=en;
+    this.chargeSemServices.saveChargeSem(this.chargeSem)
+    .subscribe(data=>{
+      console.log(data);
+    },err=>{
+      console.log(err);
+    })
+  }
+  chercherAnnee()
+  {
+    this.anneeUnivService.getAllAnnee()
+    .subscribe(data=>{
+      this.anneeUnivs=data;
+    },err=>{
+      console.log(err);
+    })
+    }
+    chercherSemestre()
+    {
+      this.semestreServices.getAllSemestre()
+      .subscribe(data=>{
+        this.semestres=data;
+      },err=>{
+        console.log(err);
+      })
+      }
+  chercherEtats()
+  {
+    this.etatServices.getAllEtats()
+      .subscribe(data=>{
+        this.etats=data;
+        console.log(data);
+      },err=>{
+        console.log(err);
+      })
   }
   chercherSpecialite()
   {
@@ -143,12 +235,71 @@ export class AjouterVacataireComponent implements OnInit {
   Enregistrer() {
   this.enseignantLibre.departement=this.departement;
   this.enseignantLibre.specialite=this.specialite;
-  //this.enseignantP.pos
+  this.enseignantLibre.etat=this.etat;
+  this.enseignantLibre.role=this.role;
+  this.enseignantLibre.login=null;
+  this.enseignantLibre.motpasse=null;
+  this.enseignantLibre.matricule=null;
+  if(this.ajoutAnnee)
+  {
+    this.EnregistreAnnee();
+  }
+  if(this.lang=="fr")
+  {
+    if(this.enseignantLibre.sexe=="Femme")
+    {
+      this.enseignantLibre.sexeAr="انثى";
+    }
+    else if(this.enseignantLibre.sexe=="Homme")
+    {
+      this.enseignantLibre.sexeAr="ذكر";
+    }
+    if(this.enseignantLibre.etatCivil=="Célibataire" && this.enseignantLibre.sexe=="Femme")
+    {
+      this.enseignantLibre.etatCivilAr="عزباء";
+    }
+    else if(this.enseignantLibre.etatCivil=="Célibataire" && this.enseignantLibre.sexe=="Homme")
+    {
+      this.enseignantLibre.etatCivilAr="أعزب";
+    }
+    else if(this.enseignantLibre.etatCivil=="Marié(e)")
+    {
+      this.enseignantLibre.etatCivilAr="(متزوج(ة";
+    }
+    else
+    {
+      this.enseignantLibre.etatCivilAr="(مطلق(ة";
+    }
+  }
+  else
+  {
+    if(this.enseignantLibre.sexeAr=="انثى")
+    {
+      this.enseignantLibre.sexe="Femme";
+    }
+    else if(this.enseignantLibre.sexeAr=="ذكر")
+    {
+      this.enseignantLibre.sexe="Homme";
+    }
+    if(this.enseignantLibre.etatCivilAr=="عزباء" || this.enseignantLibre.etatCivilAr=="أعزب")
+    {
+      this.enseignantLibre.etatCivil="Célibataire";
+    }
+    else if(this.enseignantLibre.etatCivilAr=="(متزوج(ة")
+    {
+      this.enseignantLibre.etatCivil="Marié(e)";
+    }
+    else
+    {
+      this.enseignantLibre.etatCivil="Divorcé(e)";
+    }
+  }
   this.enseingnantlibreService.saveEnseignantLibre(this.enseignantLibre)
       .subscribe(data=>{
         alert("Success d'ajout");
         console.log(data);
         this.EnregistrerDiplomeP(data);
+        this.EnregistreChargeSem(data);
       },err=>{
         console.log(err);
       });
@@ -158,12 +309,72 @@ export class AjouterVacataireComponent implements OnInit {
   {
     this.enseignantFonct.departement=this.departement;
     this.enseignantFonct.specialite=this.specialite;
+    this.enseignantFonct.etat=this.etat;
+    this.enseignantFonct.role=this.role;
+    this.enseignantFonct.motpasse=null;
+    this.enseignantFonct.login=null;
+    this.enseignantLibre.matricule=null;
+    if(this.ajoutAnnee)
+    {
+      this.EnregistreAnnee();
+    }
+    if(this.lang=="fr")
+  {
+    if(this.enseignantFonct.sexe=="Femme")
+    {
+      this.enseignantFonct.sexeAr="انثى";
+    }
+    else if(this.enseignantFonct.sexe=="Homme")
+    {
+      this.enseignantFonct.sexeAr="ذكر";
+    }
+    if(this.enseignantFonct.etatCivil=="Célibataire" && this.enseignantFonct.sexe=="Femme")
+    {
+      this.enseignantFonct.etatCivilAr="عزباء";
+    }
+    else if(this.enseignantFonct.etatCivil=="Célibataire" && this.enseignantFonct.sexe=="Homme")
+    {
+      this.enseignantFonct.etatCivilAr="أعزب";
+    }
+    else if(this.enseignantFonct.etatCivil=="Marié(e)")
+    {
+      this.enseignantFonct.etatCivilAr="(متزوج(ة";
+    }
+    else
+    {
+      this.enseignantFonct.etatCivilAr="(مطلق(ة";
+    }
+  }
+  else
+  {
+    if(this.enseignantFonct.sexeAr=="انثى")
+    {
+      this.enseignantFonct.sexe="Femme";
+    }
+    else if(this.enseignantFonct.sexeAr=="ذكر")
+    {
+      this.enseignantFonct.sexe="Homme";
+    }
+    if(this.enseignantFonct.etatCivilAr=="عزباء" || this.enseignantFonct.etatCivilAr=="أعزب")
+    {
+      this.enseignantFonct.etatCivil="Célibataire";
+    }
+    else if(this.enseignantFonct.etatCivilAr=="(متزوج(ة")
+    {
+      this.enseignantFonct.etatCivil="Marié(e)";
+    }
+    else
+    {
+      this.enseignantFonct.etatCivil="Divorcé(e)";
+    }
+  }
     //this.enseignantP.pos
     this.enseignantFonctServices.saveEnseignantFonctionnaireEtat(this.enseignantFonct)
         .subscribe(data=>{
           alert("Success d'ajout");
           console.log(data);
           this.EnregistrerDiplomeP(data);
+          this.EnregistreChargeSem(data);
         },err=>{
           console.log(err);
         });

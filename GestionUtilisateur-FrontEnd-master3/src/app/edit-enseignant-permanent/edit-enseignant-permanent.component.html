@@ -1,14 +1,14 @@
 <app-index></app-index>
 <div class="container spacer">
   <div class="panel panel-info">
-    <div class="panel-heading">Modifier Enseignant</div>
+    <div class="panel-heading">{{'SideBar.ModEnseignant' | translate}}</div>
     <div class="panel-body">
       <mat-accordion>
         <form #fe>
           <mat-expansion-panel>
             <mat-expansion-panel-header>
               <mat-panel-title>
-                Données Personnelle
+                {{'Table.CAjouterEnseig' | translate}}
               </mat-panel-title>
               <mat-panel-description>
               </mat-panel-description>
@@ -62,22 +62,26 @@
               <mat-hint align="end">{{input3.value?.length||0}}/20</mat-hint>
             </mat-form-field><br>
             <mat-radio-group [(ngModel)]="enseignantP.etatCivil" name="etatcivil" #etatcivil>
-              <mat-radio-button value="Celibataire">Célibataire</mat-radio-button>
-              <mat-radio-button value="Marie">Marié(e)</mat-radio-button>
-              <mat-radio-button value="Divorce">Divorcé(e)</mat-radio-button>
+              <mat-radio-button value="Célibataire">Célibataire</mat-radio-button>
+              <mat-radio-button value="Marié(e)">Marié(e)</mat-radio-button>
+              <mat-radio-button value="Divorcé(e)">Divorcé(e)</mat-radio-button>
+              <mat-radio-button value="Veuf(ve)">Veuf(ve)</mat-radio-button>
             </mat-radio-group>
-            <mat-form-field *ngIf="enseignantP.etatCivil=='Marie'">
+            <mat-form-field *ngIf="enseignantP.etatCivil=='Marié(e)'">
               <input matInput placeholder="Nom Conjoint" type="text" name="nomconj" [(ngModel)]="enseignantP.nomConjoint">
             </mat-form-field>
-            <mat-form-field *ngIf="enseignantP.etatCivil=='Marie'">
+            <mat-form-field *ngIf="enseignantP.etatCivil=='Marié(e)'">
               <input matInput placeholder="Profession Conjoint" type="text" name="profConj" [(ngModel)]="enseignantP.profConjoint">
             </mat-form-field>
+            <mat-form-field *ngIf="enseignantP.etatCivil=='Marié(e)'">
+                <input matInput placeholder="Sociéte de travaille de Conjoint" type="text" name="societConj" [(ngModel)]="enseignantP.societConj">
+                </mat-form-field>
           </mat-expansion-panel>
  <!--Formulaire Arabe-->
 <mat-expansion-panel>
     <mat-expansion-panel-header>
       <mat-panel-title>
-      المعلومات الشخصية 
+        {{'Table.CAjouterEnseigAr' | translate}} 
       </mat-panel-title>
       <mat-panel-description>
     </mat-panel-description>
@@ -108,7 +112,7 @@
         <input matInput placeholder="مكان الولادة" type="text" name="lieuar" [(ngModel)]="enseignantP.lieuNaissanceAr">
       </mat-form-field>
     <mat-radio-group [(ngModel)]="enseignantP.sexeAr" name="sexear">
-      <mat-radio-button value="أنثى">أنثى</mat-radio-button>
+      <mat-radio-button value="انثى">أنثى</mat-radio-button>
       <mat-radio-button value="ذكر">ذكر</mat-radio-button>
     </mat-radio-group>
      <mat-form-field>
@@ -131,9 +135,10 @@
     </mat-form-field><br>
     <mat-radio-group [(ngModel)]="enseignantP.etatCivilAr" name="etatcivilar" #etatcivil>
       <mat-radio-button *ngIf="enseignantP.sexeAr==='ذكر' ||enseignantP.sexeAr===''"value="أعزب">أعزب</mat-radio-button>
-      <mat-radio-button *ngIf="enseignantP.sexeAr==='أنثى'"value="عزباء">عزباء</mat-radio-button>
+      <mat-radio-button *ngIf="enseignantP.sexeAr==='انثى'"value="عزباء">عزباء</mat-radio-button>
       <mat-radio-button value="(متزوج(ة">(متزوج(ة</mat-radio-button>
       <mat-radio-button value="(مطلق(ة">(مطلق(ة</mat-radio-button>
+      <mat-radio-button value="(أرمل(ة">(أرمل(ة</mat-radio-button>
     </mat-radio-group>
     <mat-form-field *ngIf="enseignantP.etatCivilAr=='(متزوج(ة'">
       <input matInput placeholder="إسم القرين" type="text" name="nomconjar" [(ngModel)]="enseignantP.nomConjointAr">
@@ -141,16 +146,22 @@
     <mat-form-field *ngIf="enseignantP.etatCivilAr=='(متزوج(ة'">
     <input matInput placeholder="مهنة القرين" type="text" name="profConjar" [(ngModel)]="enseignantP.profConjointAr">
     </mat-form-field>
+    <mat-form-field *ngIf="enseignantP.etatCivilAr=='(متزوج(ة'">
+        <input matInput placeholder="مؤسسة عمل القرين" type="text" name="Societear" [(ngModel)]="enseignantP.societConjAr">
+        </mat-form-field>
     </mat-expansion-panel>
 <!--end Formulaire Arabe-->
-        <mat-expansion-panel *ngIf="enseignantP.etatCivil=='Marie'||enseignantP.etatCivil=='Divorce'||enseignantP.etatCivilAr=='(متزوج(ة'||enseignantP.etatCivilAr=='(مطلق(ة'">
+        <mat-expansion-panel *ngIf="enseignantP.etatCivil=='Marié(e)'||enseignantP.etatCivil=='Veuf(ve)'||enseignantP.etatCivil=='Divorcé(e)'||enseignantP.etatCivilAr=='(متزوج(ة'||enseignantP.etatCivilAr=='(مطلق(ة'||enseignantP.etatCivilAr=='(أرمل(ة'">
           <mat-expansion-panel-header>
             <mat-panel-title>
-              Enfants
+              {{'Table.CEnfants' | translate}}
             </mat-panel-title>
-            <mat-panel-description>
-              {{enseignantP.prenom+"   "+enseignantP.nom}}
+            <mat-panel-description *ngIf="lang=='fr'">
+            {{enseignantP.prenom+"   "+enseignantP.nom}}
             </mat-panel-description>
+            <mat-panel-description *ngIf="lang=='ar'">
+              {{enseignantP.prenomAr+"   "+enseignantP.nomAr}}
+              </mat-panel-description>
           </mat-expansion-panel-header>
           <div *ngIf="enfants!=null">
           <form #enfant *ngFor="let e of enfants; let i=index">
@@ -158,10 +169,10 @@
               <input matInput placeholder="Nom Enfant" type="text" name="nomenf" required [(ngModel)]="e.nom" disabled>
             </mat-form-field>
             <mat-form-field>
-                <input matInput placeholder="إسم الطفل" type="text" name="nomenfar" required [(ngModel)]="e.nomAr" disabled>
+                <input matInput placeholder="إسم الإبن" type="text" name="nomenfar" required [(ngModel)]="e.nomAr" disabled>
               </mat-form-field>
             <mat-form-field>
-              <input matInput [matDatepicker]="pickerEn1" placeholder="Date de Naissance" name="dateNais" [(ngModel)]="e.dateNais" disabled>
+              <input matInput [matDatepicker]="pickerEn1" placeholder="Date de Naissance/تاريخ الولادة" name="enf" [(ngModel)]="e.dateNais" disabled>
               <mat-datepicker-toggle matSuffix [for]="pickerEn1"></mat-datepicker-toggle>
               <mat-datepicker #pickerEn1 [(ngModel)]="e.dateNais"></mat-datepicker>
             </mat-form-field>
@@ -173,10 +184,10 @@
               <input matInput placeholder="Nom Enfant" type="text" name="nomenf" required [(ngModel)]="e.nom" >
             </mat-form-field>
             <mat-form-field>
-                <input matInput placeholder="إسم الطفل" type="text" name="nomenfar" required [(ngModel)]="e.nomAr" disabled>
+                <input matInput placeholder="إسم الإبن" type="text" name="nomenfar" required [(ngModel)]="e.nomAr" disabled>
               </mat-form-field>
             <mat-form-field>
-              <input matInput [matDatepicker]="pickerEn" placeholder="Date de Naissance" name="datenf" [(ngModel)]="e.dateNais">
+              <input matInput [matDatepicker]="pickerEn" placeholder="Date de Naissance/تاريخ الولادة" name="datenf" [(ngModel)]="e.dateNais">
               <mat-datepicker-toggle matSuffix [for]="pickerEn"></mat-datepicker-toggle>
               <mat-datepicker #pickerEn></mat-datepicker>
             </mat-form-field>
@@ -186,25 +197,28 @@
           <mat-expansion-panel>
             <mat-expansion-panel-header>
               <mat-panel-title>
-                Données Professionnelles
+                {{'Table.CDonneesProf' | translate}}
               </mat-panel-title>
-              <mat-panel-description>
+              <mat-panel-description *ngIf="lang=='fr'">
                 {{enseignantP.prenom+"   "+enseignantP.nom}}
-              </mat-panel-description>
+                </mat-panel-description>
+                <mat-panel-description *ngIf="lang=='ar'">
+                  {{enseignantP.prenomAr+"   "+enseignantP.nomAr}}
+                  </mat-panel-description>
             </mat-expansion-panel-header>
             <div *ngIf="specialite!=null && specialiteModifiable==false">
                 <mat-form-field>
                     <input matInput placeholder="Specialité" type="text" name="sp" required [(ngModel)]="specialite.libelleSp" disabled>
                   </mat-form-field>
                     <mat-form-field>
-                    <input matInput placeholder="الإختصاص" type="text" name="depar" required [(ngModel)]="specialite.libelleSpAr" disabled>
+                    <input matInput placeholder="الإختصاص" type="text" name="spAr" required [(ngModel)]="specialite.libelleSpAr" disabled>
                   </mat-form-field>
                   <button  mat-icon-button color="" (click)="ModifierSpecialite()"><mat-icon>create</mat-icon></button>
                 </div>
             <mat-form-field *ngIf="specialite===null || specialiteModifiable==true">
-                <mat-select placeholder="Spécialité" [(ngModel)]="specialite" name="spec" required>
+                <mat-select placeholder="Spécialité/الإختصاص" [(ngModel)]="specialite" name="spec" required>
                   <mat-option *ngFor="let s of specialites" [value]="s">
-                    {{ s.libelleSp }}
+                    {{ s.libelleSp+"/"+s.libelleSpAr }}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
@@ -218,55 +232,62 @@
               <button  mat-icon-button color="" (click)="ModifierDepartement()"><mat-icon>create</mat-icon></button>
             </div>
               <mat-form-field *ngIf="departement===null || departementModifiable==true">
-              <mat-select placeholder="Departement" [(value)]="departement" required>
+              <mat-select placeholder="Departement/القسم" [(value)]="departement" required>
                 <mat-option *ngFor="let d of departements" [value]="d">
-                  {{ d.nomDep }}
+                  {{ d.nomDep+"/"+d.nomDepAr}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+                <div *ngIf="orgOrigine!=null && orgModifiable==false">
+                    <mat-form-field>
+                        <input matInput placeholder="Organisme Origine" type="text" name="org" required [(ngModel)]="orgOrigine.libelleOrg" disabled>
+                      </mat-form-field>
+                      <mat-form-field>
+                          <input matInput placeholder="المؤسسة الأصلية" type="text" name="orgAr" required [(ngModel)]="orgOrigine.libelleOrgAr" disabled>
+                        </mat-form-field>
+                      <button  mat-icon-button color="" (click)="ModifierOrganisme()"><mat-icon>create</mat-icon></button>
+                    </div>
+              <mat-form-field *ngIf="orgOrigine===null || orgModifiable==true">
+              <mat-select placeholder="Organisme Origine/المؤسسة الأصلية" [(value)]="orgOrigine" name="org">
+                <mat-option *ngFor="let o of orgOrigines" [value]="o">
+                  {{ o.libelleOrg+" / "+o.libelleOrgAr }}
                 </mat-option>
               </mat-select>
             </mat-form-field>
             <mat-form-field>
-              <input matInput [matDatepicker]="picker3" placeholder="Date de Recrutement" [(ngModel)]="enseignantP.dateRecrutement" name="dateR">
-              <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
-              <mat-datepicker #picker3></mat-datepicker>
-            </mat-form-field>
-            <mat-form-field>
-              <input matInput [matDatepicker]="picker4" placeholder="Date de Titularisation" [(ngModel)]="enseignantP.dateTitularisation" name="dateT">
-              <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
-              <mat-datepicker #picker4 [(ngModel)]="enseignantP.dateTitularisation"></mat-datepicker>
-            </mat-form-field><br>
-            <div *ngIf="etat!=null && etatModifiable==false">
-              <mat-form-field>
-                  <input matInput placeholder="Etat" type="text" name="et" required [(ngModel)]="etat.libelleEtat" disabled>
-                </mat-form-field>
-                  <mat-form-field>
-                  <input matInput placeholder="الحالة" type="text" name="etar" required [(ngModel)]="etat.libelleEtatAr" disabled>
-                </mat-form-field>
-                <button  mat-icon-button color="" (click)="ModifierEtat()"><mat-icon>create</mat-icon></button>
-              </div>
-            <mat-form-field *ngIf="etat===null || etatModifiable==true">
-              <mat-select placeholder="Etat" [(value)]="etat" required name="etat">
-                <mat-option *ngFor="let e of etats" [value]="e">
-                  {{ e.libelleEtat }}
-                </mat-option>
-              </mat-select>
+              <input matInput [matDatepicker]="picker7" placeholder="Date d'entrée/تاريخ الدخول" [(ngModel)]="enseignantP.dateEntree" name="dateorg">
+              <mat-datepicker-toggle matSuffix [for]="picker7"></mat-datepicker-toggle>
+              <mat-datepicker #picker7></mat-datepicker>
             </mat-form-field>
           </mat-expansion-panel>
           <mat-expansion-panel>
             <mat-expansion-panel-header>
               <mat-panel-title>
-                Diplômes
+                {{'SideBar.SMDiplomes' | translate}}
               </mat-panel-title>
-              <mat-panel-description>
+              <mat-panel-description *ngIf="lang=='fr'">
                 {{enseignantP.prenom+"   "+enseignantP.nom}}
-              </mat-panel-description>
+                </mat-panel-description>
+                <mat-panel-description *ngIf="lang=='ar'">
+                  {{enseignantP.prenomAr+"   "+enseignantP.nomAr}}
+                  </mat-panel-description>
             </mat-expansion-panel-header>
             <div *ngIf="diplomepers!=null">
             <form *ngFor="let d of diplomepers; let i=index">
                 <mat-form-field *ngIf="d.diplome!=null">
                     <input matInput placeholder="Diplôme" type="text" name="dip" required [(ngModel)]="d.diplome.titreDip" disabled>
                   </mat-form-field>
+                  <mat-form-field *ngIf="d.diplome!=null">
+                    <input matInput placeholder="الشهادة" type="text" name="dipar" required [(ngModel)]="d.diplome.titreDipAr" disabled>
+                  </mat-form-field><br>
+                  <mat-form-field *ngIf="d.organisme!=null">
+                    <input matInput placeholder="Organisme" type="text" name="org" required [(ngModel)]="d.organisme.libelleOrg" disabled>
+                  </mat-form-field>
+                  <mat-form-field *ngIf="d.organisme!=null">
+                    <input matInput placeholder="المؤسسة" type="text" name="org" required [(ngModel)]="d.organisme.libelleOrgAr" disabled>
+                  </mat-form-field><br>
             <mat-form-field *ngIf="d.diplome!=null">
-              <input matInput [matDatepicker]="dip" placeholder="Date de Diplôme" name="datedip" [(ngModel)]="d.date" disabled>
+              <input matInput [matDatepicker]="dip" placeholder="Date de Diplôme/تاريخ الحصول على الشهادة" name="datedip" [(ngModel)]="d.date" disabled>
               <mat-datepicker-toggle matSuffix [for]="dip"></mat-datepicker-toggle>
               <mat-datepicker #dip></mat-datepicker>
             </mat-form-field>
@@ -275,14 +296,21 @@
           </div>
            <form *ngFor="let d of newdiplomes; let i=index">
               <mat-form-field >
-                  <mat-select placeholder="Diplôme" [(value)]="d.diplome">
+                  <mat-select placeholder="Diplôme/الشهادة" [(value)]="d.diplome">
                     <mat-option *ngFor="let dip of diplomes" [value]="dip">
-                      {{ dip.titreDip }}
+                      {{ dip.titreDip+"/"+dip.titreDipAr }}
                     </mat-option>
                   </mat-select>
                 </mat-form-field>
                 <mat-form-field>
-                  <input matInput [matDatepicker]="dip" placeholder="Date de Diplôme" name="datedip" [(ngModel)]="d.date">
+                  <mat-select placeholder="Organisme/المؤسسة" [(value)]="d.organisme" required name="orgDip">
+                    <mat-option *ngFor="let o of orgOrigines" [value]="o">
+                      {{ o.libelleOrg+" / "+o.libelleOrgAr }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <mat-form-field>
+                  <input matInput [matDatepicker]="dip" placeholder="Date de Diplôme/تاريخ الحصول على الشهادة" name="datedip" [(ngModel)]="d.date">
                   <mat-datepicker-toggle matSuffix [for]="dip"></mat-datepicker-toggle>
                   <mat-datepicker #dip></mat-datepicker>
                 </mat-form-field>
@@ -292,19 +320,35 @@
           <mat-expansion-panel>
             <mat-expansion-panel-header>
               <mat-panel-title>
-                Grade
+                {{'SideBar.MGrade' | translate}}
               </mat-panel-title>
-              <mat-panel-description>
+              <mat-panel-description *ngIf="lang=='fr'">
                 {{enseignantP.prenom+"   "+enseignantP.nom}}
-              </mat-panel-description>
+                </mat-panel-description>
+                <mat-panel-description *ngIf="lang=='ar'">
+                  {{enseignantP.prenomAr+"   "+enseignantP.nomAr}}
+                  </mat-panel-description>
             </mat-expansion-panel-header>
             <div *ngIf="AGrades!=null">
             <form *ngFor="let g of AGrades; let i=index">
                 <mat-form-field *ngIf="g.grade!=null">
                     <input matInput placeholder="Grade" type="text" name="grad" required [(ngModel)]="g.grade.titre" disabled>
                   </mat-form-field>
+                  <mat-form-field *ngIf="g.grade!=null">
+                    <input matInput placeholder="الرتبة" type="text" name="gradar" required [(ngModel)]="g.grade.titreAr" disabled>
+                  </mat-form-field>
+                  <mat-form-field *ngIf="g.grade!=null">
+                    <input matInput [matDatepicker]="picker3" placeholder="Date de Recrutement/تاريخ التعيين" [(ngModel)]="g.dateRecrutement" name="dateR">
+                    <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                    <mat-datepicker #picker3></mat-datepicker>
+                  </mat-form-field>
+                  <mat-form-field *ngIf="g.grade!=null"> 
+                    <input matInput [matDatepicker]="picker4" placeholder="Date de Titularisation/تاريخ الترسيم" [(ngModel)]="g.dateTitularisation" name="dateT">
+                    <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+                    <mat-datepicker #picker4></mat-datepicker>
+                  </mat-form-field>   
             <mat-form-field *ngIf="g.grade!=null">
-              <input matInput [matDatepicker]="picker1" placeholder="Date de Grade" name="dategrade" [(ngModel)]="g.dateEvaluation" disabled>
+              <input matInput [matDatepicker]="picker1" placeholder="Date de Grade/تاريخ التسمية" name="dategrade" [(ngModel)]="g.dateEvaluation" disabled>
               <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
               <mat-datepicker #picker1></mat-datepicker>
             </mat-form-field>
@@ -313,14 +357,24 @@
         </div>
           <form *ngFor="let g of NewAGrades; let i=index">
               <mat-form-field>
-                <mat-select placeholder="Grade" [(value)]="g.grade">
+                <mat-select placeholder="Grade/الرتبة" [(value)]="g.grade">
                   <mat-option *ngFor="let grd of grades" [value]="grd">
-                    {{ grd.titre }}
+                    {{ grd.titre+"/"+grd.titreAr }}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
               <mat-form-field>
-                <input matInput [matDatepicker]="picker1" placeholder="Date de Grade" name="dategrade" [(ngModel)]="g.dateEvaluation">
+                <input matInput [matDatepicker]="picker3" placeholder="Date de Recrutement/تاريخ التعيين" [(ngModel)]="g.dateRecrutement" name="dateR">
+                <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                <mat-datepicker #picker3></mat-datepicker>
+              </mat-form-field>
+              <mat-form-field>
+                <input matInput [matDatepicker]="picker4" placeholder="Date de Titularisation/تاريخ الترسيم" [(ngModel)]="g.dateTitularisation" name="dateT">
+                <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+                <mat-datepicker #picker4></mat-datepicker>
+              </mat-form-field>
+              <mat-form-field>
+                <input matInput [matDatepicker]="picker1" placeholder="Date de Grade/تاريخ التسمية" name="dategrade" [(ngModel)]="g.dateEvaluation">
                 <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                 <mat-datepicker #picker1></mat-datepicker>
               </mat-form-field>
@@ -331,11 +385,14 @@
           <mat-expansion-panel>
             <mat-expansion-panel-header>
               <mat-panel-title>
-                Poste Administratif/الخطة الوظيفية
+                {{'SideBar.MPoste' | translate}}
               </mat-panel-title>
-              <mat-panel-description>
+              <mat-panel-description *ngIf="lang=='fr'">
                 {{enseignantP.prenom+"   "+enseignantP.nom}}
-              </mat-panel-description>
+                </mat-panel-description>
+                <mat-panel-description *ngIf="lang=='ar'">
+                  {{enseignantP.prenomAr+"   "+enseignantP.nomAr}}
+                  </mat-panel-description>
             </mat-expansion-panel-header>
             <div *ngIf="periodes!=null">
               <form *ngFor="let p of periodes; let i=index">
@@ -377,8 +434,87 @@
             <button mat-mini-fab color="primary" (click)="ajouterPoste()"><mat-icon>add</mat-icon></button>
           </mat-expansion-panel>
           <!--end poste administrative-->
-          <button mat-raised-button color="primary" (click)=" updateEnseignant()">Modifier</button>
-          <button mat-raised-button color="primary" (click)="fe.reset()">Annuler</button>
+          <!--Etat-->
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                {{'Table.CEtat' | translate}}
+              </mat-panel-title>
+              <mat-panel-description *ngIf="lang=='fr'">
+                {{enseignantP.prenom+"   "+enseignantP.nom}}
+                </mat-panel-description>
+                <mat-panel-description *ngIf="lang=='ar'">
+                  {{enseignantP.prenomAr+"   "+enseignantP.nomAr}}
+                  </mat-panel-description>
+            </mat-expansion-panel-header>
+          <div *ngIf="etat!=null && etatModifiable==false">
+            <mat-form-field>
+                <input matInput placeholder="Etat" type="text" name="et" required [(ngModel)]="etat.libelleEtat" disabled>
+              </mat-form-field>
+                <mat-form-field>
+                <input matInput placeholder="الحالة" type="text" name="etar" required [(ngModel)]="etat.libelleEtatAr" disabled>
+              </mat-form-field>
+              <button  mat-icon-button color="" (click)="ModifierEtat()"><mat-icon>create</mat-icon></button>
+            </div>
+          
+          <mat-form-field *ngIf="etat===null || etatModifiable==true">
+            <mat-select placeholder="Etat" [(value)]="etat" required name="etat">
+              <mat-option *ngFor="let e of etats" [value]="e">
+                {{ e.libelleEtat+"/"+e.libelleEtatAr}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div *ngIf="lang=='fr'">
+                <mat-form-field *ngIf="etat.libelleEtat=='non-actif'">
+                  <textarea matInput placeholder="Raison" type="text" name="raison" [disabled]="!etatModifiable" [(ngModel)]="etatPersonnel.etatInactive" required></textarea>
+                </mat-form-field>
+                <div *ngIf="etat.libelleEtat=='détaché'">
+                <mat-form-field>
+                  <input matInput placeholder="Lieu de Détatcement" type="text" name="lieu" [disabled]="!etatModifiable" [(ngModel)]="etatPersonnel.lieuDetachement.libelleOrg" required>
+                </mat-form-field>
+                <mat-form-field>
+                  <input matInput [matDatepicker]="detache1" placeholder="Date de Debut" name="detachement1" [(ngModel)]="etatPersonnel.dateDebutDet">
+                  <mat-datepicker-toggle matSuffix [for]="detache1"></mat-datepicker-toggle>
+                  <mat-datepicker #detache1></mat-datepicker>
+                </mat-form-field>
+                <mat-form-field>
+                  <input matInput [matDatepicker]="detache2" placeholder="Date de Fin" name="detachement1" [(ngModel)]="etatPersonnel.dateFinDet">
+                  <mat-datepicker-toggle matSuffix [for]="detache2"></mat-datepicker-toggle>
+                  <mat-datepicker #detache2></mat-datepicker>
+                </mat-form-field>
+              </div>
+            </div>
+              <div *ngIf="lang=='ar'">
+                <mat-form-field *ngIf="etat.libelleEtatAr=='غير مباشر'">
+                  <textarea matInput placeholder="السبب" type="text" name="raisonAr" [disabled]="!etatModifiable" [(ngModel)]="etatPersonnel.etatInactiveAr" required></textarea>
+                </mat-form-field>
+                <div *ngIf="etat.libelleEtatAr=='ملحق'">
+                <mat-form-field *ngIf="etatPersonnel.lieuDetachement!=null">
+                  <input matInput placeholder="مكان الإلحاق" type="text" name="lieuAr" [disabled]="!etatModifiable" [(ngModel)]="etatPersonnel.lieuDetachement.libelleOrgAr" required>
+                </mat-form-field>
+                <mat-form-field *ngIf="etatPersonnel.lieuDetachement===null">
+                  <mat-select placeholder="مكان الإلحاق" [(value)]="lieuDetachement" required name="lieuAr">
+                    <mat-option *ngFor="let o of orgOrigines" [value]="o">
+                      {{o.libelleOrgAr }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <mat-form-field>
+                  <input matInput [matDatepicker]="detache1" placeholder="تاريخ بداية الإلحاق" name="detachement1" [(ngModel)]="etatPersonnel.dateDebutDet">
+                  <mat-datepicker-toggle matSuffix [for]="detache1"></mat-datepicker-toggle>
+                  <mat-datepicker #detache1></mat-datepicker>
+                </mat-form-field>
+                <mat-form-field>
+                  <input matInput [matDatepicker]="detache2" placeholder="تاريخ نهاية الإلحاق" name="detachement1" [(ngModel)]="etatPersonnel.dateFinDet">
+                  <mat-datepicker-toggle matSuffix [for]="detache2"></mat-datepicker-toggle>
+                  <mat-datepicker #detache2></mat-datepicker>
+                </mat-form-field>
+              </div>
+            </div>
+          </mat-expansion-panel>
+          <!--end Etat-->
+          <button mat-raised-button color="primary" (click)=" updateEnseignant()">{{'Table.CModifier' | translate}}</button>
+          <button mat-raised-button color="primary" (click)="fe.reset()">{{'Table.CAnnuler' | translate}}</button>
         </form>
       </mat-accordion>
     </div>

@@ -1,6 +1,7 @@
 <div>
-    <h3 class="modal-title" id="lineModalLabel">Mutation de {{nom}}</h3>
+    <h3 class="modal-title" id="lineModalLabel">{{'Table.CMutationD' | translate}} {{nom}}</h3>
     <form class="form-inline">
+    <div *ngIf="lang=='fr'">
       <mat-form-field>
         <mat-select placeholder="Organisme d'accueil" [(value)]="orgAccueil">
           <mat-option *ngFor="let or of orgAccueils" [value]="or">
@@ -20,7 +21,32 @@
         <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
         <mat-datepicker #picker1></mat-datepicker>
       </mat-form-field><br>
-      <button  mat-mini-fab color="primary" (click)="ajouter()">
+    </div>
+    <div *ngIf="lang=='ar'">
+          <mat-form-field>
+            <mat-select placeholder="المؤسسة المستقبلة" [(value)]="orgAccueil">
+              <mat-option *ngFor="let or of orgAccueils" [value]="or">
+                {{or.libelleOrgAr}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field><br>
+          <mat-form-field>
+            <mat-select placeholder="نوع النقلة" [(value)]="typeMutation">
+              <mat-option *ngFor="let tm of typeMutations" [value]="tm">
+                {{tm.designationMutationAr}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field><br>
+          <mat-form-field>
+            <input matInput [matDatepicker]="picker1" placeholder="تاريخ النقلة" name="dateMut" [(ngModel)]="mutation.date_mut">
+            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
+          </mat-form-field><br>
+      
+        </div>
+      <div id="ajout"><button mat-mini-fab color="primary" (click)="ajouter()">
         <mat-icon>add</mat-icon></button>
-    </form>
+        <button  mat-mini-fab color="default" (click)="Close()">
+            <mat-icon>clear</mat-icon></button></div>
+          </form>
   </div>

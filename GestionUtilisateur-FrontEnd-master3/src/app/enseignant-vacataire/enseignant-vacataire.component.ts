@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import {Enfant} from '../../model/model.enfant';
-import {EnfantServices} from '../../services/enfant.services';
 import { DemandeVacationServices } from '../../services/demandeVacation.services';
 import { DemandeVacation } from '../../model/model.demandeVacation';
 import { Http } from '@angular/http';
 import { Router } from '@angular/router';
 import { SpecialiteServices } from '../../services/specialite.services';
 import { Specialite } from '../../model/model.specialite';
+import { MatDialog } from '@angular/material';
+import { ModalDemandeVacComponent } from '../modal-demande-vac/modal-demande-vac.component';
 
 @Component({
   selector: 'app-enseignant-vacataire',
@@ -20,6 +20,7 @@ export class EnseignantVacataireComponent implements OnInit {
   specialite:Specialite=new Specialite();
   constructor(private demandeVacationService:DemandeVacationServices,
     private specialiteService:SpecialiteServices,
+    public dialog: MatDialog,
     public http: Http,
     public router: Router)
      { }
@@ -35,7 +36,11 @@ export class EnseignantVacataireComponent implements OnInit {
     .subscribe(data=>{
       alert("Success d'ajout");
       console.log(data);
-      this.upload(data.idDemande)
+      if(this.selectedFile!=null)
+      {
+        this.upload(data.idDemande)
+      }
+      
     },err=>{
       console.log(err);
     });
@@ -58,12 +63,16 @@ export class EnseignantVacataireComponent implements OnInit {
 upload(idDemande:number)
 {
   const fb=new FormData();
-  fb.append('uploadDiplome',this.selectedFile,this.selectedFile.name);
- this.http.post("http://localhost:8080/uploadDiplome/"+idDemande,fb)
+  fb.append('upload',this.selectedFile,this.selectedFile.name);
+ this.http.post("http://localhost:8080/uploadDiplomeVac/"+idDemande,fb)
  .subscribe(res=>{
    console.log(res);
  })
 }
   annuler(){
+  }
+  ajouterDemande()
+  {
+    const dialogRef = this.dialog.open(ModalDemandeVacComponent, { height: '650px'});
   }
 }

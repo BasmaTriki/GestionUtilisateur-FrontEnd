@@ -4,4 +4,5 @@ export class TypeConge{
   libelleTypeAr:string="";
   nbMaxJrs:number=0;
   autorisation:boolean;
+  actifPers:boolean;
 }

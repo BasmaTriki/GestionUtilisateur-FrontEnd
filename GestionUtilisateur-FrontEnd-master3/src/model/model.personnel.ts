@@ -7,8 +7,8 @@ import { Organisme } from "./model.organisme";
 
 export class Personnel{
   idPers:number;
-  matricule:number;
-  cin:number;
+  matricule:string="";
+  cin:string="";
   nom:string="";
   prenom:string="";
   adresse:string="";
@@ -18,6 +18,7 @@ export class Personnel{
   lieuNaissance:string="";
   codepostal:number;
   sexe:string="";
+  sexeAr:string="";
   rib:string="";
   etatCivil:string="";
   nomConjoint:string="";
@@ -40,4 +41,8 @@ export class Personnel{
   role:Role=new Role();
   organismeOrigine:Organisme;
   dateEntree:Date;
+  gradeActuel:string;
+  gradeActuelAr:string;
+  societConj:string;
+  societConjAr:string;
 }

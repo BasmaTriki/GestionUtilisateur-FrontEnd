@@ -16,4 +16,5 @@ export class Conge{
   adresseConge:string="";
   adresseCongeAr:string="";
   telephoneConge:string="";
+  certaficat:string="";
 }

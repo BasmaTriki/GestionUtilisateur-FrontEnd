@@ -1,4 +1,5 @@
-  <h3>Modifier Grade {{agrade.personnel.prenom+" "+agrade.personnel.nom}}</h3>
+<div *ngIf="lang=='fr'">
+<h3>Modifier Grade {{agrade.personnel.prenom+" "+agrade.personnel.nom}}</h3>
     <mat-form-field>
       <mat-select placeholder="Grade" [(value)]="grade">
         <mat-option *ngFor="let grd of grades" [value]="grd">
@@ -7,8 +8,44 @@
       </mat-select>
     </mat-form-field>
     <mat-form-field>
+      <input matInput [matDatepicker]="dateRec" placeholder="Date de Recrutement" [(ngModel)]="agrade.dateRecrutement">
+      <mat-datepicker-toggle matSuffix [for]="dateRec"></mat-datepicker-toggle>
+      <mat-datepicker #dateRec></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput [matDatepicker]="dateTit" placeholder="Date de Titularisation" [(ngModel)]="agrade.dateTitularisation">
+      <mat-datepicker-toggle matSuffix [for]="dateTit"></mat-datepicker-toggle>
+      <mat-datepicker #dateTit></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field>
       <input matInput [matDatepicker]="picker1" placeholder="Date de Grade" [(ngModel)]="agrade.dateEvaluation">
       <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
       <mat-datepicker #picker1></mat-datepicker>
     </mat-form-field>
+  </div>
+  <div *ngIf="lang=='ar'">
+    <h3>Modifier Grade {{agrade.personnel.prenomAr+" "+agrade.personnel.nomAr}}</h3>
+        <mat-form-field>
+          <mat-select placeholder="الرتبة" [(value)]="grade">
+            <mat-option *ngFor="let grd of grades" [value]="grd">
+              {{ grd.titreAr }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput [matDatepicker]="dateRec" placeholder="تاريخ الإنتداب في الرتبة" [(ngModel)]="agrade.dateRecrutement">
+          <mat-datepicker-toggle matSuffix [for]="dateRec"></mat-datepicker-toggle>
+          <mat-datepicker #dateRec></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput [matDatepicker]="dateTit" placeholder="تاريخ الترسيم" [(ngModel)]="agrade.dateTitularisation">
+          <mat-datepicker-toggle matSuffix [for]="dateTit"></mat-datepicker-toggle>
+          <mat-datepicker #dateTit></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput [matDatepicker]="picker1" placeholder="تاريخ التسمية" [(ngModel)]="agrade.dateEvaluation">
+          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+          <mat-datepicker #picker1></mat-datepicker>
+        </mat-form-field>
+      </div>
     <button mat-mini-fab color="black" (click)="Enregistrer()"><mat-icon>edit</mat-icon></button>

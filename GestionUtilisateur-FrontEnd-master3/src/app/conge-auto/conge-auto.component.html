@@ -1,0 +1,62 @@
+<app-index></app-index>
+<div class="container spacer">
+<div class="panel panel-info">
+  <div class="panel-heading">{{'SideBar.SMConge2' | translate}}</div>
+  <div class="panel-body">
+     <mat-tab-group class="demo-tab-group">
+      <mat-tab label="Avec Autorisation">
+          <div class="demo-tab-content">
+              <br>
+        <table class="table jambo_table" cellspacing="0">
+          <thead>
+            <tr>
+                <th>{{'Table.CID'| translate}}</th><th>{{'Table.CMatricule' | translate}}</th><th>{{'Table.CPrenom'| translate}}&{{'Table.CNom'| translate}}</th><th>{{'Table.CDateDebut' | translate}}</th><th>{{'Table.CDateFin' | translate}}</th><th>{{'SideBar.MTypeC' | translate}}</th><th>{{'Table.CNombreJ' | translate}}</th><th align="center">{{'Table.CAccepter' | translate}}</th><th align="center">{{'Table.CRefuser' | translate}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let c of pageConge?.content">
+              <td>{{c.personnel.idPers}}</td>
+              <td>{{c.personnel.matricule}}</td>
+              <td *ngIf="lang=='fr'">{{c.personnel.prenom+" "+c.personnel.nom}}</td>
+              <td *ngIf="lang=='ar'">{{c.personnel.prenomAr+" "+c.personnel.nomAr}}</td>
+              <td>{{c.dateDebut}}</td>
+              <td>{{c.dateFin}}</td>
+              <td *ngIf="lang=='fr'">{{c.typeconge.libelleType}}</td>
+              <td *ngIf="lang=='ar'">{{c.typeconge.libelleTypeAr}}</td>
+              <td>{{c.nbJour}}</td>
+              <td> <button mat-icon-button (click)="accepter(c)" color="primary"><mat-icon>check_circle_outline</mat-icon></button></td>
+              <td> <button mat-icon-button color="warn" (click)="refuser(c)" ><mat-icon>cancel</mat-icon></button></td>
+            </tr>
+          </tbody>
+        </table>
+        </div>
+      </mat-tab>
+    <!--   <mat-tab label="Administatif">
+        <div class="demo-tab-content">
+            <br>
+      <table class="table table-hover" cellspacing="0">
+        <thead>
+          <tr>
+          <th>Personnel</th><th>Date de début</th><th>Date de fin</th><th>Type de Congé</th><th>Nombre de Jours</th><th align="center">Accepter</th><th align="center">Refuser</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let c of pageConge?.content">
+          <td>{{c.personnel.prenom+" ben "+c.personnel.nompere+" "+c.personnel.nom}}</td>
+          <td>{{c.dateDebut}}</td>
+          <td>{{c.dateFin}}</td>
+          <td>{{c.typeconge.libelle}}</td>
+          <td>{{c.nbJour}}</td>
+          <td> <button mat-icon-button (click)="accepter(c)" color="primary"><mat-icon>check_circle_outline</mat-icon></button></td>
+         <td> <button mat-icon-button color="warn" (click)="refuser(c)" ><mat-icon>cancel</mat-icon></button></td>
+        </tr>
+      </tbody>
+    </table>
+      </div>
+   </mat-tab> -->
+   </mat-tab-group>
+    </div>
+  </div>
+</div>
+
+

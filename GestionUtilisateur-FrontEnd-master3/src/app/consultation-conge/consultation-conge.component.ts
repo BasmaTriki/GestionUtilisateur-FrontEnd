@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import {CongeServices} from '../../services/conge.services';
 import {Conge} from '../../model/model.conge';
 import {Router} from '@angular/router';
-import {Http} from '@angular/http';
+import {Http, Request} from '@angular/http';
 import {Personnel} from '../../model/model.personnel';
 import * as $ from 'jquery';
 import 'datatables.net';
@@ -27,29 +27,26 @@ export class ConsultationCongeComponent implements OnInit {
   conges: Array<Conge> = new Array<Conge>();
   personnels: Array<Personnel> = new Array<Personnel>();
   dataTable: any;
-
-
+  lang:string;
   constructor(private congeServices: CongeServices,private chRef: ChangeDetectorRef, 
     private http: HttpClient, public router: Router) {
+      this.lang=sessionStorage.getItem("lang");
   }
 
   ngOnInit() {
     this.doSearch();
     this.doSearchnonautoriser();
   }
- /* .subscribe((data: any[]) => {
-    this.pageEnseignant = data;
-    // You'll have to wait that changeDetection occurs and projects data into 
-    // the HTML template, you can ask Angular to that for you ;-)
-    this.chRef.detectChanges();
-    // Now you can use jQuery DataTables :
-    const table: any = $('table');
-    this.dataTable = table.DataTable();   
-},err=>{
-  console.log(err);
-})*/
+  download(idCong:number)
+  {
+    this.http.get("http://localhost:8080/downloadCertificat/"+idCong)
+   .subscribe(res=>{
+     console.log(res);
+   })
+  }
   accepter(c: Conge) {
     c.valide = "accepte";
+    c.valideAr = "موافق عليه";
     this.congeServices.updateConge(c)
       .subscribe(data => {
         this.pageConge.content.splice(
@@ -62,6 +59,7 @@ export class ConsultationCongeComponent implements OnInit {
   }
   valider(c: Conge) {
     c.valide = "validé";
+    c.valideAr = "إطلعت عليه";
     this.congeServices.updateConge(c)
       .subscribe(data => {
         this.pageConge.content.splice(
@@ -76,6 +74,7 @@ export class ConsultationCongeComponent implements OnInit {
     let confirm = window.confirm("Etes-vous sûre?");
     if (confirm == true) {
       c.valide = "refuse";
+      c.valideAr="مرفوض";
       this.congeServices.updateConge(c)
         .subscribe(data => {
           this.pageConge.content.splice(
@@ -101,7 +100,7 @@ export class ConsultationCongeComponent implements OnInit {
       })
   }
   doSearchnonautoriser() {
-    this.congeServices.getCongesAutoriser(false,this.motCle, this.currentPageA, this.size)
+    this.congeServices.getCongesAutoriser(true,this.motCle, this.currentPageA, this.size)
       .subscribe(data => {
         console.log(data);
         this.pageCongeA = data;
@@ -113,15 +112,27 @@ export class ConsultationCongeComponent implements OnInit {
   rattraper(c)
   {
       c.valide = "rattraper";
+      c.valideAr = "عوض";
       this.congeServices.updateConge(c)
         .subscribe(data => {
-          this.pageCongeA.content.splice(
-            this.pageCongeA.content.indexOf(c), 1
+          this.pageConge.content.splice(
+            this.pageConge.content.indexOf(c), 1
           );
           console.log(data);
         }, err => {
           console.log(err);
         })
+    }
+    Certaficat(c:Conge)
+    {
+      if(c.certaficat==null||c.certaficat=="")
+      {
+        return true;
+      }
+    else
+      {
+        return false;
+      }
     }
 }
 

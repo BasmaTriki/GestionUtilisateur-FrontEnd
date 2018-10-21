@@ -9,6 +9,9 @@ import { DiplomePersonnel } from '../../model/model.diplomepersonnel';
 import { EnfantServices } from '../../services/enfant.services';
 import { AGradeServices } from '../../services/agrade.services';
 import { DiplomePersonnelServices } from '../../services/diplomepersonnel.services';
+import { PeriodeServices } from '../../services/periode.services';
+import { Periode } from '../../model/model.periode';
+import { ImpressionServices } from '../../services/Impression.services';
 
 @Component({
   selector: 'app-details-enseignant',
@@ -32,15 +35,21 @@ export class DetailsEnseignantComponent implements OnInit {
  lasteElement:number=0;
  age:number=0;
  dateNew:any;
+ periodes:Array<Periode>=new Array<Periode>();
+ lang:string="";
+ nom:string="";
   constructor(public activatedRoute:ActivatedRoute,
               public enseignantpService:EnseignantPermanentServices,
+              public imprimerService:ImpressionServices,
               public router:Router,
               private enfantservice:EnfantServices,
               private agradeServices:AGradeServices,
+              private periodeServices:PeriodeServices,
               private diplomePersonnelServices:DiplomePersonnelServices,
               private congeServices:CongeServices) 
               {
 this.matricule=this.activatedRoute.snapshot.params['idPers'];
+this.lang=sessionStorage.getItem("lang");
                }
 
   ngOnInit() {
@@ -50,6 +59,16 @@ this.matricule=this.activatedRoute.snapshot.params['idPers'];
         this.enseignantP = data;
         this.chercherAGrade(data);
         this.chercherDiplome(data);
+        this.chercherPeriode(data);
+        console.log(this.enseignantP.datenaissance);
+        if(this.lang==="fr")
+        {
+          this.nom=this.enseignantP.prenom+" "+this.enseignantP.nom;
+        }
+        else
+        {
+          this.nom=this.enseignantP.prenomAr+" "+this.enseignantP.nomAr;
+        }
       },err=>{
         console.log(err);
       })
@@ -67,6 +86,25 @@ this.matricule=this.activatedRoute.snapshot.params['idPers'];
       .subscribe(data=>{
         this.enfants=data;
         this.nbEnfant=this.enfants.length;
+      },err=>{
+        console.log(err);
+      })
+    }
+    ImprimerFichePersonnel(idPers:number)
+    {
+      this.imprimerService.ImprimerFichePersonnel(idPers)
+      .subscribe(data=>{
+        console.log(data);
+      },err=>{
+        console.log(err);
+      })
+    }
+    chercherPeriode(e:EnseignantPermanent)
+    {
+      this.periodeServices.getPeriodePersonnel(e.idPers)
+      .subscribe(data=>{
+        this.periodes=data;
+        console.log(data);
       },err=>{
         console.log(err);
       })

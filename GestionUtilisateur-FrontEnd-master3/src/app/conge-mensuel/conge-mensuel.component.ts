@@ -10,11 +10,13 @@ import { DepartementServices } from '../../services/departement.services';
 import { EnseignantPermanentServices } from '../../services/enseignantpermanent.services';
 import { TypeCongeServices } from '../../services/typeConge.services';
 import { TypeConge } from '../../model/model.typeConge';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-conge-mensuel',
   templateUrl: './conge-mensuel.component.html',
-  styleUrls: ['./conge-mensuel.component.css']
+  styleUrls: ['./conge-mensuel.component.css'],
+  providers: [DatePipe]
 })
 export class CongeMensuelComponent implements OnInit {
   personnel:Personnel=new Personnel();
@@ -25,6 +27,7 @@ export class CongeMensuelComponent implements OnInit {
   type:string="";
   typeConge:TypeConge=new TypeConge();
   typeConges:Array<TypeConge>=new Array<TypeConge>();
+  lang="";
   constructor(public http:HttpClient,
     public dialogRef: MatDialogRef<CongeMensuelComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any, 
@@ -32,9 +35,11 @@ export class CongeMensuelComponent implements OnInit {
     private congeServices:CongeServices,
     private typeServices:TypeCongeServices,
     private enseingnantpermanentService:EnseignantPermanentServices,
+    private datePipe: DatePipe,
     public router:Router) 
     {
       this.type=this.data.name;
+      this.lang=sessionStorage.getItem("lang");
      }
 
   ngOnInit() {
@@ -52,12 +57,13 @@ export class CongeMensuelComponent implements OnInit {
       });
   }
   Imprimer()
-  {
-    this.mois=this.dateConge.getMonth();
-    this.annee=this.dateConge.getFullYear();
+  {console.log(this.dateConge);
+   
+    this.mois=+this.datePipe.transform(this.dateConge,'MM');
+    this.annee=+this.datePipe.transform(this.dateConge,'yyyy');
     console.log(this.annee);
     console.log(this.mois);
-    this.congeServices.Imprimer(this.mois+1,this.annee)
+    this.congeServices.Imprimer(this.mois,this.annee)
     .subscribe(data=>{
       console.log(data);
     },err=>{
@@ -74,9 +80,9 @@ export class CongeMensuelComponent implements OnInit {
     })
   }
   Imprimertype()
-  {this.mois=this.dateConge.getMonth();
-    this.annee=this.dateConge.getFullYear();
-    this.congeServices.ImprimerCongeType(this.mois+1,this.annee,this.typeConge.idCg)
+  { this.mois=+this.datePipe.transform(this.dateConge,'MM');
+  this.annee=+this.datePipe.transform(this.dateConge,'yyyy');
+    this.congeServices.ImprimerCongeType(this.mois,this.annee,this.typeConge.idCg)
     .subscribe(data=>{
       console.log(data);
     },err=>{

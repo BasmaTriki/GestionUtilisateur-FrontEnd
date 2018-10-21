@@ -1,0 +1,104 @@
+<div *ngIf="type=='Departement' && lang=='fr'">
+  <div class="panel-heading">Liste Des Enseignants Par Departement</div>
+  <div class="panel-body">
+    <mat-form-field>
+      <mat-select placeholder="Departement" [(value)]="departement" required>
+        <mat-option *ngFor="let d of departements" [value]="d">
+          {{ d.nomDep }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+        <button mat-mini-fab color="primary" (click)="ImprimerDepartement()"><mat-icon>print</mat-icon></button>
+    </div>
+  </div>
+  <div  *ngIf="type=='Departement' && lang=='ar'">
+    <div class="panel-heading">قائمة الأساتذة بالقسم</div>
+    <div class="panel-body">
+      <mat-form-field>
+        <mat-select placeholder="القسم" [(value)]="departement" required>
+          <mat-option *ngFor="let d of departements" [value]="d">
+            {{d.nomDepAr}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+          <button mat-mini-fab color="primary" (click)="ImprimerDepartement()"><mat-icon>print</mat-icon></button>
+      </div>
+    </div>
+    <div *ngIf="type=='Grade' && lang=='fr'">
+      <div class="panel-heading">Liste Des Enseignants Par Grade</div>
+      <div class="panel-body">
+        <mat-form-field>
+          <mat-select placeholder="Grade" [(value)]="grade">
+            <mat-option *ngFor="let grd of grades" [value]="grd">
+              {{ grd.titre}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+            <button mat-mini-fab color="primary" (click)="ImprimerGrade()"><mat-icon>print</mat-icon></button>
+        </div>
+      </div>
+      <div *ngIf="type=='Grade' && lang=='ar'">
+        <div class="panel-heading">قائمة الأساتذة بالرتبة</div>
+        <div class="panel-body">
+          <mat-form-field>
+            <mat-select placeholder="الرتبة" [(value)]="grade">
+              <mat-option *ngFor="let grd of grades" [value]="grd">
+                {{ grd.titreAr }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+              <button mat-mini-fab color="primary" (click)="ImprimerGrade()"><mat-icon>print</mat-icon></button>
+          </div>
+        </div>
+        <div  *ngIf="type=='Corps' && lang=='fr'">
+          <div class="panel-heading">Liste Des Enseignants Par Corps</div>
+          <div class="panel-body">
+            <mat-form-field>
+              <mat-select placeholder="Corps" [(value)]="corp">
+                <mat-option *ngFor="let c of corps" [value]="c">
+                  {{ c.libelleCps}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+                <button mat-mini-fab color="primary" (click)="ImprimerCorps()"><mat-icon>print</mat-icon></button>
+            </div>
+          </div>
+          <div *ngIf="type=='Corps' && lang=='ar'">
+            <div class="panel-heading">قائمة الأساتذة بالسلك</div>
+            <div class="panel-body">
+              <mat-form-field>
+                <mat-select placeholder="السلك" [(value)]="corp">
+                  <mat-option *ngFor="let c of corps" [value]="c">
+                    {{ c.libelleCpsAr}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+                  <button mat-mini-fab color="primary" (click)="ImprimerCorps()"><mat-icon>print</mat-icon></button>
+              </div>
+            </div>
+            <div *ngIf="type=='rendement' && lang=='fr'">
+              <div class="panel-heading">Prime de Rendement</div>
+              <div class="panel-body">
+                <mat-form-field>
+                  <mat-select placeholder="Semestre" [(value)]="semestre" required>
+                    <mat-option *ngFor="let s of semestres" [value]="s">
+                      {{ s.descriptionSem }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+                    <button mat-mini-fab color="primary" (click)="ImprimerPrime()"><mat-icon>print</mat-icon></button>
+                </div>
+              </div>
+              <div *ngIf="type=='rendement' && lang=='ar'">
+                <div class="panel-heading">منحة الإنتاج</div>
+                <div class="panel-body">
+                  <mat-form-field>
+                    <mat-select placeholder="السداسي" [(value)]="semestre" required>
+                      <mat-option *ngFor="let s of semestres" [value]="s">
+                        {{ s.descriptionSemAr }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                      <button mat-mini-fab color="primary" (click)="ImprimerPrime()"><mat-icon>print</mat-icon></button>
+                  </div>
+                </div>

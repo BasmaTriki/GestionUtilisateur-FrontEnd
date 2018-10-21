@@ -14,8 +14,8 @@ import { EnseignantPermanentServices } from '../../services/enseignantpermanent.
 import * as $ from 'jquery';
 import 'datatables.net';
 import 'datatables.net-bs4';
-import { HttpClient } from '../../../node_modules/@angular/common/http';
-import { MatDialog } from '../../../node_modules/@angular/material';
+import { HttpClient } from '@angular/common/http';
+import { MatDialog } from '@angular/material';
 import { ModalMutationComponent } from '../modal-mutation/modal-mutation.component';
 @Component({
   selector: 'app-mutation',
@@ -38,12 +38,16 @@ export class MutationComponent implements OnInit {
   orgAccueils:Array<Organisme>=new Array<Organisme>();
   dataTable: any;
   nom:string;
+  lang:string;
   constructor(private mutationServices:MutationServices,
     private enseingnantpermanentService:EnseignantPermanentServices,
     private chRef: ChangeDetectorRef, 
     public dialog: MatDialog,
     private http: HttpClient,
-    public router:Router) { }
+    public router:Router) 
+    {
+     this.lang=sessionStorage.getItem("lang"); 
+     }
 
   ngOnInit() {
     this.doSearchEng();
@@ -96,9 +100,18 @@ export class MutationComponent implements OnInit {
   ajouterMutation(p:Personnel)
   {
     if(p!=null)
-    this.nom=p.prenom+" "+p.nom;
-    this.personnel=p;
-    let dialogRef = this.dialog.open(ModalMutationComponent, {data:{name:this.nom,idPers:p.idPers}});
+    {if(this.lang=="fr")
+    {
+      this.nom=p.prenom+" "+p.nom;
+    }
+    else
+    {
+      this.nom=p.prenomAr+" "+p.nomAr;
+    }
+      this.personnel=p;
+      let dialogRef = this.dialog.open(ModalMutationComponent, {data:{name:this.nom,idPers:p.idPers}});
+    }
+   
   }
   EtatMutation(e)
   {

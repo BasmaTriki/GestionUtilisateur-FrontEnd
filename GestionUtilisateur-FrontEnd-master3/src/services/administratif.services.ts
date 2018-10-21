@@ -14,6 +14,10 @@ export class AdministratifServices {
     return this.http.get("http://localhost:8080/chercherAdministratifPrenom?mp="+motcle1+"&size=" + size + "&page=" + page)
       .map(resp => resp.json())
   }
+  getAdministratifSansCompte() {
+    return this.http.get("http://localhost:8080/chercherAdminSansCompte")
+      .map(resp => resp.json())
+  }
   getAdministratif(idPers: number) {
     return this.http.get("http://localhost:8080/Administratif/"+idPers)
       .map(resp => resp.json())

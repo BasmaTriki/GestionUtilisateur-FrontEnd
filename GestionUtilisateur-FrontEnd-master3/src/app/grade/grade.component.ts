@@ -7,7 +7,7 @@ import * as $ from 'jquery';
 import 'datatables.net';
 import 'datatables.net-bs4';
 import { CorpsServices } from '../../services/corps.services';
-import { HttpClient } from '../../../node_modules/@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Corps } from '../../model/model.corps';
 @Component({
   selector: 'app-grade',
@@ -25,6 +25,7 @@ export class GradeComponent implements OnInit {
   corps:Corps=new Corps();
   corpss:Array<Corps>=new Array<Corps>();
   dataTable: any;
+  lang:string="";
   constructor(private gradeServices:GradeServices,
     private corpsServices:CorpsServices,
     private chRef: ChangeDetectorRef, 
@@ -35,6 +36,7 @@ export class GradeComponent implements OnInit {
   ngOnInit() {
     this.doSearch();
     this.chercherCorps();
+    this.lang=sessionStorage.getItem("lang");
   }
   ajouter(){
     this.grade.corps=this.corps;

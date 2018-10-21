@@ -21,13 +21,15 @@ export class AGradeComponent implements OnInit {
   agrade: AGrade = new AGrade();
   agrades: Array<AGrade> = new Array<AGrade>();
   idGrade:number;
-
+  lang:string;
   constructor(private gradeServices: GradeServices,
     public dialogRef: MatDialogRef<AGradeComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any, 
     private agradeService: AGradeServices, 
     public http: Http,
-     public router: Router) {
+     public router: Router) 
+     {
+       this.lang=sessionStorage.getItem("lang");
   }
 
   ngOnInit() {

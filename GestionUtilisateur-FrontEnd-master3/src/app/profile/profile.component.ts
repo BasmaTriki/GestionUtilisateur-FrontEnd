@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Personnel } from '../../model/model.personnel';
 import { Router } from '@angular/router';
 import { PersonnelServices } from '../../services/personnel.services';
-import { TranslateService } from '../../../node_modules/@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-profile',

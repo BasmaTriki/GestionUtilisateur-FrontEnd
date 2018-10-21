@@ -1,8 +1,16 @@
+<app-index></app-index>
+<div class="container spacer">
+<div class="panel panel-default">
+  <div class="panel-heading">{{'SideBar.SMPersonnel'| translate}}</div>
+  <div class="panel-body">
+  <mat-tab-group class="demo-tab-group">
+  <mat-tab label="Administratif">
 <div class="demo-tab-content">
-<table class="table table-hover" cellspacing="0">
+  <br>
+<table class="table jambo_table" cellspacing="0">
     <thead>
 <tr>
-  <th>ID</th> <th>Matricule</th><th>CIN</th><th>Nom</th><th>Prenom</th><th>Telephone</th><th>E-mail</th><th>Modifier</th><th>Détails</th>
+  <th>{{'Table.CID'| translate}}</th><th>{{'Table.CMatricule'| translate}}</th><th>{{'Table.CCIN'| translate}}</th><th>{{'Table.CPrenom'| translate}}&{{'Table.CNom'| translate}}</th><th>{{'Table.CDateNais'| translate}}</th><th>{{'Table.CEtat'| translate}}</th><th>{{'SideBar.MService' | translate}}</th><th>{{'Table.Action'| translate}}</th>
 </tr>
 </thead>
 <tbody>
@@ -10,13 +18,24 @@
   <td>{{e.idPers}}</td>
   <td>{{e.matricule}}</td>
   <td>{{e.cin}}</td>
-  <td>{{e.nom}}</td>
-  <td>{{e.prenom}}</td>
-  <td>{{e.telephone}}</td>
-  <td>{{e.email}}</td>
-  <td><a (click)="onEditAdministratif(e.idPers)" class="clickable"><mat-icon>create</mat-icon></a> </td>
-  <td><a (click)="onDetailsAdministratif(e.idPers)" class="clickable"><mat-icon >list_alt</mat-icon></a> </td>
+  <td *ngIf="lang=='fr'">{{e.prenom}} {{e.nom}}</td>
+  <td *ngIf="lang=='ar'">{{e.prenomAr}} {{e.nomAr}}</td>
+  <td>{{e.datenaissance}}</td>
+  <td *ngIf="e.etat!=null  && lang=='fr'">{{e.etat.libelleEtat}}</td>
+  <td *ngIf="e.etat!=null  && lang=='ar'">{{e.etat.libelleEtatAr}}</td>
+  <td *ngIf="e.etat==null">{{e.etat}}</td>
+  <td *ngIf="e.service!=null && lang=='fr'">{{e.service.libelleServ}}</td>
+  <td *ngIf="e.service!=null && lang=='ar'">{{e.service.libelleServAr}}</td>
+  <td *ngIf="e.service==null">{{e.service}}</td>
+  <td><a (click)="onEditAdministratif(e.idPers)" matTooltip="Modifier" class="clickable"><mat-icon>create</mat-icon></a>
+ <a (click)="onDetailsAdministratif(e.idPers)" matTooltip="Détails" class="clickable"><mat-icon >list_alt</mat-icon></a>
+ <a (click)="Imprimer(e.idPers,e.sexe)" matTooltip="imprimer Attestation" class="clickable"><mat-icon>print</mat-icon></a> </td>
 </tr>
 </tbody>
 </table>
 </div>  
+</mat-tab>
+</mat-tab-group>
+</div>
+</div>
+</div>

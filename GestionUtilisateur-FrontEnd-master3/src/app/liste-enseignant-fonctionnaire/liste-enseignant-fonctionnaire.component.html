@@ -1,0 +1,40 @@
+<app-index></app-index>
+<div class="container spacer">
+<div class="panel panel-default">
+  <div class="panel-heading">{{'Table.CListeEnsgV' | translate}}</div>
+  <div class="panel-body">
+  <mat-tab-group class="demo-tab-group">
+  <mat-tab label="Enseignant Fonctionnaire d'état">
+   <div class="demo-tab-content">
+     <br>
+      <table class="table jambo_table" cellspacing="0">
+          <thead>
+           <tr>
+              <th>{{'Table.CID'| translate}}</th><th>{{'Table.CCIN'| translate}}</th><th>{{'Table.CPrenom'| translate}}&{{'Table.CNom'| translate}}</th><th>{{'Table.CDateNais'| translate}}</th><th>{{'SideBar.MDepartement'| translate}}</th><th>{{'Table.CEtat'| translate}}</th><th>{{'Table.CModifier'| translate}}</th><th>{{'Table.CDetails'| translate}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let e of pageEnseignantFonct?.content">
+          <td>{{e.idPers}}</td>
+          <td>{{e.cin}}</td>
+          <td *ngIf="lang=='fr'">{{e.prenom}} {{e.nom}}</td>
+          <td *ngIf="lang=='ar'">{{e.prenomAr}} {{e.nomAr}}</td>
+          <td>{{e.datenaissance}}</td>
+          <td *ngIf="e.departement!=null && lang=='fr'">{{e.departement.nomDep}}</td>
+          <td *ngIf="e.departement!=null && lang=='ar'">{{e.departement.nomDepAr}}</td>
+          <td *ngIf="e.departement==null">{{e.departement}}</td>
+          <td *ngIf="e.etat!=null  && lang=='fr'">{{e.etat.libelleEtat}}</td>
+          <td *ngIf="e.etat!=null  && lang=='ar'">{{e.etat.libelleEtatAr}}</td>
+          <td *ngIf="e.etat==null">{{e.etat}}</td>
+         <td><a (click)="onEditEnseignant(e.idPers)" class="clickable"><mat-icon>create</mat-icon></a> </td>
+        <td><a (click)="onDetailsEnseignant(e.idPers)" class="clickable"><mat-icon >list_alt</mat-icon></a> </td>
+        </tr>
+      </tbody>
+    </table>
+      </div>
+    </mat-tab>
+</mat-tab-group>
+</div>
+</div>
+</div>
+

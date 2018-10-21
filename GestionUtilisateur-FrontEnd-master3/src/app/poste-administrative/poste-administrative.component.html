@@ -1,7 +1,7 @@
 <app-index></app-index>
 <div class="container spacer">
-<div class="panel panel-primary">
-  <div class="panel-heading">Ajouter Poste Administrative</div>
+<div class="panel panel-default">
+  <div class="panel-heading">{{'SideBar.MPoste' | translate}}</div>
   <div class="panel-body">
       <div>
           <mat-form-field>
@@ -17,10 +17,10 @@
             <mat-tab label="Liste des Postes">
               <div class="demo-tab-content">
                 <br>
-          <table class="table table-hover" cellspacing="0">
+          <table class="table jambo_table" cellspacing="0">
             <thead>
         <tr>
-          <th>ID</th><th>Libellé</th><th>الخطة الوظيفية</th><th>Modifier Poste</th><th>Supprimer Poste</th>
+            <th>{{'Table.CID'| translate}}</th><th>Libellé</th><th>الخطة الوظيفية</th><th>{{'Table.CModifier' | translate}}</th><th>{{'Table.CSupprimer' | translate}}</th>
         </tr>
       </thead>
       <tbody>

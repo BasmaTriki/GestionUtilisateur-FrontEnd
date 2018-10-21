@@ -1,7 +1,7 @@
 <app-index></app-index>
 <div class="container spacer">
 <div class="panel panel-default">
-  <div class="panel-heading">Ajouter Grade</div>
+  <div class="panel-heading">{{'SideBar.MGrade' | translate}}</div>
   <div class="panel-body">
     <div>
       <mat-form-field>
@@ -24,10 +24,10 @@
             <mat-tab label="Liste des Grade">
               <div class="demo-tab-content">
                 <br>
-          <table class="table table-hover" cellspacing="0">
+          <table class="table jambo_table" cellspacing="0">
             <thead>
         <tr>
-          <th>ID</th><th>Titre</th><th>الرتبة</th><th>Modifier Grade</th><th>Supprimer Grade</th>
+      <th>{{'Table.CID'| translate}}</th><th>Titre</th><th>الرتبة</th><th>Corps</th><th>{{'Table.CModifier' | translate}}</th><th>{{'Table.CSupprimer' | translate}}</th>
         </tr>
       </thead>
       <tbody>
@@ -37,6 +37,9 @@
           <td *ngIf="g.titre==null">-</td>
           <td *ngIf="g.titreAr!=null">{{g.titreAr}}</td>
           <td *ngIf="g.titreAr==null">-</td>
+          <td *ngIf="g.corps!=null && lang=='fr'">{{g.corps.libelleCps}}</td>
+          <td *ngIf="g.corps!=null && lang=='ar'">{{g.corps.libelleCpsAr}}</td>
+          <td *ngIf="g.corps==null">-</td>
           <td><a (click)="onEditGrade(g.id)" class="clickable"> <mat-icon>create</mat-icon></a> </td>
           <td><a (click)="onDeleteGrade(g)" class="clickable"> <mat-icon>delete_sweep</mat-icon></a> </td>
         </tr>

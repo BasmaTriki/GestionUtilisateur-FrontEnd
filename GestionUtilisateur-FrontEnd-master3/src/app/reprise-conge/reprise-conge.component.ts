@@ -11,17 +11,28 @@ import { Conge } from '../../model/model.conge';
 export class RepriseCongeComponent implements OnInit {
 idCong:number;
 conge:Conge=new Conge();
+lang:string;
+nom:string;
   constructor(public dialogRef: MatDialogRef<RepriseCongeComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private congeServices:CongeServices)
-  { }
+  {
+    this.lang=sessionStorage.getItem("lang");
+   }
 
   ngOnInit() {
     this.idCong=this.data.name;
-    console.log(this.data.name);
     this.congeServices.getConge(this.idCong)
     .subscribe(data=>{
       this.conge=data;
+      if(this.lang=="fr")
+      {
+        this.nom=this.conge.personnel.prenom+" "+this.conge.personnel.nom;  
+      }
+      else
+      {
+        this.nom=this.conge.personnel.prenomAr+" "+this.conge.personnel.nomAr;
+      }
     },err=>{
       console.log(err);
     });

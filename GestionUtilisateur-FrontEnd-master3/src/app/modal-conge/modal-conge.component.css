@@ -21,3 +21,9 @@
 .modal-footer .btn-group:last-child > button {
 	border-right: 0;
 }
+.panel
+{
+   margin-left:0px;
+   width: 100%
+    
+}

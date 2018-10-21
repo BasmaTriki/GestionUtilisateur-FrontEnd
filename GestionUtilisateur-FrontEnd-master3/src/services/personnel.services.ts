@@ -4,6 +4,7 @@ import {Personnel} from "../model/model.personnel";
 
 @Injectable()
 export class PersonnelServices {
+  isAuth = false;
   constructor(public http: Http) {
   }
 
@@ -38,7 +39,7 @@ getTypePersonnel(motCle:number) {
   }
   
   getPersonnelLogin(login:string,motpasse:string)
-  {
+  {  this.isAuth=true;
     return this.http.get("http://localhost:8080/chercherPersonnelLogin?mc="+login+"&mp="+motpasse)
       .map(resp=>resp.json())
   }
@@ -51,12 +52,6 @@ getTypePersonnel(motCle:number) {
   getPersonnelsCompte(login:string, page: number, size: number)
   {
     return this.http.get("http://localhost:8080/chercherPersonnelActif?mc="+login+ "&size=" + size + "&page=" + page)
-      .map(resp=>resp.json())
-  }
-  
-  ImprimerAttestation(idPers:number,sexe:string)
-  {
-    return this.http.get("http://localhost:8080/AttestationTravail?mc="+idPers+"&mp="+sexe)
       .map(resp=>resp.json())
   }
 }

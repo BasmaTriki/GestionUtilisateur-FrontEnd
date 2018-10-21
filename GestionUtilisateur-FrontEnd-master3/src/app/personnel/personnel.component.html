@@ -12,26 +12,32 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
-      <div *ngIf="type=='Enseignant'">
+      <div *ngIf="type=='Enseignant Permanent'">
         <app-enseignant-permanent></app-enseignant-permanent>
       </div>
       <div *ngIf="type=='Administratif'">
         <app-administratif></app-administratif>
       </div>
+      <div *ngIf="type=='Enseignant Contractuel'">
+        <app-enseignant-contractuelle></app-enseignant-contractuelle>
+      </div>
       </div>
       <div *ngIf="lang=='ar'">
         <mat-form-field>
-          <mat-select placeholder="نوع الشخص" [(value)]="typeAr"  required>
+          <mat-select placeholder="نوع العون" [(value)]="type"  required>
             <mat-option *ngFor="let t of TypePersonnelAr" [value]="t.value">
               {{ t.value }}
             </mat-option>
           </mat-select>
         </mat-form-field>
-      <div *ngIf="typeAr=='أستاذ'">
+      <div *ngIf="type=='أستاذ قار'">
         <app-enseignant-permanent></app-enseignant-permanent>
       </div>
-      <div *ngIf="typeAr=='إداري'">
+      <div *ngIf="type=='إداري'">
         <app-administratif></app-administratif>
+      </div>
+      <div *ngIf="type=='أستاذ متعاقد'">
+        <app-enseignant-contractuelle></app-enseignant-contractuelle>
       </div>
     </div>
     </div>

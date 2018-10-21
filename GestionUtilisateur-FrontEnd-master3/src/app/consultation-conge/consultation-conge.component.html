@@ -1,60 +1,60 @@
 <app-index></app-index>
 <div class="container spacer">
 <div class="panel panel-info">
-  <div class="panel-heading">Liste de demandes des congés</div>
+  <div class="panel-heading">{{'SideBar.SMConge2' | translate}}</div>
   <div class="panel-body">
      <mat-tab-group class="demo-tab-group">
-      <mat-tab label="Enseignant">
+      <mat-tab label="Sans Autorisation">
           <div class="demo-tab-content">
               <br>
-        <table class="table table-hover" cellspacing="0">
+        <table class="table jambo_table" cellspacing="0">
           <thead>
             <tr>
-                <th>ID</th><th>Matricule</th><th>Nom & Prenom</th><th>Date de Début</th><th>Date de Fin</th><th>Type de Congé</th><th>Nombre de Jours</th><th align="center">Validation</th><th align="center">Rattrapé</th>
+                <th>{{'Table.CID'| translate}}</th><th>{{'Table.CMatricule' | translate}}</th><th>{{'Table.CPrenom'| translate}} & {{'Table.CNom'| translate}}</th><th>{{'Table.CDateDebut' | translate}}</th><th>{{'Table.CDateFin' | translate}}</th><th>{{'SideBar.MTypeC' | translate}}</th><th>{{'Table.CNombreJ' | translate}}</th><th>{{'Table.CCertaficat' | translate}}</th><th align="center">{{'Table.Cvalidation' | translate}}</th><th align="center">{{'Table.CRattraper' | translate}}</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let c of pageConge?.content">
               <td>{{c.personnel.idPers}}</td>
               <td>{{c.personnel.matricule}}</td>
-              <td>{{c.personnel.nom+" "+c.personnel.prenom}}</td>
+              <td *ngIf="lang=='fr'">{{c.personnel.prenom+" "+c.personnel.nom}}</td>
+              <td *ngIf="lang=='ar'">{{c.personnel.prenomAr+" "+c.personnel.nomAr}}</td>
               <td>{{c.dateDebut}}</td>
               <td>{{c.dateFin}}</td>
-              <td>{{c.typeconge.libelleType}}</td>
+              <td *ngIf="lang=='fr'">{{c.typeconge.libelleType}}</td>
+              <td *ngIf="lang=='ar'">{{c.typeconge.libelleTypeAr}}</td>
               <td>{{c.nbJour}}</td>
-              <td> <button mat-icon-button  (click)="valider(c)" color="primary" ><mat-icon>done</mat-icon></button></td>
-              <td> <button mat-icon-button  (click)="rattraper(c)" color="primary" ><mat-icon>collections_bookmark</mat-icon></button></td>
+              <td *ngIf="c.typeconge.libelleType=='Maladie'|| c.typeconge.libelleType==='Maladie Longue durée'"><button mat-icon-button [disabled]="Certaficat(c)" (click)="download(c.idCong)" color="primary" ><mat-icon>get_app</mat-icon></button></td>
+              <td> <a (click)="valider(c)" class="clickable"><mat-icon>done</mat-icon></a></td>
+              <td> <a  (click)="rattraper(c)" class="clickable"><mat-icon>collections_bookmark</mat-icon></a></td>
             </tr>
           </tbody>
         </table>
         </div>
       </mat-tab>
-      <mat-tab label="Administatif">
-
-    <div class="demo-tab-content">
-      <table class="table table-striped">
-        <tr>
+    <!--   <mat-tab label="Administatif">
+        <div class="demo-tab-content">
+            <br>
+      <table class="table table-hover" cellspacing="0">
+        <thead>
+          <tr>
           <th>Personnel</th><th>Date de début</th><th>Date de fin</th><th>Type de Congé</th><th>Nombre de Jours</th><th align="center">Accepter</th><th align="center">Refuser</th>
         </tr>
+      </thead>
+      <tbody>
         <tr *ngFor="let c of pageConge?.content">
           <td>{{c.personnel.prenom+" ben "+c.personnel.nompere+" "+c.personnel.nom}}</td>
           <td>{{c.dateDebut}}</td>
           <td>{{c.dateFin}}</td>
           <td>{{c.typeconge.libelle}}</td>
           <td>{{c.nbJour}}</td>
-          <td> <button mat-icon-button  (click)="accepter(c)" color="primary"><mat-icon>check_circle_outline</mat-icon></button></td>
+          <td> <button mat-icon-button (click)="accepter(c)" color="primary"><mat-icon>check_circle_outline</mat-icon></button></td>
          <td> <button mat-icon-button color="warn" (click)="refuser(c)" ><mat-icon>cancel</mat-icon></button></td>
         </tr>
-      </table>
-      <div class="container">
-        <ul class="nav nav-pills">
-          <li [ngClass]="{'active' :i==currentPage}" *ngFor="let p of pages; let i=index">
-            <a class="clickable" (click)="gotopage(i)">{{i}}</a>
-          </li>
-        </ul>
+      </tbody>
+    </table>
       </div>
-      </div>
-   </mat-tab>
+   </mat-tab> -->
    </mat-tab-group>
     </div>
   </div>

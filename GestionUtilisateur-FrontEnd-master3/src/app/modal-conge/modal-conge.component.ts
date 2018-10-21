@@ -8,11 +8,13 @@ import { Conge } from '../../model/model.conge';
 import { Personnel } from '../../model/model.personnel';
 import { TypeConge } from '../../model/model.typeConge';
 import { HttpClient } from '@angular/common/http';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-modal-conge',
   templateUrl: './modal-conge.component.html',
-  styleUrls: ['./modal-conge.component.css']
+  styleUrls: ['./modal-conge.component.css'],
+  providers: [DatePipe]
 })
 export class ModalCongeComponent implements OnInit {
   pageConge:any;
@@ -29,13 +31,19 @@ export class ModalCongeComponent implements OnInit {
   Sommenbjour:number;
   nom:string="";
   idPers:number=0;
+  year:number;
 selectedFile:File=null;
+lang:string;
+congeValide:boolean=false;
+nomberJour:number;
+restjour:number;
   constructor(private congeServices:CongeServices, 
     private typeCongeServices:TypeCongeServices,
     private personnelServices: PersonnelServices,
     public dialogRef: MatDialogRef<ModalCongeComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     public router:Router,
+    private datePipe: DatePipe,
     public http: HttpClient) { }
 
   ngOnInit() {
@@ -48,6 +56,7 @@ selectedFile:File=null;
     },err=>{
       console.log(err);
     });
+    this.lang=sessionStorage.getItem("lang");
   }
   AfficherTypeConge()
   {
@@ -62,17 +71,19 @@ selectedFile:File=null;
   CalculerNbjour()
   {if(this.conge.dateFin!=null && this.conge.dateDebut!=null)
     {this.nbjour=((Number(this.conge.dateFin) - Number(this.conge.dateDebut))/86400000)+1;
-      console.log(this.nbjour);
-    return this.nbjour;
+      console.log(this.conge.dateFin);
+      console.log(this.conge.dateDebut);
+    return parseInt(this.nbjour+"");
   }
   else
     return 0;
   }
   NomberJour()
-  {var somme:number=0;
+  {this.year=+this.datePipe.transform(new Date(),'yyyy');
+    var somme:number=0;
     if(this.typeconge)
     {
-      this.congeServices.getNbJourParType(this.personnel.idPers,this.typeconge.idCg)
+      this.congeServices.getNbJourParType(this.personnel.idPers,this.typeconge.idCg,this.year)
       .subscribe(data=>{
       this.Sommenbjour=data;
       somme= data;
@@ -85,21 +96,6 @@ selectedFile:File=null;
      
         return somme;
 }
-  CalculerResteJour()
-  {
-    if(this.conge.dateFin!=null && this.conge.dateDebut!=null)
-  {
-    this.congeServices.getNbJourParType(this.personnel.idPers,this.typeconge.idCg)
-      .subscribe(data=>{
-       this.Sommenbjour=data;
-       //alert ("Il vous Reste "+this.nbjourRest);
-        console.log(data+" Marwa ");
-      },err=>{
-        console.log(err);
-      });
-    }
-   return this.Sommenbjour;
-  }
   Close()
   {
     this.dialogRef.close();
@@ -107,7 +103,7 @@ selectedFile:File=null;
   ajouter(){
     this.conge.typeconge=this.typeconge;
     this.conge.personnel=this.personnel;
-    this.conge.nbJour=this.nbjour;
+    this.conge.nbJour=this.nomberJour;
     this.conge.valide="en-attente";
     this.conge.valideAr="في الإنتظار";
     this.conge.dateCreationConge=new Date();
@@ -117,7 +113,7 @@ selectedFile:File=null;
         console.log(data);
         this.personnel.conges.push(data);
         this.personnelServices.updatePersonnel(this.personnel);
-        if(this.typeconge.libelleType==="Maladie")
+        if(this.typeconge.libelleType==="Maladie"|| this.typeconge.libelleType==="Maladie Longue durée")
         {
           this.upload(data.idCong);
         }
@@ -134,37 +130,45 @@ onFileSelected(event)
 upload(idCong:number)
 {
   const fb=new FormData();
-  fb.append('uploadfile',this.selectedFile,this.selectedFile.name);
- this.http.post("http://localhost:8080/uploadFile/"+idCong,fb)
+  fb.append('upload',this.selectedFile,this.selectedFile.name);
+  this.http.post("http://localhost:8080/uploadCertificat/"+idCong,fb)
  .subscribe(res=>{
    console.log(res);
  })
 }
-nomberJour:any;
-restjour:any;
-onSelected1(event)
-{ if(this.restjour)
-  {
-  this.nomberJour=this.CalculerNbjour();
-  this.Sommenbjour=this.CalculerResteJour();
-  this.restjour=this.typeconge.nbMaxJrs-(this.Sommenbjour+this.nbjour)
-  }
 
-//console.log(event);
-
-}
 onSelected(event)
 { 
-  this.nomberJour=this.CalculerNbjour();
-  //this.CalculerResteJour();
- this.NomberJour();
-  this.restjour=this.typeconge.nbMaxJrs-(this.Sommenbjour+this.nbjour);
+  this.nomberJour=parseInt(this.CalculerNbjour()+"");
+   this.NomberJour();
+  this.restjour=parseInt((this.typeconge.nbMaxJrs-(this.Sommenbjour+this.nbjour))+"");
   if(this.Sommenbjour==null)
   {
-    this.restjour=this.typeconge.nbMaxJrs-this.nbjour;
+    this.restjour=+(this.typeconge.nbMaxJrs-this.nbjour);
   }
-  console.log(event+" "+this.Sommenbjour+"   "+this.nomberJour);
- // this.restjour =this.typeconge.nbMaxJrs-(this.Sommenbjour+this.nomberJour);
- 
+  this.ValideConge();
+ // this.restjour =this.typeconge.nbMaxJrs-(this.Sommenbjour+this.nomberJour) 
+}
+ValideConge()
+{
+  if(this.restjour>=0)
+  {
+    this.congeValide=true;
+  }
+  else
+  {
+    this.congeValide=false;
+  }
+}
+getColor()
+{
+  if(this.restjour>5)
+  {
+    return 'green';
+  }
+  else if(this.restjour<5)
+  {
+    return 'red';
+  }
 }
 }

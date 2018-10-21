@@ -1,11 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { DemandeVacation } from '../../model/model.demandeVacation';
 import { DemandeVacationServices } from '../../services/demandeVacation.services';
 import { Http } from '@angular/http';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { ModalVacationComponent } from '../modal-vacation/modal-vacation.component';
-
+import * as $ from 'jquery';
+import 'datatables.net';
+import 'datatables.net-bs4';
+import { HttpClient } from '../../../node_modules/@angular/common/http';
 @Component({
   selector: 'app-consultation-vacation',
   templateUrl: './consultation-vacation.component.html',
@@ -17,18 +20,22 @@ export class ConsultationVacationComponent implements OnInit {
   motCle: string = "en-attente";
   currentPage: number = 0;
   pages: Array<number>;
-  size: number = 5;
+  size:number=2000;
   role:string="";
+  dataTable: any;
+  lang:string;
   constructor(private demandeServices:DemandeVacationServices,
-    public http: Http,
+    private chRef: ChangeDetectorRef, 
+    private http: HttpClient,
     public dialog: MatDialog,
      public router: Router) 
      {
        this.role=sessionStorage.getItem("role");
+       this.lang=sessionStorage.getItem("lang");
       }
 
   ngOnInit()
-  {if(this.role=='DirecteurES')
+  {if(this.role=='DirecteurES'||this.role=='admin')
   {
     this.doSearch();
   }
@@ -40,20 +47,26 @@ this.doSearchAccepter();
   }
   doSearch() {
     this.demandeServices.getEtatDemandeVacation(this.motCle, this.currentPage, this.size)
-      .subscribe(data => {
-        console.log(data);
-        this.pageDemande = data;
-        this.pages = new Array(data.totalPages);
+    .subscribe((data: any[]) => {
+      this.pageDemande = data;
+      console.log(data);
+      this.chRef.detectChanges();
+      // Now you can use jQuery DataTables :
+      const table: any = $('table');
+      this.dataTable = table.DataTable();   
       }, err => {
         console.log(err);
       })
   }
   doSearchAccepter() {
     this.demandeServices.getEtatDemandeVacation("accepter", this.currentPage, this.size)
-      .subscribe(data => {
-        console.log(data);
-        this.pageDemande = data;
-        this.pages = new Array(data.totalPages);
+    .subscribe((data: any[]) => {
+      this.pageDemande = data;
+      console.log(data);
+      this.chRef.detectChanges();
+      // Now you can use jQuery DataTables :
+      const table: any = $('table');
+      this.dataTable = table.DataTable(); 
       }, err => {
         console.log(err);
       })

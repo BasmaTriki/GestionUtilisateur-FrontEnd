@@ -4,12 +4,12 @@
   <div class="panel-heading">{{'SideBar.SMPersonnel'| translate}}</div>
   <div class="panel-body">
   <mat-tab-group class="demo-tab-group">
-  <mat-tab label="Enseignant">
+  <mat-tab label="Enseignants">
    <div class="demo-tab-content">
-           <table class="table table-hover" cellspacing="0">
+           <table class="table jambo_table" cellspacing="0">
           <thead>
            <tr>
-              <th>{{'Table.CID'| translate}}</th><th>{{'Table.CMatricule'| translate}}</th><th>{{'Table.CCIN'| translate}}</th><th>{{'Table.CPrenom'| translate}}&{{'Table.CNom'| translate}}</th><th>{{'Table.CDateNais'| translate}}</th><th>{{'SideBar.MDepartement'| translate}}</th><th>{{'Table.CEtat'| translate}}</th><th>{{'Table.CModifier'| translate}}</th><th>{{'Table.CDetails'| translate}}</th><th>{{'Table.CAttestationT'| translate}}</th>
+              <th>{{'Table.CID'| translate}}</th><th>{{'Table.CMatricule'| translate}}</th><th>{{'Table.CCIN'| translate}}</th><th>{{'Table.CPrenom'| translate}}&{{'Table.CNom'| translate}}</th><th>{{'Table.CDateNais'| translate}}</th><th>{{'SideBar.MDepartement'| translate}}</th><th>{{'Table.CEtat'| translate}}</th><th>{{'SideBar.MGradeAct' | translate}}</th><th>{{'Table.Action'| translate}}</th>
           </tr>
           </thead>
           <tbody>
@@ -18,7 +18,7 @@
           <td>{{e.matricule}}</td>
           <td>{{e.cin}}</td>
           <td *ngIf="lang=='fr'">{{e.prenom}} {{e.nom}}</td>
-          <td *ngIf="lang=='ar'">{{e.prenomAr}} {{e.nomAr}}</td>
+          <td *ngIf="lang=='ar'"><b>{{e.prenomAr}} {{e.nomAr}}</b></td>
          <td>{{e.datenaissance}}</td>
          <td *ngIf="e.departement!=null && lang=='fr'">{{e.departement.nomDep}}</td>
          <td *ngIf="e.departement!=null && lang=='ar'">{{e.departement.nomDepAr}}</td>
@@ -26,18 +26,18 @@
          <td *ngIf="e.etat!=null  && lang=='fr'">{{e.etat.libelleEtat}}</td>
          <td *ngIf="e.etat!=null  && lang=='ar'">{{e.etat.libelleEtatAr}}</td>
          <td *ngIf="e.etat==null">{{e.etat}}</td>
-         <td><a (click)="onEditEnseignant(e.idPers)" class="clickable"><mat-icon>create</mat-icon></a> </td>
-        <td><a (click)="onDetailsEnseignant(e.idPers)" class="clickable"><mat-icon>list_alt</mat-icon></a> </td>
-        <td><a (click)="Imprimer(e.idPers,e.sexe)" class="clickable"><mat-icon>print</mat-icon></a> </td>
-        </tr>
+         <td *ngIf="lang=='fr'">{{e.gradeActuel}}</td>
+         <td *ngIf="lang=='ar'">{{e.gradeActuelAr}}</td>
+         <td><a matTooltip="Modifier"  (click)="onEditEnseignant(e.idPers)" class="clickable"><mat-icon>create</mat-icon></a> 
+       <a (click)="onDetailsEnseignant(e.idPers)" matTooltip="Détails" class="clickable"><mat-icon>list_alt</mat-icon></a>
+       <a (click)="Imprimer(e.idPers,e.sexe)" class="clickable" matTooltip="Imprimer"><mat-icon>print</mat-icon></a> 
+       <!-- <a (click)="ImprimerReprise(e.idPers)" class="clickable"><mat-icon>print</mat-icon></a> </td> -->
+      </tr>
       </tbody>
         </table>
          <!-- <button mat-button color="primary" (click)="Imprimer()"><mat-icon>print</mat-icon>Imprimer</button> -->
       </div>
     </mat-tab>
-    <mat-tab label="Administratif">
-  <app-liste-administratif></app-liste-administratif>
-</mat-tab>
 </mat-tab-group>
 </div>
 </div>

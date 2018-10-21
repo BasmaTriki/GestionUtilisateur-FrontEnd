@@ -1,0 +1,115 @@
+<!-- line modal -->
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" (click)="Close()"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+			<h3 class="modal-title" id="lineModalLabel" align="center">Demande Vacation Enseignement</h3>
+		</div>
+		<div class="modal-body">
+            <!-- content goes here -->
+			<form id="upload-file-form">
+        <mat-radio-group name="typeneseig" [(ngModel)]="demandeVacation.typeDemande">
+          <mat-radio-button value="EnseignantFonctionnaire">Enseignant Fonctionnaire de l'etat</mat-radio-button>
+          <mat-radio-button value="EnseignantLibre">Enseignant Libre</mat-radio-button>
+        </mat-radio-group><br>
+                        <label for="cinh">Votre CIN *</label>
+                        <input type="text" id="cinh" name="cin" placeholder="Votre CIN.." [(ngModel)]="demandeVacation.cin">
+                        <label for="fname">Sexe *</label>
+                        <mat-radio-group>
+                          <mat-radio-button value="Femme">Femme</mat-radio-button>
+                          <mat-radio-button value="Homme">Homme</mat-radio-button>
+                        </mat-radio-group><br>
+                      <label for="fname">Nom *</label>
+                      <input type="text" id="fname" name="firstname" placeholder="Votre Nom.." [(ngModel)]="demandeVacation.nom">
+                  
+                      <label for="lname">Prénom *</label>
+                      <input type="text" id="lname" name="lastname" placeholder="Votre prénom.." [(ngModel)]="demandeVacation.prenom">
+                      
+                      <label for="lname">Nom de Pére *</label>
+                      <input type="text" id="lnamePere" name="perename" placeholder="Votre Nom de Pére.." [(ngModel)]="demandeVacation.nompere">
+                      
+                      <label for="lname">Date de Naissance *</label>
+                      <input type="date" id="ldate" name="dateNai" placeholder="Votre date Naissance.." [(ngModel)]="demandeVacation.datenaissance">
+                      <br>
+                      <label for="lname">Lieu de Naissance *</label>
+                      <input type="text" id="lieu" name="lieuNais" placeholder="Votre Nom de Pére.." [(ngModel)]="demandeVacation.lieuNaissance">
+                      
+                      <label for="email">E-mail *</label>
+                      <input type="text" id="em" name="email" placeholder="Votre email.."[(ngModel)]="demandeVacation.email">
+                  
+                      <label for="telephone">Téléphone *</label>
+                      <input type="text" id="tel" name="telephone" placeholder="Votre numéro de téléphone.." [(ngModel)]="demandeVacation.telephone">
+                    
+                      <label for="subject">Adresse *</label>
+                      <textarea id="subject" name="subject" placeholder="Votre adresse.." style="height:100px" [(ngModel)]="demandeVacation.adresse"></textarea>
+                  
+                      <label for="country">Ville *</label>
+                        <select id="country" name="country" [(ngModel)]="demandeVacation.ville">
+                          <option value="ariana">Ariana</option>
+                          <option value="beja">Béja</option>
+                          <option value="benarous">Ben Arous</option>
+                          <option value="bizert">Bizert</option>
+                          <option value="gabes">Gabes</option>
+                          <option value="gafsa">Gafsa</option>
+                          <option value="jendouba">Jendouba</option>
+                          <option value="kairouan">Kairouan</option>
+                          <option value="kebeli">Kebéli</option>
+                          <option value="kasserine">Kasserine</option>
+                          <option value="lekef">Le Kef</option>
+                          <option value="mahdia">Mahdia</option>
+                          <option value="mannouba">Mannouba</option>
+                          <option value="mednine">Mednine</option>
+                          <option value="monastir">Monastir</option>
+                          <option value="nabeul">Nabeul</option>
+                          <option value="siliana">Siliana</option>
+                          <option value="sidibouzid">Sidi Bouzid</option>
+                          <option value="sfax">Sfax</option>
+                          <option value="sousse">Sousse</option>
+                          <option value="tataouine">Tataouine</option>
+                          <option value="tozeur">Tozeur</option>
+                          <option value="tunis">Tunis</option>
+                          <option value="zaghouan">Zaghouan</option>
+                        </select>
+                        <label for="fetatCiv">Etat Civil*</label>
+                        <mat-radio-group [(ngModel)]="demandeVacation.etatCivil" name="etatcivil" #etatcivil>
+                          <mat-radio-button value="Célibataire">Célibataire</mat-radio-button>
+                          <mat-radio-button value="Marié(e)">Marié(e)</mat-radio-button>
+                          <mat-radio-button value="Divorcé(e)">Divorcé(e)</mat-radio-button>
+                          <mat-radio-button value="Veuf(ve)">Veuf(ve)</mat-radio-button>
+                        </mat-radio-group><br>
+                      <label for="cdepost">Code Postal</label>
+                      <input type="text" id="cdepost" name="codePostal" placeholder="Votre code postal.." [(ngModel)]="demandeVacation.codePostal">
+                      <label for="specialite">Specialité *</label>
+                        <select placeholder="Spécialité" [(ngModel)]="specialite" name="spec" required>
+                          <option *ngFor="let s of specialites" [ngValue]="s" name="spec">
+                            {{ s.libelleSp }}
+                          <option>
+                        </select>
+
+                        <label for="lname">RIB *</label>
+                        <input type="text" id="rib" name="riba" placeholder="Votre RIB.." [(ngModel)]="demandeVacation.rib">
+                        
+              <div class="form-group">
+                <label for="exampleInputFile">Importez vos diplômes sous forme PDF..</label>
+                <input type="file" id="exampleInputFile" name="uploadfile" accept="*" (change)="onFileSelected($event)" value="uploadfile"/>
+              </div>
+              <div class="checkbox">
+              </div>
+            </form>
+            <br>
+            <p>* champs obligatoires</p>
+
+		</div>
+		<div class="modal-footer">
+			<div class="btn-group btn-group-justified" role="group" aria-label="group button">
+				<div class="btn-group" role="group">
+					<button type="button" class="btn btn-default" data-dismiss="modal"  role="button" (click)="Close()">Annuler</button>
+				</div>
+				<div class="btn-group btn-delete hidden" role="group">
+					<button type="button" id="delImage" class="btn btn-default btn-hover-red" data-dismiss="modal"  role="button">Delete</button>
+				</div>
+				<div class="btn-group" role="group">
+					<button type="button" id="saveImage" class="btn btn-default btn-hover-green" data-action="save" (click)="Enregistrer()" role="button">Envoyer ma demande</button>
+				</div>
+			</div>
+		</div>
+	</div>

@@ -1,4 +1,5 @@
-  <h3>Modifier Diplôme de {{diplomep.personnel.prenom+" "+diplomep.personnel.nom}}</h3>
+<div *ngIf="lang=='fr'">
+<h3>Modifier Diplôme de {{diplomep.personnel.prenom+" "+diplomep.personnel.nom}}</h3>
     <mat-form-field>
       <mat-select placeholder="Diplôme" [(value)]="diplome">
         <mat-option *ngFor="let dip of diplomes" [value]="dip">
@@ -11,4 +12,20 @@
       <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
       <mat-datepicker #picker1></mat-datepicker>
     </mat-form-field>
+  </div>
+  <div *ngIf="lang=='ar'">
+    <h3>Modifier Diplôme de {{diplomep.personnel.prenomAr+" "+diplomep.personnel.nomAr}}</h3>
+        <mat-form-field>
+          <mat-select placeholder="Diplôme" [(value)]="diplome">
+            <mat-option *ngFor="let dip of diplomes" [value]="dip">
+              {{ dip.titreDipAr }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput [matDatepicker]="picker1" placeholder="Date de Diplôme" [(ngModel)]="diplomep.date">
+          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+          <mat-datepicker #picker1></mat-datepicker>
+        </mat-form-field>
+      </div>
     <button mat-mini-fab color="black" (click)="Enregistrer()"><mat-icon>edit</mat-icon></button>

@@ -6,7 +6,8 @@ import {TypeMutationsServices} from '../../services/typeMutation.services';
 import * as $ from 'jquery';
 import 'datatables.net';
 import 'datatables.net-bs4';
-import { HttpClient } from '../../../node_modules/@angular/common/http';
+import { HttpClient } from '@angular/common/http';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-type-mutation',
@@ -22,22 +23,26 @@ export class TypeMutationComponent implements OnInit {
   typeMutation:TypeMutation=new TypeMutation();
   typeMutations:Array<TypeMutation>=new Array<TypeMutation>();
   dataTable: any;
+  lang:string;
   constructor(private typeMutationServices:TypeMutationsServices,
     private chRef: ChangeDetectorRef, 
     private http: HttpClient,
+    private toastr: ToastrService,
     public router:Router) {}
 
   ngOnInit() {
     this.doSearch();
+    this.lang=sessionStorage.getItem("lang");
 }
 ajouter(){
   this.typeMutationServices.saveTypeMutation(this.typeMutation)
     .subscribe(data=>{
-      alert("Succès d'ajout");
+    this.showSuccess();
       this.doSearch();
       console.log(data);
     },err=>{
       console.log(err);
+      this.toastr.error("veuillez vérifier les informations saisies");
     });
 }
 doSearch(){
@@ -51,18 +56,14 @@ doSearch(){
      
     },err=>{
       console.log(err);
+      this.toastr.error("Erreur");
     })
-}
-gotopage(i:number)
-{
-  this.currentPage=i;
-  this.doSearch();
 }
 onEditTypeMutation(code:number){
   this.router.navigate(['editTypeMutation',code]);
 }
 onDeleteTypeMutation(tm:TypeMutation){
-  let confirm=window.confirm("Etes-vous sûre?");
+  let confirm=window.confirm("Voulez vous vraiment supprimer le type?");
   if(confirm==true)
   {
     this.typeMutationServices.deleteTypeMutation(tm.code)
@@ -74,6 +75,16 @@ onDeleteTypeMutation(tm:TypeMutation){
       },err=>{
         console.log(err);
       })
+  }
+}
+showSuccess() {
+  if(this.lang=='fr')
+  {
+    this.toastr.success("Succes d'ajouter type de mutation");
+  }
+else
+  {
+    this.toastr.success("تمت إضافة نوع النقلة بنجاح");
   }
 }
 }

@@ -1,4 +1,4 @@
-<h3>Reprise de congé de  {{conge.personnel.prenom+"  "+conge.personnel.nom}}</h3>
+<h3>{{'Titre.Reprise' |  translate}}{{nom}}</h3>
 <div>
 <form #formCong>
   <!-- <mat-form-field>
@@ -6,7 +6,7 @@
     <mat-datepicker-toggle matSuffix [for]="picker" name="DateReprise" [(ngModel)]="conge.dateReprise"></mat-datepicker-toggle>
     <mat-datepicker #picker [(ngModel)]="conge.dateReprise" name="DateReprise"></mat-datepicker>
   </mat-form-field> -->
-  <mat-slide-toggle>Reprise</mat-slide-toggle>
+  <mat-slide-toggle>{{'Table.CReprise'|  translate}}</mat-slide-toggle>
   <button mat-mini-fab color="black" (click)="ModifierConge()"><mat-icon>edit</mat-icon></button>
 </form>
 </div>

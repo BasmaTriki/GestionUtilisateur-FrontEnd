@@ -24,21 +24,20 @@ export class DiplomePersonnelComponent implements OnInit {
   personnels:Array<Personnel>=new Array<Personnel>();
   diplome:Diplome=new Diplome();
   diplomep:DiplomePersonnel=new DiplomePersonnel();
-  displayedColumns = ['id_DipP', 'personnel', 'diplome', 'date'];
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  //dataSource=new MatTableDataSource<DiplomePersonnel>(this.diplomeps);
+  lang:string;
   constructor( private diplomeServices: DiplomeServices,
     private diplomepService:DiplomePersonnelServices,
     public http:Http,
     public dialogRef: MatDialogRef<DiplomePersonnelComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     public router:Router)
-  { }
+  {
+    this.lang=sessionStorage.getItem("lang");
+   }
 
   ngOnInit() {
     this.idDep=this.data.num;
     this.chercherDip();
-   // this.dataSource.paginator = this.paginator;
     this.diplomepService.getDiplomePersonnel(this.idDep)
     .subscribe(data => {
       this.diplomep = data;

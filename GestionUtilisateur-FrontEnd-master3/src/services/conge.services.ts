@@ -32,7 +32,7 @@ export class CongeServices{
   }
   
   ImprimerCongeType(mois:number,annee:number,idtype:number){
-    return this.http.get("http://localhost:8080/ListeCongeParType?mc="+mois+"&mp="+annee+"&mt="+idtype)
+    return this.http.get("http://localhost:8080/ListeCongeParTypeAr?mc="+mois+"&mp="+annee+"&mt="+idtype)
       .map(resp=>resp.json())
   }
   getConge(idCong:number){
@@ -56,9 +56,14 @@ export class CongeServices{
     return this.http.get("http://localhost:8080/chercherCongesP?mc="+idPers+"&size="+size+"&page="+page)
       .map(resp=>resp.json())
   }
-  getNbJourParType(idPers:number,idCg:number)
+  getPersonnelConge(idPers:number)
   {
-    return this.http.get("http://localhost:8080/chercherNbJourParType?mc="+idPers+"&mt="+idCg)
+    return this.http.get("http://localhost:8080/chercherPersonnelConge?mc="+idPers)
+      .map(resp=>resp.json())
+  }
+  getNbJourParType(idPers:number,idCg:number,year:number)
+  {
+    return this.http.get("http://localhost:8080/chercherNbJourParType?mc="+idPers+"&mt="+idCg+"&year="+year)
       .map(resp=>resp.json());
   }
   getCongesAutoriser(motCle:boolean,motcle1:string,page:number,size:number)

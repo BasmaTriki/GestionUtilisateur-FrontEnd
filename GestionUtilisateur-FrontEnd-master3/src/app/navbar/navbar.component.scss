@@ -1,0 +1,65 @@
+
+.example-fill-remaining-space {
+    /* This fills the remaining space, by using flexbox.
+       Every toolbar row uses a flexbox row layout. */
+    flex: 1 1 auto;
+  }
+  mat-toolbar
+  {
+    background: #EDEDED;
+    height: 20%;
+  }
+  li
+  {
+    margin-right: 1px;
+    list-style-type: none;
+    flex: 1 1 auto;
+  }
+  ul li
+  {
+    margin-right: -1px;
+    flex: 1 1 auto;
+  }
+  .fa-bell
+  {
+    color: #2A3F54;
+    font-size: 23px;
+  }
+  .fa-bars
+  {
+  color: #2A3F54;
+  font-size: 30px;
+  }
+  .special-img
+  {
+    position:relative;
+    top: -5px;
+    float: right;
+    right: 10px;
+  
+  }
+  .profile-image  {
+    padding-top: 10px;
+    padding-bottom: 0px;
+    height: 30px;
+    width: 30px;
+    margin: 10px 5;
+  
+  }
+  
+  #logo
+  {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+  }
+  
+  #logo img
+  {
+    width: 59px;
+    height: 60px;
+  
+  }
+  
+  
+  

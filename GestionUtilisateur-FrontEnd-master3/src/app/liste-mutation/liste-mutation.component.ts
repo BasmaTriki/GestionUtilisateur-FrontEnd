@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { MutationServices } from '../../services/Mutation.services';
-import { HttpClient } from '../../../node_modules/@angular/common/http';
-import { Router } from '../../../node_modules/@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 import * as $ from 'jquery';
 import 'datatables.net';
 import 'datatables.net-bs4';
@@ -17,13 +17,18 @@ motCle:string="";
 currentPage:number=0;
 pages:Array<number>;
 size:number=1000;
+lang:string;
   constructor(private mutationServices:MutationServices,
     private chRef: ChangeDetectorRef, 
     private http: HttpClient,
-    public router:Router) { }
+    public router:Router) 
+    {
+      this.lang=sessionStorage.getItem("lang");
+     }
 
   ngOnInit() {
     this.doSearch();
+   
   }
   doSearch()
   {

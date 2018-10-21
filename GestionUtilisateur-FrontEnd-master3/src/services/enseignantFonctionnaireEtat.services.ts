@@ -21,8 +21,8 @@ export class EnseignantFonctionnaireEtatServices {
       .map(resp => resp.json())
   }*/
   
-  getEnseignantFonctionnaireEtat(cin: number) {
-    return this.http.get("http://localhost:8080/EnseignantFonctionnaireEtat/" + cin)
+  getEnseignantFonctionnaireEtat(idPers: number) {
+    return this.http.get("http://localhost:8080/EnseignantFonctionnaireEtat/" + idPers)
       .map(resp => resp.json())
   }
 
@@ -32,12 +32,12 @@ export class EnseignantFonctionnaireEtatServices {
   }
 
   updateEnseignantPermanent(enseignantFonctionnaireEtat: EnseignantFonctionnaireEtat) {
-    return this.http.put("http://localhost:8080/ModifierEnseignantFonctionnaireEtat/" +enseignantFonctionnaireEtat.cin,enseignantFonctionnaireEtat)
+    return this.http.put("http://localhost:8080/ModifierEnseignantFonctionnaireEtat/" +enseignantFonctionnaireEtat.idPers,enseignantFonctionnaireEtat)
       .map(resp => resp.json())
   }
 
-  deleteEnseignantPermanent(cin: number) {
-    return this.http.delete("http://localhost:8080/SupprimerEnseignantFonctionnaireEtat/" + cin)
+  deleteEnseignantPermanent(idPers: number) {
+    return this.http.delete("http://localhost:8080/SupprimerEnseignantFonctionnaireEtat/" + idPers)
       .map(resp => resp.json())
   }
   getAllEnseignantPermanents() {

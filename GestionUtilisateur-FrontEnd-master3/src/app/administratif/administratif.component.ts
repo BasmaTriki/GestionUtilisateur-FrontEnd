@@ -10,6 +10,10 @@ import {Service} from "../../model/model.service";
 import { Etat } from '../../model/model.etat';
 import { EtatServices } from '../../services/etat.services';
 import { Role } from '../../model/model.role';
+import { AGrade } from '../../model/model.agrade';
+import { Grade } from '../../model/model.grade';
+import { AGradeServices } from '../../services/agrade.services';
+import { GradeServices } from '../../services/grade.services';
 
 @Component({
   selector: 'app-administratif',
@@ -26,17 +30,40 @@ export class AdministratifComponent implements OnInit {
   etats:Array<Etat>=new Array<Etat>();
   role:Role=new Role();
   year:number=1970;
+  lang:string;
+  agrade:AGrade=new AGrade();
+  grade:Grade=new Grade();
+  grades: Array<Grade> = new Array<Grade>();
+  AGrades:Array<AGrade>=new Array<AGrade>();
   constructor(  private enfantservice: EnfantServices,
                 private etatServices: EtatServices,
+                private agradeServices:AGradeServices,
+                private gradeServices: GradeServices,
                 private administratifServices:AdministratifServices,
                 private serviceServices:ServiceServices,
                 public http: Http,
-                public router: Router) { }
+                public router: Router) 
+                {
+                  this.lang=sessionStorage.getItem("lang");
+                 }
 
   ngOnInit() {
     this.enfants.push(this.enfant);
     this.chercherService();
     this.chercherEtats();
+    this.chercherGrad();
+    this.AGrades.push(this.agrade);
+  }
+  
+  chercherGrad()
+  {
+    this.gradeServices.getAllGrades()
+      .subscribe(data=>{
+        this.grades=data;
+        console.log(data);
+      },err=>{
+        console.log(err);
+      })
   }
   chercherEtats()
   {
@@ -72,6 +99,41 @@ export class AdministratifComponent implements OnInit {
     }
     
   }
+  EnregistrerAgrade(a:Administratif) {
+    for (let agrd of this.AGrades) {
+      agrd.personnel=a;
+    this.agradeServices.saveAGrade(agrd)
+      .subscribe(data => {
+        console.log("Success d'ajout grades");
+        console.log(data);
+      }, err => {
+        console.log(err);
+      });
+  }
+  var agrde:AGrade=new AGrade();
+  this.agradeServices.getGradeActuel(a.idPers)
+  .subscribe(data => {
+    agrde=data;
+    console.log(data);
+  }, err => {
+    console.log(err);
+  });
+  a.gradeActuel=agrde.grade.titre;
+  a.gradeActuelAr=agrde.grade.titreAr;
+  agrde.gradeActuel=true;
+  this.agradeServices.updateAGrade(agrde)
+  .subscribe(data => {
+    console.log(data);
+  }, err => {
+    console.log(err);
+  });
+  this.administratifServices.updateAdministratif(a)
+  .subscribe(data => {
+    console.log(data);
+  }, err => {
+    console.log(err);
+  });
+}
   Enregistrer() {
     var  mat= (this.administratif.matricule+"").substr(5,3);
     this.administratif.service=this.service;
@@ -81,15 +143,66 @@ export class AdministratifComponent implements OnInit {
     this.role.idRole=2;
     this.role.type="utilisateur";
     this.administratif.role=this.role;
+    if(this.lang=="fr")
+    {
+      if(this.administratif.sexe=="Femme")
+      {
+        this.administratif.sexeAr="انثي";
+      }
+      else if(this.administratif.sexe=="Homme")
+      {
+        this.administratif.sexeAr="ذكر";
+      }
+      if(this.administratif.etatCivil=="Célibataire" && this.administratif.sexe=="Femme")
+      {
+        this.administratif.etatCivilAr="عزباء";
+      }
+      else if(this.administratif.etatCivil=="Célibataire" && this.administratif.sexe=="Homme")
+      {
+        this.administratif.etatCivilAr="أعزب";
+      }
+      else if(this.administratif.etatCivil=="Marie")
+      {
+        this.administratif.etatCivilAr="(متزوج(ة";
+      }
+      else
+      {
+        this.administratif.etatCivilAr="(مطلق(ة";
+      }
+    }
+    else
+    {
+      if(this.administratif.sexeAr=="انثي")
+      {
+        this.administratif.sexe="Femme";
+      }
+      else if(this.administratif.sexeAr=="ذكر")
+      {
+        this.administratif.sexe="Homme";
+      }
+      if(this.administratif.etatCivilAr=="عزباء" || this.administratif.etatCivilAr=="أعزب")
+      {
+        this.administratif.etatCivil="Célibataire";
+      }
+      else if(this.administratif.etatCivilAr=="(متزوج(ة")
+      {
+        this.administratif.etatCivil="Marie";
+      }
+      else
+      {
+        this.administratif.etatCivil="Divorce";
+      }
+    }
     this.administratifServices.saveAdministratif(this.administratif)
       .subscribe(data=>{
         alert("Success d'ajout adminstratif");
         console.log(data);
         this.administratif=data;
-        if( this.administratif.etatCivil!='Celibataire')
+        if( this.administratif.etatCivil!='Célibataire')
         {
           this.EnregistrerEnfant(data);
         }
+        this.EnregistrerAgrade(data);
       },err=>{
         console.log(err);
       });
@@ -104,5 +217,11 @@ export class AdministratifComponent implements OnInit {
         console.log(err);
       })
   }
-
+  ajouterGrade()
+  {
+    this.agrade=new AGrade();
+    this.agrade.grade=new Grade();
+    this.AGrades.push(this.agrade);
+   
+  }
 }

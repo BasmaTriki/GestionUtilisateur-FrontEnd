@@ -1,8 +1,6 @@
 import {Enseignant} from "./model.enseignant";
-export class EnseignantFonctionnaireEtat extends Enseignant {
+import { EnseignantVacataire } from "./model.enseignantVacataire";
+export class EnseignantFonctionnaireEtat extends EnseignantVacataire {
 autorisation:string="";
 nbreMaxHeures:number;
-nbrHeuresTD:number;
-nbrHeuresTP:number;
-nbrHeuresCR:number;
 }

@@ -6,7 +6,7 @@ import {OrganismeServices} from "../../services/organisme.services";
 import * as $ from 'jquery';
 import 'datatables.net';
 import 'datatables.net-bs4';
-import { HttpClient } from '../../../node_modules/@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-organisme-accueil',

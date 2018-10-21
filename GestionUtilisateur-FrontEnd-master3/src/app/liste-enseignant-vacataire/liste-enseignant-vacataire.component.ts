@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { EnseignantLibreServices } from '../../services/enseignantlibre.services';
 import { EnseignantFonctionnaireEtatServices } from '../../services/enseignantFonctionnaireEtat.services';
-
+import * as $ from 'jquery';
+import 'datatables.net';
+import 'datatables.net-bs4';
 @Component({
   selector: 'app-liste-enseignant-vacataire',
   templateUrl: './liste-enseignant-vacataire.component.html',
@@ -14,25 +16,35 @@ export class ListeEnseignantVacataireComponent implements OnInit {
   pageEnseignantLibre:any;
   motCle:string="";
   currentPage:number=0;
-  size:number=5;
+  size:number=2000;
   motCle1:string="";
   currentPageA:number=0;
   pagesA:Array<number>;
   pageEnseignantFonct:any;
-  constructor(private enseignantFonctService:EnseignantFonctionnaireEtatServices,
-    private enseingnantlibreService:EnseignantLibreServices, 
-    public http: HttpClient, public router: Router) { }
+  dataTable: any;
+  lang:string;
+  constructor(private enseingnantlibreService:EnseignantLibreServices, 
+    private chRef: ChangeDetectorRef, 
+    private http: HttpClient,
+     public router: Router) 
+     {
+       this.lang=sessionStorage.getItem("lang");
+      }
 
   ngOnInit() {
     this.doSearchEngL();
-    this.doSearchEngFonct();
+    //this.doSearchEngFonct();
   }
   doSearchEngL()
   { 
      this.enseingnantlibreService.getEnseignantLibres(this.motCle,this.currentPage,this.size)
-      .subscribe(data=>{
-        this.pageEnseignantLibre=data;
-        this.pages=new Array(data.totalPages);
+     .subscribe((data: any[]) => {
+      this.pageEnseignantLibre=data;
+      console.log(data);
+      this.chRef.detectChanges();
+      // Now you can use jQuery DataTables :
+      const table: any = $('table');
+      this.dataTable = table.DataTable();  
         console.log(data);
       },err=>{
         console.log(err);
@@ -40,31 +52,10 @@ export class ListeEnseignantVacataireComponent implements OnInit {
       //this.dataSource.paginator = this.paginator;
       //this.dataSource.sort = this.sort;
   }
-  doSearchEngFonct()
-  {
-  this.enseignantFonctService.getEnseignantFonctionnaireEtats(this.motCle1,this.currentPageA,this.size)
-  .subscribe(data=>{
-    this.pageEnseignantFonct=data;
-    this.pagesA=new Array(data.totalPages);
-    console.log(data);
-  },err=>{
-    console.log(err);
-  })
-}
-  gotopage(i:number)
-  {
-    this.currentPage=i;
-    this.doSearchEngL();
+  onEditEnseignant(idPers:number){
+    this.router.navigate(['/editVacationLibre',idPers]);
   }
-  gotopage1(i:number)
-  {
-    this.currentPageA=i;
-    this.doSearchEngFonct();
-  }
-  onEditEnseignant(matricule:number){
-    this.router.navigate(['EditEnseignantP',matricule]);
-  }
-  onDetailsEnseignant(matricule:number) {
-    this.router.navigate(['DetailsEnseignantP',matricule]);
+  onDetailsEnseignant(idPers:number) {
+    this.router.navigate(['DetailsEnseignantP',idPers]);
   }
 }

@@ -1,7 +1,7 @@
 <app-index></app-index>
 <div class="container spacer">
 <div class="panel panel-default">
-  <div class="panel-heading">Ajouter Type Congé</div>
+  <div class="panel-heading">{{'SideBar.MTypeC' | translate}}</div>
   <div class="panel-body">
     <div>
     <mat-form-field>
@@ -14,9 +14,14 @@
       <input matInput placeholder="Nombre de jours/عدد الأيام" [(ngModel)]="typeConge.nbMaxJrs" name="nbJourfr">
     </mat-form-field> <br>
     <mat-radio-group [(ngModel)]="typeConge.autorisation" name="autorisation">
-        <mat-label>Autoriser/التصريح</mat-label>
-      <mat-radio-button [value]="true">Oui/نعم</mat-radio-button>
-      <mat-radio-button [value]="false">Non/لا</mat-radio-button>
+        <mat-label><b>{{'Table.CAutorisation' | translate}}:</b></mat-label>
+      <mat-radio-button [value]="true">{{'Table.Oui' | translate}}</mat-radio-button>
+      <mat-radio-button [value]="false">{{'Table.Non' | translate}}</mat-radio-button>
+    </mat-radio-group><br>
+    <mat-radio-group [(ngModel)]="typeConge.actifPers" name="actif">
+        <mat-label><b>{{'Table.Actif' | translate}}:</b></mat-label>
+      <mat-radio-button [value]="true">{{'Table.Oui' | translate}}</mat-radio-button>
+      <mat-radio-button [value]="false">{{'Table.Non' | translate}}</mat-radio-button>
     </mat-radio-group><br>
     <button  mat-mini-fab color="primary" (click)="ajouter()"><mat-icon>add</mat-icon></button>
     <br>
@@ -25,10 +30,10 @@
         <mat-tab label="Liste des Types Congés">
           <div class="demo-tab-content">
             <br>
-      <table class="table table-hover" cellspacing="0">
+      <table class="table jambo_table" cellspacing="0">
         <thead>
         <tr>
-          <th>ID</th><th>Titre</th><th>نوع العطلة</th><th>Autorisation</th><th>Nombre De Jours</th><th>Modifier</th><th>Supprimer</th>
+        <th>{{'Table.CID'| translate}}</th><th>Titre</th><th>نوع العطلة</th><th>{{'Table.CAutorisation' | translate}}</th><th>{{'Table.Actif' | translate}}</th><th>{{'Table.CNombreJ' | translate}}</th><th>{{'Table.CModifier' | translate}}</th><th>{{'Table.CSupprimer' | translate}}</th>
         </tr>
       </thead>
       <tbody>
@@ -37,6 +42,7 @@
           <td>{{tc.libelleType}}</td>
           <td>{{tc.libelleTypeAr}}</td>
           <td>{{autoriser(tc.autorisation)}}</td>
+          <td>{{actif(tc.actifPers)}}</td>
           <td>{{tc.nbMaxJrs}}</td>
           <td><a (click)="onEditTypeConge(tc.idCg)" class="clickable"><mat-icon>create</mat-icon></a> </td>
           <td><a (click)="onDeleteTypeConge(tc)" class="clickable"> <mat-icon>delete_sweep</mat-icon></a> </td>

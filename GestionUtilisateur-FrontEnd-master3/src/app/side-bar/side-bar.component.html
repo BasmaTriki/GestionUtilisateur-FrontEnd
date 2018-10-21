@@ -1,13 +1,14 @@
   <div class="main_container">
 <div class="col-md-3 left_col">
     <div class="left_col scroll-view">
-      <div class="navbar nav_title" style="border: 0;">
-        <a href="/" class="site_title"> <span>ISET Sfax</span></a>
-      </div>
+       <div><img class="profile-image" src="../../assets/images/iset.png"/><a routerLink="/index" class="site_title">{{'Table.CISET' | translate}}</a></div>
+      <!-- <div class="navbar nav_title" style="border: 0;">
+      <a href="/" class="site_title"> <span>ISET Sfax</span></a>
+      </div> -->
       <!-- menu profile quick info -->
       <div class="profile">
         <div class="profile_pic">
-          <img src="../../assets/images/img.jpg" alt="..." class="img-circle profile_img">
+          <img src="../../assets/images/user_pic.png" alt="..." class="img-circle profile_img">
         </div>
         <div class="profile_info">
           <span>{{'Table.CBienvenu' | translate }},</span>
@@ -33,24 +34,51 @@
               <li><a id="formsli" (click)="anchorClicked($event)" *ngIf="role=='Admin'||role=='AgentGRH'"><i class="fa fa-address-card" ></i>{{'SideBar.MPersonnel' | translate }}<span id="formschevron" class="fa fa-chevron-down"></span></a>
               <ul class="nav child_menu">
                 <li><a routerLink="/personnel"><i class="fa fa-address-book"></i>{{'Personnel.TITLE' | translate }}</a></li>
-                <li><a routerLink="/ListePersonnel"><i class="fa fa-align-justify"></i>{{'SideBar.SMPersonnel' | translate }}</a></li>
+                <li><a id="listePersonnel" (click)="anchorClicked($event)"><i class="fa fa-align-justify" ></i>{{'SideBar.SMPersonnel' | translate }}<span id="tableschevron" class="fa fa-chevron-down"></span></a>
+                  <ul class="nav child_menu">
+                    <li><a routerLink="/ListePersonnel">{{'SideBar.SMEnseignantV3' | translate}}</a></li>
+                    <li><a routerLink="/ListeEnseigContractuel">{{'SideBar.EnseiContrat' | translate}}</a></li>
+                    <li><a routerLink="/ListeAdmin">{{'Table.CAdmin' | translate}}</a> </li>
+                  </ul>
+                </li>
               </ul>
             </li>
             <li><a id="formEnsgVac" (click)="anchorClicked($event)" *ngIf="role=='Admin'||role=='AgentGRH'||role=='DirecteurES'"><i class="fa fa-address-card" ></i>{{'SideBar.MEnseignantV' | translate }}<span id="formschevron" class="fa fa-chevron-down"></span></a>
               <ul class="nav child_menu">
                 <li><a routerLink="/AjouterVacataire"><i class="fa fa-address-book"></i>{{'SideBar.SMEnseignantV1' | translate }}</a></li>
-                <li><a routerLink="/ListeVacation"><i class="fa fa-align-justify"></i>{{'SideBar.SMEnseignantV3' | translate }}</a></li>
+                <li><a id="enseigVact" (click)="anchorClicked($event)"><i class="fa fa-align-justify"></i>{{'SideBar.SMEnseignantV3' | translate }}<span id="tableschevron" class="fa fa-chevron-down"></span></a>
+                  <ul class="nav child_menu">
+                      <li><a routerLink="/ListeVacation">{{'SideBar.MEnseignantL' | translate}}</a></li>
+                      <li><a routerLink="/ListeEnseignantFonct">{{'SideBar.MEnseignantF' | translate}}</a></li>
+                  </ul> 
+                </li>
                 <li><a routerLink="/ConsultationVacation" *ngIf="role=='Admin'||role=='DirecteurES'"><i class="fa fa-align-justify"></i>{{'SideBar.SMEnseignantV2' | translate }}</a></li>
               </ul>
             </li>
             <li><a id="tablesli" (click)="anchorClicked($event)" *ngIf="role=='Admin'||role=='AgentGRH'"><i class="fa fa-table"></i>{{'SideBar.MConge' | translate }} <span id="tableschevron" class="fa fa-chevron-down"></span></a>
               <ul class="nav child_menu">
-                <li><a routerLink="/conge" *ngIf="role=='Admin'||role=='AgentGRH'">{{'SideBar.SMConge1' | translate }}</a></li>
-                <li><a routerLink="/consultationConge" *ngIf="role=='Admin'||role=='AgentGRH'">{{'SideBar.SMConge2' | translate }}</a></li>
-                <li><a routerLink="/ListeConge" *ngIf="role=='Admin'||role=='AgentGRH'">{{'SideBar.SMConge3' | translate }}</a></li>
+                <li><a  id="congepersonnel" (click)="anchorClicked($event)" *ngIf="role=='Admin'||role=='AgentGRH'">{{'SideBar.SMConge1' | translate }} <span id="tableschevron" class="fa fa-chevron-down"></span></a>
+                  <ul class="nav child_menu">
+                      <li><a routerLink="/conge">{{'Table.CEnseignantP' | translate}}</a></li>
+                      <li><a routerLink="/congeAdmin">{{'Table.CAdministratif' | translate}}</a></li>
+                    </ul>
+                </li>
+                <li><a id="congeauto" (click)="anchorClicked($event)" *ngIf="role=='Admin'||role=='AgentGRH'">{{'SideBar.SMConge2' | translate }}<span id="tableschevron" class="fa fa-chevron-down"></span></a>
+                <ul class="nav child_menu">
+                  <li><a routerLink="/consultationConge">{{'Table.CCongeNonAuto' | translate}}</a></li>
+                  <li><a routerLink="/CongeAutoriser">{{'Table.CCongeAuto' | translate}}</a></li>
+                </ul>
+              </li>
+                <li><a  id="congeListe" (click)="anchorClicked($event)" *ngIf="role=='Admin'||role=='AgentGRH'">{{'SideBar.SMConge3' | translate }}<span id="tableschevron" class="fa fa-chevron-down"></span></a>
+                <ul class="nav child_menu">
+                  <li><a routerLink="/ListeConge">{{'Table.SSMCongeA' | translate}}</a></li>
+                  <li><a routerLink="/CongeRattraper">{{'Table.SSMCongeR' | translate}}</a></li>
+                  <li><a routerLink="/CongeRefuser">{{'Table.SSMCongeRf' | translate}}</a></li>
+                </ul>
+              </li>
               </ul>
             </li>
-            <li><a id="ajouter" (click)="anchorClicked($event)" *ngIf="role=='utilisateur'||role=='DirecteurES'" routerLink="/congePersonnel"><i class="fa fa-table"></i>{{'SideBar.MConge' | translate }}</a>
+            <li><a id="ajouter" (click)="anchorClicked($event)" *ngIf="role=='utilisateur'||role=='DirecteurES'" routerLink="/personnelConge"><i class="fa fa-table"></i>{{'SideBar.MConge' | translate }}</a>
               <!--<ul class="nav child_menu">
                 <li><a routerLink="/conge" >Ajouter Congé</a></li>
                 <li><a routerLink="/consultationConge">Liste des congés</a></li>
@@ -61,7 +89,12 @@
             </li>
             <li><a id="tablesty" (click)="anchorClicked($event)" *ngIf="role=='Admin'||role=='AgentGRH'"><i class="fa fa-edit"></i> {{'SideBar.MMutation' | translate }} <span id="tableschevron" class="fa fa-chevron-down"></span></a>
               <ul class="nav child_menu">
-                <li><a routerLink="/mutation">{{'SideBar.SMMutation1' | translate }}</a></li>
+                <li><a id="mutationListe" (click)="anchorClicked($event)">{{'SideBar.SMMutation1' | translate }}<span id="tableschevron" class="fa fa-chevron-down"></span></a>
+                  <ul class="nav child_menu">
+                      <li><a routerLink="/mutation" >{{'Table.CEnseignantP' | translate}}</a></li>
+                      <li><a routerLink="/MutationAdmin">{{'Table.CAdministratif' | translate}}</a></li>
+                    </ul>
+                </li>
                 <li><a routerLink="/ListeMutation">{{'SideBar.SMMutation2' | translate }}</a></li>
               </ul>
             </li>
@@ -85,28 +118,37 @@
             </li> 
             <li><a id="etats" (click)="anchorClicked($event)" *ngIf="role=='Admin'||role=='AgentGRH'||role=='DirecteurES'"><i class="fa fa-address-card" ></i>{{'SideBar.MEtat' | translate }}<span id="formschevron" class="fa fa-chevron-down"></span></a>
               <ul class="nav child_menu">
-                <li><a id="etatConge" (click)="anchorClicked($event)"><i class="fa fa-address-book"></i>{{'SideBar.SMEtatC' | translate }}<span id="formschevron" class="fa fa-chevron-down"></span></a>
+                  <li><a id="etatListe" (click)="anchorClicked($event)">{{'SideBar.SMPersonnel' | translate }}<span id="formschevron" class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                <li><a (click)="ListePersonnel('Departement')">{{'SideBar.LDepartement' | translate }}</a></li>
+                <li><a (click)="ListePersonnel('Grade')">{{'SideBar.LGrade' | translate }}</a></li>
+                <li><a (click)="ListePersonnel('Corps')">{{'SideBar.LCorps' | translate }}</a></li>
+                <li><a (click)="ListePersonnel('Actif')">{{'SideBar.LActif' | translate }}</a></li>
+                <li><a (click)="ListePersonnel('Inactif')">{{'SideBar.LInactif' | translate }}</a></li>
+              </ul>
+            </li>
+                <li><a id="etatConge" (click)="anchorClicked($event)">{{'SideBar.SMEtatC' | translate }}<span id="formschevron" class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
                   <li><a (click)="congeMois('CongeMensuel')">{{'SideBar.SSMEtatM' | translate }}</a></li>
                   <li><a (click)="congeMois('CongePersonnel')">{{'SideBar.SSMEtatEn' | translate }}</a></li>
                   <li><a (click)="congeMois('CongeType')">{{'SideBar.SSMEtatType' | translate }}</a></li>
-                </ul></li>
-                <!--<li><a routerLink="/ListeVacation"><i class="fa fa-align-justify"></i>Enseignants Permanents Par Département</a></li>
-                <li><a routerLink="/ListeVacation"><i class="fa fa-align-justify"></i>Enseignants Vacataires Par Département</a></li>
-              <li><a routerLink="/ConsultationVacatio" *ngIf="role=='Admin'||role=='DirecteurES'"><i class="fa fa-align-justify"></i>Demandes des Vacations</a></li> -->
+                </ul>
+              </li>
+              <li><a (click)="ListePersonnel('rendement')">{{'SideBar.LPrime' | translate }}</a></li>
+              <li><a (click)="ListePersonnel('NomberEnseig')">{{'SideBar.Statistique' | translate }}</a></li>
+              <li><a (click)="ListePersonnel('mutation')">{{'SideBar.Mutation' | translate }}</a></li>
               </ul>
             </li>
-            <li><a id="datali" (click)="anchorClicked($event)" *ngIf="role=='Admin'||role=='AgentGRH'"><i class="fa fa-bar-chart-o" ></i>{{'SideBar.MStatistique' | translate }} <span class="fa fa-chevron-down"></span></a>
-              <ul class="nav child_menu">
-                <li><a href="/">Chart JS</a></li>
-                <li><a href="/">Chart JS2</a></li>
-              </ul>
+            <li><a id="datali" routerLink="/Statistique" *ngIf="role=='Admin'||role=='AgentGRH'"><i class="fa fa-bar-chart-o" ></i>{{'SideBar.MStatistique' | translate }}</a>
+              <!--<ul class="nav child_menu">
+                 <li><a href="/">Chart JS</a></li>
+                <li><a href="/">Chart JS2</a></li> 
+              </ul>-->
             </li>  
-            <li><a id="importationli" (click)="anchorClicked($event)" *ngIf="role=='Admin'||role=='AgentGRH'"><i class="fa fa-windows"></i> {{'SideBar.MImportation' | translate }} <span class="fa fa-chevron-down"></span></a>
-              <ul class="nav child_menu">
-                <li><a href="/">Fichier Excel</a></li>
-                <li><a href="/">Fichier PDF</a></li>
-              </ul>
+            <li><a id="importationli" (click)="importer()" *ngIf="role=='Admin'||role=='AgentGRH'"><i class="fa fa-windows"></i> {{'SideBar.MImportation' | translate }}</a>
+              <!-- <ul class="nav child_menu">
+                <li><a (click)="importer()">Fichier Excel</a></li>
+              </ul> -->
             </li>         
           </ul>
         </div>

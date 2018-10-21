@@ -30,8 +30,8 @@ import {GradeServices} from "../services/grade.services";
 import {DepartementServices} from "../services/departement.services";
 import {EnseignantPermanentServices} from "../services/enseignantpermanent.services";
 import {AGradeServices} from "../services/agrade.services";
+import {MatMomentDateModule, MomentDateAdapter, MAT_MOMENT_DATE_FORMATS, MAT_MOMENT_DATE_ADAPTER_OPTIONS} from '@angular/material-moment-adapter';
 import {DiplomePersonnelServices} from "../services/diplomepersonnel.services";
-import {NotificationsModule, NotificationsService} from 'angular4-notify';
 import {
   MatButtonModule,
   MatTabsModule,
@@ -49,10 +49,8 @@ import {
   MatTableModule,
   MatPaginatorModule,
   MatCardModule,
-  MatTooltipModule, MatSidenavModule, MatDialogModule, MatSnackBarModule, MatSlideToggleModule
+  MatTooltipModule, MatSidenavModule, MatDialogModule, MatSnackBarModule, MatSlideToggleModule, MatGridListModule, MAT_DATE_LOCALE, DateAdapter, MAT_DATE_FORMATS
 } from '@angular/material';
-// For MDB Angular Free
-import { NavbarModule, WavesModule } from 'angular-bootstrap-md'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import '../polyfills';
 import {CorpsServices} from "../services/corps.services";
@@ -124,6 +122,32 @@ import { ListeCongeRattrapeComponent } from './liste-conge-rattrape/liste-conge-
 import { ModalMutationComponent } from './modal-mutation/modal-mutation.component';
 import { ListeMutationComponent } from './liste-mutation/liste-mutation.component';
 import { EditOrganismeComponent } from './edit-organisme/edit-organisme.component';
+import { EtatPersonnelServices } from '../services/etatPersonnel.services';
+import { ModalImportationComponent } from './modal-importation/modal-importation.component';
+import { ImportationServices } from '../services/importation.services';
+import { SemestreServices } from '../services/semestre.services';
+import { ChargeSemestreServices } from '../services/chargeSem.services';
+import { ListeEnseignantFonctionnaireComponent } from './liste-enseignant-fonctionnaire/liste-enseignant-fonctionnaire.component';
+import { ImpressionServices } from '../services/Impression.services';
+import { ListeEtatComponent } from './liste-etat/liste-etat.component';
+import { ChartsModule } from 'ng2-charts';
+import { StatistiqueComponent } from './statistique/statistique.component';
+import { DetailAdministratifComponent } from './detail-administratif/detail-administratif.component';
+import { ImprimerFicheComponent } from './imprimer-fiche/imprimer-fiche.component';
+import { CongeAdminComponent } from './conge-admin/conge-admin.component';
+import { CongeAutoComponent } from './conge-auto/conge-auto.component';
+import { MutationAdminComponent } from './mutation-admin/mutation-admin.component';
+import { ContratServices } from '../services/contrat.services';
+import { AuthGuard } from '../services/autho-garde.services';
+import { EnseignantContractuelleComponent } from './enseignant-contractuelle/enseignant-contractuelle.component';
+import { EditEnseignantLibreComponent } from './edit-enseignant-libre/edit-enseignant-libre.component';
+import { EditEnseignantFonctionnaireComponent } from './edit-enseignant-fonctionnaire/edit-enseignant-fonctionnaire.component';
+import { EditEnseignantContractuelComponent } from './edit-enseignant-contractuel/edit-enseignant-contractuel.component';
+import { ListeEnseignantContractuelComponent } from './liste-enseignant-contractuel/liste-enseignant-contractuel.component';
+import { DetailsContractuelComponent } from './details-contractuel/details-contractuel.component';
+import { ToastrModule } from 'ngx-toastr';
+import { ModalDemandeVacComponent } from './modal-demande-vac/modal-demande-vac.component';
+import { PersonnelCongeComponent } from './personnel-conge/personnel-conge.component';
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient);
@@ -198,7 +222,24 @@ export function createTranslateLoader(http: HttpClient) {
     ListeCongeRattrapeComponent,
     ModalMutationComponent,
     ListeMutationComponent,
-    EditOrganismeComponent
+    EditOrganismeComponent,
+    ModalImportationComponent,
+    ListeEnseignantFonctionnaireComponent,
+    ListeEtatComponent,
+    StatistiqueComponent,
+    DetailAdministratifComponent,
+    ImprimerFicheComponent,
+    CongeAdminComponent,
+    CongeAutoComponent,
+    MutationAdminComponent,
+    EnseignantContractuelleComponent,
+    EditEnseignantLibreComponent,
+    EditEnseignantFonctionnaireComponent,
+    EditEnseignantContractuelComponent,
+    ListeEnseignantContractuelComponent,
+    DetailsContractuelComponent,
+    ModalDemandeVacComponent,
+    PersonnelCongeComponent
   ],
   imports: [
     BrowserModule,
@@ -208,6 +249,14 @@ export function createTranslateLoader(http: HttpClient) {
     HttpClientModule,
     FormsModule,
     BrowserAnimationsModule,
+    ToastrModule.forRoot({
+      timeOut: 10000,
+      positionClass: 'toast-bottom-right',
+      preventDuplicates: true,
+      progressBar:true,
+      closeButton:true,
+      progressAnimation:'increasing',
+    }),
     MatButtonModule,
     MatTabsModule,
     MatExpansionModule,
@@ -226,12 +275,13 @@ export function createTranslateLoader(http: HttpClient) {
     MatPaginatorModule,
     MatNativeDateModule,
     MatSidenavModule,
-    NavbarModule,
     MatDialogModule,
     MatSnackBarModule,
     MatSlideToggleModule,
-    NotificationsModule,
+    MatGridListModule,
+    MatMomentDateModule,
     DataTablesModule,
+    ChartsModule,
     TranslateModule.forRoot({
       loader: {
           provide: TranslateLoader,
@@ -242,7 +292,12 @@ export function createTranslateLoader(http: HttpClient) {
   ],
   schemas:[NO_ERRORS_SCHEMA],
   providers: [PeriodeServices,EnfantServices,CorpsServices,DiplomeServices,GradeServices,DepartementServices,EnseignantPermanentServices,AGradeServices,DiplomePersonnelServices,TypeCongeServices,CongeServices,MutationServices,
-    TypeMutationsServices,RoleServices,EtatServices,NotificationsService,AnneeUniversitaireServices,PosteAdministrativeServices,DemandeVacationServices,PersonnelServices,SpecialiteServices,OrganismeServices,ServiceServices,AdministratifServices,EnseignantFonctionnaireEtatServices,EnseignantLibreServices],
+    TypeMutationsServices,RoleServices,AuthGuard,ImpressionServices,ContratServices,SemestreServices,ChargeSemestreServices,ImportationServices,EtatServices,EtatPersonnelServices,AnneeUniversitaireServices,PosteAdministrativeServices,DemandeVacationServices,PersonnelServices,SpecialiteServices,OrganismeServices,ServiceServices,AdministratifServices,EnseignantFonctionnaireEtatServices,EnseignantLibreServices,
+    {provide: MAT_DATE_LOCALE, useValue: 'fr-FR'},
+    {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
+    { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },
+    {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

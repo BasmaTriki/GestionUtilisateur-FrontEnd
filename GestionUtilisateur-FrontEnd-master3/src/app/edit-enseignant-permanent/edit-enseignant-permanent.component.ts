@@ -31,6 +31,11 @@ import { EtatServices } from '../../services/etat.services';
 import { Periode } from '../../model/model.periode';
 import { PeriodeServices } from '../../services/periode.services';
 import { PeriodeComponent } from '../periode/periode.component';
+import { Organisme } from '../../model/model.organisme';
+import { OrganismeServices } from '../../services/organisme.services';
+import { EtatPersonnelServices } from '../../services/etatPersonnel.services';
+import { EtatPersonnel } from '../../model/model.etatPersonnel';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-edit-enseignant-permanent',
@@ -49,7 +54,7 @@ export class EditEnseignantPermanentComponent implements OnInit {
   agrade:AGrade=new AGrade();
   grade:Grade=new Grade();
   corp:Corps=new Corps();
-  matricule:number;
+  idPers:number;
   AGrades:Array<AGrade>=new Array<AGrade>();
   NewAGrades:Array<AGrade>=new Array<AGrade>();
   enfants:Array<Enfant>=new Array<Enfant>();
@@ -67,9 +72,15 @@ export class EditEnseignantPermanentComponent implements OnInit {
   etatModifiable:boolean=false;
   departementModifiable:boolean=false;
   specialiteModifiable:boolean=false;
+  orgModifiable:boolean=false;
   periode:Periode=new Periode();
   periodes:Array<Periode>=new Array<Periode>();
   newperiodes:Array<Periode>=new Array<Periode>();
+  orgOrigine:Organisme=new Organisme();
+  lieuDetachement:Organisme=new Organisme();
+  orgOrigines:Array<Organisme>=new Array<Organisme>();
+  etatPersonnel:EtatPersonnel=new EtatPersonnel();
+  lang:string;
   constructor(public activatedRoute:ActivatedRoute,
     private agradeServices:AGradeServices,
     private posteService:PosteAdministrativeServices,
@@ -79,29 +90,33 @@ export class EditEnseignantPermanentComponent implements OnInit {
     private enseingnantpermanentService:EnseignantPermanentServices,
     private enfantservice: EnfantServices,
     private etatServices:EtatServices, 
+    private toastr: ToastrService,
+    private etatPersonnelServices:EtatPersonnelServices,
     private departementServices: DepartementServices,
     private diplomePersonnelServices: DiplomePersonnelServices,
     private diplomeServices:DiplomeServices,
+    private organismeServices:OrganismeServices,
     private periodeServices:PeriodeServices,
     public http: Http,
     public dialog: MatDialog,
     public router: Router)
   {
-    this.matricule=activatedRoute.snapshot.params['idPers'];
+    this.idPers=activatedRoute.snapshot.params['idPers'];
   }
 
   ngOnInit() {
-    this.enseingnantpermanentService.getEnseignantPermanent(this.matricule)
+    this.enseingnantpermanentService.getEnseignantPermanent(this.idPers)
       .subscribe(data=>{
         this.enseignantP=data;
        this.departement=this.enseignantP.departement;
        this.specialite=this.enseignantP.specialite;
        this.etat=this.enseignantP.etat;
+       this.orgOrigine=this.enseignantP.organismeOrigine;
         this.chercherEnfant(data);
         this.chercherAGrade(data);
         this.chercherDiplome(data);
         this.chercherPeriode(data);
-        
+        this.chercherEtatInactive(this.etat.idEtat);
       },err=>{
         console.log(err);
       });
@@ -112,7 +127,29 @@ export class EditEnseignantPermanentComponent implements OnInit {
     this.chercherSpecialite();
     this.chercherDip();
     this.chercherEtats();
+    this.chercherOrg();
     
+    this.lang=sessionStorage.getItem('lang');
+  }
+  chercherOrg()
+  {
+    this.organismeServices.allOrganismeAccueils()
+      .subscribe(data=>{
+        this.orgOrigines=data;
+        console.log(data);
+      },err=>{
+        console.log(err);
+      })
+  }
+  chercherEtatInactive(idEtat:number)
+  {
+    this.etatPersonnelServices.getEtatInactive(this.idPers,idEtat)
+    .subscribe(data=>{
+      this.etatPersonnel=data;
+      console.log(data);
+    },err=>{
+      console.log(err);
+    })
   }
   ModifierEtat()
   {
@@ -125,6 +162,10 @@ export class EditEnseignantPermanentComponent implements OnInit {
   ModifierSpecialite()
   {
   this.specialiteModifiable=true;
+  }
+  ModifierOrganisme()
+  {
+  this.orgModifiable=true;
   }
   chercherEtats()
   {
@@ -208,19 +249,111 @@ export class EditEnseignantPermanentComponent implements OnInit {
     this.enseignantP.departement=this.departement;
     this.enseignantP.specialite=this.specialite;
     this.enseignantP.etat=this.etat;
+    this.enseignantP.organismeOrigine=this.orgOrigine;
+    if(this.lang=="fr")
+    {
+      if(this.enseignantP.sexe=="Femme")
+      {
+        this.enseignantP.sexeAr="انثى";
+      }
+      else if(this.enseignantP.sexe=="Homme")
+      {
+        this.enseignantP.sexeAr="ذكر";
+      }
+      if(this.enseignantP.etatCivil=="Célibataire" && this.enseignantP.sexe=="Femme")
+      {
+        this.enseignantP.etatCivilAr="عزباء";
+      }
+      else if(this.enseignantP.etatCivil=="Célibataire" && this.enseignantP.sexe=="Homme")
+      {
+        this.enseignantP.etatCivilAr="أعزب";
+      }
+      else if(this.enseignantP.etatCivil=="Marié(e)")
+      {
+        this.enseignantP.etatCivilAr="(متزوج(ة";
+      }
+      else if(this.enseignantP.etatCivil=="Divorcé(e)")
+      {
+        this.enseignantP.etatCivilAr="(مطلق(ة";
+      }
+    }
+    else
+    {
+      if(this.enseignantP.sexeAr=="انثى")
+      {
+        this.enseignantP.sexe="Femme";
+      }
+      else if(this.enseignantP.sexeAr=="ذكر")
+      {
+        this.enseignantP.sexe="Homme";
+      }
+      if(this.enseignantP.etatCivilAr=="عزباء" || this.enseignantP.etatCivilAr=="أعزب")
+      {
+        this.enseignantP.etatCivil="Célibataire";
+      }
+      else if(this.enseignantP.etatCivilAr=="(متزوج(ة")
+      {
+        this.enseignantP.etatCivil="Marié(e)";
+      }
+      else if(this.enseignantP.etatCivilAr=="(مطلق(ة")
+      {
+        this.enseignantP.etatCivil="Divorcé(e)";
+      }
+    }
     this.enseingnantpermanentService.updateEnseignantPermanent(this.enseignantP)
       .subscribe(data=>{
-        alert("Mise à jour effectuée");
+        this.showSuccess();
         this.ajouterenfants(data);
         this.EnregistrerDiplomeP(data);
         this.EnregistrerAgrade(data);
         this.EnregistrerPoste(data);
+        if(this.etat.libelleEtat=="non-actif" && this.etatPersonnel!=null)
+        {
+          this.updateEtatInactive(data);
+        }
+        else if(this.etat.libelleEtat=="détaché" && this.etatPersonnel!=null)
+        {
+          this.updateEtatInactive(data);
+        }
+        else if(this.etat.libelleEtat=="non-actif" && this.etatPersonnel==null)
+        {
+          this.EnregistrerEtatPersonnel(data);
+        }
+        else if(this.etat.libelleEtat=="détaché" && this.etatPersonnel==null)
+        {
+          this.EnregistrerEtatPersonnel(data);
+        }
         console.log(data);
-        this.router.navigate(['ListePersonnel']);
+        this.router.navigate(['/ListePersonnel']);
       },err=>{
         console.log(err);
+        this.toastr.error("veuillez vérifier les informations saisies");
       });
     //this.EnregistrerAgrade();
+  }
+EnregistrerEtatPersonnel(en:EnseignantPermanent)
+{this.etatPersonnel.personnel=en;
+  this.etatPersonnel.etat=this.etat;
+  this.etatPersonnel.lieuDetachement=this.lieuDetachement;
+  this.etatPersonnelServices.saveEtatPersonnel(this.etatPersonnel)
+  .subscribe(data => {
+    console.log("Success d'ajout etatPersonnel");
+    console.log(data);
+  }, err => {
+    console.log(err);
+  });
+
+}
+  updateEtatInactive(en:EnseignantPermanent)
+  {this.etatPersonnel.personnel=en;
+    this.etatPersonnel.etat=this.etat;
+    this.etatPersonnel.lieuDetachement=this.lieuDetachement;
+    this.etatPersonnelServices.updateEtatPersonnel(this.etatPersonnel)
+    .subscribe(data=>{
+      console.log(data);
+    },err=>{
+      console.log(err);
+    })
   }
   chercherDep() {
     this.departementServices.allDepartements()
@@ -255,15 +388,22 @@ export class EditEnseignantPermanentComponent implements OnInit {
   }
   ajouterenfants(e:EnseignantPermanent)
   {
-    for(let enf of this.newEnfants)
-    {enf.personnel=e;
-      this.enfantservice.saveEnfant(enf)
-        .subscribe(data => {
-          console.log("Success d'ajouter enfant");
-          e.enfants.push(enf);
-        }, err => {
-          console.log(err);
-        });
+    if(e.etatCivil=="Célibataire")
+    {
+      return;
+    }
+    else{
+      for(let enf of this.newEnfants)
+      {enf.personnel=e;
+        this.enfantservice.saveEnfant(enf)
+          .subscribe(data => {
+            console.log("Success d'ajouter enfant");
+            e.enfants.push(enf);
+          }, err => {
+            console.log(err);
+          });
+    }
+    
     }
     this.enseingnantpermanentService.updateEnseignantPermanent(e)
     .subscribe(data=>{
@@ -329,6 +469,7 @@ export class EditEnseignantPermanentComponent implements OnInit {
       
     }
   }
+ 
   ModifierEnfants(e:Enfant)
   {
     let dialogRef = this.dialog.open(EnfantsComponent, {data:{name:e.num,nom:e.nom}});
@@ -357,6 +498,29 @@ export class EditEnseignantPermanentComponent implements OnInit {
         console.log(err);
       });
   }
+
+  this.agradeServices.getGradeActuel(en.idPers)
+  .subscribe(data => {
+    this.agrade=data;
+    console.log(data);
+  }, err => {
+    console.log(err);
+  });
+  en.gradeActuel=this.agrade.grade.titre;
+  en.gradeActuelAr=this.agrade.grade.titreAr;
+  this.agrade.gradeActuel=true;
+/*   this.agradeServices.updateAGrade(this.agrade)
+  .subscribe(data => {
+    console.log(data);
+  }, err => {
+    console.log(err);
+  }); */
+  this.enseingnantpermanentService.updateEnseignantPermanent(en)
+  .subscribe(data => {
+    console.log(data);
+  }, err => {
+    console.log(err);
+  });
 }
   EnregistrerDiplomeP(en:EnseignantPermanent) {
     for (let dip of this.newdiplomes) {
@@ -368,6 +532,16 @@ export class EditEnseignantPermanentComponent implements OnInit {
         }, err => {
           console.log(err);
         });
+    }
+  }
+  showSuccess() {
+    if(this.lang=='fr')
+    {
+      this.toastr.success("Mise à jour effectuée avec succes");
+    }
+  else
+    {
+      this.toastr.success("تم التعديل بنجاح");
     }
   }
 }

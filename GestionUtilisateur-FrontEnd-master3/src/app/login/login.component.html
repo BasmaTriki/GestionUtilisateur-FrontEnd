@@ -35,13 +35,13 @@
       <button mat-mini-fab class="buttonColor" (click)="switchLanguage('ar')">AR</button></div>
     <div class="container spacer">
     <div class="row">
-    
         <div class="col-md-4 col-sm-4 col-xs-12"></div>
         <div class="col-md-4 col-sm-4 col-xs-12">
 <div class="login-form">    
     <form >
-		<div class="avatar"><i class="material-icons">&#xE7FF;</i></div>
-    	<h4 class="modal-title">Page d'authentification</h4>
+    <!-- <div class="avatar"><i class="material-icons">&#xE7FF;</i></div> -->
+    <img src="../../assets/images/logoMB.png" class="logo"/>
+    	<h4 class="modal-title">Authentification</h4>
         <div class="form-group">
             <input type="text" class="form-control" placeholder="Login" name="login" [(ngModel)]="login" required="required">
         </div>
@@ -49,7 +49,7 @@
             <input type="password" class="form-control" placeholder="Mot de Passe" required="required" name="motpasse" [(ngModel)]="motpasse">
         </div>
         <div class="form-group small clearfix">
-            <label class="checkbox-inline"><input type="checkbox"> Remember me</label>
+            <!-- <label class="checkbox-inline"><input type="checkbox"> Remember me</label> -->
             <a href="/" class="forgot-link">Mot de passe oublié?</a>
         </div> 
         <input type="submit" class="btn btn-primary btn-block btn-lg" (click)="chercheUser()" value="Connexion">              

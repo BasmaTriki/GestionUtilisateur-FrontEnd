@@ -13,6 +13,9 @@ import * as $ from 'jquery';
 import 'datatables.net';
 import 'datatables.net-bs4';
 import { PersonnelServices } from '../../services/personnel.services';
+import { ImpressionServices } from '../../services/Impression.services';
+import { MatDialog } from '@angular/material';
+import { ImprimerFicheComponent } from '../imprimer-fiche/imprimer-fiche.component';
 
 @Component({
   selector: 'app-liste-enseignant-permanent',
@@ -35,13 +38,13 @@ export class ListeEnseignantPermanentComponent implements OnInit {
   dataTable: any;
   lang:string;
   constructor(private departementServices:DepartementServices,
-    private adminService:AdministratifServices,
     private enseingnantpermanentService:EnseignantPermanentServices,
     private personnelServices:PersonnelServices,
-    private chRef: ChangeDetectorRef, 
+    private imprimerServices:ImpressionServices,
+    private chRef: ChangeDetectorRef,
+    public dialog: MatDialog, 
     private http: HttpClient, public router: Router) 
-    { 
-     // this.dataSource = new MatTableDataSource();
+    {
      this.lang=sessionStorage.getItem("lang");
     }
 
@@ -83,13 +86,8 @@ export class ListeEnseignantPermanentComponent implements OnInit {
         console.log(err);
       })
   }
-  Imprimer(idPers:number,sexe:string)
+  Imprimer(id:number,se:string)
   {
-this.personnelServices.ImprimerAttestation(idPers,sexe)
-.subscribe(data=>{
-  console.log(data);
-},err=>{
-  console.log(err);
-})
+    let dialogRef = this.dialog.open(ImprimerFicheComponent, {data:{idPers:id,sexe:se}});
   }
 }
