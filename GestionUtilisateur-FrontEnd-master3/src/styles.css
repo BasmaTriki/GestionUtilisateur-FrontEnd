@@ -32,6 +32,14 @@ width: 80%;
 .clickable{
   cursor: pointer ;
 }
+#indexbg{ 
+  background-image:url("assets/images/imgBG.jpg"); 
+  background-repeat:no-repeat;
+   background-position:center; 
+   background-size:cover; 
+   padding:10px;
+  height: 630px;
+}  
  .bg
 {
  /*  background: url('assets/images/animation-bg.jpg')no-repeat;

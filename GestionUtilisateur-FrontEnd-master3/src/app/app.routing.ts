@@ -81,6 +81,10 @@ import { ListeEnseignantContractuelComponent } from './liste-enseignant-contract
 import { EditEnseignantLibreComponent } from './edit-enseignant-libre/edit-enseignant-libre.component';
 import { ModalDemandeVacComponent } from './modal-demande-vac/modal-demande-vac.component';
 import { PersonnelCongeComponent } from './personnel-conge/personnel-conge.component';
+import { DetailAdministratifComponent } from './detail-administratif/detail-administratif.component';
+import { DetailsLibreComponent } from './details-libre/details-libre.component';
+import { DetailsFonctionnaireComponent } from './details-fonctionnaire/details-fonctionnaire.component';
+import { EditEnseignantFonctionnaireComponent } from './edit-enseignant-fonctionnaire/edit-enseignant-fonctionnaire.component';
 const appRoutes:Routes=[
   {path:'login',component:LoginComponent},
   {path:'users', canActivate: [AuthGuard],component:UsersComponent},
@@ -137,6 +141,10 @@ const appRoutes:Routes=[
   {path:'CongeRefuser', canActivate: [AuthGuard],component:ListeCongeNaccepterComponent},
   {path:'editOrganisme/:idOrg', canActivate: [AuthGuard],component:EditOrganismeComponent},
   {path:'Enfant', canActivate: [AuthGuard],component:EnfantsComponent},
+  {path:'DetailsAdministratif/:idPers', canActivate: [AuthGuard],component:DetailAdministratifComponent},
+  {path:'DetailsEnseignantLibre/:idPers', canActivate: [AuthGuard],component:DetailsLibreComponent},
+  {path:'DetailsEnseignantFonct/:idPers', canActivate: [AuthGuard],component:DetailsFonctionnaireComponent},
+  {path:'EditEnseignantF/:idPers', canActivate: [AuthGuard],component:EditEnseignantFonctionnaireComponent},
   {path:'RepriseConge', canActivate: [AuthGuard],component:RepriseCongeComponent},
   {path:'demandeVacation',component:EnseignantVacataireComponent},
   {path:'ModalDemande',component:ModalDemandeVacComponent},

@@ -7,6 +7,7 @@ import * as $ from 'jquery';
 import 'datatables.net';
 import 'datatables.net-bs4';
 import { HttpClient } from '@angular/common/http';
+import { FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-organisme-accueil',
@@ -21,6 +22,8 @@ export class OrganismeAccueilComponent implements OnInit {
   size:number=1000;
   orgAccueil:Organisme=new Organisme();
   dataTable: any;
+  libelleFr=new FormControl('',[Validators.pattern("[a-zA-Z ]+"),Validators.minLength(5)]);
+  libelleAr=new FormControl('',[Validators.required,Validators.minLength(5)]);
   constructor(private orgAccueilServices:OrganismeServices,
     private chRef: ChangeDetectorRef, 
     private http: HttpClient,
@@ -67,5 +70,24 @@ export class OrganismeAccueilComponent implements OnInit {
           console.log(err);
         })
     }
+  }
+  getErrorMessageFr() {
+    return this.libelleFr.hasError('pattern') ? 'des caractères seulement' :
+     this.libelleFr.hasError('minLength') ? 'le minimum 3 chiffres' :
+            '';
+  }
+  getErrorMessageAr() {
+    return this.libelleAr.hasError('required') ? 'Champs obligatoire' :
+     this.libelleAr.hasError('minLength') ? 'le minimum 3 chiffres' :
+            '';
+  }
+  valideFormulaire()
+  {
+    if((this.orgAccueil.libelleOrg!=""&& !(this.libelleFr.hasError('pattern'))&&!(this.libelleFr.hasError('minLength')))|| ((this.orgAccueil.libelleOrgAr!="") &&(this.orgAccueil.libelleOrgAr.length>=4)))
+    {
+      return false;
+    }
+    else
+    return true;
   }
 }

@@ -8,22 +8,26 @@
       <mat-panel-description>
     </mat-panel-description>
     </mat-expansion-panel-header>
-    <mat-form-field matTooltip="Max 12 chiffre" matTooltipPosition="above">
-      <input matInput type="text" name="matricule" #input maxlength="12" placeholder="Matricule" [(ngModel)]="enseignantP.matricule" required>
-      <mat-hint align="end">{{input.value?.length||0}}/12</mat-hint>
+    <mat-form-field matTooltip="Max 12 chiffres" matTooltipPosition="above">
+      <input matInput name="matricule" [formControl]="matricule" #mat maxlength="12" placeholder="Matricule" [(ngModel)]="enseignantP.matricule" required>
+      <mat-hint align="end">{{mat.value?.length||0}}/12</mat-hint>
+      <mat-error *ngIf="matricule.invalid">{{getErrorMessageM()}}</mat-error>
     </mat-form-field>
-    <mat-form-field matTooltip="Max 8 caractére" matTooltipPosition="above">
-      <input matInput type="text" name="cin" #input1 maxlength="8" placeholder="CIN"  [(ngModel)]="enseignantP.cin" required>
+    <mat-form-field matTooltip="8 chiffres au minimum" matTooltipPosition="above">
+      <input matInput [formControl]="cinM" name="cin" #input1 maxlength="8" placeholder="CIN"  [(ngModel)]="enseignantP.cin" required>
       <mat-hint align="end">{{input1.value?.length||0}}/8</mat-hint>
+      <mat-error *ngIf="cinM.invalid">{{getErrorMessageC()}}</mat-error>
+    </mat-form-field>
+    <mat-form-field matTooltip="3 caractéres au minimum" matTooltipPosition="above">
+      <input matInput placeholder="Nom" type="text" [formControl]="nom" name="nom"  [(ngModel)]="enseignantP.nom" required>
+      <mat-error *ngIf="nom.invalid">{{getErrorMessageN()}}</mat-error>
+    </mat-form-field>
+    <mat-form-field matTooltip="3 caractéres au minimum" matTooltipPosition="above">
+      <input matInput placeholder="Prenom" [formControl]="prenom" type="text" name="prenom" [(ngModel)]="enseignantP.prenom" required>
+      <mat-error *ngIf="prenom.invalid">{{getErrorMessageP()}}</mat-error>
     </mat-form-field>
     <mat-form-field>
-      <input matInput placeholder="Nom" type="text" name="nom"  [(ngModel)]="enseignantP.nom" required>
-    </mat-form-field>
-    <mat-form-field>
-      <input matInput placeholder="Prenom" type="text" name="prenom" [(ngModel)]="enseignantP.prenom" required>
-    </mat-form-field>
-    <mat-form-field>
-      <input matInput placeholder="Nom de Pére" type="text" name="nompere" [(ngModel)]="enseignantP.nompere" required>
+      <input matInput placeholder="Nom de Pére" type="text" name="nompere" [(ngModel)]="enseignantP.nompere">
     </mat-form-field>
     <mat-form-field>
       <input matInput [matDatepicker]="picker" placeholder="Date de Naissance" name="datenais" [(ngModel)]="enseignantP.datenaissance" required>
@@ -37,22 +41,25 @@
       <mat-radio-button value="Femme">Femme</mat-radio-button>
       <mat-radio-button value="Homme">Homme</mat-radio-button>
     </mat-radio-group>
-     <mat-form-field>
-      <input matInput placeholder="Téléphone" type="text" name="telephone" [(ngModel)]="enseignantP.telephone">
+     <mat-form-field matTooltip="8 chiffres au minimum" matTooltipPosition="above">
+      <input matInput placeholder="Téléphone" [formControl]="tel" #telep maxlength="8" minlength="8" name="telephoneA" [(ngModel)]="enseignantP.telephone" required>
+      <mat-hint align="end">{{telep.value?.length||0}}/8</mat-hint>
+      <mat-error *ngIf="tel.invalid">{{getErrorMessageT()}}</mat-error>
     </mat-form-field>
     <mat-form-field>
-      <input matInput placeholder="Email" type="email" name="email" [(ngModel)]="enseignantP.email" required>
-      <!--<mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>-->
+      <input matInput placeholder="Email" [formControl]="email" name="email" [(ngModel)]="enseignantP.email">
+      <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
     </mat-form-field>
     <mat-form-field>
-      <textarea matInput placeholder="Adresse" type="text" name="adresse" [(ngModel)]="enseignantP.adresse" required></textarea>
+      <textarea matInput placeholder="Adresse" type="text" name="adresse" [(ngModel)]="enseignantP.adresse"></textarea>
     </mat-form-field>
-    <mat-form-field matTooltip="Max 4 caractére" matTooltipPosition="above">
-      <input matInput #input2 maxlength="4" placeholder="Code Postal" type="text" name="code" [(ngModel)]="enseignantP.codepostal">
+    <mat-form-field matTooltip="4 chiffres au minimum" matTooltipPosition="above">
+      <input matInput #input2 maxlength="4" [formControl]="codePostal" placeholder="Code Postal" type="text" name="code" [(ngModel)]="enseignantP.codepostal">
       <mat-hint align="end">{{input2.value?.length||0}}/4</mat-hint>
+      <mat-error *ngIf="codePostal.invalid">{{getErrorMessageCode()}}</mat-error>
     </mat-form-field>
-       <mat-form-field hintLabel="Max 20 caractére">
-      <input matInput #input3 maxlength="20" placeholder="RIB" type="text" name="rib" [(ngModel)]="enseignantP.rib" required>
+       <mat-form-field  matTooltip="Max 20 chiffres">
+      <input matInput #input3 maxlength="20" placeholder="RIB" type="text" name="rib" [(ngModel)]="enseignantP.rib">
       <mat-hint align="end">{{input3.value?.length||0}}/20</mat-hint>
     </mat-form-field><br>
     <mat-radio-group [(ngModel)]="enseignantP.etatCivil" name="etatcivil" #etatcivil>
@@ -80,13 +87,15 @@
       <mat-panel-description>
     </mat-panel-description>
     </mat-expansion-panel-header>
-    <mat-form-field matTooltip="Max 12 chiffre" matTooltipPosition="above">
-      <input matInput type="text" name="matricule" #input maxlength="12" placeholder="المعرف الوحيد" [(ngModel)]="enseignantP.matricule" required>
+    <mat-form-field matTooltip="Max 12 chiffres" matTooltipPosition="above">
+      <input matInput type="text" [formControl]="matricule" name="matricule" #input maxlength="12" placeholder="المعرف الوحيد" [(ngModel)]="enseignantP.matricule" required>
       <mat-hint align="end">{{input.value?.length||0}}/12</mat-hint>
+      <mat-error *ngIf="matricule.invalid">{{getErrorMessageM()}}</mat-error>
     </mat-form-field>
-    <mat-form-field matTooltip="Max 8 caractére" matTooltipPosition="above">
-      <input matInput type="text" name="cin" #input1 maxlength="8" placeholder="ب.ت.و."  [(ngModel)]="enseignantP.cin" required>
+    <mat-form-field matTooltip="8 chiffres au minimum" matTooltipPosition="above">
+      <input matInput type="text" matInput [formControl]="cinM" name="cin" #input1 maxlength="8" placeholder="ب.ت.و."  [(ngModel)]="enseignantP.cin" required>
       <mat-hint align="end">{{input1.value?.length||0}}/8</mat-hint>
+      <mat-error *ngIf="cinM.invalid">{{getErrorMessageC()}}</mat-error>
     </mat-form-field>
     <mat-form-field>
         <input matInput placeholder="الإسم" type="text" name="prenomar" [(ngModel)]="enseignantP.prenomAr" required>
@@ -95,7 +104,7 @@
         <input matInput placeholder="اللقب" type="text" name="nomar"  [(ngModel)]="enseignantP.nomAr" required>
       </mat-form-field>
       <mat-form-field>
-        <input matInput placeholder="إسم الأب" type="text" name="nomperear" [(ngModel)]="enseignantP.nompereAr" required>
+        <input matInput placeholder="إسم الأب" type="text" name="nomperear" [(ngModel)]="enseignantP.nompereAr">
       </mat-form-field>
     <mat-form-field>
       <input matInput [matDatepicker]="pickerNai" placeholder="تاريخ الولادة" name="datenais" [(ngModel)]="enseignantP.datenaissance" required>
@@ -109,22 +118,25 @@
       <mat-radio-button value="انثى">أنثى</mat-radio-button>
       <mat-radio-button value="ذكر">ذكر</mat-radio-button>
     </mat-radio-group>
-     <mat-form-field>
-      <input matInput placeholder="الهاتف" type="text" name="telephone" [(ngModel)]="enseignantP.telephone">
+     <mat-form-field matTooltip="8 chiffres au minimum" matTooltipPosition="above">
+      <input matInput placeholder="الهاتف" [formControl]="tel" #telephone maxlength="8" type="text" name="telephone" [(ngModel)]="enseignantP.telephone" required>
+      <mat-hint align="end">{{telephone.value?.length||0}}/8</mat-hint>
+      <mat-error *ngIf="tel.invalid">{{getErrorMessageT()}}</mat-error>
+    </mat-form-field>
+      <mat-form-field>
+      <input matInput placeholder="البريد الإلكتروني" [formControl]="email" name="email" [(ngModel)]="enseignantP.email">
+      <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
     </mat-form-field>
     <mat-form-field>
-      <input matInput placeholder="البريد الإلكتروني" type="email" name="email" [(ngModel)]="enseignantP.email" required>
-      <!--<mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>-->
-    </mat-form-field>
-    <mat-form-field>
-        <textarea matInput placeholder="العنوان" type="text" name="adressear" [(ngModel)]="enseignantP.adresseAr" required></textarea>
+        <textarea matInput placeholder="العنوان" type="text" name="adressear" [(ngModel)]="enseignantP.adresseAr"></textarea>
       </mat-form-field>
-    <mat-form-field matTooltip="Max 4 caractére" matTooltipPosition="above">
-      <input matInput #input2 maxlength="4" placeholder="الصندوق البريدي" type="text" name="code" [(ngModel)]="enseignantP.codepostal">
+    <mat-form-field matTooltip="4 chiffres au minimum" matTooltipPosition="above">
+      <input matInput #input2 maxlength="4" placeholder="الصندوق البريدي" [formControl]="codePostal" type="text" name="code" [(ngModel)]="enseignantP.codepostal">
       <mat-hint align="end">{{input2.value?.length||0}}/4</mat-hint>
+      <mat-error *ngIf="codePostal.invalid">{{getErrorMessageCode()}}</mat-error>
     </mat-form-field>
-       <mat-form-field hintLabel="Max 20 caractére">
-      <input matInput #input3 maxlength="20" placeholder="رقم الحساب الجاري" type="text" name="rib" [(ngModel)]="enseignantP.rib" required>
+    <mat-form-field>
+      <input matInput #input3 maxlength="20" placeholder="رقم الحساب الجاري" type="text" name="rib" [(ngModel)]="enseignantP.rib">
       <mat-hint align="end">{{input3.value?.length||0}}/20</mat-hint>
     </mat-form-field><br>
     <mat-radio-group [(ngModel)]="enseignantP.etatCivilAr" name="etatcivilar" #etatcivil>
@@ -223,7 +235,7 @@
       <input matInput placeholder="Raison" type="text" name="raison"  [(ngModel)]="etatPersonnel.etatInactive" required>
     </mat-form-field>
     <div *ngIf="etat.libelleEtat=='détaché'">
-    <mat-form-field >
+    <mat-form-field>
       <mat-select placeholder="Lieu de Détachement" [(value)]="lieuDetachement" required name="lieuFr">
         <mat-option *ngFor="let o of orgOrigines" [value]="o">
           {{o.libelleOrg }}
@@ -244,7 +256,7 @@
   </div>
   <div *ngIf="lang=='ar'">
     <mat-form-field *ngIf="etat.libelleEtatAr=='غير مباشر'">
-      <input matInput placeholder="السبب" type="text" name="raisonAr"  [(ngModel)]="etatPersonnel.etatInactiveAr" required>
+      <textarea matInput placeholder="السبب" type="text" name="raisonAr"  [(ngModel)]="etatPersonnel.etatInactiveAr" required></textarea>
     </mat-form-field>
     <div *ngIf="etat.libelleEtatAr=='ملحق'">
     <mat-form-field>
@@ -374,8 +386,7 @@
         </form>
           <button mat-mini-fab color="primary" (click)="ajouterPoste()"><mat-icon>add</mat-icon></button>
         </mat-expansion-panel>
-
-      <button mat-raised-button color="primary" (click)="Enregistrer()">{{'Table.CAjouterBot'| translate}}</button>
-      <button mat-raised-button color="primary" (click)="fe.reset()">{{'Table.CAnnuler'| translate}}</button>
+      <button class="btn btn-primary" (click)="Enregistrer()" [disabled]=" valideFormulaire()">{{'Table.CAjouterBot'| translate}}</button>
+      <button class="btn btn-warning" (click)="Annuler()">{{'Table.CAnnuler'| translate}}</button>
       </form>
       </mat-accordion>

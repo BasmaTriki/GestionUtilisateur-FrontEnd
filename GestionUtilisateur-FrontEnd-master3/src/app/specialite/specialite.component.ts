@@ -1,8 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import {Grade} from "../../model/model.grade";
 import {Router} from "@angular/router";
-import {GradeServices} from "../../services/grade.services";
-import {Http} from "@angular/http";
+import {FormControl, Validators} from "@angular/forms";
 import {Specialite} from "../../model/model.specialite";
 import {SpecialiteServices} from "../../services/specialite.services";
 import * as $ from 'jquery';
@@ -23,6 +21,8 @@ export class SpecialiteComponent implements OnInit {
   specialite:Specialite=new Specialite();
   specialites:Array<Specialite>=new Array<Specialite>();
   dataTable: any;
+  libelleFr=new FormControl('',[Validators.pattern("[a-zA-Z ]+"),Validators.minLength(5)]);
+  libelleAr=new FormControl('',[Validators.required,Validators.minLength(5)]);
   constructor(private specialiteServices:SpecialiteServices,
     private chRef: ChangeDetectorRef, 
     private http: HttpClient,
@@ -52,10 +52,24 @@ export class SpecialiteComponent implements OnInit {
         console.log(err);
       })
   }
-  gotopage(i:number)
+  getErrorMessageFr() {
+    return this.libelleFr.hasError('pattern') ? 'des caractères seulement' :
+     this.libelleFr.hasError('minLength') ? 'le minimum 3 chiffres' :
+            '';
+  }
+  getErrorMessageAr() {
+    return this.libelleAr.hasError('required') ? 'Champs obligatoire' :
+     this.libelleAr.hasError('minLength') ? 'le minimum 3 chiffres' :
+            '';
+  }
+  valideFormulaire()
   {
-    this.currentPage=i;
-    this.doSearch();
+    if((this.specialite.libelleSp!=""&& !(this.libelleFr.hasError('pattern'))&&!(this.libelleFr.hasError('minLength')))|| ((this.specialite.libelleSpAr!="") &&(this.specialite.libelleSpAr.length>=4)))
+    {
+      return false;
+    }
+    else
+    return true;
   }
   onEditSpecialite(idSp:number){
     this.router.navigate(['editSpecialite',idSp]);

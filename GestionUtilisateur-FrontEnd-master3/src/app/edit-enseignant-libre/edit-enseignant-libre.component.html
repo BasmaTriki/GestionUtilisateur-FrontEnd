@@ -326,6 +326,7 @@
                       </mat-panel-description>
                 </mat-expansion-panel-header> 
                 <form *ngFor="let c of chargeSems; let i=index">
+                    <hr>
                     <div *ngIf="lang=='fr'">
                         <mat-form-field>
                           <input matInput placeholder="Année de Début" type="number" name="annedebut" [(ngModel)]="c.anneeuniversitaire.anneeDebut" disabled>
@@ -371,7 +372,7 @@
                       </mat-form-field>
                     </div>
                 </form>
-                <hr>
+               
               <mat-form-field *ngIf="lang=='fr' && !ajoutAnnee">
                 <mat-select placeholder="Année Universitaire" [(value)]="anneeUniv" required name="anne">
                   <mat-option *ngFor="let a of anneeUnivs" [value]="a">

@@ -6,4 +6,5 @@ import {Specialite} from "./model.specialite";
 export class Enseignant extends Personnel {
   specialite:Specialite;
   departement:Departement;
+  Diplomes:string="";
 }

@@ -26,9 +26,9 @@
           <h1>{{nom}}</h1>
           <h3>{{'Table.Enseignant' | translate}}</h3>
           <div class="bio">
-          <i class="fa fa-envelope"></i> {{enseignantP.email}}<br>
           <i class="fa fa-gift"></i> {{enseignantP.datenaissance|date:'dd/MM/yyyy'}}<br>
           <i class="fa fa-phone"></i> (+216) {{enseignantP.telephone}}<br>
+          <i class="fa fa-envelope"></i> {{enseignantP.email}}<br>
           <div *ngIf="lang=='fr'"><i class="fa fa-map-marker"></i> {{enseignantP.adresse}}</div>
           <div *ngIf="lang=='ar'"><i class="fa fa-map-marker"></i> {{enseignantP.adresseAr}}</div>
           </div>
@@ -41,7 +41,7 @@
  <br/>
  <br/>
 <mat-tab-group class="demo-tab-group">
-<mat-tab label="Tab 1">
+<mat-tab label="Détails Personnels">
    <ng-template mat-tab-label>
     <mat-icon>person</mat-icon>
         </ng-template>
@@ -72,7 +72,7 @@
   </tbody></table>
 </div>
 </mat-tab>
-<mat-tab label="Tab 2">
+<mat-tab label="Détails Professionnels">
   <ng-template mat-tab-label>
     <mat-icon>local_library</mat-icon>
   </ng-template>
@@ -87,7 +87,7 @@
   </tbody></table>
   </div>
   </mat-tab>
-    <mat-tab label="Tab 3">
+    <mat-tab label="Diplômes">
       <ng-template mat-tab-label>
         <mat-icon>school</mat-icon>
       </ng-template>
@@ -102,7 +102,7 @@
               <td>{{d.date}}</td>
             </tr></table></div>
     </mat-tab>
-    <mat-tab label="Tab 4">
+    <mat-tab label="Poste Administratif">
       <ng-template mat-tab-label>
         <mat-icon>domain</mat-icon>
       </ng-template>
@@ -121,7 +121,7 @@
                     </tr></table>
                 </div>
                 </mat-tab>
-                <mat-tab label="Tab 5">
+                <mat-tab label="Grades">
                   <ng-template mat-tab-label>
                     <mat-icon>star</mat-icon>
                   </ng-template>
@@ -142,22 +142,20 @@
           </tr></table>
     </div>
     </mat-tab>
-            <mat-tab label="Tab 6" *ngIf="enseignantP.etatCivil=='Marié(e)'">
+            <mat-tab label="Enfants" *ngIf="enseignantP.etatCivil=='Marié(e)'">
               <ng-template mat-tab-label>
                 <mat-icon>people</mat-icon>
               </ng-template>
               <div class="demo-tab-content" *ngIf="enfants!=null">
                   <form #enfant *ngFor="let e of enfants; let i=index">
-                    <mat-form-field *ngIf="lang=='fr'">
+                    <mat-form-field>
                       <input matInput placeholder="Nom Enfant" type="text" name="nomenf" required [(ngModel)]="e.nom" disabled>
                     </mat-form-field>
-                    <mat-form-field *ngIf="lang=='ar'">
+                    <mat-form-field>
                         <input matInput placeholder="إسم الطفل" type="text" name="nomenfar" required [(ngModel)]="e.nomAr" disabled>
                       </mat-form-field>
                     <mat-form-field>
-                      <input matInput [matDatepicker]="pickerEn1" placeholder="Date de Naissance/تاريخ الولادة" name="enf" [(ngModel)]="e.dateNais" disabled>
-                      <mat-datepicker-toggle matSuffix [for]="pickerEn1"></mat-datepicker-toggle>
-                      <mat-datepicker #pickerEn1 [(ngModel)]="e.dateNais"></mat-datepicker>
+                      <input matInput type="text" placeholder="Date de Naissance/تاريخ الولادة" name="enf" [(ngModel)]="e.dateNais" disabled>
                     </mat-form-field>
                   </form>
                 </div>

@@ -49,7 +49,7 @@ onEditAdministratif(idPers:number){
   this.router.navigate(['EditAdministratif',idPers]);
 }
 onDetailsAdministratif(idPers:number) {
-  this.router.navigate(['DetailsEnseignantP',idPers]);
+  this.router.navigate(['DetailsAdministratif',idPers]);
 }
 Imprimer(idPers:number,sexe:string)
   {

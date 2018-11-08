@@ -57,12 +57,13 @@
   <mat-radio-button value="Femme">Femme</mat-radio-button>
   <mat-radio-button value="Homme">Homme</mat-radio-button>
 </mat-radio-group><br>
- <mat-form-field>
-  <input matInput placeholder="Téléphone" type="text" name="telephone" [(ngModel)]="enseignantLibre.telephone">
+ <mat-form-field matTooltip="Max 4 caractére" matTooltipPosition="above">
+  <input matInput placeholder="Téléphone" type="text" #telephone maxlength="8" name="telephone" [(ngModel)]="enseignantLibre.telephone">
+  <mat-hint align="end">{{telephone.value?.length||0}}/8</mat-hint>
 </mat-form-field>
 <mat-form-field>
-  <input matInput placeholder="Email" type="email" name="email" [(ngModel)]="enseignantLibre.email" required>
-  <!--<mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>-->
+  <input matInput placeholder="Email" [formControl]="email" [(ngModel)]="enseignantLibre.email" required>
+  <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
 </mat-form-field>
 <mat-form-field>
   <textarea matInput placeholder="Adresse" type="text" name="adresse" [(ngModel)]="enseignantLibre.adresse" required></textarea>
@@ -345,8 +346,8 @@
           </div>
           </mat-expansion-panel>
           <!--end Etat-->
-  <button mat-raised-button color="primary" (click)="Enregistrer()">{{'Table.CAjouterBot' | translate}}</button>
-  <button mat-raised-button color="primary" (click)="fe.reset()">{{'Table.CAnnuler' | translate}}</button>
+  <button  class="btn btn-primary" (click)="Enregistrer()">{{'Table.CAjouterBot' | translate}}</button>
+  <button class="btn btn-warning" (click)="AnnulerL()">{{'Table.CAnnuler' | translate}}</button>
   </form>
 
   <!--Ajouter Enseignant Fonctionnaire de l'etat -->
@@ -677,8 +678,8 @@
               </mat-form-field>
             </div>
             </mat-expansion-panel>
-        <button mat-raised-button color="primary" (click)="EnregistrerFonct()">{{'Table.CAjouterBot' | translate}}</button>
-        <button mat-raised-button color="primary" (click)="fenF.reset()">{{'Table.CAnnuler' | translate}}</button>
+        <button class="btn btn-primary"  (click)="EnregistrerFonct()">{{'Table.CAjouterBot' | translate}}</button>
+        <button class="btn btn-warning" (click)="AnnulerF()">{{'Table.CAnnuler' | translate}}</button>
         </form>
         <!--end of ajouter enseignant fonctionnaire de l'etat-->
   </mat-accordion>

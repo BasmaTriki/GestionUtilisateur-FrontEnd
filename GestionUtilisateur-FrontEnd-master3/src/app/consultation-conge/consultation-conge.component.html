@@ -24,9 +24,9 @@
               <td *ngIf="lang=='fr'">{{c.typeconge.libelleType}}</td>
               <td *ngIf="lang=='ar'">{{c.typeconge.libelleTypeAr}}</td>
               <td>{{c.nbJour}}</td>
-              <td *ngIf="c.typeconge.libelleType=='Maladie'|| c.typeconge.libelleType==='Maladie Longue durée'"><button mat-icon-button [disabled]="Certaficat(c)" (click)="download(c.idCong)" color="primary" ><mat-icon>get_app</mat-icon></button></td>
+              <td><button mat-icon-button [disabled]="Certaficat(c)" (click)="download(c.idCong)" color="primary" ><mat-icon>get_app</mat-icon></button></td>
               <td> <a (click)="valider(c)" class="clickable"><mat-icon>done</mat-icon></a></td>
-              <td> <a  (click)="rattraper(c)" class="clickable"><mat-icon>collections_bookmark</mat-icon></a></td>
+              <td> <a (click)="rattraper(c)" class="clickable"><mat-icon>collections_bookmark</mat-icon></a></td>
             </tr>
           </tbody>
         </table>

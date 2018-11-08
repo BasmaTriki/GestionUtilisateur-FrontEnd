@@ -4,13 +4,15 @@
     <div class="panel-heading">{{'SideBar.MSpecialite' | translate}}</div>
     <div class="panel-body">
       <div>
-        <mat-form-field>
-          <input matInput placeholder="Libellé" [(ngModel)]="specialite.libelleSp">
+        <mat-form-field matTooltip="4 chiffres au minimum" matTooltipPosition="above">
+          <input matInput placeholder="Libellé" [formControl]="libelleFr" [(ngModel)]="specialite.libelleSp">
+          <mat-error *ngIf="libelleFr.invalid">{{getErrorMessageFr()}}</mat-error>
         </mat-form-field>
-        <mat-form-field>
-            <input matInput placeholder="الإختصاص" [(ngModel)]="specialite.libelleSpAr">
+        <mat-form-field matTooltip="4 chiffres au minimum" matTooltipPosition="above">
+            <input matInput placeholder="الإختصاص" [formControl]="libelleAr" [(ngModel)]="specialite.libelleSpAr" required>
+            <mat-error *ngIf="libelleAr.invalid">{{getErrorMessageAr()}}</mat-error>
           </mat-form-field>
-        <button  mat-mini-fab color="primary" (click)="ajouter()">
+        <button  mat-mini-fab color="primary" class="btn btn-primary" [disabled]="valideFormulaire()" (click)="ajouter()">
           <mat-icon>add</mat-icon></button>
       </div>
   

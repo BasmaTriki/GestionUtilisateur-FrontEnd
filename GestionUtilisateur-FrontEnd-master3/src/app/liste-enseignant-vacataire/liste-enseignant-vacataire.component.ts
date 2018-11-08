@@ -56,6 +56,6 @@ export class ListeEnseignantVacataireComponent implements OnInit {
     this.router.navigate(['/editVacationLibre',idPers]);
   }
   onDetailsEnseignant(idPers:number) {
-    this.router.navigate(['DetailsEnseignantP',idPers]);
+    this.router.navigate(['DetailsEnseignantLibre',idPers]);
   }
 }

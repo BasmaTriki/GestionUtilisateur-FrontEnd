@@ -14,6 +14,8 @@
           <span>{{'Table.CBienvenu' | translate }},</span>
           <h2 *ngIf="lang==='fr'">{{nom}}</h2>
           <h2 *ngIf="lang==='ar'">{{nomAr}}</h2>
+          <h2 *ngIf="lang==='fr'">({{role}})</h2>
+          <h2 *ngIf="lang==='ar'">({{role}})</h2>
         </div>
       </div>
       <!-- /menu profile quick info -->
@@ -33,8 +35,8 @@
               </li>
               <li><a id="formsli" (click)="anchorClicked($event)" *ngIf="role=='Admin'||role=='AgentGRH'"><i class="fa fa-address-card" ></i>{{'SideBar.MPersonnel' | translate }}<span id="formschevron" class="fa fa-chevron-down"></span></a>
               <ul class="nav child_menu">
-                <li><a routerLink="/personnel"><i class="fa fa-address-book"></i>{{'Personnel.TITLE' | translate }}</a></li>
-                <li><a id="listePersonnel" (click)="anchorClicked($event)"><i class="fa fa-align-justify" ></i>{{'SideBar.SMPersonnel' | translate }}<span id="tableschevron" class="fa fa-chevron-down"></span></a>
+                <li><a routerLink="/personnel">{{'Personnel.TITLE' | translate }}</a></li>
+                <li><a id="listePersonnel" (click)="anchorClicked($event)">{{'SideBar.SMPersonnel' | translate }}<span id="tableschevron" class="fa fa-chevron-down"></span></a>
                   <ul class="nav child_menu">
                     <li><a routerLink="/ListePersonnel">{{'SideBar.SMEnseignantV3' | translate}}</a></li>
                     <li><a routerLink="/ListeEnseigContractuel">{{'SideBar.EnseiContrat' | translate}}</a></li>
@@ -43,16 +45,16 @@
                 </li>
               </ul>
             </li>
-            <li><a id="formEnsgVac" (click)="anchorClicked($event)" *ngIf="role=='Admin'||role=='AgentGRH'||role=='DirecteurES'"><i class="fa fa-address-card" ></i>{{'SideBar.MEnseignantV' | translate }}<span id="formschevron" class="fa fa-chevron-down"></span></a>
+            <li><a id="formEnsgVac" (click)="anchorClicked($event)" *ngIf="role=='Admin'||role=='AgentGRH'||role=='DirecteurES'"><i class="fa fa-briefcase" ></i>{{'SideBar.MEnseignantV' | translate }}<span id="formschevron" class="fa fa-chevron-down"></span></a>
               <ul class="nav child_menu">
-                <li><a routerLink="/AjouterVacataire"><i class="fa fa-address-book"></i>{{'SideBar.SMEnseignantV1' | translate }}</a></li>
-                <li><a id="enseigVact" (click)="anchorClicked($event)"><i class="fa fa-align-justify"></i>{{'SideBar.SMEnseignantV3' | translate }}<span id="tableschevron" class="fa fa-chevron-down"></span></a>
+                <li><a routerLink="/AjouterVacataire">{{'SideBar.SMEnseignantV1' | translate }}</a></li>
+                <li><a id="enseigVact" (click)="anchorClicked($event)">{{'SideBar.SMEnseignantV3' | translate }}<span id="tableschevron" class="fa fa-chevron-down"></span></a>
                   <ul class="nav child_menu">
                       <li><a routerLink="/ListeVacation">{{'SideBar.MEnseignantL' | translate}}</a></li>
                       <li><a routerLink="/ListeEnseignantFonct">{{'SideBar.MEnseignantF' | translate}}</a></li>
                   </ul> 
                 </li>
-                <li><a routerLink="/ConsultationVacation" *ngIf="role=='Admin'||role=='DirecteurES'"><i class="fa fa-align-justify"></i>{{'SideBar.SMEnseignantV2' | translate }}</a></li>
+                <li><a routerLink="/ConsultationVacation" *ngIf="role=='Admin'||role=='DirecteurES'">{{'SideBar.SMEnseignantV2' | translate }}</a></li>
               </ul>
             </li>
             <li><a id="tablesli" (click)="anchorClicked($event)" *ngIf="role=='Admin'||role=='AgentGRH'"><i class="fa fa-table"></i>{{'SideBar.MConge' | translate }} <span id="tableschevron" class="fa fa-chevron-down"></span></a>
@@ -116,7 +118,7 @@
                 <li><a routerLink="/posteAdmin">{{'SideBar.MPoste' | translate }}</a></li>
               </ul>
             </li> 
-            <li><a id="etats" (click)="anchorClicked($event)" *ngIf="role=='Admin'||role=='AgentGRH'||role=='DirecteurES'"><i class="fa fa-address-card" ></i>{{'SideBar.MEtat' | translate }}<span id="formschevron" class="fa fa-chevron-down"></span></a>
+            <li><a id="etats" (click)="anchorClicked($event)" *ngIf="role=='Admin'||role=='AgentGRH'"><i class="fa fa-clipboard"></i>{{'SideBar.MEtat' | translate }}<span id="formschevron" class="fa fa-chevron-down"></span></a>
               <ul class="nav child_menu">
                   <li><a id="etatListe" (click)="anchorClicked($event)">{{'SideBar.SMPersonnel' | translate }}<span id="formschevron" class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">

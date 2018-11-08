@@ -120,7 +120,7 @@ export class PersonnelCongeComponent implements OnInit {
 {
   this.selectedFile=<File>event.target.files[0];
 }
-  updateConge(){
+  EnregistrerConge(){
     this.conge.typeconge=this.typeconge;
     this.conge.personnel=this.personnel;
     this.conge.nbJour=this.nomberJour;
@@ -133,6 +133,7 @@ export class PersonnelCongeComponent implements OnInit {
           if(this.selectedFile!=null)
           this.upload(data.idCong);
         }
+        this.router.navigate(['/personnelhistorique']);
       this.showSuccess();
       },err=>{
         console.log(err);
@@ -150,17 +151,14 @@ upload(idCong:number)
 }
   onSelected(event)
 { 
-  this.nomberJour=this.CalculerNbjour();
-  //this.CalculerResteJour();
- this.NomberJour();
-  this.restjour=this.typeconge.nbMaxJrs-(this.Sommenbjour+this.nomberJour);
+  this.nomberJour=parseInt(this.CalculerNbjour()+"");
+   this.NomberJour();
+  this.restjour=parseInt((this.typeconge.nbMaxJrs-(this.Sommenbjour+this.nbjour))+"");
   if(this.Sommenbjour==null)
   {
-    this.restjour=this.typeconge.nbMaxJrs-this.nomberJour;
+    this.restjour=parseInt((this.typeconge.nbMaxJrs-this.nbjour)+"");
   }
-  console.log(event+" "+this.Sommenbjour+"   "+this.nomberJour);
- // this.restjour =this.typeconge.nbMaxJrs-(this.Sommenbjour+this.nomberJour);
- this.ValideConge();
+  this.ValideConge();
 }
 Certaficat(c:Conge)
 {
@@ -176,7 +174,7 @@ else
 showSuccess() {
   if(this.lang=='fr')
   {
-    this.toastr.success("L'ajout de congé effectuée");
+    this.toastr.success("L'ajout de congé a été effectué avec succès");
   }
 else
   {
@@ -185,13 +183,13 @@ else
 }
 ValideConge()
 {
-  if(this.restjour>=0)
+  if(this.restjour>=0 && this.typeconge!=null && this.conge.dateDebut!=null && this.conge.dateFin!=null && this.conge.nbJour!=0)
   {
-    this.congeValide=true;
+    return true;
   }
   else
   {
-    this.congeValide=false;
+    return false;
   }
 }
 getColor()
@@ -204,6 +202,10 @@ getColor()
   {
     return 'red';
   }
+}
+Annuler()
+{
+  this.router.navigate(['/personnelhistorique']);
 }
 
 }

@@ -45,10 +45,10 @@ export class ListeEnseignantFonctionnaireComponent implements OnInit {
     console.log(err);
   })
 }
-onEditEnseignant(matricule:number){
-  this.router.navigate(['EditEnseignantP',matricule]);
+onEditEnseignant(idPers:number){
+  this.router.navigate(['EditEnseignantF',idPers]);
 }
-onDetailsEnseignant(matricule:number) {
-  this.router.navigate(['DetailsEnseignantP',matricule]);
+onDetailsEnseignant(idPers:number) {
+  this.router.navigate(['DetailsEnseignantFonct',idPers]);
 }
 }

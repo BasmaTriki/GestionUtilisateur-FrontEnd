@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { EnseignantLibre } from '../../model/model.enseignantLibre';
 import { EnseignantFonctionnaireEtat } from '../../model/model.enseignantFonctEtat';
 import { Departement } from '../../model/model.departement';
@@ -26,6 +26,7 @@ import { Semestre } from '../../model/model.semestre';
 import { ChargeSem } from '../../model/model.chargeSem';
 import { ChargeSemestreServices } from '../../services/chargeSem.services';
 import { EnseignantVacataire } from '../../model/model.enseignantVacataire';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-ajouter-vacataire',
@@ -70,11 +71,14 @@ export class AjouterVacataireComponent implements OnInit {
   demandeVacation:DemandeVacation=new DemandeVacation();
   ajoutAnnee:boolean=false;
   chargeSem:ChargeSem=new ChargeSem();
+  libreForm: FormGroup;
+  formValide:boolean=true;
   constructor(private enseingnantlibreService:EnseignantLibreServices,
     private enseignantFonctServices:EnseignantFonctionnaireEtatServices,
     private departementServices: DepartementServices,
     private demandeServices:DemandeVacationServices,
     private diplomeService:DiplomeServices,
+    private toastr: ToastrService,
     private specialiteServices:SpecialiteServices,
     private diplomePServices:DiplomePersonnelServices,
     private anneeUnivService:AnneeUniversitaireServices,
@@ -82,6 +86,7 @@ export class AjouterVacataireComponent implements OnInit {
     private semestreServices:SemestreServices,
     private etatServices:EtatServices,
     public http: HttpClient,
+    private formBuilder: FormBuilder,
     public activatedRoute:ActivatedRoute,
     public router: Router) 
     {
@@ -105,33 +110,6 @@ export class AjouterVacataireComponent implements OnInit {
           console.log(err);
         })
       } 
-      if(this.demandeVacation!=null)
-      {
-       if(this.demandeVacation.typeDemande==="EnseignantLibre")
-       {this.type="Enseignant Libre";
-         this.enseignantLibre.cin=this.demandeVacation.cin;
-         this.enseignantLibre.nom=this.demandeVacation.nom;
-         this.enseignantLibre.prenom=this.demandeVacation.prenom;
-         this.enseignantLibre.adresse=this.demandeVacation.adresse;
-         this.enseignantLibre.codepostal=this.demandeVacation.codePostal;
-         this.enseignantLibre.email=this.demandeVacation.email;
-         this.enseignantLibre.telephone=this.demandeVacation.telephone;
-         this.enseignantLibre.specialite=this.demandeVacation.specialite;
-         console.log(this.enseignantLibre.cin);
-       }
-       if(this.demandeVacation.typeDemande==="EnseignantFonctionnaire")
-       {this.type="Enseignant Fonctionnaire";
-         this.enseignantFonct.cin=this.demandeVacation.cin;
-         this.enseignantFonct.nom=this.demandeVacation.nom;
-         this.enseignantFonct.prenom=this.demandeVacation.prenom;
-         this.enseignantFonct.adresse=this.demandeVacation.adresse;
-         this.enseignantFonct.codepostal=this.demandeVacation.codePostal;
-         this.enseignantFonct.email=this.demandeVacation.email;
-         this.enseignantFonct.telephone=this.demandeVacation.telephone;
-         this.enseignantFonct.specialite=this.demandeVacation.specialite;
-       }
-     }
-     console.log(this.enseignantFonct.cin);
      }
 
   ngOnInit() {
@@ -145,6 +123,21 @@ export class AjouterVacataireComponent implements OnInit {
     this.role.type="utilisateur";
     this.chercherAnnee();
     this.chercherSemestre();
+   //this.initForm();
+  }
+  AnnulerL()
+{
+  this.router.navigate(['/ListeVacation']);
+}
+AnnulerF()
+{
+  this.router.navigate(['/ListeEnseignantFonct']);
+}
+
+  getErrorMessage() {
+    return this.email.hasError('required') ? 'veuillez remplir le champ' :
+        this.email.hasError('email') ? 'adresse non valide' :
+            '';
   }
   AjouterAnnee()
   {
@@ -296,12 +289,14 @@ export class AjouterVacataireComponent implements OnInit {
   }
   this.enseingnantlibreService.saveEnseignantLibre(this.enseignantLibre)
       .subscribe(data=>{
-        alert("Success d'ajout");
+        this.showSuccess();
         console.log(data);
         this.EnregistrerDiplomeP(data);
         this.EnregistreChargeSem(data);
+        this.router.navigate(['/ListeVacation']);
       },err=>{
         console.log(err);
+        this.toastr.error("Veuillez vérifier les informations saisies");
       });
 
   }
@@ -371,15 +366,26 @@ export class AjouterVacataireComponent implements OnInit {
     //this.enseignantP.pos
     this.enseignantFonctServices.saveEnseignantFonctionnaireEtat(this.enseignantFonct)
         .subscribe(data=>{
-          alert("Success d'ajout");
+          this.showSuccess();
           console.log(data);
           this.EnregistrerDiplomeP(data);
           this.EnregistreChargeSem(data);
+          this.router.navigate(['/ListeEnseignantFonct']);
         },err=>{
           console.log(err);
+          this.toastr.error("Veuillez vérifier les informations saisies");
         });
   }
-
+  showSuccess() {
+    if(this.lang=='fr')
+    {
+      this.toastr.success("L'ajout d'un enseignant vacataire a été effectué avec succès");
+    }
+  else
+    {
+      this.toastr.success("تم إضافة الأستاذ الوقتي بنجاح");
+    }
+  }
   chercherDep() {
     this.departementServices.allDepartements()
       .subscribe(data => {

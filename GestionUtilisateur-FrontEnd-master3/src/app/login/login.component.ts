@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit {
   size:number=5;
   idUser:number;
   personnel:Personnel=new Personnel();
-  lang:string="";
+  lang:string="fr";
   constructor(public http:Http,
               private toastr: ToastrService,
               public personnelService:PersonnelServices,

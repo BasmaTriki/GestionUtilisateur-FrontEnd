@@ -37,6 +37,7 @@ annee:number=0;
     this.lang=sessionStorage.getItem("lang");
     translate.use(this.lang);
     this.date=this.datePipe.transform(new Date(), 'yyyy');
+
      }
 
   ngOnInit() {

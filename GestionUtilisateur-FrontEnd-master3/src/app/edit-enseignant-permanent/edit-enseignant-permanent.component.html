@@ -281,7 +281,7 @@
                     <input matInput placeholder="الشهادة" type="text" name="dipar" required [(ngModel)]="d.diplome.titreDipAr" disabled>
                   </mat-form-field><br>
                   <mat-form-field *ngIf="d.organisme!=null">
-                    <input matInput placeholder="Organisme" type="text" name="org" required [(ngModel)]="d.organisme.libelleOrg" disabled>
+                    <input matInput placeholder="Organisme" type="text" name="orgFr" required [(ngModel)]="d.organisme.libelleOrg" disabled>
                   </mat-form-field>
                   <mat-form-field *ngIf="d.organisme!=null">
                     <input matInput placeholder="المؤسسة" type="text" name="org" required [(ngModel)]="d.organisme.libelleOrgAr" disabled>
@@ -338,12 +338,12 @@
                     <input matInput placeholder="الرتبة" type="text" name="gradar" required [(ngModel)]="g.grade.titreAr" disabled>
                   </mat-form-field>
                   <mat-form-field *ngIf="g.grade!=null">
-                    <input matInput [matDatepicker]="picker3" placeholder="Date de Recrutement/تاريخ التعيين" [(ngModel)]="g.dateRecrutement" name="dateR">
+                    <input matInput [matDatepicker]="picker3" placeholder="Date de Recrutement/تاريخ التعيين" [(ngModel)]="g.dateRecrutement" name="dateR" disabled>
                     <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
                     <mat-datepicker #picker3></mat-datepicker>
-                  </mat-form-field>
+                  </mat-form-field><br>
                   <mat-form-field *ngIf="g.grade!=null"> 
-                    <input matInput [matDatepicker]="picker4" placeholder="Date de Titularisation/تاريخ الترسيم" [(ngModel)]="g.dateTitularisation" name="dateT">
+                    <input matInput [matDatepicker]="picker4" placeholder="Date de Titularisation/تاريخ الترسيم" [(ngModel)]="g.dateTitularisation" name="dateT" disabled>
                     <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
                     <mat-datepicker #picker4></mat-datepicker>
                   </mat-form-field>   
@@ -513,8 +513,8 @@
             </div>
           </mat-expansion-panel>
           <!--end Etat-->
-          <button mat-raised-button color="primary" (click)=" updateEnseignant()">{{'Table.CModifier' | translate}}</button>
-          <button mat-raised-button color="primary" (click)="fe.reset()">{{'Table.CAnnuler' | translate}}</button>
+          <button mat-raised-button class="btn btn-primary" (click)=" updateEnseignant()">{{'Table.CModifier' | translate}}</button>
+          <button mat-raised-button class="btn btn-primary" (click)="fe.reset()">{{'Table.CAnnuler' | translate}}</button>
         </form>
       </mat-accordion>
     </div>

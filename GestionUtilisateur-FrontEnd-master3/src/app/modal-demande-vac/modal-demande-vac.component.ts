@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { SpecialiteServices } from '../../services/specialite.services';
 import { Specialite } from '../../model/model.specialite';
 import { MatDialog } from '@angular/material';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 
 @Component({
@@ -19,8 +20,12 @@ export class ModalDemandeVacComponent implements OnInit {
   specialites:Array<Specialite>=new Array<Specialite>();
   selectedFile:File=null;
   specialite:Specialite=new Specialite();
+  firstFormGroup: FormGroup;
+  secondFormGroup: FormGroup;
+  isOptional = false;
   constructor(public dialogRef: MatDialogRef<ModalDemandeVacComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
+    private _formBuilder: FormBuilder,
     private demandeVacationService:DemandeVacationServices,
       private specialiteService:SpecialiteServices,
       public dialog: MatDialog,
@@ -30,6 +35,12 @@ export class ModalDemandeVacComponent implements OnInit {
   
     ngOnInit() {
       this.chercherSpecialite();
+      this.firstFormGroup = this._formBuilder.group({
+        firstCtrl: ['', Validators.required]
+      });
+      this.secondFormGroup = this._formBuilder.group({
+        secondCtrl: ''
+      });
     }
     Enregistrer(){
       this.demandeVacation.specialite=this.specialite;
@@ -67,7 +78,7 @@ export class ModalDemandeVacComponent implements OnInit {
   {
     const fb=new FormData();
     fb.append('upload',this.selectedFile,this.selectedFile.name);
-   this.http.post("http://localhost:8080/uploadDiplomeVac/"+idDemande,fb)
+   this.http.post("http://10.100.20.184/uploadDiplomeVac/"+idDemande,fb)
    .subscribe(res=>{
      console.log(res);
    })

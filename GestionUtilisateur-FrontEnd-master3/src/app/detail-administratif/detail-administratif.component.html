@@ -1,1 +1,151 @@
-
+<app-index></app-index>
+<div class="container spacer">
+    <div class="panel panel-info">
+        <div class="panel-heading">{{'Table.CDetailsEnsg' | translate}} {{nom}}</div>
+        <div class="panel-body">
+<h3 class="site-title">{{'Table.CDetailsEnsg' | translate}}</h3>
+<!-- <div>
+<div>
+  <img class="img-responsive" src="../../assets/images/user_pic.png" style="width:30%;">
+                <i class="fa fa-wrench"> Edit</i> 
+ <div class="clearfix">
+   <h3> {{nom}}</h3>
+   <i class="fa fa-envelope"></i>{{administratif.email}}<br>
+   <i class="fa fa-gift"></i>{{administratif.datenaissance|date:'dd/MM/yyyy'}}<br>
+   <i class="fa fa-phone"></i>(+216){{administratif.telephone}}<br>
+   <i class="fa fa-map-marker"></i>{{administratif.lieuNaissance}}<br>
+   <div *ngIf="lang=='fr'"><i class="fa fa-map-marker"></i>{{administratif.adresse}}</div>
+   <div *ngIf="lang=='ar'"><i class="fa fa-map-marker"></i>{{administratif.adresseAr}}</div>
+ </div>
+</div>
+</div> -->
+<div class="content">
+    <div class="card">
+      <div class="firstinfo"><img src="../../assets/images/user_pic.png"/>
+        <div class="profileinfo">
+          <h1>{{nom}}</h1>
+          <h3>{{'Table.administratif' | translate}}</h3>
+          <div class="bio">
+          <i class="fa fa-gift"></i> {{administratif.datenaissance|date:'dd/MM/yyyy'}}<br>
+          <i class="fa fa-phone"></i> (+216) {{administratif.telephone}}<br>
+          <i class="fa fa-envelope"></i> {{administratif.email}}<br>
+          <div *ngIf="lang=='fr'"><i class="fa fa-map-marker"></i> {{administratif.adresse}}</div>
+          <div *ngIf="lang=='ar'"><i class="fa fa-map-marker"></i> {{administratif.adresseAr}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="badgescard"> <span class="devicons devicons-django"></span><span class="devicons devicons-python"> </span><span class="devicons devicons-codepen"></span><span class="devicons devicons-javascript_badge"></span><span class="devicons devicons-gulp"></span><span class="devicons devicons-angular"></span><span class="devicons devicons-sass"> </span></div>
+  </div>
+  <br/>
+ <br/>
+ <br/>
+<mat-tab-group class="demo-tab-group">
+<mat-tab label="Détails Personnels">
+   <ng-template mat-tab-label>
+    <mat-icon>person</mat-icon>
+        </ng-template>
+  <div class="demo-tab-content">
+      <table class="table table-striped">
+          <tbody>
+            <tr> 
+      <td><b>Nom et Prenom :</b></td><td>{{administratif.prenom +" "+administratif.nom}}</td><td align="right">{{administratif.prenomAr +" "+administratif.nomAr}}</td><td align="right"> <b>الإسم و اللقب</b></td>
+    </tr>
+    <tr><td><b>Nom de Pére :</b></td>
+    <td> {{administratif.nompere}}</td><td align="right">{{administratif.nompereAr}}</td><td  align="right"><b>إسم الأب</b> </td></tr> 
+    <tr><td><b>Sexe: </b></td><td> {{administratif.sexe}}</td><td  align="right">{{administratif.sexeAr}}</td><td  align="right"><b>الجنس</b></td></tr>
+    <tr><td><b>Lieu de Naissance: </b></td>
+      <td>{{administratif.lieuNaissance}}</td><td  align="right"> {{administratif.lieuNaissanceAr}}</td><td align="right"><b>مكان الولادة</b></td></tr>
+    <tr><td><b>Adresse: </b></td>
+      <td>{{administratif.adresse}}</td><td td align="right">{{administratif.adresseAr}}</td><td  align="right"><b>العنوان</b></td></tr>
+    <tr><td><b>Etat Civil:</b></td>
+      <td>{{administratif.etatCivil}}</td><td  align="right">{{administratif.etatCivilAr}}</td><td  align="right"><b>الحالة المدنية</b></td></tr>
+    <tr *ngIf="administratif.etatCivilAr=='(متزوج(ة'"> <td><b>Nom Conjoint:</b></td>
+      <td>{{administratif.nomConjoint}}</td><td  align="right"> {{administratif.nomConjointAr}}</td><td  align="right"><b>إسم القرين</b></td></tr>
+    <tr *ngIf="administratif.etatCivilAr=='(متزوج(ة'"> <td><b>Profession de Conjoint:</b></td>
+      <td>{{administratif.profConjoint}}</td><td align="right"> {{administratif.profConjointAr}}</td><td align="right"><b>مهنة القرين</b></td></tr>
+    <tr><td>
+        <b>Code Postal:</b></td>
+    <td>{{administratif.codepostal}}</td><td align="right">{{administratif.codepostal}}</td><td align="right"><b>الترقيم البريدي</b></td></tr> 
+    <tr><td><b>RIB:</b></td><td>{{administratif.rib}}</td><td align="right">{{administratif.rib}}</td><td align="right"><b>رقم الحستب الجاري</b></td></tr>
+    <tr><td><b>Etat:</b></td><td>{{administratif.etat.libelleEtat}}</td><td align="right">{{administratif.etat.libelleEtatAr}}</td><td align="right"><b>الحالة</b></td></tr>
+  </tbody></table>
+</div>
+</mat-tab>
+<mat-tab label="Détails Professionnels">
+  <ng-template mat-tab-label>
+    <mat-icon>local_library</mat-icon>
+  </ng-template>
+  <div class="demo-tab-content">
+      <table class="table table-striped">
+          <tbody>
+   <tr *ngIf="administratif.service!=null"> <td> <b>Service:</b></td><td> {{administratif.service.libelleServ}}</td><td align="right"> {{administratif.service.libelleServAr}}</td><td align="right"><b>:الخطة الوظيفية</b></td></tr>
+    <tr *ngIf="administratif.organismeOrigine!=null"> <td><b>Organisme d'origine :</b></td><td>{{administratif.organismeOrigine.libelleOrg}}</td>
+      <td align="right">{{administratif.organismeOrigine.libelleOrgAr}}</td><td align="right"><b>:المؤسسة الأصلية</b></td></tr> 
+  </tbody></table>
+  </div>
+  </mat-tab>
+    <mat-tab label="Diplômes">
+      <ng-template mat-tab-label>
+        <mat-icon>school</mat-icon>
+      </ng-template>
+    <div class="demo-tab-content" *ngIf="diplomepers!=null">
+        <table class="table table-striped">
+            <tr>
+              <th>{{'SideBar.MDiplome' | translate}}</th><th>{{'Table.CDateDip' | translate}}</th>
+            </tr>
+            <tr *ngFor="let d of diplomepers; let i=index">
+              <td *ngIf="lang==='fr'">{{d.diplome.titreDip}}</td>
+              <td *ngIf="lang==='ar'">{{d.diplome.titreDipAr}}</td>
+              <td>{{d.date}}</td>
+            </tr></table></div>
+    </mat-tab>
+                <mat-tab label="Grades">
+                  <ng-template mat-tab-label>
+                    <mat-icon>star</mat-icon>
+                  </ng-template>
+    <div class="demo-tab-content" *ngIf="AGrades!=null">
+      <table class="table table-striped">
+          <tr>
+            <th>{{'SideBar.MGrade' | translate }}</th><th>{{'Table.CDateRect' | translate}}</th><th>{{'Table.CDateTit' | translate}}</th><th>{{'Table.CDateGrd' | translate }}</th><th>{{'SideBar.MCorps' | translate }}</th>
+          </tr>
+          <tr *ngFor="let g of AGrades; let i=index">
+            <td *ngIf="lang=='fr'">{{g.grade.titre}}</td>
+            <td *ngIf="lang=='ar'">{{g.grade.titreAr}}</td>
+            <td>{{g.dateRecrutement}}</td>
+            <td>{{g.dateTitularisation}}</td>
+            <td>{{g.dateEvaluation}}</td>
+            <td *ngIf="g.grade.corps!=null && lang=='fr'">{{g.grade.corps.libelleCps}}</td>
+            <td *ngIf="g.grade.corps!=null && lang=='ar'">{{g.grade.corps.libelleCpsAr}}</td>
+            <td *ngIf="g.grade.corps==null">{{g.grade.corps}}</td>
+          </tr></table>
+    </div>
+    </mat-tab>
+            <mat-tab label="Enfants" *ngIf="administratif.etatCivil=='Marié(e)'">
+              <ng-template mat-tab-label>
+                <mat-icon>people</mat-icon>
+              </ng-template>
+              <div class="demo-tab-content" *ngIf="enfants!=null">
+                  <form #enfant *ngFor="let e of enfants; let i=index">
+                    <mat-form-field *ngIf="lang=='fr'">
+                      <input matInput placeholder="Nom Enfant" type="text" name="nomenf" required [(ngModel)]="e.nom" disabled>
+                    </mat-form-field>
+                    <mat-form-field *ngIf="lang=='ar'">
+                        <input matInput placeholder="إسم الطفل" type="text" name="nomenfar" required [(ngModel)]="e.nomAr" disabled>
+                      </mat-form-field>
+                    <mat-form-field>
+                      <input matInput [matDatepicker]="pickerEn1" placeholder="Date de Naissance/تاريخ الولادة" name="enf" [(ngModel)]="e.dateNais" disabled>
+                      <mat-datepicker-toggle matSuffix [for]="pickerEn1"></mat-datepicker-toggle>
+                      <mat-datepicker #pickerEn1 [(ngModel)]="e.dateNais"></mat-datepicker>
+                    </mat-form-field>
+                  </form>
+                </div>
+              </mat-tab>
+            </mat-tab-group>
+    <!-- <b>Grade Actuel:</b> {{administratif.dateTitularisation}}<br> -->
+    <div class="posAr">
+    <button mat-icon-button color="" (click)="ImprimerFichePersonnel(administratif.idPers)"><mat-icon>print</mat-icon></button>
+    </div>
+  </div>
+  </div>      
+</div>

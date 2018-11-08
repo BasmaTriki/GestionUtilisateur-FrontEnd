@@ -9,6 +9,7 @@ import { Personnel } from '../../model/model.personnel';
 import { TypeConge } from '../../model/model.typeConge';
 import { HttpClient } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-modal-conge',
@@ -42,6 +43,7 @@ restjour:number;
     private personnelServices: PersonnelServices,
     public dialogRef: MatDialogRef<ModalCongeComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
+    private toastr: ToastrService,
     public router:Router,
     private datePipe: DatePipe,
     public http: HttpClient) { }
@@ -109,7 +111,7 @@ restjour:number;
     this.conge.dateCreationConge=new Date();
     this.congeServices.saveConge(this.conge)
       .subscribe(data=>{
-        alert("Succès d'ajout");
+       this.showSuccess();
         console.log(data);
         this.personnel.conges.push(data);
         this.personnelServices.updatePersonnel(this.personnel);
@@ -120,6 +122,7 @@ restjour:number;
         console.log(data);
       },err=>{
         console.log(err);
+        this.toastr.error("Veuillez vérifier les informations saisies");
       });
       this.Close();
   }
@@ -136,7 +139,16 @@ upload(idCong:number)
    console.log(res);
  })
 }
-
+showSuccess() {
+  if(this.lang=='fr')
+  {
+    this.toastr.success("L'ajout de congé a été effectué avec succès");
+  }
+else
+  {
+    this.toastr.success("تم إضافة العطلة بنجاح");
+  }
+}
 onSelected(event)
 { 
   this.nomberJour=parseInt(this.CalculerNbjour()+"");
@@ -151,13 +163,13 @@ onSelected(event)
 }
 ValideConge()
 {
-  if(this.restjour>=0)
+  if(this.restjour>=0 && this.typeconge!=null && this.conge.dateDebut!=null && this.conge.dateFin!=null && this.conge.nbJour!=0)
   {
-    this.congeValide=true;
+    return true;
   }
   else
   {
-    this.congeValide=false;
+    return false;
   }
 }
 getColor()

@@ -31,6 +31,7 @@ import { OrganismeServices } from '../../services/organisme.services';
 import { Organisme } from '../../model/model.organisme';
 import { EtatPersonnelServices } from '../../services/etatPersonnel.services';
 import { EtatPersonnel } from '../../model/model.etatPersonnel';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -39,7 +40,15 @@ import { EtatPersonnel } from '../../model/model.etatPersonnel';
   styleUrls: ['./enseignant-permanent.component.css']
 })
 export class EnseignantPermanentComponent implements OnInit {
-  email = new FormControl('', [Validators.required, Validators.email]);
+  email = new FormControl('', [Validators.email]);
+  matricule=new FormControl('',[Validators.required, Validators.pattern("[0-9]+"),Validators.minLength(4)]);
+  cinM=new FormControl('',[Validators.required, Validators.pattern("[0-9]+"),Validators.minLength(8)]);
+  nom=new FormControl('',[Validators.required, Validators.pattern("[a-zA-Z]+"),Validators.minLength(3)]);
+  prenom=new FormControl('',[Validators.required, Validators.pattern("[a-zA-Z]+"),Validators.minLength(3)]);
+  tel=new FormControl('',[Validators.required,Validators.pattern("[0-9]+"),Validators.minLength(8)]);
+  codePostal=new FormControl('',[Validators.pattern("[0-9]+"),Validators.minLength(4)]);
+  nomAr=new FormControl('',[Validators.required,Validators.minLength(3)]);
+  prenomAr=new FormControl('',[Validators.required,Validators.minLength(3)]);
   currentPage: number = 0;
   pages: Array<number>;
   size: number = 5;
@@ -80,6 +89,7 @@ export class EnseignantPermanentComponent implements OnInit {
               private enseingnantpermanentService:EnseignantPermanentServices,
               private enfantservice: EnfantServices,
               private departementServices: DepartementServices,
+              private toastr: ToastrService,
               private diplomeService:DiplomeServices,
               private specialiteServices:SpecialiteServices,
               private diplomePServices:DiplomePersonnelServices,
@@ -111,9 +121,54 @@ export class EnseignantPermanentComponent implements OnInit {
     this.lang=sessionStorage.getItem('lang');
   }
   getErrorMessage() {
-    return this.email.hasError('required') ? 'Vous devez entrer une valeur' :
-      this.email.hasError('email') ? 'Email non valide' :
-        '';
+    //  this.email.hasError('required') ? 'veuillez remplir le champs' :
+    return this.email.hasError('email') ? 'adresse non valide' :
+            '';
+  }
+  getErrorMessageM() {
+    return this.matricule.hasError('required') ? 'Champs obligatoire' :
+     this.matricule.hasError('pattern')? 'des chiffres seulement' :
+     this.matricule.hasError('minLength')? 'le minimum 4 chiffres' :
+            '';
+  }
+  getErrorMessageCode() {
+    return this.codePostal.hasError('pattern')? 'des chiffres seulement' :
+     this.codePostal.hasError('minLength')? 'le minimum 4 chiffres' :
+            '';
+  }
+  getErrorMessageC() {
+    return this.cinM.hasError('required') ? 'Champs obligatoire' :
+     this.cinM.hasError('pattern') ? 'des chiffres seulement' :
+     this.cinM.hasError('minLength') ? 'le minimum 8 chiffres' :
+            '';
+  }
+  getErrorMessageT() {
+    return this.tel.hasError('required') ? 'Champs obligatoire' :
+     this.tel.hasError('pattern') ? 'des chiffres seulement' :
+     this.tel.hasError('minLength') ? 'le minimum 8 chiffres' :
+            '';
+  }
+  getErrorMessageN() {
+    return this.nom.hasError('required') ? 'Champs obligatoire' :
+     this.nom.hasError('pattern') ? 'des caractères seulement' :
+     this.nom.hasError('minLength') ? 'le minimum 3 chiffres' :
+            '';
+  }
+  getErrorMessageP() {
+    return this.prenom.hasError('required') ? 'Champs obligatoire' :
+     this.prenom.hasError('pattern') ? 'des caractères seulement' :
+     this.prenom.hasError('minLength') ? 'le minimum 3 chiffres' :
+            '';
+  }
+  getErrorMessageNAr() {
+    return this.nomAr.hasError('required') ? 'Champs obligatoire' :
+     this.nomAr.hasError('minLength') ? 'le minimum 3 chiffres' :
+            '';
+  }
+  getErrorMessagePAr() {
+    return this.prenomAr.hasError('required') ? 'Champs obligatoire' :
+     this.prenomAr.hasError('minLength') ? 'le minimum 3 chiffres' :
+            '';
   }
   chercherOrg()
   {
@@ -260,9 +315,15 @@ EnregistrerEtatPersonnel(en:EnseignantPermanent)
   this.role.idRole=2;
   this.role.type="utilisateur";
   this.enseignantP.role=this.role;
-  if(this.orgOrigine!=null)
+  console.log(this.orgOrigine);
+  if(this.orgOrigine.libelleOrg!="" || this.orgOrigine.libelleOrgAr!="")
   {
     this.enseignantP.organismeOrigine=this.orgOrigine;
+  }
+  else
+  {
+this.orgOrigine.idOrg=5;
+this.enseignantP.organismeOrigine=this.orgOrigine;
   }
   if(this.lang=="fr")
   {
@@ -316,7 +377,7 @@ EnregistrerEtatPersonnel(en:EnseignantPermanent)
   }
   this.enseingnantpermanentService.saveEnseignantPermanent(this.enseignantP)
       .subscribe(data=>{
-        alert("Success d'ajout");
+        this.showSuccess();
         console.log(data);
         this.enseignantP=data;
         this.EnregistrerDiplomeP(data);
@@ -332,11 +393,21 @@ EnregistrerEtatPersonnel(en:EnseignantPermanent)
         this.EnregistrerPoste(data);
       },err=>{
         console.log(err);
+        this.toastr.error("Veuillez vérifier les informations saisies");
       });
    //this.EnregistrerAgrade();
 
   }
-
+  showSuccess() {
+    if(this.lang=='fr')
+    {
+      this.toastr.success("L'ajout d'un enseignant a été effectué avec succès");
+    }
+  else
+    {
+      this.toastr.success("تم إضافة الأستاذ بنجاح");
+    }
+  }
   chercherDep() {
     this.departementServices.allDepartements()
       .subscribe(data => {
@@ -404,5 +475,37 @@ EnregistrerEtatPersonnel(en:EnseignantPermanent)
     this.agrade=new AGrade();
     this.agrade.grade=new Grade();
     this.AGrades.push(this.agrade);
+  }
+  Annuler()
+  {
+    this.router.navigate(['/ListePersonnel']);
+  }
+  valideFormulaire()
+  {
+    if(this.enseignantP.matricule!=""&& !(this.matricule.hasError('pattern'))&& !(this.matricule.hasError('minLength')) 
+    && !(this.cinM.hasError('pattern'))&&  this.enseignantP.cin!=""&&!(this.cinM.hasError('minLength')) 
+    && this.enseignantP.nom!="" && !(this.nom.hasError('pattern'))&&!(this.nom.hasError('minLength')) 
+    && this.enseignantP.datenaissance!=null
+    && this.enseignantP.nomAr!="" &&!(this.nomAr.hasError('minLength'))
+    && this.enseignantP.prenomAr!="" &&!(this.prenomAr.hasError('minLength'))
+    &&!(this.prenom.hasError('pattern'))&& this.enseignantP.prenom!="" &&!(this.prenom.hasError('minLength')) 
+    &&(this.enseignantP.telephone!="") && !(this.tel.hasError("pattern"))&&!(this.tel.hasError('minLength')))
+    {
+      if((this.enseignantP.email!="")&&(this.email.hasError('email')))
+      {return true;}
+      else if((this.enseignantP.email!="")&& !(this.email.hasError('email')))
+      {
+      return false;
+      }
+      if((this.enseignantP.codepostal!=0)&&(this.codePostal.hasError('pattern')))
+      {return true;}
+      else if((this.enseignantP.codepostal!=0)&& !(this.codePostal.hasError('pattern')))
+      {
+      return false;
+      }
+      return false;
+    }
+    else
+    return true;
   }
 }

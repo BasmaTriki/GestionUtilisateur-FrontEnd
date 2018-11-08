@@ -146,5 +146,13 @@
 	"Table.Non":"لا",
 	"Table.Importation":"تحميل المعلومات",
 	"Table.Enseignant":"أستاذ(ة) قار",
+	"Table.EnseignantL":"أستاذ(ة) حر(ة)",
+	"Table.EnseignantF":"موظف لدى الدولة",
+	"Table.administratif":"إداري",
+	"Table.anneUniv":"السنة الدراسية",
+	"Table.semestre":"السداسي",
+	"Table.cours":"ساعات الدرس",
+	"Table.Td":"TD ساعات",
+	"Table.tp":"TP ساعات",
 	"Table.Stat":"عدد الأساتذة القارين حسب القسم"
 }

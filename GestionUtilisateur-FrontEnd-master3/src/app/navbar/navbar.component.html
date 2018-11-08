@@ -9,7 +9,7 @@
                   <ul class="nav navbar-nav navbar-right">
                     <li class="">
                       <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                        <img src="../../assets/images/img.jpg" alt="">
+                        <img src="../../assets/images/user_pic.png" alt="">
                         <span class="fa fa-angle-down"></span>
                       </a>
                       <ul class="dropdown-menu dropdown-usermenu pull-right">
@@ -29,7 +29,7 @@
                         <li *ngFor="let c of pageConge?.content">
                           <div *ngIf="lang=='fr'">
                           <a routerLink="/consultationConge">
-                            <span class="image"><img src="../../assets/images/img.jpg" alt="Profile Image" /></span>
+                            <span class="image"><img src="../../assets/images/user_pic.png" alt="Profile Image" /></span>
                             <span>
                               <span>{{c.personnel.prenom+" "+c.personnel.nom}} </span>
                               <span class="time">{{c.dateCreationConge |date:'dd/MM/yyyy hh:mm'}}</span>
@@ -41,7 +41,7 @@
                         </div>
                         <div *ngIf="lang=='ar'">
                           <a routerLink="/consultationConge">
-                            <span class="image"><img src="../../assets/images/img.jpg" alt="Profile Image" /></span>
+                            <span class="image"><img src="../../assets/images/user_pic.png" alt="Profile Image" /></span>
                             <span>
                               <span>{{c.personnel.prenomAr+" "+c.personnel.nomAr}} </span>
                               <span class="time">{{c.dateCreationConge|date:'dd/MM/yyyy hh:mm'}}</span>
@@ -65,26 +65,40 @@
                       <div *ngIf="role=='AgentGRH'">
                           <li *ngFor="let c of pageConge?.content">
                             <div *ngIf="lang=='fr'">
-                            <a routerLink="/AjouterVacataire">
-                              <span class="image"><img src="../../assets/images/img.jpg" alt="Profile Image" /></span>
+                              <div *ngIf="c.typeDemande=='EnseignantFonctionnaire'">
+                            <a routerLink="/ListeEnseignantFonct" >
+                              <span class="image"><img src="../../assets/images/user_pic.png" alt="Profile Image" /></span>
                               <span>
                                 <span>{{c.prenom+" "+c.nom}} </span>
                                 <span class="time">{{c.dateCreationDem |date :'dd/MM/yyyy hh:mm'}}</span>
                               </span>
                               <span class="message">
-                                {{c.prenom+" "+c.nom}} a dépose une demande de vacation
+                                La demande de vacation de {{c.prenom+" "+c.nom}} a été accpté
                               </span>
                             </a>
                           </div>
-                          <div  *ngIf="lang=='ar'">
-                            <a routerLink="/AjouterVacataire">
-                              <span class="image"><img src="../../assets/images/img.jpg" alt="Profile Image" /></span>
+                            <div *ngIf="c.typeDemande=='EnseignantLibre'">
+                            <a routerLink="/ListeVacation">
+                              <span class="image"><img src="../../assets/images/user_pic.png" alt="Profile Image" /></span>
                               <span>
-                                <span>{{c.prenomAr+" "+c.nomAr}} </span>
+                                <span>{{c.prenom+" "+c.nom}} </span>
                                 <span class="time">{{c.dateCreationDem |date :'dd/MM/yyyy hh:mm'}}</span>
                               </span>
                               <span class="message">
-                             {{c.prenomAr+" "+c.nomAr}} قدم مطلب لتعاقد وقتي
+                                  La demande de vacation de {{c.prenom+" "+c.nom}} a été accpté
+                              </span>
+                            </a>
+                          </div>
+                          </div>
+                          <div  *ngIf="lang=='ar'">
+                            <a routerLink="/AjouterVacataire">
+                              <span class="image"><img src="../../assets/images/user_pic.png" alt="Profile Image" /></span>
+                              <span>
+                                <span>{{c.prenom+" "+c.nom}} </span>
+                                <span class="time">{{c.dateCreationDem |date :'dd/MM/yyyy hh:mm'}}</span>
+                              </span>
+                              <span class="message">
+                         تم قبول مطلب   {{c.prenom+" "+c.nom}} من قبل مدير الدراسات
                               </span>
                             </a>
                           </div>
@@ -103,7 +117,7 @@
                             <li *ngFor="let c of pageConge?.content">
                               <div  *ngIf="lang=='fr'">
                               <a routerLink="/ConsultationVacation">
-                                <span class="image"><img src="../../assets/images/img.jpg" alt="Profile Image" /></span>
+                                <span class="image"><img src="../../assets/images/user_pic.png" alt="Profile Image" /></span>
                                 <span>
                                   <span>{{c.prenom+" "+c.nom}} </span>
                                   <span class="time">{{c.dateCreationDem |date :'dd/MM/yyyy hh:mm'}}</span>
@@ -115,7 +129,7 @@
                             </div>
                             <div *ngIf="lang=='ar'">
                               <a routerLink="/ConsultationVacation">
-                                <span class="image"><img src="../../assets/images/img.jpg" alt="Profile Image" /></span>
+                                <span class="image"><img src="../../assets/images/user_pic.png" alt="Profile Image" /></span>
                                 <span>
                                   <span>{{c.prenomAr+" "+c.nomAr}} </span>
                                   <span class="time">{{c.dateCreationDem|date :'dd/MM/yyyy hh:mm'}}</span>

@@ -86,8 +86,8 @@
     </div>
   </div>
   <div class="posAr">
-<button  mat-icon-button color="" (click)="updateConge()"><mat-icon>create</mat-icon></button>
-<button  mat-icon-button color="" (click)="SupprimerConge()"><mat-icon>delete</mat-icon></button>
+<button  class="btn btn-primary" (click)="EnregistrerConge()" [disabled]="!ValideConge()">{{'Table.CAjouterBot'| translate}}</button>
+<button class="btn btn-warning" (click)="Annuler()">{{'Table.CAnnuler'| translate}}</button>
   </div>
 </div>
 </div>

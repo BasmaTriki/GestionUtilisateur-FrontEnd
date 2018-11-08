@@ -10,6 +10,6 @@ export class AppComponent {
   constructor(private translate: TranslateService)
   {
     translate.setDefaultLang('fr');
-    //sessionStorage.setItem("lang","fr");
+    sessionStorage.setItem("lang","fr");
   }
 }

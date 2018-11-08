@@ -91,8 +91,8 @@
                  </mat-form-field>
               </div>
               </div>
-      <button mat-raised-button color="primary" (click)="saveUser()">{{'Table.CAjouterBot'| translate}}</button>
-      <button mat-raised-button color="primary" (click)="flogin.reset()">{{'Table.CAnnuler'| translate}}</button>
+      <button class="btn btn-primary" (click)="saveUser()">{{'Table.CAjouterBot'| translate}}</button>
+      <button class="btn btn-warning" (click)="flogin.reset()">{{'Table.CAnnuler'| translate}}</button>
     </form>
     </div>
     <div id="team" *ngIf="lang=='fr'">
@@ -104,7 +104,7 @@
                         <div class="card-body text-center">
                             <p><img class=" img-fluid" src="../../assets/images/user_pic.png" alt="card image"></p>
                             <h4 class="card-title">{{personnel.prenom+" "+personnel.nom}}</h4>
-                            <p class="card-text">{{personnel.prenom+" ben "+personnel.nompere+" "+personnel.nom +" neé le " +personnel.datenaissance}}</p>
+                            <p class="card-text">{{personnel.prenom+" "+personnel.nom +" neé le " +personnel.datenaissance}}</p>
                             <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i></a>
                         </div>
                     </div>
@@ -116,22 +116,22 @@
                             <p class="card-text"><strong>Login:</strong> {{loginU}} <strong>Mot de Passe:</strong> {{motpassU}} <br><strong>E-mail:</strong>{{personnel.email}}  <strong>Télephone:</strong>{{personnel.telephone}}              </p>
                             <ul class="list-inline">
                                 <li class="list-inline-item">
-                                    <a class="social-icon text-xs-center" target="_blank" href="/">
+                                    <a class="social-icon text-xs-center" target="_blank" routerLink="/">
                                         <i class="fa fa-facebook"></i>
                                     </a>
                                 </li>
                                 <li class="list-inline-item">
-                                    <a class="social-icon text-xs-center" target="_blank" href="#">
+                                    <a class="social-icon text-xs-center" target="_blank" routerLink="/">
                                         <i class="fa fa-twitter"></i>
                                     </a>
                                 </li>
                                 <li class="list-inline-item">
-                                    <a class="social-icon text-xs-center" target="_blank" href="#">
+                                    <a class="social-icon text-xs-center" target="_blank" routerLink="/">
                                         <i class="fa fa-skype"></i>
                                     </a>
                                 </li>
                                 <li class="list-inline-item">
-                                    <a class="social-icon text-xs-center" target="_blank" href="#">
+                                    <a class="social-icon text-xs-center" target="_blank" routerLink="/">
                                         <i class="fa fa-google"></i>
                                     </a>
                                 </li>

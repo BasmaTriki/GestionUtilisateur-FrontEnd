@@ -7,7 +7,7 @@
         </div>
         <div class="panel-body">
     <div class="row"  *ngIf='mode==0'>
-    <div class="col-md-3 col-lg-3" align="center"> <img alt="User Pic" src="../../assets/images/img.jpg" class="img-circle img-responsive"> </div>
+    <div class="col-md-3 col-lg-3" align="center"> <img alt="User Pic" src="../../assets/images/user_pic.png" class="img-circle img-responsive"> </div>
     <div class=" col-md-9 col-lg-9"> 
         <table class="table table-user-information">
           <tbody>
@@ -124,7 +124,7 @@
                 <td>
                 </td>
                 <td align="right">
-                    <button mat-mini-fab color="accent" (click)="ModifierProfile()"><mat-icon>edit</mat-icon></button>
+                    <button mat-mini-fab color="" (click)="ModifierProfile()"><mat-icon>edit</mat-icon></button>
                   </td>
               </tr>
             </tbody></table>
@@ -132,7 +132,7 @@
     </div>
             <div *ngIf='mode==1'>
             <div class="row">
-                    <div class="col-md-3 col-lg-3 " align="center"> <img alt="User Pic" src="../../assets/images/img.jpg" class="img-circle img-responsive"> </div>
+                    <div class="col-md-3 col-lg-3 " align="center"> <img alt="User Pic" src="../../assets/images/user_pic.png" class="img-circle img-responsive"> </div>
                     <div class=" col-md-9 col-lg-9 "> 
             <div *ngIf="lang==='fr'">
                 <mat-form-field>

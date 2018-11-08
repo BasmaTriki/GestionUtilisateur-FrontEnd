@@ -1,0 +1,127 @@
+<app-index></app-index>
+<div class="container spacer">
+    <div class="panel panel-info">
+        <div class="panel-heading">{{'Table.CDetailsEnsg' | translate}} {{nom}}</div>
+        <div class="panel-body">
+<h3 class="site-title">{{'Table.CDetailsEnsg' | translate}}</h3>
+<!-- <div>
+<div>
+  <img class="img-responsive" src="../../assets/images/user_pic.png" style="width:30%;">
+                <i class="fa fa-wrench"> Edit</i> 
+ <div class="clearfix">
+   <h3> {{nom}}</h3>
+   <i class="fa fa-envelope"></i>{{enseignantL.email}}<br>
+   <i class="fa fa-gift"></i>{{enseignantL.datenaissance|date:'dd/MM/yyyy'}}<br>
+   <i class="fa fa-phone"></i>(+216){{enseignantL.telephone}}<br>
+   <i class="fa fa-map-marker"></i>{{enseignantL.lieuNaissance}}<br>
+   <div *ngIf="lang=='fr'"><i class="fa fa-map-marker"></i>{{enseignantL.adresse}}</div>
+   <div *ngIf="lang=='ar'"><i class="fa fa-map-marker"></i>{{enseignantL.adresseAr}}</div>
+ </div>
+</div>
+</div> -->
+<div class="content">
+    <div class="card">
+      <div class="firstinfo"><img src="../../assets/images/user_pic.png"/>
+        <div class="profileinfo">
+          <h1>{{nom}}</h1>
+          <h3>{{'Table.EnseignantL' | translate}}</h3>
+          <div class="bio">
+          <i class="fa fa-gift"></i> {{enseignantL.datenaissance|date:'dd/MM/yyyy'}}<br>
+          <i class="fa fa-phone"></i> (+216) {{enseignantL.telephone}}<br>
+          <i class="fa fa-envelope"></i> {{enseignantL.email}}<br>
+          <div *ngIf="lang=='fr'"><i class="fa fa-map-marker"></i> {{enseignantL.adresse}}</div>
+          <div *ngIf="lang=='ar'"><i class="fa fa-map-marker"></i> {{enseignantL.adresseAr}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="badgescard"> <span class="devicons devicons-django"></span><span class="devicons devicons-python"> </span><span class="devicons devicons-codepen"></span><span class="devicons devicons-javascript_badge"></span><span class="devicons devicons-gulp"></span><span class="devicons devicons-angular"></span><span class="devicons devicons-sass"> </span></div>
+  </div>
+  <br/>
+ <br/>
+ <br/>
+<mat-tab-group class="demo-tab-group">
+<mat-tab label="Détails Personnels">
+   <ng-template mat-tab-label>
+    <mat-icon>person</mat-icon>
+        </ng-template>
+  <div class="demo-tab-content">
+      <table class="table table-striped">
+          <tbody>
+            <tr> 
+      <td><b>Nom et Prénom :</b></td><td>{{enseignantL.prenom +" "+enseignantL.nom}}</td><td align="right">{{enseignantL.prenomAr +" "+enseignantL.nomAr}}</td><td align="right"> <b>الإسم و اللقب</b></td>
+    </tr>
+    <tr><td><b>Nom de Pére :</b></td>
+    <td> {{enseignantL.nompere}}</td><td align="right">{{enseignantL.nompereAr}}</td><td  align="right"><b>إسم الأب</b> </td></tr> 
+    <tr><td><b>Sexe: </b></td><td> {{enseignantL.sexe}}</td><td  align="right">{{enseignantL.sexeAr}}</td><td  align="right"><b>الجنس</b></td></tr>
+    <tr><td><b>Lieu de Naissance: </b></td>
+      <td>{{enseignantL.lieuNaissance}}</td><td  align="right"> {{enseignantL.lieuNaissanceAr}}</td><td align="right"><b>مكان الولادة</b></td></tr>
+    <tr><td><b>Adresse: </b></td>
+      <td>{{enseignantL.adresse}}</td><td td align="right">{{enseignantL.adresseAr}}</td><td  align="right"><b>العنوان</b></td></tr>
+    <tr><td><b>Etat Civil:</b></td>
+      <td>{{enseignantL.etatCivil}}</td><td  align="right">{{enseignantL.etatCivilAr}}</td><td  align="right"><b>الحالة المدنية</b></td></tr>
+    <tr><td>
+        <b>Code Postal:</b></td>
+    <td>{{enseignantL.codepostal}}</td><td align="right">{{enseignantL.codepostal}}</td><td align="right"><b>الترقيم البريدي</b></td></tr> 
+    <tr><td><b>RIB:</b></td><td>{{enseignantL.rib}}</td><td align="right">{{enseignantL.rib}}</td><td align="right"><b>رقم الحستب الجاري</b></td></tr>
+    <tr><td><b>Etat:</b></td><td>{{enseignantL.etat.libelleEtat}}</td><td align="right">{{enseignantL.etat.libelleEtatAr}}</td><td align="right"><b>الحالة</b></td></tr>
+  </tbody></table>
+</div>
+</mat-tab>
+<mat-tab label="Détails Professionnels">
+  <ng-template mat-tab-label>
+    <mat-icon>local_library</mat-icon>
+  </ng-template>
+  <div class="demo-tab-content">
+      <table class="table table-striped">
+          <tbody>
+   <tr *ngIf="enseignantL.departement!=null"> <td> <b>Departement:</b></td><td> {{enseignantL.departement.nomDep}}</td><td align="right"> {{enseignantL.departement.nomDepAr}}</td><td align="right"><b>:القسم</b></td></tr>
+   <tr *ngIf="enseignantL.specialite!=null"> <td><b>Spécialité :</b></td><td>{{enseignantL.specialite.libelleSp}}</td>
+    <td align="right">{{enseignantL.specialite.libelleSpAr}}</td><td align="right"> <b> :الإختصاص</b></td></tr>
+  </tbody></table>
+  </div>
+  </mat-tab>
+    <mat-tab label="Diplômes">
+      <ng-template mat-tab-label>
+        <mat-icon>school</mat-icon>
+      </ng-template>
+    <div class="demo-tab-content" *ngIf="diplomepers!=null">
+        <table class="table table-striped">
+            <tr>
+              <th>{{'SideBar.MDiplome' | translate}}</th><th>{{'Table.CDateDip' | translate}}</th>
+            </tr>
+            <tr *ngFor="let d of diplomepers; let i=index">
+              <td *ngIf="lang==='fr' && d.diplome!=null">{{d.diplome.titreDip}}</td>
+              <td *ngIf="lang==='ar' && d.diplome!=null">{{d.diplome.titreDipAr}}</td>
+              <td *ngIf="d.diplome==null">-</td>
+              <td *ngIf="d!=null">{{d.date}}</td>
+            </tr></table></div>
+    </mat-tab>
+    <mat-tab label="Charge Semestrielle">
+      <ng-template mat-tab-label>
+        <mat-icon>school</mat-icon>
+      </ng-template>
+    <div class="demo-tab-content" *ngIf="chargeSems!=null">
+        <table class="table table-striped">
+            <tr>
+              <th>{{'Table.anneUniv' | translate}}</th><th>{{'Table.semestre' | translate}}</th><th>{{'Table.cours' | translate}}</th><th>{{'Table.Td' | translate}}</th><th>{{'Table.tp' | translate}}</th>
+            </tr>
+        <tr *ngFor="let c of chargeSems; let i=index">
+          <td *ngIf="c.anneeuniversitaire!=null">{{c.anneeuniversitaire.anneeDebut/c.anneeuniversitaire.anneeFin}}</td>
+          <td *ngIf="lang==='fr' && c.semestre!=null">{{c.semestre.descriptionSem}}</td>
+          <td *ngIf="lang==='ar' && c.semestre!=null">{{c.semestre.descriptionSemAr}}</td>
+          <td *ngIf="c.nbrHeuresCR!=0">{{c.nbrHeuresCR}}</td>
+          <td *ngIf="c.nbrHeuresTD!=0">{{c.nbrHeuresTD}}</td>
+          <td *ngIf="c.nbrHeuresTP!=0">{{c.nbrHeuresTP}}</td>
+        </tr> 
+        </table>
+        </div>
+</mat-tab>
+            </mat-tab-group>
+    <!-- <b>Grade Actuel:</b> {{enseignantL.dateTitularisation}}<br> -->
+    <div class="posAr">
+    <button mat-icon-button color="" (click)="modifier(enseignantL.idPers)"><mat-icon>create</mat-icon></button>
+    </div>
+  </div>
+  </div>      
+</div>

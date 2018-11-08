@@ -3,62 +3,94 @@
               <div class=" col-md-9 col-lg-9 "> 
                 <table class="table table-user-information">
                   <tbody>
+                      <tr>
+                          <td align="center"><b>{{demandeVacation.typeDemande}}</b></td>
+                        </tr>
                     <tr>
-                      <td>CIN:</td>
+                      <td><b>CIN</b></td>
                       <td>{{demandeVacation.cin}}</td>
-                    </tr>
-                    <tr>
-                      <td>Nom</td>
-                      <td>{{demandeVacation.nom}}</td>
-                    </tr>
-                    <tr>
-                      <td>Prénom</td>
-                      <td>{{demandeVacation.prenom}}</td>
-                    </tr>
-                 
-                       <tr>
-                       <td>Adresse</td>
+                      <td><b>Adresse</b></td>
                       <td>{{demandeVacation.adresse}}</td>
                     </tr>
-                      <tr>
-                      <td>Ville</td>
+                    <tr>
+                      <td><b>Nom</b></td>
+                      <td>{{demandeVacation.nom}}</td>
+                      <td><b>Ville</b></td>
                       <td>{{demandeVacation.ville}}</td>
                     </tr>
                     <tr>
-                      <td>Email</td>
-                      <td><a href="mailto:{{demandeVacation.email}}">{{demandeVacation.email}}</a></td>
+                      <td><b>Prénom</b></td>
+                      <td>{{demandeVacation.prenom}}</td>
+                      <td><b>Code Postal</b></td>
+                      <td>{{demandeVacation.codePostal}}</td>
                     </tr>
                     <tr>
-                      <td>Téléphone</td>
-                      <td>{{demandeVacation.telephone}}
-                      </td>
-                    </tr>
-                    <tr>
-                        <td>Specialité</td>
-                        <td *ngIf="demandeVacation.specialite!=null">{{demandeVacation.specialite.libelleSp}}
-                        </td>
-                        <td *ngIf="demandeVacation.specialite==null">{{demandeVacation.specialite}}
+                        <tr>
+                            <td> <b>Nom de pére</b> </td>
+                            <td>{{demandeVacation.nompere}}
+                            </td>
+                            <td><b>Email</b></td>
+                            <td><a href="mailto:{{demandeVacation.email}}">{{demandeVacation.email}}</a></td>
+                          </tr>
+                          <tr>
+                        <td><b>Date de naissance </b></td>
+                        <td>{{demandeVacation.datenaissance}}</td>
+                        <td><b>Téléphone</b></td>
+                        <td>{{demandeVacation.telephone}}
                         </td>
                       </tr>
+                        <tr>
+                            <td><b>Lieu de naissance</b></td>
+                            <td>{{demandeVacation.lieuNaissance}}</td>
+                            <td><b>Specialité</b></td>
+                            <td *ngIf="demandeVacation.specialite!=null">{{demandeVacation.specialite.libelleSp}}
+                            </td>
+                            <td *ngIf="demandeVacation.specialite==null">{{demandeVacation.specialite}}
+                            </td>
+                          </tr>
+                          <tr>
+                              <td><b>Etat Civil</b></td>
+                              <td>{{demandeVacation.etatCivil}}
+                              </td>
+                              <td><b>RIB</b></td>
+                              <td>{{demandeVacation.rib}}
+                              </td>
+                            </tr>
                       <tr>
-                        <td>
+                        <td *ngIf="!type">
+                        <label>Année universitaire:</label></td>
+                        <td *ngIf="!type">  
+                          <select [(value)]="anneeUniv">
+                            <option *ngFor="let a of anneeUnivs" [value]="a">
+                              {{a.anneeDebut+" / "+a.anneeFin}}
+                            </option>
+                          </select>
                         </td>
-                        <td align="right">
-                            <button mat-mini-fab color="primary" (click)="AjouterAnnee()"><mat-icon>add</mat-icon></button>
+                        <td align="right" *ngIf="!type">
+                            <a data-toggle="tooltip" type="button" class="btn btn-sm btn-primary" (click)="AjouterAnnee()"><i class="glyphicon glyphicon-plus"></i></a>
                           </td>
                       </tr>
+                      <tr>
+                          <td>
+                          <label>Semestre:</label>
+                         <select [(value)]="semestre">
+                              <option *ngFor="let s of semestres" [value]="s">
+                                {{s.descriptionSem}}
+                              </option>
+                            </select>
+                          </td>
+                        </tr>
                   </tbody>
                 </table>
-                <div *ngIf="type"><label>Année Universitaire:</label>
-                  <br>
-                <input type="number" name="anneeDebut" placeholder="Année Debut:" [(ngModel)]="anneeUniv.anneeDebut"><br>
+                <div *ngIf="type"><label>Ajouter année universitaire:</label>
+                <input type="number" name="anneeDebut" placeholder="Année Debut:" [(ngModel)]="anneeUniv.anneeDebut">
                <input type="number" name="anneeFin" placeholder="Année Fin:" [(ngModel)]="anneeUniv.anneeFin">
                 </div><br>
-                <button  class="btn btn-primary"(click)="Accepter()">Accepter Demande</button>
+                <button  class="btn btn-primary" (click)="Accepter()">Accepter Demande</button>
                 <button class="btn btn-warning" (click)="Refuser()">Refuser Demande</button>
               </div>
                <div class="panel-footer">
-                      <a data-original-title="Broadcast Message" data-toggle="tooltip" type="button" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-envelope"></i></a>
+                      <a data-original-title="Broadcast Message" data-toggle="tooltip" type="button" class="btn btn-sm btn-primary" (click)="download(demandeVacation.idDemande)"><i class="glyphicon glyphicon-download-alt"></i></a>
                       <a data-original-title="Remove this user" (click)="Close()" data-toggle="tooltip" type="button" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
                       <!-- <span class="pull-right">
                           <a data-original-title="Remove this user" (click)="Close()" data-toggle="tooltip" type="button" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></a>

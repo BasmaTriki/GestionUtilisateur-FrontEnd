@@ -258,7 +258,7 @@ export class EditEnseignantLibreComponent implements OnInit {
   showSuccess() {
     if(this.lang=='fr')
     {
-      this.toastr.success("Mise à jour effectuée avec succes");
+      this.toastr.success("Mise à jour a été effectuée avec succès");
     }
   else
     {
@@ -276,6 +276,7 @@ export class EditEnseignantLibreComponent implements OnInit {
     this.enseignantServices.updateEnseignantLibre(this.enseignantLibre)
     .subscribe(data=>{
       this.showSuccess();
+      if(this.chargeSem!=null)
       this.EnregistreChargeSem(data);
       this.EnregistrerDiplomeP(data);
       if(this.etat.libelleEtat=="non-actif" && this.etatPersonnel!=null)

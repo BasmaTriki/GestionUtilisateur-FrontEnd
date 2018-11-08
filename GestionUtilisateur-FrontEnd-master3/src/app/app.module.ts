@@ -49,7 +49,7 @@ import {
   MatTableModule,
   MatPaginatorModule,
   MatCardModule,
-  MatTooltipModule, MatSidenavModule, MatDialogModule, MatSnackBarModule, MatSlideToggleModule, MatGridListModule, MAT_DATE_LOCALE, DateAdapter, MAT_DATE_FORMATS
+  MatTooltipModule, MatSidenavModule, MatDialogModule, MatSnackBarModule, MatSlideToggleModule, MatGridListModule, MAT_DATE_LOCALE, DateAdapter, MAT_DATE_FORMATS, MatStepperModule
 } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import '../polyfills';
@@ -148,6 +148,8 @@ import { DetailsContractuelComponent } from './details-contractuel/details-contr
 import { ToastrModule } from 'ngx-toastr';
 import { ModalDemandeVacComponent } from './modal-demande-vac/modal-demande-vac.component';
 import { PersonnelCongeComponent } from './personnel-conge/personnel-conge.component';
+import { DetailsLibreComponent } from './details-libre/details-libre.component';
+import { DetailsFonctionnaireComponent } from './details-fonctionnaire/details-fonctionnaire.component';
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient);
@@ -239,7 +241,9 @@ export function createTranslateLoader(http: HttpClient) {
     ListeEnseignantContractuelComponent,
     DetailsContractuelComponent,
     ModalDemandeVacComponent,
-    PersonnelCongeComponent
+    PersonnelCongeComponent,
+    DetailsLibreComponent,
+    DetailsFonctionnaireComponent
   ],
   imports: [
     BrowserModule,
@@ -248,6 +252,7 @@ export function createTranslateLoader(http: HttpClient) {
     HttpModule,
     HttpClientModule,
     FormsModule,
+    ReactiveFormsModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot({
       timeOut: 10000,
@@ -281,6 +286,7 @@ export function createTranslateLoader(http: HttpClient) {
     MatGridListModule,
     MatMomentDateModule,
     DataTablesModule,
+    MatStepperModule,
     ChartsModule,
     TranslateModule.forRoot({
       loader: {
