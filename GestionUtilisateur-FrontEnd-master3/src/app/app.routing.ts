@@ -2,7 +2,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { UsersComponent } from './users/users.component';
 import {RouterModule, Routes} from '@angular/router';
-import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
 import { NewUserComponent } from './new-user/new-user.component';
 import { EditUserComponent } from './edit-user/edit-user.component';
 import { LoginComponent } from './login/login.component';
@@ -64,8 +63,6 @@ import { ListeMutationComponent } from './liste-mutation/liste-mutation.componen
 import { EditServiceComponent } from './edit-service/edit-service.component';
 import { EditOrganismeComponent } from './edit-organisme/edit-organisme.component';
 import { ListeCongeRattrapeComponent } from './liste-conge-rattrape/liste-conge-rattrape.component';
-import { HttpClient } from '@angular/common/http';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ListeCongeNaccepterComponent } from './liste-conge-naccepter/liste-conge-naccepter.component';
 import { ModalImportationComponent } from './modal-importation/modal-importation.component';
 import { ListeEnseignantFonctionnaireComponent } from './liste-enseignant-fonctionnaire/liste-enseignant-fonctionnaire.component';
@@ -85,6 +82,9 @@ import { DetailAdministratifComponent } from './detail-administratif/detail-admi
 import { DetailsLibreComponent } from './details-libre/details-libre.component';
 import { DetailsFonctionnaireComponent } from './details-fonctionnaire/details-fonctionnaire.component';
 import { EditEnseignantFonctionnaireComponent } from './edit-enseignant-fonctionnaire/edit-enseignant-fonctionnaire.component';
+import { EditEnseignantContractuelComponent } from './edit-enseignant-contractuel/edit-enseignant-contractuel.component';
+import { DetailsContractuelComponent } from './details-contractuel/details-contractuel.component';
+import { MotPassOblierComponent } from './mot-pass-oblier/mot-pass-oblier.component';
 const appRoutes:Routes=[
   {path:'login',component:LoginComponent},
   {path:'users', canActivate: [AuthGuard],component:UsersComponent},
@@ -165,7 +165,10 @@ const appRoutes:Routes=[
   {path:'ListeEnseigContractuel', canActivate: [AuthGuard],component:ListeEnseignantContractuelComponent},
   {path:'editService/:idServ', canActivate: [AuthGuard],component:EditServiceComponent},
   {path:'editVacationLibre/:idPers', canActivate: [AuthGuard],component:EditEnseignantLibreComponent},
+  {path:'EditEnseignantContractuel/:idPers', canActivate: [AuthGuard],component:EditEnseignantContractuelComponent},
+  {path:'DetailsEnseignantContractuel/:idPers', canActivate: [AuthGuard],component:DetailsContractuelComponent},
   {path:'AjouterVacataire/:idDemande', canActivate: [AuthGuard],component:AjouterVacataireComponent},
+  {path:'MotPassOblier',component:MotPassOblierComponent},
   {path:'',redirectTo:'/login',pathMatch:'full'}
 ];
 @NgModule({

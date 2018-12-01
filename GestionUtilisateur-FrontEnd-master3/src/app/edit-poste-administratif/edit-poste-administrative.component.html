@@ -7,13 +7,16 @@
       <mat-form-field>
         <input matInput placeholder="ID" [(ngModel)]="posteAdmin.id" disabled>
       </mat-form-field>
-      <mat-form-field>
-        <input matInput placeholder="Libellé" [(ngModel)]="posteAdmin.libellePos">
+      <mat-form-field matTooltip="3 caractéres au minimum" matTooltipPosition="above">
+        <input matInput placeholder="Libellé" [formControl]="libelleFr" [(ngModel)]="posteAdmin.libellePos">
+        <mat-error *ngIf="libelleFr.invalid">{{getErrorMessageFr()}}</mat-error>
       </mat-form-field>
-      <mat-form-field>
-          <input matInput placeholder="الخطة الوظيفية" [(ngModel)]="posteAdmin.libellePosAr">
+      <mat-form-field matTooltip="4 caractéres au minimum" matTooltipPosition="above">
+          <input matInput placeholder="الخطة الوظيفية" [formControl]="libelleAr" [(ngModel)]="posteAdmin.libellePosAr">
+          <mat-error *ngIf="libelleAr.invalid">{{getErrorMessageAr()}}</mat-error>
         </mat-form-field>
-          <button mat-mini-fab color="primary" (click)="updatePosteAdmin()"><mat-icon>create</mat-icon></button>
+          <button mat-mini-fab color="primary" class="btn btn-primary" [disabled]="valideFormulaire()" (click)="updatePosteAdmin()"><mat-icon>create</mat-icon></button>
+          <button mat-mini-fab color="default" (click)="Annuler()"><mat-icon>clear</mat-icon></button>
         </div>
     </div>
   </div>

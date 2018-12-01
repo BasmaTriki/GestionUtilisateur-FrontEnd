@@ -7,6 +7,7 @@ import * as $ from 'jquery';
 import 'datatables.net';
 import 'datatables.net-bs4';
 import { HttpClient } from '@angular/common/http';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-specialite',
   templateUrl: './specialite.component.html',
@@ -21,23 +22,30 @@ export class SpecialiteComponent implements OnInit {
   specialite:Specialite=new Specialite();
   specialites:Array<Specialite>=new Array<Specialite>();
   dataTable: any;
-  libelleFr=new FormControl('',[Validators.pattern("[a-zA-Z ]+"),Validators.minLength(5)]);
-  libelleAr=new FormControl('',[Validators.required,Validators.minLength(5)]);
+  libelleFr=new FormControl('',[Validators.pattern("[a-zA-Zéàçèùî' ]+"),Validators.minLength(3)]);
+  libelleAr=new FormControl('',[Validators.pattern("[أ-يءئىآؤة ]+"),Validators.required,Validators.minLength(4)]);
+  lang:string="";
   constructor(private specialiteServices:SpecialiteServices,
     private chRef: ChangeDetectorRef, 
+    private toastr: ToastrService,
     private http: HttpClient,
     public router:Router) { }
 
   ngOnInit() {
     this.doSearch();
+    this.lang=sessionStorage.getItem("lang");
   }
   ajouter(){
     this.specialiteServices.saveSpecialite(this.specialite)
       .subscribe(data=>{
-        alert("Success d'ajout");
+        this.showSuccess();
         this.doSearch();
+        this.router.navigate(['/specialite']);
+        this.specialite=new Specialite();
+        //window.location.reload();
       },err=>{
         console.log(err);
+        this.toastr.error("Veuillez vérifier les informations saisies");
       });
   }
   doSearch(){
@@ -53,20 +61,37 @@ export class SpecialiteComponent implements OnInit {
       })
   }
   getErrorMessageFr() {
-    return this.libelleFr.hasError('pattern') ? 'des caractères seulement' :
-     this.libelleFr.hasError('minLength') ? 'le minimum 3 chiffres' :
+    return this.libelleFr.hasError('pattern') ? 'des caractères en français seulement' :
+    this.specialite.libelleSp.length < 3 ? 'Au minimum 3 caractéres' :
             '';
   }
   getErrorMessageAr() {
-    return this.libelleAr.hasError('required') ? 'Champs obligatoire' :
-     this.libelleAr.hasError('minLength') ? 'le minimum 3 chiffres' :
+    return this.libelleAr.hasError('pattern') ? 'des caractères en arabe seulement' :
+    this.libelleAr.hasError('required') ? 'Champ obligatoire' :
+    this.specialite.libelleSpAr.length < 4 ? 'Au minimum 4 caractéres' :
             '';
   }
   valideFormulaire()
   {
-    if((this.specialite.libelleSp!=""&& !(this.libelleFr.hasError('pattern'))&&!(this.libelleFr.hasError('minLength')))|| ((this.specialite.libelleSpAr!="") &&(this.specialite.libelleSpAr.length>=4)))
+    if((this.specialite.libelleSpAr!="") &&(this.specialite.libelleSpAr.length>=4) && !(this.libelleAr.hasError('pattern')))
     {
-      return false;
+      if(this.specialite.libelleSp!=""&& (this.libelleFr.hasError('pattern'))&&(this.specialite.libelleSp.length<3))
+      {
+       return true;
+      }  
+      else if(this.specialite.libelleSp!="" && !(this.libelleFr.hasError('pattern'))&&(this.specialite.libelleSp.length<3))
+      {
+        return true;
+      }
+      else if(this.specialite.libelleSp!="" && (this.libelleFr.hasError('pattern'))&&(this.specialite.libelleSp.length>=3))
+      {
+        return true;
+      }
+      else if(this.specialite.libelleSp!="" && !(this.libelleFr.hasError('pattern'))&&(this.specialite.libelleSp.length>=3))
+      {
+        return false;
+      }
+    return false;
     }
     else
     return true;
@@ -75,7 +100,7 @@ export class SpecialiteComponent implements OnInit {
     this.router.navigate(['editSpecialite',idSp]);
   }
   onDeleteSpecialite(s:Specialite){
-    let confirm=window.confirm("Etes-vous sûre?");
+    let confirm=window.confirm("Voulez-vous vraiment supprimer le spécialité?");
     if(confirm==true)
     {
       this.specialiteServices.deleteSpecialite(s.idSp)
@@ -87,6 +112,16 @@ export class SpecialiteComponent implements OnInit {
         },err=>{
           console.log(err);
         })
+    }
+  }
+  showSuccess() {
+    if(this.lang=='fr')
+    {
+      this.toastr.success("L'ajout de specialité a été effectué avec succès");
+    }
+  else
+    {
+      this.toastr.success("تمت إضافة الإختصاص بنجاح");
     }
   }
 }

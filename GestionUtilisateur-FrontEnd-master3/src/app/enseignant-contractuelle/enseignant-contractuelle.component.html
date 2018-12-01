@@ -61,7 +61,7 @@
   <mat-radio-button value="Divorcé(e)">Divorcé(e)</mat-radio-button>
   <mat-radio-button value="Veuf(ve)">Veuf(ve)</mat-radio-button>
 </mat-radio-group>
-<mat-form-field *ngIf="enseignantP.etatCivil=='Marié(e)'">
+<!-- <mat-form-field *ngIf="enseignantP.etatCivil=='Marié(e)'">
   <input matInput placeholder="Nom Conjoint" type="text" name="nomconj" [(ngModel)]="enseignantP.nomConjoint">
 </mat-form-field>
 <mat-form-field *ngIf="enseignantP.etatCivil=='Marié(e)'">
@@ -69,7 +69,7 @@
 </mat-form-field>
 <mat-form-field *ngIf="enseignantP.etatCivil=='Marié(e)'">
     <input matInput placeholder="Sociéte de travaille de Conjoint" type="text" name="societConj" [(ngModel)]="enseignantP.societConj">
-    </mat-form-field>
+    </mat-form-field> -->
 </mat-expansion-panel>
 <!--Formulaire Arabe-->
 <mat-expansion-panel>
@@ -114,7 +114,7 @@
 </mat-form-field>
 <mat-form-field>
   <input matInput placeholder="البريد الإلكتروني" type="email" name="email" [(ngModel)]="enseignantP.email" required>
-  <!--<mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>-->
+  <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
 </mat-form-field>
 <mat-form-field>
     <textarea matInput placeholder="العنوان" type="text" name="adressear" [(ngModel)]="enseignantP.adresseAr" required></textarea>
@@ -144,35 +144,6 @@
   <input matInput placeholder="مؤسسة عمل القرين" type="text" name="Societear" [(ngModel)]="enseignantP.societConjAr">
   </mat-form-field>
 </mat-expansion-panel>
-<!--end Formulaire Arabe-->
-
-    <mat-expansion-panel *ngIf="enseignantP.etatCivil=='Marié(e)'||enseignantP.etatCivil=='Veuf(ve)'||enseignantP.etatCivil=='Divorcé(e)'||enseignantP.etatCivilAr=='(متزوج(ة'||enseignantP.etatCivilAr=='(مطلق(ة'||enseignantP.etatCivilAr=='(أرمل(ة'">
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          {{'Table.CEnfants' | translate}}
-        </mat-panel-title>
-        <mat-panel-description *ngIf="lang=='fr'">
-          {{enseignantP.prenom+"   "+enseignantP.nom}}
-          </mat-panel-description>
-          <mat-panel-description *ngIf="lang=='ar'">
-            {{enseignantP.prenomAr+"   "+enseignantP.nomAr}}
-            </mat-panel-description>
-      </mat-expansion-panel-header>
-      <form *ngFor="let e of enfants; let i=index">
-        <mat-form-field>
-          <input matInput placeholder="Nom Enfant" type="text" name="nomenf" required [(ngModel)]="e.nom">
-        </mat-form-field>
-        <mat-form-field>
-            <input matInput placeholder="إسم الإبن" type="text" name="nomar" required [(ngModel)]="e.nomAr">
-          </mat-form-field>
-        <mat-form-field>
-          <input matInput [matDatepicker]="pickerEn" placeholder="Date de Naissance/تاريخ الولادة" name="date_nais" required [(ngModel)]="e.date_nais">
-          <mat-datepicker-toggle matSuffix [for]="pickerEn"></mat-datepicker-toggle>
-          <mat-datepicker #pickerEn></mat-datepicker>
-        </mat-form-field>
-      </form>
-      <button mat-mini-fab color="primary" (click)="ajouterEnfants()"><mat-icon>add</mat-icon></button>
-    </mat-expansion-panel>
 <mat-expansion-panel>
 <mat-expansion-panel-header>
   <mat-panel-title>
@@ -198,18 +169,6 @@
       {{ d.nomDep+" / "+d.nomDepAr }}
     </mat-option>
   </mat-select>
-</mat-form-field>
-<mat-form-field>
-  <mat-select placeholder="Organisme Origine/المؤسسة الأصلية" [(value)]="orgOrigine" required name="org">
-    <mat-option *ngFor="let o of orgOrigines" [value]="o">
-      {{ o.libelleOrg+" / "+o.libelleOrgAr }}
-    </mat-option>
-  </mat-select>
-</mat-form-field>
-<mat-form-field>
-  <input matInput [matDatepicker]="picker7" placeholder="Date d'entrée/تاريخ الدخول" [(ngModel)]="enseignantP.dateEntree" name="dateorg">
-  <mat-datepicker-toggle matSuffix [for]="picker7"></mat-datepicker-toggle>
-  <mat-datepicker #picker7></mat-datepicker>
 </mat-form-field>
 <mat-form-field>
   <mat-select placeholder="Etat/الحالة" [(value)]="etat" required name="etat">
@@ -367,8 +326,8 @@
     </form>
       <button mat-mini-fab color="primary" (click)="ajouterContrat()"><mat-icon>add</mat-icon></button>
     </mat-expansion-panel>
-  <button mat-raised-button color="primary" (click)="Enregistrer()">{{'Table.CAjouterBot'| translate}}</button>
-  <button mat-raised-button color="primary" (click)="fe.reset()">{{'Table.CAnnuler'| translate}}</button>
+  <button class="btn btn-primary"  (click)="Enregistrer()">{{'Table.CAjouterBot'| translate}}</button>
+  <button class="btn btn-warning" (click)="Annuler()">{{'Table.CAnnuler'| translate}}</button>
   </form>
   </mat-accordion>
 

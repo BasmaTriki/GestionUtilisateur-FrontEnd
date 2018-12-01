@@ -5,12 +5,14 @@
   <div class="panel-body">
     <div>
       <mat-form-field>
-        <input matInput placeholder="Titre" [(ngModel)]="diplome.titreDip">
+        <input matInput placeholder="Titre" [formControl]="libelleFr" [(ngModel)]="diplome.titreDip">
+        <mat-error *ngIf="libelleFr.invalid">{{getErrorMessageFr()}}</mat-error>
       </mat-form-field>
       <mat-form-field>
-          <input matInput placeholder="الشهادة العلمية" [(ngModel)]="diplome.titreDipAr">
+          <input matInput placeholder="الشهادة العلمية" [formControl]="libelleAr" [(ngModel)]="diplome.titreDipAr" required>
+          <mat-error *ngIf="libelleAr.invalid">{{getErrorMessageAr()}}</mat-error>
         </mat-form-field>
-      <button mat-mini-fab color="primary" (click)="ajouter()">
+      <button mat-mini-fab  class="btn btn-primary" color="primary" [disabled]="valideFormulaire()" (click)="ajouter()">
         <mat-icon>add</mat-icon></button>
     </div>
     <mat-tab-group class="demo-tab-group">

@@ -8,13 +8,22 @@ export class PersonnelServices {
   constructor(public http: Http) {
   }
 
-getTypePersonnel(motCle:number) {
-    return this.http.get("http://localhost:8080/chercherTypePersonnel?mc=" + motCle)
+getMatPersonnel(matricule:String) {
+    return this.http.get("http://localhost:8080/chercherMatriculePersonnel?mc=" + matricule)
       .map(resp => resp.json())
   }
-
+  EmailNouvelleCmp(idPers:number)
+  {
+    return this.http.get("http://localhost:8080/NouvelleComptePersonnel/"+idPers)
+      .map(resp=>resp.json())
+  }
+  EmailMotPassOblier(idPers:number,mail:string)
+  {
+    return this.http.get("http://localhost:8080/MotPassOblierPersonnel?id="+idPers+"&mail="+mail)
+      .map(resp=>resp.json())
+  }
   getPersonnel(idPers: number) {
-    return this.http.get("http://localhost:8080/Personnel/" +idPers)
+    return this.http.get("http://localhost:8080/Personnel/"+idPers)
       .map(resp => resp.json())
   }
 

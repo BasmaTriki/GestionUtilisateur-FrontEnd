@@ -1,35 +1,3 @@
-<!-- <div id="LoginForm">
-<div class="container">
-<div class="row">
-    
-    <div class="col-md-4 col-sm-4 col-xs-12"></div>
-    <div class="col-md-4 col-sm-4 col-xs-12">
-   
-      <form class="form-container">
-          <img alt="User Pic" src="../../assets/images/user_pic.png" class="avatar">
-        <h1 align="center">Bienvenu </h1>
-        <div class="form-group">
-          <label for="us">Login</label>
-          <input type="text" class="form-control" id="us" placeholder="Username" name="login"[(ngModel)]="login">
-        </div>
-        <div class="form-group">
-          <label for="pas">Mot de passe</label>
-          <input type="password" class="form-control" id="pas" placeholder="Password" name="motpasse"[(ngModel)]="motpasse">
-        </div>
-        <div class="checkbox">
-          <label>
-            <input type="checkbox"> Remember me
-          </label>
-        </div>
-        <button type="submit" class="btn btn-success btn-block" (click)="chercheUser()">Connexion</button>
-      </form>
-
-    
-    </div>
-    <div class="col-md-4 col-sm-4 col-xs-12"></div>
-  </div>
-</div>
-</div> -->
 <div id="LoginForm">
     <div id="lang"> <button mat-mini-fab class="buttonColor" (click)="switchLanguage('fr')">Fr</button>
       <button mat-mini-fab class="buttonColor" (click)="switchLanguage('ar')">عربي</button></div>
@@ -46,11 +14,12 @@
             <input type="text" class="form-control" placeholder="Login" name="login" [(ngModel)]="login" required="required">
         </div>
         <div class="form-group">
-            <input type="password" class="form-control" placeholder="Mot de Passe" required="required" name="motpasse" [(ngModel)]="motpasse">
-        </div>
+            <input class="form-control" placeholder="Mot de Passe" [type]="hide ? 'password' : 'text'" required="required" name="motpasse" [(ngModel)]="motpasse">
+           <!--  <mat-icon matSuffix class="clickable" (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon> -->
+          </div>
         <div class="form-group small clearfix">
             <!-- <label class="checkbox-inline"><input type="checkbox"> Remember me</label> -->
-            <!-- <a href="/" class="forgot-link">Mot de passe oublié?</a> -->
+          <a routerLink="/MotPassOblier" class="forgot-link">Mot de passe oublié?</a>
         </div> 
         <input type="submit" class="btn btn-primary btn-block btn-lg" (click)="chercheUser()" value="Connexion">              
     </form>		

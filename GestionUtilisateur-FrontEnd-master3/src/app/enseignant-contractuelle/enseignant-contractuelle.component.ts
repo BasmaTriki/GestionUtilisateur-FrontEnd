@@ -33,6 +33,9 @@ import { EtatPersonnelServices } from '../../services/etatPersonnel.services';
 import { EtatPersonnel } from '../../model/model.etatPersonnel';
 import { ContratServices } from '../../services/contrat.services';
 import { Contrat } from '../../model/model.Contrat';
+import { EnseignantContractuel } from '../../model/model.enseignantContractuel';
+import { EnseignantContractuelServices } from '../../services/enseignantcontractuel.services';
+
 
 @Component({
   selector: 'app-enseignant-contractuelle',
@@ -45,7 +48,7 @@ export class EnseignantContractuelleComponent implements OnInit {
   currentPage: number = 0;
   pages: Array<number>;
   size: number = 5;
-  enseignantP: EnseignantPermanent = new EnseignantPermanent();
+  enseignantP:EnseignantContractuel = new EnseignantContractuel();
   departements: Array<Departement> = new Array<Departement>();
   grades: Array<Grade> = new Array<Grade>();
   corps: Array<Corps> = new Array<Corps>();
@@ -58,9 +61,6 @@ export class EnseignantContractuelleComponent implements OnInit {
   agrade:AGrade=new AGrade();
   grade:Grade=new Grade();
   AGrades:Array<AGrade>=new Array<AGrade>();
-  corp:Corps=new Corps();
-  enfants:Array<Enfant>=new Array<Enfant>();
-  enfant:Enfant=new Enfant();
   diplomes: Array<Diplome> = new Array<Diplome>();
   diplome:Diplome=new Diplome();
   diplomep:DiplomePersonnel=new DiplomePersonnel();
@@ -81,16 +81,13 @@ export class EnseignantContractuelleComponent implements OnInit {
   constructor(private agradeServices:AGradeServices,
               private gradeServices: GradeServices,
               private corpsServices: CorpsServices,
-              private enseingnantpermanentService:EnseignantPermanentServices,
-              private enfantservice: EnfantServices,
+              private enseingnantpermanentService:EnseignantContractuelServices,
               private departementServices: DepartementServices,
               private diplomeService:DiplomeServices,
               private specialiteServices:SpecialiteServices,
               private diplomePServices:DiplomePersonnelServices,
               private etatServices:EtatServices,
               private etatPersonnelServices:EtatPersonnelServices,
-              private periodeServices:PeriodeServices,
-              private posteServices: PosteAdministrativeServices,
               private organismeServices:OrganismeServices,
               private contratServices:ContratServices,
               public http: Http,
@@ -105,13 +102,10 @@ export class EnseignantContractuelleComponent implements OnInit {
     this.chercherSpecialite();
     this.chercherEtats();
     this.chercherOrg();
-    this.enfants.push(this.enfant);
     this.diplomep.diplome=this.diplome;
     this.diplomep.organisme=this.organisme;
     this.diplomepers.push(this.diplomep);
     this.AGrades.push(this.agrade);
-    this.periode.posteAdmin=this.poste;
-    this.periodes.push(this.periode);
     this.contrats.push(this.contrat);
     this.lang=sessionStorage.getItem('lang');
   }
@@ -187,7 +181,7 @@ export class EnseignantContractuelleComponent implements OnInit {
   }, err => {
     console.log(err);
   });
-  this.enseingnantpermanentService.updateEnseignantPermanent(en)
+  this.enseingnantpermanentService.updateEnseignantContractuel(en)
   .subscribe(data => {
     console.log(data);
   }, err => {
@@ -219,33 +213,10 @@ EnregistrerEtatPersonnel(en:EnseignantPermanent)
         });
     }
   }
-    EnregistrerEnfant(en:EnseignantPermanent) {
-    if(en.etatCivil=="Celibataire")
-    {
-      return;
-    }
-    else
-    {
-      for(let e of this.enfants)
-      {e.personnel=en;
-        this.enfantservice.saveEnfant(e)
-          .subscribe(data => {
-           en.enfants.push(e);
-          }, err => {
-            console.log(err);
-          });
-      }
-      this.enseingnantpermanentService.updateEnseignantPermanent(en)
-      .subscribe(data=>{
-        console.log(data);
-      },err=>{
-        console.log(err);
-      })
-    }
-  }
+   
   EnregistrerContrat(en:EnseignantPermanent) {
     for(let c of this.contrats)
-    {c.enseignantPermanent=en;
+    {c.enseignantContractuel=en;
       this.contratServices.saveContrat(c)
         .subscribe(data => {
           console.log("Success d'ajout contrat");
@@ -260,19 +231,11 @@ EnregistrerEtatPersonnel(en:EnseignantPermanent)
   this.enseignantP.departement=this.departement;
   this.enseignantP.specialite=this.specialite;
   this.enseignantP.etat=this.etat;
-  this.enseignantP.login=this.enseignantP.prenom+mat;
-  this.enseignantP.motpasse=this.enseignantP.prenom+mat;
+  this.enseignantP.login=null;
+  this.enseignantP.motpasse=null;
   this.role.idRole=2;
   this.role.type="utilisateur";
   this.enseignantP.role=this.role;
-  if(this.orgOrigine!=null)
-  {
-    this.enseignantP.organismeOrigine=this.orgOrigine;
-  }
-  else
-  {
-    this.enseignantP.organismeOrigine=null;
-  }
   if(this.lang=="fr")
   {
     if(this.enseignantP.sexe=="Femme")
@@ -323,22 +286,18 @@ EnregistrerEtatPersonnel(en:EnseignantPermanent)
       this.enseignantP.etatCivil="Divorcé(e)";
     }
   }
-  this.enseingnantpermanentService.saveEnseignantPermanent(this.enseignantP)
+  this.enseingnantpermanentService.saveEnseignantContractuel(this.enseignantP)
       .subscribe(data=>{
         alert("Success d'ajout");
         console.log(data);
         this.enseignantP=data;
+        this.EnregistrerContrat(data);
         this.EnregistrerDiplomeP(data);
         if(this.enseignantP.etat.libelleEtat=="non-actif"||this.enseignantP.etat.libelleEtat=="détaché")
         {
           this.EnregistrerEtatPersonnel(data);
         }
-        if(this.enseignantP.etatCivil!='Celibataire')
-        {
-          this.EnregistrerEnfant(data);
-        }
         this.EnregistrerAgrade(data);
-        this.EnregistrerContrat(data);
       },err=>{
         console.log(err);
       });
@@ -385,11 +344,11 @@ EnregistrerEtatPersonnel(en:EnseignantPermanent)
     this.diplomepers.push(this.diplomep);
    
   }
-  ajouterEnfants()
+/*   ajouterEnfants()
   {
     this.enfant = new Enfant();
     this.enfants.push(this.enfant);
-  }
+  } */
   ajouterGrade()
   {
     this.agrade=new AGrade();

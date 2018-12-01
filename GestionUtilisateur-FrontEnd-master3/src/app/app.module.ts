@@ -150,6 +150,8 @@ import { ModalDemandeVacComponent } from './modal-demande-vac/modal-demande-vac.
 import { PersonnelCongeComponent } from './personnel-conge/personnel-conge.component';
 import { DetailsLibreComponent } from './details-libre/details-libre.component';
 import { DetailsFonctionnaireComponent } from './details-fonctionnaire/details-fonctionnaire.component';
+import { EnseignantContractuelServices } from '../services/enseignantcontractuel.services';
+import { MotPassOblierComponent } from './mot-pass-oblier/mot-pass-oblier.component';
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient);
@@ -243,7 +245,8 @@ export function createTranslateLoader(http: HttpClient) {
     ModalDemandeVacComponent,
     PersonnelCongeComponent,
     DetailsLibreComponent,
-    DetailsFonctionnaireComponent
+    DetailsFonctionnaireComponent,
+    MotPassOblierComponent
   ],
   imports: [
     BrowserModule,
@@ -298,7 +301,7 @@ export function createTranslateLoader(http: HttpClient) {
   ],
   schemas:[NO_ERRORS_SCHEMA],
   providers: [PeriodeServices,EnfantServices,CorpsServices,DiplomeServices,GradeServices,DepartementServices,EnseignantPermanentServices,AGradeServices,DiplomePersonnelServices,TypeCongeServices,CongeServices,MutationServices,
-    TypeMutationsServices,RoleServices,AuthGuard,ImpressionServices,ContratServices,SemestreServices,ChargeSemestreServices,ImportationServices,EtatServices,EtatPersonnelServices,AnneeUniversitaireServices,PosteAdministrativeServices,DemandeVacationServices,PersonnelServices,SpecialiteServices,OrganismeServices,ServiceServices,AdministratifServices,EnseignantFonctionnaireEtatServices,EnseignantLibreServices,
+    TypeMutationsServices,RoleServices,EnseignantContractuelServices,AuthGuard,ImpressionServices,ContratServices,SemestreServices,ChargeSemestreServices,ImportationServices,EtatServices,EtatPersonnelServices,AnneeUniversitaireServices,PosteAdministrativeServices,DemandeVacationServices,PersonnelServices,SpecialiteServices,OrganismeServices,ServiceServices,AdministratifServices,EnseignantFonctionnaireEtatServices,EnseignantLibreServices,
     {provide: MAT_DATE_LOCALE, useValue: 'fr-FR'},
     {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
     { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },

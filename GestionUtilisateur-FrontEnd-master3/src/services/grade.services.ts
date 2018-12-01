@@ -35,4 +35,16 @@ export class GradeServices {
     return this.http.get("http://localhost:8080/Grades")
       .map(resp => resp.json())
   }
+  getNomberEnseignantCps() {
+    return this.http.get("http://localhost:8080/NomberEnseignantCps")
+      .map(resp => resp.json())
+  }
+  getListeCorps() {
+    return this.http.get("http://localhost:8080/ListeCorps")
+      .map(resp => resp.json())
+  }
+  getListeCorpsAr() {
+    return this.http.get("http://localhost:8080/ListeCorpsAr")
+      .map(resp => resp.json())
+  }
 }

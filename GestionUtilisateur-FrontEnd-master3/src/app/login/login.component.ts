@@ -18,8 +18,10 @@ export class LoginComponent implements OnInit {
   motpasse:string="";
   currentPage:number=0;
   pages:Array<number>;
+  nb:number=0;
   size:number=5;
   idUser:number;
+  hide = true;
   personnel:Personnel=new Personnel();
   lang:string="fr";
   constructor(public http:Http,
@@ -56,6 +58,11 @@ export class LoginComponent implements OnInit {
       },err=>{
         console.log(err);
         this.toastr.error("Veuillez vérifier votre login et votre mot de passe",'Erreur')
+        this.nb++;
+        if(this.nb==3)
+        {
+          this.router.navigate(['/MotPassOblier']);
+        }
       })
   }
   chercheUser(){

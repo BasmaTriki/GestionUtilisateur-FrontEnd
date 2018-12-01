@@ -1,7 +1,8 @@
-import { EnseignantPermanent } from "./model.enseignantpermanent";
+
+import { EnseignantContractuel } from "./model.enseignantContractuel";
 export class Contrat {
  idContrat:number;
  dateDebutCont:Date;
  dateFinCont:Date;
- enseignantPermanent:EnseignantPermanent=null;
+ enseignantContractuel:EnseignantContractuel=null;
 }

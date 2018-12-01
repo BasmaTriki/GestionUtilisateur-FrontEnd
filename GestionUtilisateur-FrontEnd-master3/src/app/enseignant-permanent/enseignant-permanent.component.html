@@ -26,17 +26,20 @@
       <input matInput placeholder="Prenom" [formControl]="prenom" type="text" name="prenom" [(ngModel)]="enseignantP.prenom" required>
       <mat-error *ngIf="prenom.invalid">{{getErrorMessageP()}}</mat-error>
     </mat-form-field>
-    <mat-form-field>
-      <input matInput placeholder="Nom de Pére" type="text" name="nompere" [(ngModel)]="enseignantP.nompere">
+    <mat-form-field matTooltip="3 caractéres au minimum" matTooltipPosition="above">
+      <input matInput placeholder="Nom de Pére" [formControl]="nomPereFr" type="text" name="nompere" [(ngModel)]="enseignantP.nompere">
+      <mat-error *ngIf="nomPereFr.invalid">{{getErrorMessageNpereFr()}}</mat-error>
     </mat-form-field>
     <mat-form-field>
       <input matInput [matDatepicker]="picker" placeholder="Date de Naissance" name="datenais" [(ngModel)]="enseignantP.datenaissance" required>
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
-    <mat-form-field>
-      <input matInput placeholder="Lieu de Naissance" type="text" name="lieu" [(ngModel)]="enseignantP.lieuNaissance">
+    <mat-form-field matTooltip="3 caractéres au minimum" matTooltipPosition="above">
+      <input matInput placeholder="Lieu de Naissance" [formControl]="lieuNaissFr" type="text" name="lieu" [(ngModel)]="enseignantP.lieuNaissance">
+      <mat-error *ngIf="lieuNaissFr.invalid">{{getErrorMessageLNaisFr()}}</mat-error>
     </mat-form-field>
+  
     <mat-radio-group [(ngModel)]="enseignantP.sexe" name="sexe">
       <mat-radio-button value="Femme">Femme</mat-radio-button>
       <mat-radio-button value="Homme">Homme</mat-radio-button>
@@ -59,8 +62,9 @@
       <mat-error *ngIf="codePostal.invalid">{{getErrorMessageCode()}}</mat-error>
     </mat-form-field>
        <mat-form-field  matTooltip="Max 20 chiffres">
-      <input matInput #input3 maxlength="20" placeholder="RIB" type="text" name="rib" [(ngModel)]="enseignantP.rib">
+      <input matInput #input3 maxlength="20" [formControl]="rib" placeholder="RIB" type="text" name="ribfr" [(ngModel)]="enseignantP.rib">
       <mat-hint align="end">{{input3.value?.length||0}}/20</mat-hint>
+      <mat-error *ngIf="rib.invalid">{{getErrorMessagerRib()}}</mat-error>
     </mat-form-field><br>
     <mat-radio-group [(ngModel)]="enseignantP.etatCivil" name="etatcivil" #etatcivil>
       <mat-radio-button value="Célibataire">Célibataire</mat-radio-button>
@@ -68,15 +72,21 @@
       <mat-radio-button value="Divorcé(e)">Divorcé(e)</mat-radio-button>
       <mat-radio-button value="Veuf(ve)">Veuf(ve)</mat-radio-button>
     </mat-radio-group>
-    <mat-form-field *ngIf="enseignantP.etatCivil=='Marié(e)'">
-      <input matInput placeholder="Nom Conjoint" type="text" name="nomconj" [(ngModel)]="enseignantP.nomConjoint">
+    <mat-form-field *ngIf="enseignantP.etatCivil=='Marié(e)'" matTooltip="3 caractères au minimum" matTooltipPosition="above">
+      <input matInput placeholder="Nom Conjoint" [formControl]="nomConjFr" type="text" name="nomconj" [(ngModel)]="enseignantP.nomConjoint">
+      <mat-error *ngIf="nomConjFr.invalid">{{getErrorMessageNomConjFr()}}</mat-error>
     </mat-form-field>
-    <mat-form-field *ngIf="enseignantP.etatCivil=='Marié(e)'">
-    <input matInput placeholder="Profession Conjoint" type="text" name="profConj" [(ngModel)]="enseignantP.profConjoint">
+   
+    <mat-form-field *ngIf="enseignantP.etatCivil=='Marié(e)'" matTooltip="3 caractères au minimum" matTooltipPosition="above">
+    <input matInput placeholder="Profession Conjoint" [formControl]="profConjFr" type="text" name="profConj" [(ngModel)]="enseignantP.profConjoint">
+    <mat-error *ngIf="profConjFr.invalid">{{getErrorMessageProfConjFr()}}</mat-error>
     </mat-form-field>
-    <mat-form-field *ngIf="enseignantP.etatCivil=='Marié(e)'">
-        <input matInput placeholder="Sociéte de travaille de Conjoint" type="text" name="societConj" [(ngModel)]="enseignantP.societConj">
+   
+    <mat-form-field *ngIf="enseignantP.etatCivil=='Marié(e)'" matTooltip="3 caractères au minimum" matTooltipPosition="above">
+        <input matInput placeholder="Lieu de travail du conjoint" [formControl]="lieuTrConjFr" type="text" name="societConj" [(ngModel)]="enseignantP.societConj">
+        <mat-error *ngIf="lieuTrConjFr.invalid">{{getErrorMessageLieuTrConjFr}}</mat-error>
         </mat-form-field>
+        
     </mat-expansion-panel>
 <!--Formulaire Arabe-->
 <mat-expansion-panel>
@@ -97,22 +107,26 @@
       <mat-hint align="end">{{input1.value?.length||0}}/8</mat-hint>
       <mat-error *ngIf="cinM.invalid">{{getErrorMessageC()}}</mat-error>
     </mat-form-field>
-    <mat-form-field>
-        <input matInput placeholder="الإسم" type="text" name="prenomar" [(ngModel)]="enseignantP.prenomAr" required>
+    <mat-form-field matTooltip="4 caractéres au minimum" matTooltipPosition="above">
+        <input matInput placeholder="الإسم" [formControl]="nomAr" type="text" name="prenomar" [(ngModel)]="enseignantP.prenomAr" required>
+        <mat-error *ngIf="nomAr.invalid">{{getErrorMessageNAr()}}</mat-error>
       </mat-form-field>
-    <mat-form-field>
-        <input matInput placeholder="اللقب" type="text" name="nomar"  [(ngModel)]="enseignantP.nomAr" required>
+    <mat-form-field matTooltip="4 caractéres au minimum" matTooltipPosition="above">
+        <input matInput placeholder="اللقب" [formControl]="prenomAr" type="text" name="nomar"  [(ngModel)]="enseignantP.nomAr" required>
+        <mat-error *ngIf="prenomAr.invalid">{{getErrorMessagePAr()}}</mat-error>
       </mat-form-field>
-      <mat-form-field>
-        <input matInput placeholder="إسم الأب" type="text" name="nomperear" [(ngModel)]="enseignantP.nompereAr">
+      <mat-form-field matTooltip="4 caractéres au minimum" matTooltipPosition="above">
+        <input matInput placeholder="إسم الأب" type="text" [formControl]="nomPereAr" name="nomperear" [(ngModel)]="enseignantP.nompereAr">
+        <mat-error *ngIf="nomPereAr.invalid">{{getErrorMessageNpereAr()}}</mat-error>
       </mat-form-field>
     <mat-form-field>
       <input matInput [matDatepicker]="pickerNai" placeholder="تاريخ الولادة" name="datenais" [(ngModel)]="enseignantP.datenaissance" required>
       <mat-datepicker-toggle matSuffix [for]="pickerNai" startView="year"></mat-datepicker-toggle>
       <mat-datepicker #pickerNai></mat-datepicker>
     </mat-form-field>
-    <mat-form-field>
-        <input matInput placeholder="مكان الولادة" type="text" name="lieuar" [(ngModel)]="enseignantP.lieuNaissanceAr">
+    <mat-form-field matTooltip="4 caractéres au minimum" matTooltipPosition="above">
+        <input matInput placeholder="مكان الولادة" [formControl]="lieuNaissAr" type="text" name="lieuar" [(ngModel)]="enseignantP.lieuNaissanceAr">
+        <mat-error *ngIf="lieuNaissAr.invalid">{{getErrorMessageLNaisAr()}}</mat-error>
       </mat-form-field>
     <mat-radio-group [(ngModel)]="enseignantP.sexeAr" name="sexear">
       <mat-radio-button value="انثى">أنثى</mat-radio-button>
@@ -136,8 +150,9 @@
       <mat-error *ngIf="codePostal.invalid">{{getErrorMessageCode()}}</mat-error>
     </mat-form-field>
     <mat-form-field>
-      <input matInput #input3 maxlength="20" placeholder="رقم الحساب الجاري" type="text" name="rib" [(ngModel)]="enseignantP.rib">
+      <input matInput #input3 maxlength="20" [formControl]="rib" placeholder="رقم الحساب الجاري" type="text" name="rib" [(ngModel)]="enseignantP.rib">
       <mat-hint align="end">{{input3.value?.length||0}}/20</mat-hint>
+      <mat-error *ngIf="rib.invalid">{{getErrorMessagerRib()}}</mat-error>
     </mat-form-field><br>
     <mat-radio-group [(ngModel)]="enseignantP.etatCivilAr" name="etatcivilar" #etatcivil>
       <mat-radio-button *ngIf="enseignantP.sexeAr==='ذكر' ||enseignantP.sexeAr===''" value="أعزب">أعزب</mat-radio-button>
@@ -146,14 +161,18 @@
       <mat-radio-button value="(مطلق(ة">(مطلق(ة</mat-radio-button>
       <mat-radio-button value="(أرمل(ة">(أرمل(ة</mat-radio-button>
     </mat-radio-group>
-    <mat-form-field *ngIf="enseignantP.etatCivilAr=='(متزوج(ة'">
-      <input matInput placeholder="إسم القرين" type="text" name="nomconjar" [(ngModel)]="enseignantP.nomConjointAr">
+    <mat-form-field *ngIf="enseignantP.etatCivilAr=='(متزوج(ة'" matTooltip="4 caractères au minimum" matTooltipPosition="above">
+      <input matInput placeholder="إسم القرين" type="text" name="nomconjar" [formControl]="nomConjAr" [(ngModel)]="enseignantP.nomConjointAr">
+      <mat-error *ngIf="nomConjAr.invalid">{{getErrorMessageNomConjAr()}}</mat-error>
     </mat-form-field>
-    <mat-form-field *ngIf="enseignantP.etatCivilAr=='(متزوج(ة'">
-    <input matInput placeholder="مهنة القرين" type="text" name="profConjar" [(ngModel)]="enseignantP.profConjointAr">
+    <mat-form-field *ngIf="enseignantP.etatCivilAr=='(متزوج(ة'" matTooltip="4 caractères au minimum" matTooltipPosition="above">
+    <input matInput placeholder="مهنة القرين" type="text" name="profConjar" [formControl]="profConjAr" [(ngModel)]="enseignantP.profConjointAr">
+    <mat-error *ngIf="profConjAr.invalid">{{getErrorMessageProfConjAr()}}</mat-error>
     </mat-form-field>
-    <mat-form-field *ngIf="enseignantP.etatCivilAr=='(متزوج(ة'">
-      <input matInput placeholder="مؤسسة عمل القرين" type="text" name="Societear" [(ngModel)]="enseignantP.societConjAr">
+    <mat-form-field *ngIf="enseignantP.etatCivilAr=='(متزوج(ة'" matTooltip="4 caractères au minimum" matTooltipPosition="above">
+      <input matInput placeholder="مؤسسة عمل القرين" type="text" name="Societear" [formControl]="lieuTrConjFr" [(ngModel)]="enseignantP.societConjAr">
+      <mat-error *ngIf="lieuTrConjFr.invalid">{{getErrorMessageLieuTrConjAr}}
+      </mat-error>
       </mat-form-field>
     </mat-expansion-panel>
 <!--end Formulaire Arabe-->
@@ -171,11 +190,13 @@
                 </mat-panel-description>
           </mat-expansion-panel-header>
           <form *ngFor="let e of enfants; let i=index">
-            <mat-form-field>
-              <input matInput placeholder="Nom Enfant" type="text" name="nomenf" required [(ngModel)]="e.nom">
+            <mat-form-field matTooltip="3 caractères au minimum" matTooltipPosition="above">
+              <input matInput placeholder="Nom Enfant" [formControl]="nomEnfantFr" type="text" name="nomenf" required [(ngModel)]="e.nom">
+              <mat-error *ngIf="nomEnfantFr.invalid">{{getErrorMessageNomEnfFr()}}</mat-error>
             </mat-form-field>
-            <mat-form-field>
-                <input matInput placeholder="إسم الإبن" type="text" name="nomar" required [(ngModel)]="e.nomAr">
+            <mat-form-field matTooltip="4 caractères au minimum" matTooltipPosition="above"> 
+                <input matInput placeholder="إسم الإبن" [formControl]="nomEnfantAr" type="text" name="nomar" required [(ngModel)]="e.nomAr">
+                <mat-error *ngIf="nomEnfantAr.invalid">{{getErrorMessageNomEnfAr()}}</mat-error>
               </mat-form-field>
             <mat-form-field>
               <input matInput [matDatepicker]="pickerEn" placeholder="Date de Naissance/تاريخ الولادة" name="date_nais" required [(ngModel)]="e.date_nais">

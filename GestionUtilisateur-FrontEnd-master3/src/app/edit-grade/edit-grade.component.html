@@ -8,10 +8,12 @@
         <input matInput placeholder="ID" [(ngModel)]="grade.id" disabled>
       </mat-form-field>
       <mat-form-field>
-        <input matInput placeholder="Titre" [(ngModel)]="grade.titre">
+        <input matInput placeholder="Titre" [formControl]="libelleFr" [(ngModel)]="grade.titre">
+        <mat-error *ngIf="libelleFr.invalid">{{getErrorMessageFr()}}</mat-error>
       </mat-form-field>
       <mat-form-field>
-          <input matInput placeholder="الرتبة" [(ngModel)]="grade.titreAr">
+          <input matInput placeholder="الرتبة" [formControl]="libelleAr" [(ngModel)]="grade.titreAr">
+          <mat-error *ngIf="libelleAr.invalid">{{getErrorMessageAr()}}</mat-error>
         </mat-form-field>
         <div *ngIf="corps!=null && corpsModifiable==false">
             <mat-form-field>
@@ -23,13 +25,14 @@
               <button  mat-icon-button color="" (click)="ModifierCorps()"><mat-icon>create</mat-icon></button>
           </div>
           <mat-form-field *ngIf="corps===null || corpsModifiable==true">
-            <mat-select placeholder="Corps / السلك" [(value)]="corps">
+            <mat-select placeholder="Corps / السلك" [(value)]="corps"> 
               <mat-option *ngFor="let c of corpss" [value]="c">
               {{ c.libelleCps+" / "+c.libelleCpsAr }}
               </mat-option>
             </mat-select>
           </mat-form-field>
-          <button mat-mini-fab color="primary" (click)="updateGrade()"><mat-icon>create</mat-icon></button>
+          <button mat-mini-fab class="btn btn-primary" color="primary" [disabled]="valideFormulaire()" (click)="updateGrade()"><mat-icon>create</mat-icon></button>
+          <button mat-mini-fab color="default"  (click)="Annuler()"><mat-icon>clear</mat-icon></button>
         </div>
     </div>
   </div>

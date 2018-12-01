@@ -1,5 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import {Http} from '@angular/http';
+import {FormControl, Validators} from "@angular/forms";
 import {Router} from '@angular/router';
 import {TypeMutation} from '../../model/model.typeMutation';
 import {TypeMutationsServices} from '../../services/typeMutation.services';
@@ -23,6 +24,8 @@ export class TypeMutationComponent implements OnInit {
   typeMutation:TypeMutation=new TypeMutation();
   typeMutations:Array<TypeMutation>=new Array<TypeMutation>();
   dataTable: any;
+  designationFr=new FormControl('',[Validators.pattern("[a-zA-Zéàçèùî' ]+"),Validators.minLength(3)]);
+  designationAr=new FormControl('',[Validators.pattern("[أ-يءئىآؤة ]+"),Validators.required,Validators.minLength(4)]);
   lang:string;
   constructor(private typeMutationServices:TypeMutationsServices,
     private chRef: ChangeDetectorRef, 
@@ -39,7 +42,8 @@ ajouter(){
     .subscribe(data=>{
     this.showSuccess();
       this.doSearch();
-      console.log(data);
+      this.router.navigate(['/typeMutation']);
+      this.typeMutation= new TypeMutation();
     },err=>{
       console.log(err);
       this.toastr.error("veuillez vérifier les informations saisies");
@@ -58,6 +62,42 @@ doSearch(){
       console.log(err);
       this.toastr.error("Erreur");
     })
+}
+getErrorMessageFr(){
+  return this.designationFr.hasError('pattern') ? 'des caractères en français seulement' :
+         this.typeMutation.designationMutation.length < 3 ? ' Au minimum 3 caractères' :
+  '';
+}
+getErrorMessageAr(){
+  return this.designationAr.hasError('pattern') ? 'des caractères en arabe seulement' :
+  this.designationAr.hasError('required') ? 'Champ obligatoire' :
+  this.typeMutation.designationMutationAr.length < 4 ? 'Au minimum 4 caractères' :
+  '';
+}
+ValideFormulaire()
+{
+  if((this.typeMutation.designationMutationAr!="") &&(this.typeMutation.designationMutationAr.length>=4) && !(this.designationAr.hasError('pattern')))
+  {
+    if(this.typeMutation.designationMutation!=""&& (this.designationFr.hasError('pattern'))&&(this.typeMutation.designationMutation.length<3))
+    {
+     return true;
+    }  
+    else if(this.typeMutation.designationMutation!="" && !(this.designationFr.hasError('pattern'))&&(this.typeMutation.designationMutation.length<3))
+    {
+      return true;
+    }
+    else if(this.typeMutation.designationMutation!="" && (this.designationFr.hasError('pattern'))&&(this.typeMutation.designationMutation.length>=3))
+    {
+      return true;
+    }
+    else if(this.typeMutation.designationMutation!="" && !(this.designationFr.hasError('pattern'))&&(this.typeMutation.designationMutation.length>=3))
+    {
+      return false;
+    }
+  return false;
+  }
+  else
+  return true;
 }
 onEditTypeMutation(code:number){
   this.router.navigate(['editTypeMutation',code]);
@@ -80,7 +120,7 @@ onDeleteTypeMutation(tm:TypeMutation){
 showSuccess() {
   if(this.lang=='fr')
   {
-    this.toastr.success("Succes d'ajouter type de mutation");
+    this.toastr.success("L'ajout du type de mutation a été effectué avec succès..");
   }
 else
   {

@@ -7,14 +7,17 @@
           <mat-form-field>
               <input matInput placeholder="ID" [(ngModel)]="specialite.idSp" disabled>
             </mat-form-field>
-        <mat-form-field>
-          <input matInput placeholder="Libellé" [(ngModel)]="specialite.libelleSp">
+        <mat-form-field matTooltip="3 caractéres au minimum" matTooltipPosition="above">
+          <input matInput placeholder="Libellé" [formControl]="libelleFr" [(ngModel)]="specialite.libelleSp">
+          <mat-error *ngIf="libelleFr.invalid">{{getErrorMessageFr()}}</mat-error>
         </mat-form-field>
-        <mat-form-field>
-            <input matInput placeholder="الإختصاص" [(ngModel)]="specialite.libelleSpAr">
+        <mat-form-field matTooltip="4 caractéres au minimum" matTooltipPosition="above">
+            <input matInput placeholder="الإختصاص" [formControl]="libelleAr" [(ngModel)]="specialite.libelleSpAr">
+            <mat-error *ngIf="libelleAr.invalid">{{getErrorMessageAr()}}</mat-error>
           </mat-form-field>
-        <button  mat-mini-fab color="primary" (click)="updateSpecialite()">
+        <button  mat-mini-fab color="primary" class="btn btn-primary" [disabled]="valideFormulaire()" (click)="updateSpecialite()">
           <mat-icon>create</mat-icon></button>
-      </div>
+          <button mat-mini-fab color="default" (click)="Annuler()"><mat-icon>clear</mat-icon></button>
+        </div>
     </div>
   </div>

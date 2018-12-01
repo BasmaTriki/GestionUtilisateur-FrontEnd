@@ -49,19 +49,19 @@ export class ModalMutationComponent implements OnInit {
     this.personnelServices.getPersonnel(this.idPers)
     .subscribe(data=>{
       this.personnel=data;
-      console.log(data);
+      this.chercherEtatInactive(this.personnel.etat.idEtat);
     },err=>{
       console.log(err);
     });
     this.chercherType();
     this.chercherOrg();
+    
   }
   chercherType()
   {
     this.typeMutationServices.allTypesMutations()
       .subscribe(data=>{
         this.typeMutations=data;
-        console.log(data);
       },err=>{
         console.log(err);
       })
@@ -86,9 +86,14 @@ export class ModalMutationComponent implements OnInit {
     this.mutationServices.saveMutation(this.mutation)
       .subscribe(data=>{
         alert("Success d'ajout");
-        console.log(data);
-        //this.personnel.mutation.push(data);
-        console.log(this.personnel);
+   if((this.etatPersonnel.etatInactive=="")&&(this.etatPersonnel.etatInactiveAr==""))
+   {
+     this.EnregistrerEtatPersonnel(this.personnel);
+   }
+   else 
+   {
+     this.updateEtatInactive(this.personnel);
+   }
       },err=>{
         console.log(err);
       })
@@ -98,19 +103,45 @@ export class ModalMutationComponent implements OnInit {
       },err=>{
         console.log(err);
       })
-    this.etatPersonnel.personnel=this.personnel;
-    this.etatPersonnel.etatInactive=this.typeMutation.designationMutation+" à "+this.orgAccueil.libelleOrg;
-    this.etatPersonnel.etatInactiveAr=this.typeMutation.designationMutationAr+" إلى "+this.orgAccueil.libelleOrgAr;
-    this.etatPersonnelServices.saveEtatPersonnel(this.etatPersonnel)
-     .subscribe(data=>{
-      console.log(data);
-    },err=>{
-      console.log(err);
-    })
     this.Close();
   }
   Close()
   {
     this.dialogRef.close();
+  }
+  chercherEtatInactive(idEtat:number)
+  {
+    this.etatPersonnelServices.getEtatInactive(this.idPers,idEtat)
+    .subscribe(data=>{
+      this.etatPersonnel=data;
+      console.log(data);
+    },err=>{
+      console.log(err);
+    })
+  }
+  EnregistrerEtatPersonnel(en:Personnel)
+{this.etatPersonnel.personnel=en;
+  this.etatPersonnel.etat=this.etat;
+  this.etatPersonnel.etatInactive=this.typeMutation.designationMutation+" à "+this.orgAccueil.libelleOrg;
+  this.etatPersonnel.etatInactiveAr=this.typeMutation.designationMutationAr+" إلى "+this.orgAccueil.libelleOrgAr;
+  this.etatPersonnelServices.saveEtatPersonnel(this.etatPersonnel)
+   .subscribe(data=>{
+    console.log(data);
+  },err=>{
+    console.log(err);
+  })
+
+}
+  updateEtatInactive(en:Personnel)
+  {this.etatPersonnel.personnel=en;
+    this.etatPersonnel.etat=this.etat;
+    this.etatPersonnel.etatInactive=this.typeMutation.designationMutation+" à "+this.orgAccueil.libelleOrg;
+    this.etatPersonnel.etatInactiveAr=this.typeMutation.designationMutationAr+" إلى "+this.orgAccueil.libelleOrgAr;
+    this.etatPersonnelServices.updateEtatPersonnel(this.etatPersonnel)
+    .subscribe(data=>{
+      console.log(data);
+    },err=>{
+      console.log(err);
+    })
   }
 }

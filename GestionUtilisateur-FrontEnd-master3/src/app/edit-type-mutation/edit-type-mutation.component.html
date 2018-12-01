@@ -6,14 +6,17 @@
     <div>
       <mat-form-field>
         <input matInput placeholder="ID" [(ngModel)]="typeMutation.code" disabled>
-      </mat-form-field>
-      <mat-form-field>
-        <input matInput placeholder="Designation" [(ngModel)]="typeMutation.designationMutation" name="desgMutFr">
-      </mat-form-field>
-      <mat-form-field>
-          <input matInput placeholder="نوع النقلة" [(ngModel)]="typeMutation.designationMutationAr" name="desgMutAr">
-        </mat-form-field>
-          <button  mat-mini-fab color="primary" (click)="updateTypeMutation()"><mat-icon>create</mat-icon></button>
+      </mat-form-field><br>
+      <mat-form-field matTooltip="3 caractères au minimum" matTooltipPosition="above">
+        <input matInput placeholder="Designation" [formControl]="designationFr" [(ngModel)]="typeMutation.designationMutation" name="desgMutFr">
+        <mat-error *ngIf="designationFr.invalid">{{getErrorMessageFr()}}</mat-error>
+      </mat-form-field><br>
+      <mat-form-field matTooltip="4 caractères au minimum" matTooltipPosition="above">
+          <input matInput placeholder="نوع النقلة" [formControl]="designationAr" [(ngModel)]="typeMutation.designationMutationAr" name="desgMutAr">
+          <mat-error *ngIf="designationAr.invalid">{{getErrorMessageAr()}}</mat-error>
+        </mat-form-field><br>
+          <button  mat-mini-fab color="primary" class="btn btn-primary" [disabled]="valideFormulaire()" (click)="updateTypeMutation()"><mat-icon>create</mat-icon></button>
+          <button mat-mini-fab color="default" (click)="Annuler()"><mat-icon>clear</mat-icon></button>
         </div>
     </div>
   </div>

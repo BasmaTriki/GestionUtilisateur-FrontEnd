@@ -18,13 +18,9 @@ import { ToastrService } from 'ngx-toastr';
   providers: [DatePipe]
 })
 export class ModalCongeComponent implements OnInit {
-  pageConge:any;
-  currentPage:number=0;
-  pages:Array<number>;
-  size:number=5;
   conge:Conge= new Conge();
   personnel:Personnel;
-  pagePersonnels:any;
+  conges:Array<Conge>=new Array<Conge>();
   typeconge:TypeConge=new TypeConge();
   typeconges:Array<TypeConge> =new Array<TypeConge>();
   nbjour:number=0;
@@ -59,6 +55,42 @@ restjour:number;
       console.log(err);
     });
     this.lang=sessionStorage.getItem("lang");
+    this.ListeCongePersonnel();
+  }
+  ListeCongePersonnel()
+  {
+    this.congeServices.getPersonnelConge(this.idPers)
+    .subscribe(data=>{
+      this.conges=data;
+    },err=>{
+      console.log(err);
+    });
+  }
+  VerfierPeriodeConge(conge:Conge)
+  {
+    var dateDebut:any=this.datePipe.transform(conge.dateDebut,"yyyy-MM-dd");
+    var dateFin:any=this.datePipe.transform(conge.dateFin,"yyyy-MM-dd");
+    for(let c of this.conges)
+    {
+   if((c.dateDebut<=dateDebut)&&(c.dateFin>=dateFin))
+   {
+   this.congeValide=true;
+   return true;
+  }
+  else if((c.dateDebut<=dateDebut)&&(dateDebut<=c.dateFin))
+  {
+     this.congeValide=true;
+     return true;
+    }
+    else if((c.dateDebut<=dateFin)&&(dateFin<=c.dateFin))
+    {
+       this.congeValide=true;
+       return true;
+      }
+    }
+    this.congeValide=false;
+    return false;
+    
   }
   AfficherTypeConge()
   {
@@ -73,8 +105,6 @@ restjour:number;
   CalculerNbjour()
   {if(this.conge.dateFin!=null && this.conge.dateDebut!=null)
     {this.nbjour=((Number(this.conge.dateFin) - Number(this.conge.dateDebut))/86400000)+1;
-      console.log(this.conge.dateFin);
-      console.log(this.conge.dateDebut);
     return parseInt(this.nbjour+"");
   }
   else
@@ -89,8 +119,6 @@ restjour:number;
       .subscribe(data=>{
       this.Sommenbjour=data;
       somme= data;
-      //alert ("Il vous Reste "+somme);
-      console.log("il reste "+somme);
       },err=>{
         console.log(err);
       });
@@ -112,14 +140,12 @@ restjour:number;
     this.congeServices.saveConge(this.conge)
       .subscribe(data=>{
        this.showSuccess();
-        console.log(data);
-        this.personnel.conges.push(data);
-        this.personnelServices.updatePersonnel(this.personnel);
         if(this.typeconge.libelleType==="Maladie"|| this.typeconge.libelleType==="Maladie Longue durée")
         {
+          if(this.selectedFile!=null)
           this.upload(data.idCong);
         }
-        console.log(data);
+      this.Close();
       },err=>{
         console.log(err);
         this.toastr.error("Veuillez vérifier les informations saisies");
@@ -146,7 +172,7 @@ showSuccess() {
   }
 else
   {
-    this.toastr.success("تم إضافة العطلة بنجاح");
+    this.toastr.success("تمت إضافة العطلة بنجاح");
   }
 }
 onSelected(event)
@@ -158,12 +184,12 @@ onSelected(event)
   {
     this.restjour=+(this.typeconge.nbMaxJrs-this.nbjour);
   }
-  this.ValideConge();
+  this.VerfierPeriodeConge(this.conge);
  // this.restjour =this.typeconge.nbMaxJrs-(this.Sommenbjour+this.nomberJour) 
 }
 ValideConge()
 {
-  if(this.restjour>=0 && this.typeconge!=null && this.conge.dateDebut!=null && this.conge.dateFin!=null && this.conge.nbJour!=0)
+  if(this.restjour>=0 && this.typeconge!=null && this.conge.dateDebut!=null && this.conge.dateFin!=null && this.conge.nbJour!=0 &&!(this.congeValide))
   {
     return true;
   }

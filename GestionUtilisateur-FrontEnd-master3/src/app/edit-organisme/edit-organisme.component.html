@@ -4,17 +4,20 @@
     <div class="panel-heading">{{'SideBar.ModOrg' | translate}}</div>
     <div class="panel-body">
       <div>
-          <mat-form-field>
+          <mat-form-field matTooltip="4 caractéres au minimum" matTooltipPosition="above">
               <input matInput placeholder="ID" [(ngModel)]="organisme.idOrg" disabled>
             </mat-form-field>
-        <mat-form-field>
-          <input matInput placeholder="Libellé" [(ngModel)]="organisme.libelleOrg">
+        <mat-form-field matTooltip="4 caractéres au minimum" matTooltipPosition="above">
+          <input matInput placeholder="Libellé" [formControl]="libelleFr" [(ngModel)]="organisme.libelleOrg">
+          <mat-error *ngIf="libelleFr.invalid">{{getErrorMessageFr()}}</mat-error>
         </mat-form-field>
         <mat-form-field>
-            <input matInput placeholder="المؤسسة" [(ngModel)]="organisme.libelleOrgAr">
+            <input matInput placeholder="المؤسسة" [formControl]="libelleAr" [(ngModel)]="organisme.libelleOrgAr">
+            <mat-error *ngIf="libelleAr.invalid">{{getErrorMessageAr()}}</mat-error>
           </mat-form-field>
-        <button  mat-mini-fab color="primary" (click)="updateOrg()">
+        <button  mat-mini-fab color="primary" color="primary" class="btn btn-primary" [disabled]="valideFormulaire()" (click)="updateOrg()">
             <mat-icon>create</mat-icon></button>
+            <button mat-mini-fab color="default" (click)="Annuler()"><mat-icon>clear</mat-icon></button>
       </div>
       </div>
       </div>

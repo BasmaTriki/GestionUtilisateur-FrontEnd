@@ -5,4 +5,5 @@ export class TypeConge{
   nbMaxJrs:number=0;
   autorisation:boolean;
   actifPers:boolean;
+  typePers:string="";
 }

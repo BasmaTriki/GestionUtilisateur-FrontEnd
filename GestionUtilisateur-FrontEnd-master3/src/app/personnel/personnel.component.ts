@@ -9,14 +9,12 @@ import {TranslateService} from '@ngx-translate/core';
 export class PersonnelComponent implements OnInit {
   TypePersonnel = [
     {value: 'Enseignant Permanent'},
-    {value: 'Enseignant Contractuel'},
     {value: 'Administratif'}
   ];
   type:string="";
   lang:string;
   TypePersonnelAr = [
     {value: 'أستاذ قار'},
-    {value: 'أستاذ متعاقد'},
     {value: 'إداري'}
   ];
   constructor(private translate: TranslateService) 

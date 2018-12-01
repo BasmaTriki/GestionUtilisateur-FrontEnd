@@ -39,7 +39,6 @@
                 <li><a id="listePersonnel" (click)="anchorClicked($event)">{{'SideBar.SMPersonnel' | translate }}<span id="tableschevron" class="fa fa-chevron-down"></span></a>
                   <ul class="nav child_menu">
                     <li><a routerLink="/ListePersonnel">{{'SideBar.SMEnseignantV3' | translate}}</a></li>
-                    <li><a routerLink="/ListeEnseigContractuel">{{'SideBar.EnseiContrat' | translate}}</a></li>
                     <li><a routerLink="/ListeAdmin">{{'Table.CAdmin' | translate}}</a> </li>
                   </ul>
                 </li>
@@ -51,7 +50,8 @@
                 <li><a id="enseigVact" (click)="anchorClicked($event)">{{'SideBar.SMEnseignantV3' | translate }}<span id="tableschevron" class="fa fa-chevron-down"></span></a>
                   <ul class="nav child_menu">
                       <li><a routerLink="/ListeVacation">{{'SideBar.MEnseignantL' | translate}}</a></li>
-                      <li><a routerLink="/ListeEnseignantFonct">{{'SideBar.MEnseignantF' | translate}}</a></li>
+                   <li><a routerLink="/ListeEnseignantFonct">{{'SideBar.MEnseignantF' | translate}}</a></li>
+                   <li><a routerLink="/ListeEnseigContractuel">{{'SideBar.EnseiContrat' | translate}}</a></li>
                   </ul> 
                 </li>
                 <li><a routerLink="/ConsultationVacation" *ngIf="role=='Admin'||role=='DirecteurES'">{{'SideBar.SMEnseignantV2' | translate }}</a></li>
@@ -147,7 +147,7 @@
                 <li><a href="/">Chart JS2</a></li> 
               </ul>-->
             </li>  
-            <li><a id="importationli" (click)="importer()" *ngIf="role=='Admin'||role=='AgentGRH'"><i class="fa fa-windows"></i> {{'SideBar.MImportation' | translate }}</a>
+            <li><a id="importationli" (click)="importer()" disabled *ngIf="role=='Admin'||role=='AgentGRH'"><i class="fa fa-windows"></i> {{'SideBar.MImportation' | translate }}</a>
               <!-- <ul class="nav child_menu">
                 <li><a (click)="importer()">Fichier Excel</a></li>
               </ul> -->

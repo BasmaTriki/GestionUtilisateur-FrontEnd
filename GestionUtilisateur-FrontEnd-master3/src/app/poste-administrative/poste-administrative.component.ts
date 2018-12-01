@@ -1,5 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import {Router} from '@angular/router';
+import {FormControl, Validators} from "@angular/forms";
 import {Http} from '@angular/http';
 import {PosteAdministrative} from '../../model/model.posteAdministrative';
 import {PosteAdministrativeServices} from '../../services/posteAdministrative.services';
@@ -23,6 +24,8 @@ export class PosteAdministrativeComponent implements OnInit {
   poste:PosteAdministrative=new PosteAdministrative();
   postes:Array<PosteAdministrative>=new Array<PosteAdministrative>();
   dataTable: any;
+  libelleFr=new FormControl('',[Validators.pattern("[a-zA-Zéàçèùî' ]+"),Validators.minLength(3)]);
+  libelleAr=new FormControl('',[Validators.pattern("[أ-يءئىآؤة ]+"),Validators.required,Validators.minLength(4)]);
   lang:string;
   constructor(private posteServices:PosteAdministrativeServices,
     private chRef: ChangeDetectorRef,
@@ -39,10 +42,11 @@ export class PosteAdministrativeComponent implements OnInit {
       .subscribe(data=>{
       this.showSuccess();
         this.doSearch();
-        console.log(data);
+        this.router.navigate(['/posteAdministratif']);
+        this.poste= new PosteAdministrative();
       },err=>{
         console.log(err);
-        this.toastr.error("veuillez vérifier les informations saisies")
+        this.toastr.error("veuillez vérifier les informations saisies..")
       });
   }
   doSearch(){
@@ -58,6 +62,42 @@ export class PosteAdministrativeComponent implements OnInit {
         this.toastr.error("Erreur")
       })
   }
+  getErrorMessageFr(){
+    return this.libelleFr.hasError('pattern') ? 'des caractères en français seulement' :
+    this.poste.libellePos.length < 3 ? ' Au minimum 3 caractères' :
+    '';
+  }
+  getErrorMessageAr(){
+    return this.libelleAr.hasError('pattern') ? 'des caractères en arabe seulement' :
+    this.libelleAr.hasError('required') ? 'Champ obligatoire' :
+    this.poste.libellePosAr.length < 4 ? 'Au minimum 4 caractères' :
+    '';
+  }
+  ValideFormulaire()
+  {
+    if((this.poste.libellePosAr!="") &&(this.poste.libellePosAr.length>=4) && !(this.libelleAr.hasError('pattern')))
+    {
+      if(this.poste.libellePos!=""&& (this.libelleFr.hasError('pattern'))&&(this.poste.libellePos.length<3))
+      {
+       return true;
+      }  
+      else if(this.poste.libellePos!="" && !(this.libelleFr.hasError('pattern'))&&(this.poste.libellePos.length<3))
+      {
+        return true;
+      }
+      else if(this.poste.libellePos!="" && (this.libelleFr.hasError('pattern'))&&(this.poste.libellePos.length>=3))
+      {
+        return true;
+      }
+      else if(this.poste.libellePos!="" && !(this.libelleFr.hasError('pattern'))&&(this.poste.libellePos.length>=3))
+      {
+        return false;
+      }
+    return false;
+    }
+    else
+    return true;
+  }
   onEditPoste(id:number){
     this.router.navigate(['editPosteAdmin',id]);
   }
@@ -72,18 +112,18 @@ export class PosteAdministrativeComponent implements OnInit {
           );
           console.log(data);
         },err=>{console.log(err);
-          this.toastr.error("veuillez vérifier les informations saisies")
+          this.toastr.error("veuillez vérifier les informations saisies..")
         })
     }
   }
   showSuccess() {
     if(this.lang=='fr')
     {
-      this.toastr.success("Success d'ajout poste Administratif");
+      this.toastr.success("L'ajout du poste administratif a été effectué avec succès.");
     }
   else
     {
-      this.toastr.success("تمت إضافة الخطة الوظيفية");
+      this.toastr.success(" تمت إضافة الخطة الوظيفية بنجاح");
     }
   }
 }

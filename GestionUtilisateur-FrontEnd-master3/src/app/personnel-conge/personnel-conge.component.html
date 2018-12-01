@@ -41,7 +41,8 @@
 <div *ngIf="typeconge.libelleType=='Maladie'||typeconge.libelleType==='Maladie Longue durée'">
 <label>Importez votre certeficat médical</label>
 <input placeholder="Certafica" type="file" name="maladie" (change)="onFileSelected($event)">
-</div>    
+</div>  
+<div style="color:red" *ngIf="congeValide"><h4>Vous avez déjà un congé</h4></div>      
 </div>
   <!--Modale Arabe-->
   <div *ngIf="lang=='ar'">
@@ -84,7 +85,9 @@
       <label>:تحميل الشهادة الطبية </label>
       <input placeholder="الشهادة الطبية" type="file" name="maladie" (change)="onFileSelected($event)">
     </div>
+    <div style="color:red" *ngIf="congeValide"><h4>لديك عطلة في نفس المدة</h4></div>
   </div>
+ 
   <div class="posAr">
 <button  class="btn btn-primary" (click)="EnregistrerConge()" [disabled]="!ValideConge()">{{'Table.CAjouterBot'| translate}}</button>
 <button class="btn btn-warning" (click)="Annuler()">{{'Table.CAnnuler'| translate}}</button>

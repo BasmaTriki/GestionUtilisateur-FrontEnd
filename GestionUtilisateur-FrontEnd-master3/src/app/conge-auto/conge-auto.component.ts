@@ -8,6 +8,10 @@ import * as $ from 'jquery';
 import 'datatables.net';
 import 'datatables.net-bs4';
 import { HttpClient } from '@angular/common/http';
+import { Etat } from '../../model/model.etat';
+import { EtatPersonnel } from '../../model/model.etatPersonnel';
+import { EtatPersonnelServices } from '../../services/etatPersonnel.services';
+import { PersonnelServices } from '../../services/personnel.services';
 
 @Component({
   selector: 'app-conge-auto',
@@ -25,12 +29,16 @@ export class CongeAutoComponent implements OnInit {
   size: number = 1000;
   conge: Conge = new Conge();
   conges: Array<Conge> = new Array<Conge>();
-  personnels: Array<Personnel> = new Array<Personnel>();
   dataTable: any;
   lang:string;
-
-  constructor(private congeServices: CongeServices,private chRef: ChangeDetectorRef, 
-    private http: HttpClient, public router: Router) {
+  etat:Etat=new Etat();
+  etatPersonnel:EtatPersonnel=new EtatPersonnel();
+  constructor(private congeServices: CongeServices,
+    private chRef: ChangeDetectorRef, 
+    private http: HttpClient,
+    private etatPersonnelServices:EtatPersonnelServices,
+    private personnelServices:PersonnelServices,
+     public router: Router) {
       this.lang=sessionStorage.getItem("lang");
   }
 
@@ -51,24 +59,32 @@ export class CongeAutoComponent implements OnInit {
   accepter(c: Conge) {
     c.valide = "accepte";
     c.valideAr = "موافق عليه";
+    if(!c.typeconge.actifPers)
+    {
+      this.etat.idEtat=2;
+      this.etat.libelleEtat="non-actif";
+      c.personnel.etat=this.etat;
+      this.chercherEtatInactive(c.personnel.idPers,this.etat.idEtat);
+       this.personnelServices.updatePersonnel(c.personnel)
+         .subscribe(data=>{
+           console.log(data);
+         },err=>{
+           console.log(err);
+         })
+    }
     this.congeServices.updateConge(c)
       .subscribe(data => {
         this.pageConge.content.splice(
           this.pageConge.content.indexOf(c), 1
         );
-        console.log(data);
-      }, err => {
-        console.log(err);
-      })
-  }
-  valider(c: Conge) {
-    c.valide = "validé";
-    c.valideAr = "إطلعت عليه";
-    this.congeServices.updateConge(c)
-      .subscribe(data => {
-        this.pageConge.content.splice(
-          this.pageConge.content.indexOf(c), 1
-        );
+        if((this.etatPersonnel.etatInactive=="")&&(this.etatPersonnel.etatInactiveAr==""))
+        {
+          this.EnregistrerEtatPersonnel(c.personnel);
+        }
+        else 
+        {
+          this.updateEtatInactive(c.personnel);
+        }
         console.log(data);
       }, err => {
         console.log(err);
@@ -103,19 +119,40 @@ export class CongeAutoComponent implements OnInit {
         console.log(err);
       })
   }
-  rattraper(c)
-  {
-      c.valide = "rattraper";
-      c.valideAr = "عوض";
-      this.congeServices.updateConge(c)
-        .subscribe(data => {
-          this.pageConge.content.splice(
-            this.pageConge.content.indexOf(c), 1
-          );
-          console.log(data);
-        }, err => {
-          console.log(err);
-        })
+  EnregistrerEtatPersonnel(en:Personnel)
+  {this.etatPersonnel.personnel=en;
+    this.etatPersonnel.etat=this.etat;
+    this.etatPersonnel.etatInactive=this.conge.typeconge.libelleType;
+    this.etatPersonnel.etatInactiveAr=this.conge.typeconge.libelleTypeAr;
+    this.etatPersonnelServices.saveEtatPersonnel(this.etatPersonnel)
+     .subscribe(data=>{
+      console.log(data);
+    },err=>{
+      console.log(err);
+    })
+  
+  }
+    updateEtatInactive(en:Personnel)
+    { this.etatPersonnel.personnel=en;
+      this.etatPersonnel.etat=this.etat;
+      this.etatPersonnel.etatInactive=this.conge.typeconge.libelleType;
+      this.etatPersonnel.etatInactiveAr=this.conge.typeconge.libelleTypeAr;
+      this.etatPersonnelServices.updateEtatPersonnel(this.etatPersonnel)
+      .subscribe(data=>{
+        console.log(data);
+      },err=>{
+        console.log(err);
+      })
+    }
+    chercherEtatInactive(idPers:number,idEtat:number)
+    {
+      this.etatPersonnelServices.getEtatInactive(idPers,idEtat)
+      .subscribe(data=>{
+        this.etatPersonnel=data;
+        console.log(data);
+      },err=>{
+        console.log(err);
+      })
     }
 }
 

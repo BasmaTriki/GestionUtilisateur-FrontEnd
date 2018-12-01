@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { EnseignantPermanentServices } from '../../services/enseignantpermanent.services';
 import { Departement } from '../../model/model.departement';
+import { GradeServices } from '../../services/grade.services';
 
 @Component({
   selector: 'app-statistique',
@@ -10,13 +11,14 @@ import { Departement } from '../../model/model.departement';
 export class StatistiqueComponent implements OnInit {
 listeDep:Array<Departement>=new Array<Departement>();
 lang:string;
-  constructor(private enseignantPservices:EnseignantPermanentServices) 
+  constructor(private enseignantPservices:EnseignantPermanentServices,private gradeServices:GradeServices) 
   { 
     this.lang=sessionStorage.getItem("lang");
   }
 
   ngOnInit() {
     this.ChercherNomberEnseignant();
+    this.ChercherNomberEnseignantCps();
    
   }
   ChercherNomberEnseignant()
@@ -25,7 +27,6 @@ lang:string;
     .subscribe(data => {
       console.log(data);
       this.pieChartData=data;
-      this.lineChartData=data;
     /*   for (let s of data)
   { this.lineChartData.push(data[0]);
    this.pieChartData.push(data[0]);
@@ -62,9 +63,47 @@ this.enseignantPservices.getListeDepartementFr()
   console.log(err);
 });
 }
+chercherCorpsFr()
+{
+this.gradeServices.getListeCorps()
+  .subscribe(data => {
+    console.log(data);
+    this.lineChartLabels=data;
+}, err => {
+  console.log(err);
+});
+}
+chercherCorpsAr()
+{
+this.gradeServices.getListeCorpsAr()
+  .subscribe(data => {
+    console.log(data);
+    this.lineChartLabels=data;
+}, err => {
+  console.log(err);
+});
+}
+ChercherNomberEnseignantCps()
+  {
+    this.gradeServices.getNomberEnseignantCps()
+    .subscribe(data => {
+      console.log(data);
+      this.lineChartData=data;
+    }, err => {
+      console.log(err);
+    });
+    if(this.lang=='fr')
+    {
+      this.chercherCorpsFr();
+    }
+    else
+    {
+      this.chercherCorpsAr();
+    }
+  }
     // lineChart
-  public lineChartData:Array<any>=new Array<any>();
-  /*  = [
+  public lineChartData:Array<Number>=new Array<Number>();
+/*   [
     [65, 59, 80, 81, 56, 55, 40],
     [28, 48, 40, 19, 86, 27, 90]
   ]; */

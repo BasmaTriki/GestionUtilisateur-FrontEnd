@@ -52,12 +52,14 @@ export class AjouterVacataireComponent implements OnInit {
   selectedFile:File=null;
   TypeEnseignant = [
     {value: 'Enseignant Libre'},
-    {value: 'Enseignant Fonctionnaire'}
+    {value: 'Enseignant Fonctionnaire'},
+    {value: 'Enseignant Contractuel'}
   ];
   lang:string;
   TypeEnseignantAr = [
     {value: 'أستاذ حر'},
-    {value: 'أستاذ لدى الدولة'}
+    {value: 'أستاذ لدى الدولة'},
+    {value: 'أستاذ متعاقد'}
   ];
  
   idDemande:number;

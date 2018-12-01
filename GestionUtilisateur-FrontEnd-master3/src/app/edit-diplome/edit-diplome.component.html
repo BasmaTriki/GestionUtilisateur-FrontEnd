@@ -8,12 +8,15 @@
         <input matInput placeholder="ID" [(ngModel)]="diplome.idDip" disabled>
       </mat-form-field>
       <mat-form-field>
-        <input matInput placeholder="Titre" [(ngModel)]="diplome.titreDip">
+        <input matInput placeholder="Titre" [formControl]="libelleFr" [(ngModel)]="diplome.titreDip">
+        <mat-error *ngIf="libelleFr.invalid">{{getErrorMessageFr()}}</mat-error>
       </mat-form-field>
       <mat-form-field>
-          <input matInput placeholder="الشهادة العلمية" [(ngModel)]="diplome.titreDipAr">
+          <input matInput placeholder="الشهادة العلمية" [formControl]="libelleAr" [(ngModel)]="diplome.titreDipAr">
+          <mat-error *ngIf="libelleAr.invalid">{{getErrorMessageAr()}}</mat-error>
         </mat-form-field>
-          <button  mat-mini-fab color="primary" (click)="updateDiplome()"> <mat-icon>create</mat-icon></button>
+          <button  mat-mini-fab color="primary"  class="btn btn-primary" color="primary" [disabled]="valideFormulaire()" (click)="updateDiplome()"> <mat-icon>create</mat-icon></button>
+          <button mat-mini-fab color="default" (click)="Annuler()"><mat-icon>clear</mat-icon></button>
         </div>
     </div>
   </div>

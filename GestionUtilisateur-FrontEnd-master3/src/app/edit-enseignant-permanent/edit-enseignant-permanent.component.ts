@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {FormControl, NgModel, Validators} from "@angular/forms";
 import {Enfant} from "../../model/model.enfant";
 import {PosteAdministrative} from "../../model/model.posteAdministrative";
 import {AGrade} from "../../model/model.agrade";
@@ -55,6 +56,27 @@ export class EditEnseignantPermanentComponent implements OnInit {
   grade:Grade=new Grade();
   corp:Corps=new Corps();
   idPers:number;
+  email = new FormControl('', [Validators.email]);
+  matricule=new FormControl('',[Validators.required, Validators.pattern("[0-9]+"),Validators.minLength(4)]);
+  cinM=new FormControl('',[Validators.required, Validators.pattern("[0-9]+"),Validators.minLength(8)]);
+  nom=new FormControl('',[Validators.required, Validators.pattern("[a-zA-Zéàçèùî]+"),Validators.minLength(3)]);
+  prenom=new FormControl('',[Validators.required, Validators.pattern("[a-zA-Zéàçèùî]+"),Validators.minLength(3)]);
+  tel=new FormControl('',[Validators.required,Validators.pattern("[0-9]+"),Validators.minLength(8)]);
+  codePostal=new FormControl('',[Validators.pattern("[0-9]+"),Validators.minLength(4)]);
+  nomAr=new FormControl('',[Validators.pattern("[أ-يءئىآؤة ]+"), Validators.required,Validators.minLength(3)]);
+  prenomAr=new FormControl('',[Validators.pattern("[أ-يءئىآؤة ]+"),Validators.required,Validators.minLength(4)]);
+  nomPereFr=new FormControl('',[Validators.required, Validators.pattern("[a-zA-Zéàçèùî]+"),Validators.minLength(3)]);
+  nomPereAr=new FormControl('',[Validators.pattern("[أ-يءئىآؤة ]+"),Validators.required,Validators.minLength(4)]);
+  lieuNaissFr=new FormControl('',[Validators.required, Validators.pattern("[a-zA-Zéàçèùî]+"),Validators.minLength(3)]);
+  lieuNaissAr= new FormControl('',[Validators.pattern("[أ-يءئىآؤة ]+"),Validators.required,Validators.minLength(4)]);
+  nomConjFr=new FormControl('',[Validators.required, Validators.pattern("[a-zA-Zéàçèùî]+"),Validators.minLength(3)]);
+  nomConjAr= new FormControl('',[Validators.pattern("[أ-يءئىآؤة ]+"),Validators.required,Validators.minLength(4)]);
+  profConjFr=new FormControl('',[Validators.required, Validators.pattern("[a-zA-Zéàçèùî]+"),Validators.minLength(3)]);
+  profConjAr= new FormControl('',[Validators.pattern("[أ-يءئىآؤة ]+"),Validators.required,Validators.minLength(4)]);
+  lieuTrConjFr=new FormControl('',[Validators.required, Validators.pattern("[a-zA-Zéàçèùî]+"),Validators.minLength(3)]);
+  lieuTrConjAr= new FormControl('',[Validators.pattern("[أ-يءئىآؤة ]+"),Validators.required,Validators.minLength(4)]);
+  nomEnfantFr=new FormControl('',[Validators.required, Validators.pattern("[a-zA-Zéàçèùî]+"),Validators.minLength(3)]);
+  nomEnfantAr= new FormControl('',[Validators.pattern("[أ-يءئىآؤة ]+"),Validators.required,Validators.minLength(4)]);
   AGrades:Array<AGrade>=new Array<AGrade>();
   NewAGrades:Array<AGrade>=new Array<AGrade>();
   enfants:Array<Enfant>=new Array<Enfant>();
@@ -108,15 +130,16 @@ export class EditEnseignantPermanentComponent implements OnInit {
     this.enseingnantpermanentService.getEnseignantPermanent(this.idPers)
       .subscribe(data=>{
         this.enseignantP=data;
-       this.departement=this.enseignantP.departement;
-       this.specialite=this.enseignantP.specialite;
-       this.etat=this.enseignantP.etat;
-       this.orgOrigine=this.enseignantP.organismeOrigine;
+        this.departement=this.enseignantP.departement;
+        this.specialite=this.enseignantP.specialite;
+        this.etat=this.enseignantP.etat;
+        this.orgOrigine=this.enseignantP.organismeOrigine;
         this.chercherEnfant(data);
         this.chercherAGrade(data);
         this.chercherDiplome(data);
         this.chercherPeriode(data);
         this.chercherEtatInactive(this.etat.idEtat);
+
       },err=>{
         console.log(err);
       });
@@ -533,6 +556,148 @@ EnregistrerEtatPersonnel(en:EnseignantPermanent)
           console.log(err);
         });
     }
+  }
+  getErrorMessage() {
+    //  this.email.hasError('required') ? 'veuillez remplir le champs' :
+    return this.email.hasError('email') ? 'adresse non valide' :
+            '';
+  }
+  getErrorMessageM() {
+    return this.matricule.hasError('required') ? 'Champ obligatoire' :
+     this.matricule.hasError('pattern')? 'des chiffres seulement' :
+     this.matricule.hasError('minLength')? 'le minimum 4 chiffres' :
+            '';
+  }
+  getErrorMessageCode() {
+    return this.codePostal.hasError('pattern')? 'des chiffres seulement' :
+     this.codePostal.hasError('minLength')? 'le minimum 4 chiffres' :
+            '';
+  }
+  getErrorMessageC() {
+    return this.cinM.hasError('required') ? 'Champ obligatoire' :
+     this.cinM.hasError('pattern') ? 'des chiffres seulement' :
+     this.cinM.hasError('minLength') ? 'le minimum 8 chiffres' :
+            '';
+  }
+  getErrorMessageT() {
+    return this.tel.hasError('required') ? 'Champ obligatoire' :
+     this.tel.hasError('pattern') ? 'des chiffres seulement' :
+     this.tel.hasError('minLength') ? 'le minimum 8 chiffres' :
+            '';
+  }
+  getErrorMessageN() {
+    return this.nom.hasError('required') ? 'Champ obligatoire' :
+     this.nom.hasError('pattern') ? 'des caractères seulement' :
+     this.nom.hasError('minLength') ? 'le minimum 3 chiffres' :
+            '';
+  }
+  getErrorMessageP() {
+    return this.prenom.hasError('required') ? 'Champ obligatoire' :
+     this.prenom.hasError('pattern') ? 'des caractères seulement' :
+     this.prenom.hasError('minLength') ? 'le minimum 3 chiffres' :
+            '';
+  }
+  getErrorMessageNAr() {
+    return this.nomAr.hasError('required') ? 'Champ obligatoire' :
+     this.nomAr.hasError('minLength') ? 'le minimum 3 chiffres' :
+            '';
+  }
+  getErrorMessagePAr() {
+    return this.prenomAr.hasError('required') ? 'Champ obligatoire' :
+     this.prenomAr.hasError('minLength') ? 'le minimum 3 chiffres' :
+            '';
+  }
+  getErrorMessageNpereFr() {
+    return this.nomPereFr.hasError('pattern')? 'des caractères en français seulement':
+    this.nomPereFr.hasError('minLength') ? 'le minimum 3 chiffres':
+    '';
+  }
+  getErrorMessageNpereAr() {
+    return this.nomPereAr.hasError('pattern')? 'des caractères en arabe seulement':
+    this.nomPereAr.hasError('minLength') ? 'le minimum 4 chiffres':
+    '';
+  }
+  getErrorMessageLNaisFr() {
+    return this.lieuNaissFr.hasError('pattern')? 'des caractères en français seulement':
+    this.nomPereFr.hasError('minLength') ? 'le minimum 3 chiffres':
+    '';
+  }
+  getErrorMessageLNaisAr() {
+    return this.lieuNaissAr.hasError('pattern')? 'des caractères en arabe seulement':
+    this.nomPereFr.hasError('minLength') ? 'le minimum 4 chiffres':
+    '';
+  }
+  getErrorMessageNomConjFr() {
+    return this.nomConjFr.hasError('pattern')? 'des caractères en français seulement':
+    this.nomConjFr.hasError('minLength') ? 'le minimum 3 chiffres':
+    '';
+  }
+  getErrorMessageNomConjAr() {
+    return this.nomConjAr.hasError('pattern')? 'des caractères en arabe seulement':
+    this.nomConjAr.hasError('minLength') ? 'le minimum 4 chiffres':
+    '';
+  }
+  getErrorMessageProfConjFr() {
+    return this.profConjFr.hasError('pattern')? 'des caractères en français seulement':
+    this.profConjFr.hasError('minLength') ? 'le minimum 3 chiffres':
+    '';
+  }
+  getErrorMessageProfConjAr() {
+    return this.profConjAr.hasError('pattern')? 'des caractères en arabe seulement':
+    this.profConjAr.hasError('minLength') ? 'le minimum 4 chiffres':
+    '';
+  }
+  getErrorMessageLieuTrconjFr() {
+    return this.lieuTrConjFr.hasError('pattern')? 'des caractères en français seulement':
+    this.lieuTrConjFr.hasError('minLength') ? 'le minimum 3 chiffres':
+    '';
+  }
+  getErrorMessageLieuConjAr() {
+    return this.lieuTrConjAr.hasError('pattern')? 'des caractères en arabe seulement':
+    this.lieuTrConjAr.hasError('minLength') ? 'le minimum 4 chiffres':
+    '';
+  }
+  getErrorMessageNomEnfFr(){
+    return this.nomEnfantFr.hasError('pattern')? 'des caractères en français seulement':
+    this.nomEnfantFr.hasError('minLength') ? 'le minimum 3 chiffres':
+    '';
+  }
+  getErrorMessageNomEnfAr(){
+    return this.nomEnfantAr.hasError('pattern')? 'des caractères en arabe seulement':
+    this.nomEnfantAr.hasError('minLength') ? 'le minimum 4 chiffres':
+    '';
+  }
+  valideFormulaire()
+  {
+    if(this.enseignantP.matricule!=""&& !(this.matricule.hasError('pattern'))&& !(this.matricule.hasError('minLength')) 
+    && !(this.cinM.hasError('pattern'))&&  this.enseignantP.cin!=""&&!(this.cinM.hasError('minLength')) 
+    && this.enseignantP.nom!="" && !(this.nom.hasError('pattern'))&&!(this.nom.hasError('minLength')) 
+    && this.enseignantP.datenaissance!=null
+    && this.enseignantP.nomAr!="" &&!(this.nomAr.hasError('minLength'))
+    && this.enseignantP.prenomAr!="" &&!(this.prenomAr.hasError('minLength'))
+    &&!(this.prenom.hasError('pattern'))&& this.enseignantP.prenom!="" &&!(this.prenom.hasError('minLength')) 
+    &&(this.enseignantP.telephone!="") && !(this.tel.hasError("pattern"))&&!(this.tel.hasError('minLength')))
+    {
+      if((this.enseignantP.email!="")&&(this.email.hasError('email')))
+      {return true;}
+      else if((this.enseignantP.email!="")&& !(this.email.hasError('email')))
+      {
+      return false;
+      }
+      if((this.enseignantP.codepostal!=0)&&(this.codePostal.hasError('pattern')))
+      {return true;}
+      else if((this.enseignantP.codepostal!=0)&& !(this.codePostal.hasError('pattern')))
+      {
+      return false;
+      }
+      return false;
+    }
+    else
+    return true;
+  }
+  Annuler()
+  {
+    this.router.navigate(['/ListePersonnel']);
   }
   showSuccess() {
     if(this.lang=='fr')

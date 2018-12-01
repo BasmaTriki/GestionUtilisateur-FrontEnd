@@ -14,6 +14,8 @@ import 'datatables.net-bs4';
 import { HttpClient } from '@angular/common/http';
 import { ImpressionServices } from '../../services/Impression.services';
 import { DatePipe } from '@angular/common';
+import { Timestamp } from 'rxjs';
+import { timestamp } from 'rxjs/operators';
 @Component({
   selector: 'app-historique-conge',
   templateUrl: './historique-conge.component.html',
@@ -142,9 +144,9 @@ export class HistoriqueCongeComponent implements OnInit {
     })
   }
   CanModifier(c:Conge)
-  {this.date=this.datePipe.transform(c.dateDebut, 'MM/dd/yyyy');
-  var dateNew=this.datePipe.transform(new Date(), 'MM/dd/yyyy');
-   if(this.date>dateNew && c.valide=="en-attente")
+  {this.date=this.datePipe.transform(c.dateFin,'MM/dd/yyyy');
+  var dateNew=this.datePipe.transform(new Date(),'MM/dd/yyyy');
+   if(this.date>=dateNew)
   {
   return true;
   }

@@ -35,6 +35,8 @@ export class EditCongeComponent implements OnInit {
   typeModifiable:boolean=false;
   year:number;
   congeValide:boolean=false;
+  date:any;
+  conges:Array<Conge>=new Array<Conge>();
   constructor(public activatedRoute:ActivatedRoute,
               public congeService:CongeServices,
               public dialogRef: MatDialogRef<EditCongeComponent>,
@@ -49,6 +51,7 @@ export class EditCongeComponent implements OnInit {
   }
 
   ngOnInit() {
+    
     this.congeService.getConge(this.idCong)
       .subscribe(data=> {
         this.conge = data;
@@ -56,6 +59,7 @@ export class EditCongeComponent implements OnInit {
         this.typeconge=this.conge.typeconge;
         this.personnel=this.conge.personnel;
         this.NomberJour();
+        this.ValideConge(data);
         this.restjour=this.typeconge.nbMaxJrs-(this.Sommenbjour+this.nomberJour);
         if(this.Sommenbjour==null)
         {
@@ -64,7 +68,7 @@ export class EditCongeComponent implements OnInit {
       },err=>{
         console.log(err);
       })
-    
+     
        this.lang=sessionStorage.getItem("lang");
        this.AfficherTypeConge();
   }
@@ -77,6 +81,41 @@ export class EditCongeComponent implements OnInit {
       },err=>{
         console.log(err);
       });
+  }
+  ListeCongePersonnel()
+  {
+    this.congeService.getPersonnelConge(this.idPers)
+    .subscribe(data=>{
+      this.conges=data;
+    },err=>{
+      console.log(err);
+    });
+  }
+  VerfierPeriodeConge(conge:Conge)
+  {
+    var dateDebut:any=this.datePipe.transform(conge.dateDebut,"yyyy-MM-dd");
+    var dateFin:any=this.datePipe.transform(conge.dateFin,"yyyy-MM-dd");
+    for(let c of this.conges)
+    {
+   if((c.dateDebut<=dateDebut)&&(c.dateFin>=dateFin))
+   {
+   this.congeValide=true;
+   return true;
+  }
+  else if((c.dateDebut<=dateDebut)&&(dateDebut<=c.dateFin))
+  {
+     this.congeValide=true;
+     return true;
+    }
+    else if((c.dateDebut<=dateFin)&&(dateFin<=c.dateFin))
+    {
+       this.congeValide=true;
+       return true;
+      }
+    }
+    this.congeValide=false;
+    return false;
+    
   }
   ModifierType()
   {
@@ -100,8 +139,6 @@ export class EditCongeComponent implements OnInit {
       .subscribe(data=>{
       this.Sommenbjour=data;
       somme= data;
-      //alert ("Il vous Reste "+somme);
-      console.log("Il vous reste "+somme);
       },err=>{
         console.log(err);
       });
@@ -112,6 +149,7 @@ export class EditCongeComponent implements OnInit {
   Close()
   {
     this.dialogRef.close();
+    window.location.reload();
   }
   onFileSelected(event)
 {
@@ -156,13 +194,11 @@ upload(idCong:number)
   {
     this.restjour=this.typeconge.nbMaxJrs-this.nomberJour;
   }
-  console.log(event+" "+this.Sommenbjour+"   "+this.nomberJour);
  // this.restjour =this.typeconge.nbMaxJrs-(this.Sommenbjour+this.nomberJour);
- this.ValideConge();
 }
 SupprimerConge()
 {
-let confirm=window.confirm("Etes-vous sûre?");
+let confirm=window.confirm("Voulez-vous vraiment supprimer le congé?");
     if(confirm==true)
     {
       this.congeService.deleteConge(this.conge.idCong)
@@ -172,6 +208,7 @@ let confirm=window.confirm("Etes-vous sûre?");
         },err=>{
           console.log(err);
         })
+       
 }
 }
 download(idCong:number)
@@ -195,24 +232,28 @@ else
 showSuccess() {
   if(this.lang=='fr')
   {
-    this.toastr.success("Mise à jour de congé effectuée");
+    this.toastr.success("Mise à jour de congé a été effectuée");
   }
 else
   {
     this.toastr.success("تم تحديث العطلة بنجاح");
   }
 }
-ValideConge()
+ValideConge(c:Conge)
 {
-  if(this.restjour>=0)
+this.date=this.datePipe.transform(c.dateDebut,'MM/dd/yyyy');
+var dateNow=this.datePipe.transform(new Date(),'MM/dd/yyyy');
+  if(this.date>dateNow)
   {
-    this.congeValide=true;
+    return false;
+
   }
   else
   {
-    this.congeValide=false;
+   return true;
   }
 }
+
 getColor()
 {
   if(this.restjour>=5)

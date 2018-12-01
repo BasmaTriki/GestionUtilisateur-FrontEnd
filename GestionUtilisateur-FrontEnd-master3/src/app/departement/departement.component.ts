@@ -7,6 +7,8 @@ import * as $ from 'jquery';
 import 'datatables.net';
 import 'datatables.net-bs4';
 import { HttpClient } from '@angular/common/http';
+import { FormControl, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-departement',
   templateUrl: './departement.component.html',
@@ -21,22 +23,28 @@ export class DepartementComponent implements OnInit {
   departement:Departement=new Departement();
   departements:Array<Departement>=new Array<Departement>();
   dataTable: any;
+  lang:string="";
+  libelleFr=new FormControl('',[Validators.pattern("[a-zA-Zéàçèùî' ]+"),Validators.minLength(3)]);
+  libelleAr=new FormControl('',[Validators.pattern("[أ-يءئىآؤة ]+"),Validators.required,Validators.minLength(3)]);
   constructor(private departementServices:DepartementServices,
     private chRef: ChangeDetectorRef, 
     private http: HttpClient,
+    private toastr: ToastrService,
     public router:Router) { }
 
   ngOnInit() {
+    this.lang=sessionStorage.getItem("lang");
     this.doSearch();
   }
   ajouter(){
     this.departementServices.saveDepartement(this.departement)
       .subscribe(data=>{
-        alert("Success d'ajout departement");
+        this.showSuccess();
         this.doSearch();
-        console.log(data);
+        this.departement=new Departement();
       },err=>{
         console.log(err);
+        this.toastr.error("Veuillez vérifier les informations saisies");
       });
   }
   doSearch(){
@@ -60,7 +68,7 @@ export class DepartementComponent implements OnInit {
     this.router.navigate(['editdepartement',idDep]);
   }
   onDeleteDepartement(d:Departement){
-    let confirm=window.confirm("Etes-vous sûre?");
+    let confirm=window.confirm("Voulez-vous vraiment supprimer le département?");
     if(confirm==true)
     {
       this.departementServices.deleteDepartement(d.idDep)
@@ -72,6 +80,52 @@ export class DepartementComponent implements OnInit {
         },err=>{
           console.log(err);
         })
+    }
+  }
+  getErrorMessageFr() {
+    return this.libelleFr.hasError('pattern') ? 'des caractères en français seulement' :
+    this.departement.nomDep.length < 3 ? 'Au minimum 3 caractéres' :
+            '';
+  }
+  getErrorMessageAr() {
+    return this.libelleAr.hasError('pattern') ? 'des caractères en arabe seulement' :
+    this.libelleAr.hasError('required') ? 'Champ obligatoire' :
+    this.departement.nomDepAr.length < 3 ? 'Au minimum 3 caractéres' :
+            '';
+  }
+  valideFormulaire()
+  {
+    if((this.departement.nomDepAr!="") &&(this.departement.nomDepAr.length>=3) && !(this.libelleAr.hasError('pattern')))
+    {
+      if(this.departement.nomDep!=""&& (this.libelleFr.hasError('pattern'))&&(this.departement.nomDep.length<3))
+      {
+       return true;
+      }  
+      else if(this.departement.nomDep!="" && !(this.libelleFr.hasError('pattern'))&&(this.departement.nomDep.length<3))
+      {
+        return true;
+      }
+      else if(this.departement.nomDep!="" && (this.libelleFr.hasError('pattern'))&&(this.departement.nomDep.length>=3))
+      {
+        return true;
+      }
+      else if(this.departement.nomDep!="" && !(this.libelleFr.hasError('pattern'))&&(this.departement.nomDep.length>=3))
+      {
+        return false;
+      }
+    return false;
+    }
+    else
+    return true;
+  }
+  showSuccess() {
+    if(this.lang=='fr')
+    {
+      this.toastr.success("L'ajout de département a été effectué avec succès");
+    }
+  else
+    {
+      this.toastr.success("تمت إضافة القسم بنجاح");
     }
   }
 }

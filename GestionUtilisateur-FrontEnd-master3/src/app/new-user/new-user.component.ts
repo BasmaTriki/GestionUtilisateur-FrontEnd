@@ -96,7 +96,12 @@ saveUser(){
     this.personnel.role=this.role;
     this.personnelServices.updatePersonnel(this.personnel)
     .subscribe(data=>{
- 
+      this.toastr.info('Un nouveau utilisateur a été ajouté avec succés');
+      this.personnelServices.EmailNouvelleCmp(this.personnel.idPers)
+      .subscribe(data=>{
+      },err=>{
+        console.log(err);
+      });
       this.router.navigate(['users']);
     },err=>{
       console.log(err);
@@ -107,19 +112,18 @@ saveUser(){
 
 generate()
 {
-	   var chars:string = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"; // Tu supprimes les lettres dont tu ne veux pas
+	   var chars:string = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
      var pass:string = "";
       var i:number=0;
       var long:any=7;
       var x:number;
 	    while( i < long)
 	    {
-	       x= Number(Math.floor(Math.random() * 62)); // Si tu supprimes des lettres tu diminues ce nb
+	       x= Number(Math.floor(Math.random() * 62));
          pass =pass+ chars.charAt(x);
          i++;
 	    }
-      console.log(pass);
-      this.loginU=pass;
+      this.loginU=this.personnel.matricule;
       this.motpassU=pass;
       return pass;
 }

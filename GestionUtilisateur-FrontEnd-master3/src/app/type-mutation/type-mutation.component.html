@@ -6,13 +6,15 @@
     <div>
       <form class="form-inline">
         <div class="form-group">
-          <mat-form-field>
-            <input matInput placeholder="Désignation" [(ngModel)]="typeMutation.designationMutation" name="desig">
+          <mat-form-field matTooltip="3 caractères au minimum" matTooltipPosition="above">
+            <input matInput placeholder="Désignation"  [formControl]="designationFr" [(ngModel)]="typeMutation.designationMutation" name="desig">
+            <mat-error *ngIf="designationFr.invalid">{{getErrorMessageFr()}}</mat-error>
           </mat-form-field>
-          <mat-form-field>
-              <input matInput placeholder="نوع النقلة" [(ngModel)]="typeMutation.designationMutationAr" name="desigAr">
+          <mat-form-field matTooltip="4 caractères au minimum" matTooltipPosition="above">
+              <input matInput placeholder="نوع النقلة" [formControl]="designationAr" [(ngModel)]="typeMutation.designationMutationAr" name="desigAr" required>
+              <mat-error *ngIf="designationAr.invalid">{{getErrorMessageAr()}}</mat-error>
             </mat-form-field>
-          <button  mat-mini-fab color="primary" (click)="ajouter()">
+          <button  mat-mini-fab color="primary"  class="btn btn-primary"[disabled]="ValideFormulaire()" (click)="ajouter()">
             <mat-icon>add</mat-icon></button>
         </div>
       </form>

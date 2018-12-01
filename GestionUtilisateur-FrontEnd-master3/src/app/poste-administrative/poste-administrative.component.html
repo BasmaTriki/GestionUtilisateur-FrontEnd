@@ -4,13 +4,15 @@
   <div class="panel-heading">{{'SideBar.MPoste' | translate}}</div>
   <div class="panel-body">
       <div>
-          <mat-form-field>
-            <input matInput placeholder="Libellé" [(ngModel)]="poste.libellePos">
+          <mat-form-field matTooltip="3 caractères au minimum" matTooltipPosition="above">
+            <input matInput placeholder="Libellé" [formControl]="libelleFr" [(ngModel)]="poste.libellePos">
+            <mat-error *ngIf="libelleFr.invalid">{{getErrorMessageFr()}}</mat-error>
           </mat-form-field>
-          <mat-form-field>
-            <input matInput placeholder="الخطة الوظيفية" [(ngModel)]="poste.libellePosAr">
+          <mat-form-field matTooltip="4 caractères au minimum" matTooltipPosition="above">
+            <input matInput placeholder="الخطة الوظيفية" [formControl]="libelleAr"[(ngModel)]="poste.libellePosAr" required>
+            <mat-error *ngIf="libelleAr.invalid">{{getErrorMessageAr()}}</mat-error>
           </mat-form-field>
-          <button  mat-mini-fab color="primary" (click)="ajouter()">
+          <button  mat-mini-fab color="primary" class="btn btn-primary" [disabled]="ValideFormulaire()" (click)="ajouter()">
             <mat-icon>add</mat-icon></button>
         </div>
         <mat-tab-group class="demo-tab-group">

@@ -46,9 +46,22 @@ export class EnseignantPermanentComponent implements OnInit {
   nom=new FormControl('',[Validators.required, Validators.pattern("[a-zA-Z]+"),Validators.minLength(3)]);
   prenom=new FormControl('',[Validators.required, Validators.pattern("[a-zA-Z]+"),Validators.minLength(3)]);
   tel=new FormControl('',[Validators.required,Validators.pattern("[0-9]+"),Validators.minLength(8)]);
+  rib=new FormControl('',[Validators.required,Validators.pattern("[0-9]+"),Validators.minLength(10)]);
   codePostal=new FormControl('',[Validators.pattern("[0-9]+"),Validators.minLength(4)]);
-  nomAr=new FormControl('',[Validators.required,Validators.minLength(3)]);
-  prenomAr=new FormControl('',[Validators.required,Validators.minLength(3)]);
+  nomAr=new FormControl('',[Validators.pattern("[أ-يءئىآؤة ]+"), Validators.required,Validators.minLength(3)]);
+  prenomAr=new FormControl('',[Validators.pattern("[أ-يءئىآؤة ]+"),Validators.required,Validators.minLength(4)]);
+  nomPereFr=new FormControl('',[Validators.required, Validators.pattern("[a-zA-Z]+"),Validators.minLength(3)]);
+  nomPereAr=new FormControl('',[Validators.pattern("[أ-يءئىآؤة ]+"),Validators.required,Validators.minLength(4)]);
+  lieuNaissFr=new FormControl('',[Validators.required, Validators.pattern("[a-zA-Z]+"),Validators.minLength(3)]);
+  lieuNaissAr= new FormControl('',[Validators.pattern("[أ-يءئىآؤة ]+"),Validators.required,Validators.minLength(4)]);
+  nomConjFr=new FormControl('',[Validators.required, Validators.pattern("[a-zA-Z]+"),Validators.minLength(3)]);
+  nomConjAr= new FormControl('',[Validators.pattern("[أ-يءئىآؤة ]+"),Validators.required,Validators.minLength(4)]);
+  profConjFr=new FormControl('',[Validators.required, Validators.pattern("[a-zA-Z]+"),Validators.minLength(3)]);
+  profConjAr= new FormControl('',[Validators.pattern("[أ-يءئىآؤة ]+"),Validators.required,Validators.minLength(4)]);
+  lieuTrConjFr=new FormControl('',[Validators.required, Validators.pattern("[a-zA-Z]+"),Validators.minLength(3)]);
+  lieuTrConjAr= new FormControl('',[Validators.pattern("[أ-يءئىآؤة ]+"),Validators.required,Validators.minLength(4)]);
+  nomEnfantFr=new FormControl('',[Validators.required, Validators.pattern("[a-zA-Z]+"),Validators.minLength(3)]);
+  nomEnfantAr= new FormControl('',[Validators.pattern("[أ-يءئىآؤة ]+"),Validators.required,Validators.minLength(4)]);
   currentPage: number = 0;
   pages: Array<number>;
   size: number = 5;
@@ -126,7 +139,7 @@ export class EnseignantPermanentComponent implements OnInit {
             '';
   }
   getErrorMessageM() {
-    return this.matricule.hasError('required') ? 'Champs obligatoire' :
+    return this.matricule.hasError('required') ? 'Champ obligatoire' :
      this.matricule.hasError('pattern')? 'des chiffres seulement' :
      this.matricule.hasError('minLength')? 'le minimum 4 chiffres' :
             '';
@@ -136,39 +149,106 @@ export class EnseignantPermanentComponent implements OnInit {
      this.codePostal.hasError('minLength')? 'le minimum 4 chiffres' :
             '';
   }
+  getErrorMessagerRib() {
+    return this.rib.hasError('pattern')? 'des chiffres seulement' :
+     this.rib.hasError('minLength')? 'le minimum 10 chiffres' :
+            '';
+  }
   getErrorMessageC() {
-    return this.cinM.hasError('required') ? 'Champs obligatoire' :
+    return this.cinM.hasError('required') ? 'Champ obligatoire' :
      this.cinM.hasError('pattern') ? 'des chiffres seulement' :
      this.cinM.hasError('minLength') ? 'le minimum 8 chiffres' :
             '';
   }
   getErrorMessageT() {
-    return this.tel.hasError('required') ? 'Champs obligatoire' :
+    return this.tel.hasError('required') ? 'Champ obligatoire' :
      this.tel.hasError('pattern') ? 'des chiffres seulement' :
      this.tel.hasError('minLength') ? 'le minimum 8 chiffres' :
             '';
   }
   getErrorMessageN() {
-    return this.nom.hasError('required') ? 'Champs obligatoire' :
-     this.nom.hasError('pattern') ? 'des caractères seulement' :
+    return this.nom.hasError('required') ? 'Champ obligatoire' :
+     this.nom.hasError('pattern') ? 'des caractères en français seulement' :
      this.nom.hasError('minLength') ? 'le minimum 3 chiffres' :
             '';
   }
   getErrorMessageP() {
-    return this.prenom.hasError('required') ? 'Champs obligatoire' :
-     this.prenom.hasError('pattern') ? 'des caractères seulement' :
+    return this.prenom.hasError('required') ? 'Champ obligatoire' :
+     this.prenom.hasError('pattern') ? 'des caractères en français seulement' :
      this.prenom.hasError('minLength') ? 'le minimum 3 chiffres' :
             '';
   }
   getErrorMessageNAr() {
-    return this.nomAr.hasError('required') ? 'Champs obligatoire' :
-     this.nomAr.hasError('minLength') ? 'le minimum 3 chiffres' :
+    return this.nomAr.hasError('required') ? 'Champ obligatoire' :
+    this.nomAr.hasError('pattern') ? 'des caractères en arabe seulement':
+    this.nomAr.hasError('minLength') ? 'le minimum 3 chiffres' :
             '';
   }
   getErrorMessagePAr() {
-    return this.prenomAr.hasError('required') ? 'Champs obligatoire' :
+    return this.prenomAr.hasError('required') ? 'Champ obligatoire' :
+    this.prenomAr.hasError('pattern') ? 'des caractères en arabe seulement':
      this.prenomAr.hasError('minLength') ? 'le minimum 3 chiffres' :
             '';
+  }
+  getErrorMessageNpereFr() {
+    return this.nomPereFr.hasError('pattern')? 'des caractères en français seulement':
+    this.nomPereFr.hasError('minLength') ? 'le minimum 3 chiffres':
+    '';
+  }
+  getErrorMessageNpereAr() {
+    return this.nomPereAr.hasError('pattern')? 'des caractères en arabe seulement':
+    this.nomPereAr.hasError('minLength') ? 'le minimum 4 chiffres':
+    '';
+  }
+  getErrorMessageLNaisFr() {
+    return this.lieuNaissFr.hasError('pattern')? 'des caractères en français seulement':
+    this.nomPereFr.hasError('minLength') ? 'le minimum 3 chiffres':
+    '';
+  }
+  getErrorMessageLNaisAr() {
+    return this.lieuNaissAr.hasError('pattern')? 'des caractères en arabe seulement':
+    this.nomPereFr.hasError('minLength') ? 'le minimum 4 chiffres':
+    '';
+  }
+  getErrorMessageNomConjFr() {
+    return this.nomConjFr.hasError('pattern')? 'des caractères en français seulement':
+    this.nomConjFr.hasError('minLength') ? 'le minimum 3 chiffres':
+    '';
+  }
+  getErrorMessageNomConjAr() {
+    return this.nomConjAr.hasError('pattern')? 'des caractères en arabe seulement':
+    this.nomConjAr.hasError('minLength') ? 'le minimum 4 chiffres':
+    '';
+  }
+  getErrorMessageProfConjFr() {
+    return this.profConjFr.hasError('pattern')? 'des caractères en français seulement':
+    this.profConjFr.hasError('minLength') ? 'le minimum 3 chiffres':
+    '';
+  }
+  getErrorMessageProfConjAr() {
+    return this.profConjAr.hasError('pattern')? 'des caractères en arabe seulement':
+    this.profConjAr.hasError('minLength') ? 'le minimum 4 chiffres':
+    '';
+  }
+  getErrorMessageLieuTrconjFr() {
+    return this.lieuTrConjFr.hasError('pattern')? 'des caractères en français seulement':
+    this.lieuTrConjFr.hasError('minLength') ? 'le minimum 3 chiffres':
+    '';
+  }
+  getErrorMessageLieuConjAr() {
+    return this.lieuTrConjAr.hasError('pattern')? 'des caractères en arabe seulement':
+    this.lieuTrConjAr.hasError('minLength') ? 'le minimum 4 chiffres':
+    '';
+  }
+  getErrorMessageNomEnfFr(){
+    return this.nomEnfantFr.hasError('pattern')? 'des caractères en français seulement':
+    this.nomEnfantFr.hasError('minLength') ? 'le minimum 3 chiffres':
+    '';
+  }
+  getErrorMessageNomEnfAr(){
+    return this.nomEnfantAr.hasError('pattern')? 'des caractères en arabe seulement':
+    this.nomEnfantAr.hasError('minLength') ? 'le minimum 4 chiffres':
+    '';
   }
   chercherOrg()
   {

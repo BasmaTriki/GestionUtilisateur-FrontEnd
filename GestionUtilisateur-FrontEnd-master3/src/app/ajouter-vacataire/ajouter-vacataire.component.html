@@ -22,6 +22,9 @@
             </mat-select>
           </mat-form-field>
         </div> 
+        <div *ngIf="type=='Enseignant Contractuel'||type=='أستاذ متعاقد'">
+          <app-enseignant-contractuelle></app-enseignant-contractuelle>
+        </div>
  <mat-accordion>
 <form #fe *ngIf="type=='Enseignant Libre'||type=='أستاذ حر'">
 <mat-expansion-panel>
@@ -68,7 +71,7 @@
 <mat-form-field>
   <textarea matInput placeholder="Adresse" type="text" name="adresse" [(ngModel)]="enseignantLibre.adresse" required></textarea>
 </mat-form-field>
-<mat-form-field matTooltip="Max 4 caractére" matTooltipPosition="above">
+<mat-form-field matTooltip="Max 4 caractère" matTooltipPosition="above">
   <input matInput #input2 maxlength="4" placeholder="Code Postal" type="text" name="code" [(ngModel)]="enseignantLibre.codepostal">
   <mat-hint align="end">{{input2.value?.length||0}}/4</mat-hint>
 </mat-form-field>
@@ -91,7 +94,7 @@
       <mat-panel-description>
     </mat-panel-description>
     </mat-expansion-panel-header>
-    <mat-form-field matTooltip="Max 8 caractére" matTooltipPosition="above">
+    <mat-form-field matTooltip="Max 8 caractère" matTooltipPosition="above">
       <input matInput type="text" name="cin" #input1 maxlength="8" placeholder="ب.ت.و."  [(ngModel)]="enseignantLibre.cin" required>
       <mat-hint align="end">{{input1.value?.length||0}}/8</mat-hint>
     </mat-form-field>
@@ -126,7 +129,7 @@
     <mat-form-field>
         <textarea matInput placeholder="العنوان" type="text" name="adressear" [(ngModel)]="enseignantLibre.adresseAr" required></textarea>
       </mat-form-field>
-    <mat-form-field matTooltip="Max 4 caractére" matTooltipPosition="above">
+    <mat-form-field matTooltip="Max 4 caractère" matTooltipPosition="above">
       <input matInput #input2 maxlength="4" placeholder="الصندوق البريدي" type="text" name="code" [(ngModel)]="enseignantLibre.codepostal">
       <mat-hint align="end">{{input2.value?.length||0}}/4</mat-hint>
     </mat-form-field>
@@ -300,10 +303,10 @@
             </div>
             <div *ngIf="ajoutAnnee && lang=='ar'">
               <mat-form-field>
-                <input matInput placeholder="بداية السنة الدراسية" type="number" name="annedebut" [(ngModel)]="anneeUniv.anneeDebut" required>
+                <input matInput placeholder="بداية السنة الدراسية" type="number" name="annedebut" min="2000" [(ngModel)]="anneeUniv.anneeDebut" required>
               </mat-form-field>
               <mat-form-field>
-                <input matInput placeholder="نهاية السنة الدراسية" type="number" name="annefin" [(ngModel)]="anneeUniv.anneeFin" required>
+                <input matInput placeholder="نهاية السنة الدراسية" type="number" name="annefin" min="2000"  [(ngModel)]="anneeUniv.anneeFin" required>
               </mat-form-field>
             </div>
             <mat-form-field *ngIf="lang=='fr'">
@@ -324,24 +327,24 @@
               <br>
               <div *ngIf="lang=='fr'">
             <mat-form-field>
-              <input matInput placeholder="Heure de Cours" type="number" name="Hcour" [(ngModel)]="chargeSem.nbrHeuresCR" required>
+              <input matInput placeholder="Heure de Cours" type="number" min="0" name="Hcour" [(ngModel)]="chargeSem.nbrHeuresCR" required>
             </mat-form-field>
             <mat-form-field>
-              <input matInput placeholder="Heure de TD" type="number" name="HTD" [(ngModel)]="chargeSem.nbrHeuresTD" required>
+              <input matInput placeholder="Heure de TD" type="number" name="HTD" min="0" [(ngModel)]="chargeSem.nbrHeuresTD" required>
             </mat-form-field>
             <mat-form-field>
-              <input matInput placeholder="Heure de TP" type="number" name="HTP" [(ngModel)]="chargeSem.nbrHeuresTP" required>
+              <input matInput placeholder="Heure de TP" type="number" name="HTP" min="0" [(ngModel)]="chargeSem.nbrHeuresTP" required>
             </mat-form-field>
           </div>
           <div *ngIf="lang=='ar'">
             <mat-form-field>
-              <input matInput placeholder="ساعات الدرس" type="number" name="Hcour" [(ngModel)]="chargeSem.nbrHeuresCR" required>
+              <input matInput placeholder="ساعات الدرس" type="number" name="Hcour" min="0" [(ngModel)]="chargeSem.nbrHeuresCR" required>
             </mat-form-field>
             <mat-form-field>
-              <input matInput placeholder="TD ساعات" type="number" name="HTD" [(ngModel)]="chargeSem.nbrHeuresTD" required>
+              <input matInput placeholder="TD ساعات" type="number" name="HTD" min="0" [(ngModel)]="chargeSem.nbrHeuresTD" required>
             </mat-form-field>
             <mat-form-field>
-              <input matInput placeholder="TP ساعات" type="number" name="HTP" [(ngModel)]="chargeSem.nbrHeuresTP" required>
+              <input matInput placeholder="TP ساعات" type="number" name="HTP" min="0" [(ngModel)]="chargeSem.nbrHeuresTP" required>
             </mat-form-field>
           </div>
           </mat-expansion-panel>
@@ -516,10 +519,10 @@
         </mat-select>
       </mat-form-field>
           <mat-form-field *ngIf="lang=='fr'">
-          <input matInput #input3 type="number" placeholder="Nomber Max d'heures" name="maxheure" [(ngModel)]="enseignantFonct.nbreMaxHeures" required>
+          <input matInput #input3 type="number" min="0" placeholder="Nomber Max d'heures" name="maxheure" [(ngModel)]="enseignantFonct.nbreMaxHeures" required>
           </mat-form-field>
           <mat-form-field *ngIf="lang=='ar'">
-            <input matInput #input3 type="number" placeholder="العدد الأقصى للساعات" name="maxheure" [(ngModel)]="enseignantFonct.nbreMaxHeures" required>
+            <input matInput #input3 type="number" min="0" placeholder="العدد الأقصى للساعات" name="maxheure" [(ngModel)]="enseignantFonct.nbreMaxHeures" required>
             </mat-form-field><br>  
               <label>{{'Table.CimportationAuto' | translate}}</label>
               <input type="file" name="declaration" (change)="onFileSelected($event)">
@@ -625,18 +628,18 @@
               </mat-form-field>
               <div *ngIf="ajoutAnnee && lang=='fr'">
                 <mat-form-field>
-                  <input matInput placeholder="Année de Début" type="number" name="annedebut" [(ngModel)]="anneeUniv.anneeDebut" required>
+                  <input matInput placeholder="Année de Début" min="2000" type="number" name="annedebut" [(ngModel)]="anneeUniv.anneeDebut" required>
                 </mat-form-field>
                 <mat-form-field>
-                  <input matInput placeholder="Année de Fin" type="number" name="annefin" [(ngModel)]="anneeUniv.anneeFin" required>
+                  <input matInput placeholder="Année de Fin" min="2000" type="number" name="annefin" [(ngModel)]="anneeUniv.anneeFin" required>
                 </mat-form-field>
               </div>
               <div *ngIf="ajoutAnnee && lang=='ar'">
                 <mat-form-field>
-                  <input matInput placeholder="بداية السنة الدراسية" type="number" name="annedebut" [(ngModel)]="anneeUniv.anneeDebut" required>
+                  <input matInput placeholder="بداية السنة الدراسية" type="number" min="2000" name="annedebut" [(ngModel)]="anneeUniv.anneeDebut" required>
                 </mat-form-field>
                 <mat-form-field>
-                  <input matInput placeholder="نهاية السنة الدراسية" type="number" name="annefin" [(ngModel)]="anneeUniv.anneeFin" required>
+                  <input matInput placeholder="نهاية السنة الدراسية" type="number" min="2000" name="annefin" [(ngModel)]="anneeUniv.anneeFin" required>
                 </mat-form-field>
               </div>
               <mat-form-field *ngIf="lang=='fr'">
@@ -657,24 +660,24 @@
                 <br>
                 <div *ngIf="lang=='fr'">
               <mat-form-field>
-                <input matInput placeholder="Heure de Cours" type="number" name="Hcour" [(ngModel)]="chargeSem.nbrHeuresCR" required>
+                <input matInput placeholder="Heure de Cours" type="number" min="0" name="Hcour" [(ngModel)]="chargeSem.nbrHeuresCR" required>
               </mat-form-field>
               <mat-form-field>
-                <input matInput placeholder="Heure de TD" type="number" name="HTD" [(ngModel)]="chargeSem.nbrHeuresTD" required>
+                <input matInput placeholder="Heure de TD" type="number" min="0" name="HTD" [(ngModel)]="chargeSem.nbrHeuresTD" required>
               </mat-form-field>
               <mat-form-field>
-                <input matInput placeholder="Heure de TP" type="number" name="HTP" [(ngModel)]="chargeSem.nbrHeuresTP" required>
+                <input matInput placeholder="Heure de TP" type="number" min="0" name="HTP" [(ngModel)]="chargeSem.nbrHeuresTP" required>
               </mat-form-field>
             </div>
             <div *ngIf="lang=='ar'">
               <mat-form-field>
-                <input matInput placeholder="ساعات الدرس" type="number" name="Hcour" [(ngModel)]="chargeSem.nbrHeuresCR" required>
+                <input matInput placeholder="ساعات الدرس" type="number" min="0" name="Hcour" [(ngModel)]="chargeSem.nbrHeuresCR" required>
               </mat-form-field>
               <mat-form-field>
-                <input matInput placeholder="TD ساعات" type="number" name="HTD" [(ngModel)]="chargeSem.nbrHeuresTD" required>
+                <input matInput placeholder="TD ساعات" type="number" min="0" name="HTD" [(ngModel)]="chargeSem.nbrHeuresTD" required>
               </mat-form-field>
               <mat-form-field>
-                <input matInput placeholder="TP ساعات" type="number" name="HTP" [(ngModel)]="chargeSem.nbrHeuresTP" required>
+                <input matInput placeholder="TP ساعات" type="number" min="0" name="HTP" [(ngModel)]="chargeSem.nbrHeuresTP" required>
               </mat-form-field>
             </div>
             </mat-expansion-panel>

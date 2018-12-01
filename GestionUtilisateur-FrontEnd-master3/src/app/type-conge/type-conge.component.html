@@ -4,14 +4,16 @@
   <div class="panel-heading">{{'SideBar.MTypeC' | translate}}</div>
   <div class="panel-body">
     <div>
-    <mat-form-field>
-      <input matInput placeholder="Libellé" [(ngModel)]="typeConge.libelleType" name="typecongefr">
-    </mat-form-field> <br>
-    <mat-form-field>
-        <input matInput placeholder="نوع العطلة" [(ngModel)]="typeConge.libelleTypeAr" name="typecongear">
+    <mat-form-field  matTooltip="3 caractères au minimum" matTooltipPosition="above">
+      <input matInput placeholder="Libellé" [formControl]="libelleFr" [(ngModel)]="typeConge.libelleType" name="typecongefr">
+      <mat-error *ngIf="libelleFr.invalid">{{getErrorMessageFr()}}</mat-error>
+    </mat-form-field><br>
+    <mat-form-field matTooltip="4 caractères au minimum" matTooltipPosition="above">
+        <input matInput placeholder="نوع العطلة" [formControl]="libelleAr"[(ngModel)]="typeConge.libelleTypeAr" name="typecongear"required>
+        <mat-error *ngIf="libelleAr.invalid">{{getErrorMessageAr()}}</mat-error>
       </mat-form-field><br>
     <mat-form-field> 
-      <input matInput placeholder="Nombre de jours/عدد الأيام" [(ngModel)]="typeConge.nbMaxJrs" name="nbJourfr">
+      <input matInput type="number" placeholder="Nombre de jours/عدد الأيام" [(ngModel)]="typeConge.nbMaxJrs" name="nbJourfr" min="0">
     </mat-form-field> <br>
     <mat-radio-group [(ngModel)]="typeConge.autorisation" name="autorisation">
         <mat-label><b>{{'Table.CAutorisation' | translate}}:</b></mat-label>
@@ -23,7 +25,25 @@
       <mat-radio-button [value]="true">{{'Table.Oui' | translate}}</mat-radio-button>
       <mat-radio-button [value]="false">{{'Table.Non' | translate}}</mat-radio-button>
     </mat-radio-group><br>
-    <button  mat-mini-fab color="primary" (click)="ajouter()"><mat-icon>add</mat-icon></button>
+  <!--   <div *ngIf="lang=='fr'">
+      <mat-form-field>
+          <mat-select placeholder="Pour qui ce congé" [(value)]="type"  required>
+            <mat-option *ngFor="let t of TypeCongePers" [value]="t.value">
+              {{ t.value }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div> 
+      <div *ngIf="lang=='ar'">
+          <mat-form-field>
+              <mat-select placeholder="من المعني بهذه العطلة" [(value)]="type"  required>
+                <mat-option *ngFor="let t of TypeCongePersAr" [value]="t.value">
+                  {{ t.value }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>  -->
+    <button  mat-mini-fab color="primary" class="btn btn-primary" [disabled]="ValideFormulaire()" (click)="ajouter()"><mat-icon>add</mat-icon></button>
     <br>
     <hr>
     <mat-tab-group class="demo-tab-group">

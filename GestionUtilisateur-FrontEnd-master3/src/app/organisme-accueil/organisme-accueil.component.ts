@@ -8,6 +8,7 @@ import 'datatables.net';
 import 'datatables.net-bs4';
 import { HttpClient } from '@angular/common/http';
 import { FormControl, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-organisme-accueil',
@@ -22,23 +23,28 @@ export class OrganismeAccueilComponent implements OnInit {
   size:number=1000;
   orgAccueil:Organisme=new Organisme();
   dataTable: any;
-  libelleFr=new FormControl('',[Validators.pattern("[a-zA-Z ]+"),Validators.minLength(5)]);
-  libelleAr=new FormControl('',[Validators.required,Validators.minLength(5)]);
+  lang:string="";
+  libelleFr=new FormControl('',[Validators.pattern("[a-zA-Zéàçèùî' ]+"),Validators.minLength(4)]);
+  libelleAr=new FormControl('',[Validators.pattern("[أ-يءئىآؤة ]+"),Validators.required,Validators.minLength(4)]);
   constructor(private orgAccueilServices:OrganismeServices,
     private chRef: ChangeDetectorRef, 
+    private toastr: ToastrService,
     private http: HttpClient,
     public router:Router) { }
 
   ngOnInit() {
     this.doSearch();
+    this.lang=sessionStorage.getItem("lang");
   }
   ajouter(){
     this.orgAccueilServices.saveOrganismeAccueil(this.orgAccueil)
       .subscribe(data=>{
-        alert("Success d'ajout Organisme");
+        this.showSuccess();
         this.doSearch();
+        this.orgAccueil=new Organisme();
       },err=>{
         console.log(err);
+        this.toastr.error("Veuillez vérifier les informations saisies");
       });
   }
   doSearch(){
@@ -57,7 +63,7 @@ export class OrganismeAccueilComponent implements OnInit {
     this.router.navigate(['editOrganisme',idOrg]);
   }
   onDeleteOrgAccueil(o:Organisme){
-    let confirm=window.confirm("Etes-vous sûre?");
+    let confirm=window.confirm("Voulez-vous vraiment supprimer l'organisme?");
     if(confirm==true)
     {
       this.orgAccueilServices.deleteOrganismeAccueil(o.idOrg)
@@ -72,22 +78,49 @@ export class OrganismeAccueilComponent implements OnInit {
     }
   }
   getErrorMessageFr() {
-    return this.libelleFr.hasError('pattern') ? 'des caractères seulement' :
-     this.libelleFr.hasError('minLength') ? 'le minimum 3 chiffres' :
+    return this.libelleFr.hasError('pattern') ? 'des caractères en français seulement' :
+    this.orgAccueil.libelleOrg.length < 4 ? 'Au minimum 4 caractéres' :
             '';
   }
   getErrorMessageAr() {
-    return this.libelleAr.hasError('required') ? 'Champs obligatoire' :
-     this.libelleAr.hasError('minLength') ? 'le minimum 3 chiffres' :
+    return this.libelleAr.hasError('pattern') ? 'des caractères en arabe seulement' :
+    this.libelleAr.hasError('required') ? 'Champ obligatoire' :
+    this.orgAccueil.libelleOrgAr.length < 4 ? 'Au minimum 4 caractéres' :
             '';
   }
   valideFormulaire()
   {
-    if((this.orgAccueil.libelleOrg!=""&& !(this.libelleFr.hasError('pattern'))&&!(this.libelleFr.hasError('minLength')))|| ((this.orgAccueil.libelleOrgAr!="") &&(this.orgAccueil.libelleOrgAr.length>=4)))
+    if((this.orgAccueil.libelleOrgAr!="") &&(this.orgAccueil.libelleOrgAr.length>=4) && !(this.libelleAr.hasError('pattern')))
     {
-      return false;
+      if(this.orgAccueil.libelleOrg!=""&& (this.libelleFr.hasError('pattern'))&&(this.orgAccueil.libelleOrg.length<4))
+      {
+       return true;
+      }  
+      else if(this.orgAccueil.libelleOrg!="" && !(this.libelleFr.hasError('pattern'))&&(this.orgAccueil.libelleOrg.length<4))
+      {
+        return true;
+      }
+      else if(this.orgAccueil.libelleOrg!="" && (this.libelleFr.hasError('pattern'))&&(this.orgAccueil.libelleOrg.length>=4))
+      {
+        return true;
+      }
+      else if(this.orgAccueil.libelleOrg!="" && !(this.libelleFr.hasError('pattern'))&&(this.orgAccueil.libelleOrg.length>=4))
+      {
+        return false;
+      }
+    return false;
     }
     else
     return true;
+  }
+  showSuccess() {
+    if(this.lang=='fr')
+    {
+      this.toastr.success("L'ajout de l'organisme a été effectué avec succès");
+    }
+  else
+    {
+      this.toastr.success("تمت إضافة المؤسسة بنجاح");
+    }
   }
 }

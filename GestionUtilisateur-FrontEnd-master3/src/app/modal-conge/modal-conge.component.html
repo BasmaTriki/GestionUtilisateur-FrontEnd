@@ -22,7 +22,7 @@
 <mat-datepicker #picker1 [(ngModel)]="conge.dateFin" ngDefaultControl ></mat-datepicker>
 </mat-form-field><br>
 <mat-form-field>
-  <textarea  matInput placeholder="Adresse Congé" type="text" name="adresse" [(ngModel)]="conge.adresseConge" required></textarea>
+  <textarea  matInput placeholder="Adresse Congé" type="text" name="adresse" [(ngModel)]="conge.adresseConge"></textarea>
 </mat-form-field>
 <mat-form-field>
   <input matInput placeholder="Téléphone Congé" type="text" name="telephone" [(ngModel)]="conge.telephoneConge">
@@ -38,7 +38,8 @@
 <div *ngIf="typeconge.libelleType=='Maladie'||typeconge.libelleType=='Maladie Longue durée'">
   <label>Importez votre certeficat médical</label>
   <input placeholder="Certafica" type="file" name="maladie" (change)="onFileSelected($event)">
-</div>    
+</div>
+<div style="color:red" *ngIf="congeValide"><h4>Vous avez déjà un congé</h4></div>    
 </div>
     <!--Modale Arabe-->
     <div *ngIf="lang=='ar'">
@@ -64,16 +65,16 @@
       <mat-datepicker #picker1 [(ngModel)]="conge.dateFin" ngDefaultControl ></mat-datepicker>
       </mat-form-field><br>
       <mat-form-field>
-        <textarea  matInput placeholder="عنوان العطلة" type="text" name="adresse" [(ngModel)]="conge.adresseCongeAr" required></textarea>
+        <textarea  matInput placeholder="عنوان العطلة" type="text" name="adresse" [(ngModel)]="conge.adresseCongeAr"></textarea>
       </mat-form-field>
       <mat-form-field>
         <input matInput placeholder="هاتف العطلة" type="text" name="telephone" [(ngModel)]="conge.telephoneConge">
       </mat-form-field>
-      <div class="form-group ">
+      <div class="form-group">
           <label *ngIf="nomberJour" class="control-label">:عدد الأيام المطلوبة </label>
         <div *ngIf="nomberJour" [innerHTML]="nomberJour"></div>
         </div>
-      <div class="form-group ">
+      <div class="form-group">
       <label *ngIf="restjour" class="control-label">:عدد الأيام المتبقية في رصيدك</label>
       <div [ngStyle]="{color: getColor()}" *ngIf="restjour" [innerHTML]="restjour"></div>
       </div>
@@ -81,11 +82,13 @@
         <label>:تحميل الشهادة الطبية </label>
         <input placeholder="الشهادة الطبية" type="file" name="maladie" (change)="onFileSelected($event)">
       </div>
+      <div style="color:red" *ngIf="congeValide"><h4>لديك عطلة في نفس المدة</h4></div>
     </div>
        <!--end Modale Arabe-->
-     
+      
+ 
   <div class="posAr">
-    <button mat-mini-fab color="primary" [disabled]="!ValideConge()" (click)="ajouter()" (click)="ajouter()"><mat-icon>add</mat-icon></button>
+    <button mat-mini-fab color="primary" [disabled]="!ValideConge()" (click)="ajouter()"><mat-icon>add</mat-icon></button>
     <button  mat-mini-fab color="default" (click)="Close()"><mat-icon>clear</mat-icon></button>
   </div>
   </div>

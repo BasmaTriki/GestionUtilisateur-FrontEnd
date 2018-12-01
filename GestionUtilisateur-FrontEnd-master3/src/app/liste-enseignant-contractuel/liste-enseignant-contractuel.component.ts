@@ -22,7 +22,6 @@ import { Contrat } from '../../model/model.Contrat';
   styleUrls: ['./liste-enseignant-contractuel.component.css']
 })
 export class ListeEnseignantContractuelComponent implements OnInit {
-  enseignantPs:Array<EnseignantPermanent> = new Array<EnseignantPermanent>();
   pages: Array<number>;
   pageContrats:any;
   motCle:string="";
@@ -34,8 +33,6 @@ export class ListeEnseignantContractuelComponent implements OnInit {
   lang:string;
   contrats:Array<Contrat>=new Array<Contrat>();
   constructor(private departementServices:DepartementServices,
-    private enseingnantpermanentService:EnseignantPermanentServices,
-    private personnelServices:PersonnelServices,
     private imprimerServices:ImpressionServices,
     private contratServices:ContratServices,
     private chRef: ChangeDetectorRef,

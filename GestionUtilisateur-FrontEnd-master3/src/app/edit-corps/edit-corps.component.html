@@ -8,14 +8,16 @@
           <input matInput placeholder="ID" [(ngModel)]="corps.idcps" disabled>
         </mat-form-field>
       <mat-form-field>
-        <input matInput placeholder="Libellé" [(ngModel)]="corps.libelleCps">
+        <input matInput placeholder="Libellé" [formControl]="libelleFr" [(ngModel)]="corps.libelleCps">
+        <mat-error *ngIf="libelleFr.invalid">{{getErrorMessageFr()}}</mat-error>
       </mat-form-field>
       <mat-form-field>
-          <input matInput placeholder="السلك" [(ngModel)]="corps.libelleCpsAr">
+          <input matInput placeholder="السلك" [formControl]="libelleAr" [(ngModel)]="corps.libelleCpsAr" required>
+          <mat-error *ngIf="libelleAr.invalid">{{getErrorMessageAr()}}</mat-error>
         </mat-form-field>
-      <button mat-mini-fab color="primary" (click)="updateCorps()">
+      <button mat-mini-fab class="btn btn-primary" color="primary" [disabled]="valideFormulaire()" (click)="updateCorps()">
         <mat-icon>create</mat-icon></button>
-
+        <button mat-mini-fab color="default" (click)="Annuler()"><mat-icon>clear</mat-icon></button>
         </div>
     </div>
   </div>

@@ -19,6 +19,7 @@ export class PersonnelCongeComponent implements OnInit {
   mode:number=1;
   conge:Conge=new Conge();
   idCong:number=0;
+  conges:Array<Conge>=new Array<Conge>();
   typeconge:TypeConge=new TypeConge();
   typeconges:Array<TypeConge> =new Array<TypeConge>();
   nbjour:number;
@@ -55,6 +56,7 @@ export class PersonnelCongeComponent implements OnInit {
        this.lang=sessionStorage.getItem("lang");
        this.AfficherTypeConge();
        this.doSearch();
+       this.ListeCongePersonnel();
   }
   doSearch()
   {
@@ -74,6 +76,41 @@ export class PersonnelCongeComponent implements OnInit {
   },err=>{
     console.log(err);
   })
+}
+ListeCongePersonnel()
+{
+  this.congeService.getPersonnelConge(this.idUser)
+  .subscribe(data=>{
+    this.conges=data;
+  },err=>{
+    console.log(err);
+  });
+}
+VerfierPeriodeConge(conge:Conge)
+{
+  var dateDebut:any=this.datePipe.transform(conge.dateDebut,"yyyy-MM-dd");
+  var dateFin:any=this.datePipe.transform(conge.dateFin,"yyyy-MM-dd");
+  for(let c of this.conges)
+  {
+ if((c.dateDebut<=dateDebut)&&(c.dateFin>=dateFin))
+ {
+ this.congeValide=true;
+ return true;
+}
+else if((c.dateDebut<=dateDebut)&&(dateDebut<=c.dateFin))
+{
+   this.congeValide=true;
+   return true;
+  }
+  else if((c.dateDebut<=dateFin)&&(dateFin<=c.dateFin))
+  {
+     this.congeValide=true;
+     return true;
+    }
+  }
+  this.congeValide=false;
+  return false;
+  
 }
     AfficherTypeConge()
   {
@@ -158,7 +195,7 @@ upload(idCong:number)
   {
     this.restjour=parseInt((this.typeconge.nbMaxJrs-this.nbjour)+"");
   }
-  this.ValideConge();
+  this.VerfierPeriodeConge(this.conge);
 }
 Certaficat(c:Conge)
 {
@@ -183,7 +220,7 @@ else
 }
 ValideConge()
 {
-  if(this.restjour>=0 && this.typeconge!=null && this.conge.dateDebut!=null && this.conge.dateFin!=null && this.conge.nbJour!=0)
+  if(this.restjour>=0 && this.typeconge!=null && this.conge.dateDebut!=null && this.conge.dateFin!=null && this.conge.nbJour!=0 &&!(this.congeValide))
   {
     return true;
   }

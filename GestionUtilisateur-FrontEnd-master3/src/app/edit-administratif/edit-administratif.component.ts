@@ -224,4 +224,8 @@ etat:Etat=new Etat();
     this.NewAGrades.push(this.agrade);
    
   }
+  Annuler()
+  {
+    this.router.navigate(['/ListeAdmin']);
+  }
 }

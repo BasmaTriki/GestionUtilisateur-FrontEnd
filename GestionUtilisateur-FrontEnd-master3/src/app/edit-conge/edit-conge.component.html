@@ -1,11 +1,11 @@
-  <div class="panel-heading"><h3>{{'Table.CModalConge'| translate }} {{data.name}}</h3></div>
+  <div class="panel-heading"><h3>{{'Table.CEditConge'| translate }} {{data.name}}</h3></div>
   <div class="panel-body">
 <div *ngIf="lang=='fr'">
 <div *ngIf="typeconge!=null && typeModifiable==false">
      <mat-form-field>
       <input matInput placeholder="Type de Congé" type="text" name="typeCg" required [(ngModel)]="typeconge.libelleType" disabled>
       </mat-form-field>
- <button  mat-icon-button color="" (click)="ModifierType()"><mat-icon>create</mat-icon></button>
+ <button  mat-icon-button color="" (click)="ModifierType()" [disabled]="ValideConge(conge)"><mat-icon>create</mat-icon></button>
  </div>
 <mat-form-field *ngIf="typeconge===null ||typeModifiable==true">
 <mat-select placeholder="Type de Congé" [(ngModel)]="typeconge" name="typeconge">
@@ -18,20 +18,20 @@
 <label class="control-label">Nombre de jours Max :</label><strong>{{typeconge.nbMaxJrs}}</strong>
 </div>
 <mat-form-field>
-<input matInput [matDatepicker]="picker" placeholder="Date de Debut" [(ngModel)]="conge.dateDebut" (dateInput)="onSelected($event)" (dateChange)="onSelected($event)" name="datedebut1">
+<input matInput [matDatepicker]="picker" placeholder="Date de Debut" [(ngModel)]="conge.dateDebut" [disabled]="ValideConge(conge)" (dateInput)="onSelected($event)" (dateChange)="onSelected($event)" name="datedebut1">
 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
 <mat-datepicker #picker  ngDefaultControl [(ngModel)]="conge.dateDebut"></mat-datepicker>
 </mat-form-field>
 <mat-form-field>
-<input matInput [matDatepicker]="picker1" placeholder="Date de Fin" [min]="conge.dateDebut" [(ngModel)]="conge.dateFin" (dateInput)="onSelected($event)" (dateChange)="onSelected($event)" name="datefin1">
+<input matInput [matDatepicker]="picker1" placeholder="Date de Fin" [min]="conge.dateDebut" [disabled]="ValideConge(conge)" [(ngModel)]="conge.dateFin" (dateInput)="onSelected($event)" (dateChange)="onSelected($event)" name="datefin1">
 <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
 <mat-datepicker #picker1 [(ngModel)]="conge.dateFin" ngDefaultControl ></mat-datepicker>
 </mat-form-field><br>
 <mat-form-field>
-  <textarea  matInput placeholder="Adresse Congé" type="text" name="adresse" [(ngModel)]="conge.adresseConge" required></textarea>
+  <textarea  matInput placeholder="Adresse Congé" type="text" name="adresse" [disabled]="ValideConge(conge)" [(ngModel)]="conge.adresseConge"></textarea>
 </mat-form-field>
 <mat-form-field>
-  <input matInput placeholder="Téléphone Congé" type="text" name="telephone" [(ngModel)]="conge.telephoneConge">
+  <input matInput placeholder="Téléphone Congé" type="text" name="telephone" [disabled]="ValideConge(conge)" [(ngModel)]="conge.telephoneConge">
 </mat-form-field>
 <div class="form-group ">
   <label *ngIf="nomberJour" class="control-label">Nombre de jours:</label>
@@ -44,7 +44,8 @@
 <div *ngIf="typeconge.libelleType=='Maladie'||typeconge.libelleType==='Maladie Longue durée'">
   <label>Importez votre certeficat médical</label>
   <input placeholder="Certafica" type="file" name="maladie" (change)="onFileSelected($event)">
-</div>    
+</div>  
+<div style="color:red" *ngIf="congeValide"><h4>Vous avez déjà un congé</h4></div>     
 </div>
     <!--Modale Arabe-->
     <div *ngIf="lang=='ar'">
@@ -52,7 +53,7 @@
               <mat-form-field>
                     <input matInput placeholder="نوع العطلة" type="text" name="typecgAr" required [(ngModel)]="typeconge.libelleTypeAr" disabled>
                   </mat-form-field>
-                  <button  mat-icon-button color="" (click)="ModifierType()"><mat-icon>create</mat-icon></button>
+                  <button  mat-icon-button color="" [disabled]="ValideConge(conge)" (click)="ModifierType()"><mat-icon>create</mat-icon></button>
                 </div>
       <mat-form-field *ngIf="typeconge===null ||typeModifiable==true">
       <mat-select placeholder="نوع العطلة" [(ngModel)]="typeconge" name="typeconge">
@@ -66,20 +67,20 @@
      <label class="control-label">:العدد الأقصى للأيام </label>
       </div>
       <mat-form-field>
-      <input matInput [matDatepicker]="picker" placeholder="بداية العطلة" [(ngModel)]="conge.dateDebut" (dateInput)="onSelected($event)" (dateChange)="onSelected($event)" name="datedebut">
+      <input matInput [matDatepicker]="picker" placeholder="بداية العطلة" [disabled]="ValideConge(conge)" [(ngModel)]="conge.dateDebut" (dateInput)="onSelected($event)" (dateChange)="onSelected($event)" name="datedebut">
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker  ngDefaultControl [(ngModel)]="conge.dateDebut"></mat-datepicker>
       </mat-form-field>
       <mat-form-field>
-      <input matInput [matDatepicker]="picker1" placeholder="نهاية العطلة" [min]="conge.dateDebut" [(ngModel)]="conge.dateFin" (dateInput)="onSelected($event)" (dateChange)="onSelected($event)" name="datefin">
+      <input matInput [matDatepicker]="picker1" placeholder="نهاية العطلة" [disabled]="ValideConge(conge)" [min]="conge.dateDebut" [(ngModel)]="conge.dateFin" (dateInput)="onSelected($event)" (dateChange)="onSelected($event)" name="datefin">
       <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
       <mat-datepicker #picker1 [(ngModel)]="conge.dateFin" ngDefaultControl ></mat-datepicker>
       </mat-form-field><br>
       <mat-form-field>
-        <textarea  matInput placeholder="عنوان العطلة" type="text" name="adresse" [(ngModel)]="conge.adresseCongeAr" required></textarea>
+        <textarea  matInput placeholder="عنوان العطلة" [disabled]="ValideConge(conge)" type="text" name="adresse" [(ngModel)]="conge.adresseCongeAr" required></textarea>
       </mat-form-field>
       <mat-form-field>
-        <input matInput placeholder="هاتف العطلة" type="text" name="telephone" [(ngModel)]="conge.telephoneConge">
+        <input matInput placeholder="هاتف العطلة" type="text" name="telephone" [disabled]="ValideConge(conge)" [(ngModel)]="conge.telephoneConge">
       </mat-form-field>
       <div class="form-group ">
           <label *ngIf="nomberJour" class="control-label">:عدد الأيام المطلوبة </label>
@@ -93,9 +94,10 @@
         <label>:تحميل الشهادة الطبية </label>
         <input placeholder="الشهادة الطبية" type="file" name="maladie" (change)="onFileSelected($event)">
       </div>
+      <div style="color:red" *ngIf="congeValide"><h4>لديك عطلة في هذه الفترة</h4></div>
     </div>
     <div class="posAr">
   <button  mat-icon-button color="" (click)="updateConge()"><mat-icon>create</mat-icon></button>
-  <button  mat-icon-button color="" (click)="SupprimerConge()"><mat-icon>delete</mat-icon></button>
+  <button  mat-icon-button color="" (click)="SupprimerConge()" [disabled]="ValideConge(conge)"><mat-icon>delete</mat-icon></button>
  <button mat-icon-button [disabled]="Certaficat(conge)" (click)="download(conge.idCong)" color="" ><mat-icon>get_app</mat-icon></button>
     </div>

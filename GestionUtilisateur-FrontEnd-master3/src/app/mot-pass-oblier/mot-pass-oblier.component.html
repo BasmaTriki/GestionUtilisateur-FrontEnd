@@ -1,0 +1,34 @@
+<div id="LoginForm">
+<!--   <div id="lang"> <button mat-mini-fab class="buttonColor" (click)="switchLanguage('fr')">Fr</button>
+    <button mat-mini-fab class="buttonColor" (click)="switchLanguage('ar')">عربي</button></div> -->
+  <div class="container spacer">
+  <div class="row">
+      <div class="col-md-4 col-sm-4 col-xs-12"></div>
+      <div class="col-md-4 col-sm-4 col-xs-12">
+<div class="login-form">    
+  <form >
+  <!-- <div class="avatar"><i class="material-icons">&#xE7FF;</i></div> -->
+  <img src="../../assets/images/logoMB.png" class="logo"/>
+    <h4 class="modal-title">Mot de Passe Oublié</h4>
+      <div class="form-group">
+          <input type="text" class="form-control" [formControl]="matricule" placeholder="Matricule" name="matriculeP" [(ngModel)]="mat" required>
+          <!-- <mat-hint align="end">{{input.value?.length||0}}/12</mat-hint> -->
+          <div style="color:red;font-size:12px" *ngIf="matricule.invalid">{{getErrorMessageM()}}</div>
+        </div>
+      <div class="form-group">
+          <input type="email" class="form-control" [formControl]="email" placeholder="E-mail" [(ngModel)]="mail" name="emailP" required>
+          <mat-error style="color:red;font-size:12px" *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
+        </div>
+      <div class="form-group small clearfix">
+          <!-- <label class="checkbox-inline"><input type="checkbox"> Remember me</label> -->
+        <!-- <a routerLink="/MotPassOblier" class="forgot-link">Mot de passe oublié?</a>[disabled]="valideFormulaire()" -->
+      </div> 
+      <input type="submit" class="btn btn-primary btn-block btn-lg" [disabled]="valideFormulaire()" (click)="chercheUser()" value="Valider">              
+  </form>		
+  <!-- <div class="text-center small">Designed by <i fa fa-heart></i> <a routerLink="login">Marwa&Basma</a></div> -->
+</div>
+<div class="col-md-4 col-sm-4 col-xs-12"></div>
+</div>
+</div>
+</div>
+</div>

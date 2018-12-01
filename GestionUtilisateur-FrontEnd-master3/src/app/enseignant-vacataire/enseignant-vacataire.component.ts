@@ -64,7 +64,7 @@ upload(idDemande:number)
 {
   const fb=new FormData();
   fb.append('upload',this.selectedFile,this.selectedFile.name);
- this.http.post("http://localhost:8080/uploadDiplomeVac/"+idDemande,fb)
+ this.http.post("http://10.100.20.39/uploadDiplomeVac/"+idDemande,fb)
  .subscribe(res=>{
    console.log(res);
  })

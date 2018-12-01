@@ -137,8 +137,14 @@ export class ModalVacationComponent implements OnInit {
       .subscribe(data=>{
         this.showSuccess();
         console.log(data);
-        this.EnregistreChargeSem(data);
+        
     this.demandeServices.updateDemandeVacation(this.demandeVacation)
+    .subscribe(data=>{
+      console.log(data);
+    },err=>{
+      console.log(err);
+    });
+    this.EnregistreChargeSem(data);
       },err=>{
         console.log(err);
         this.toastr.error("Veuillez vérifier les informations saisies");
@@ -169,8 +175,8 @@ export class ModalVacationComponent implements OnInit {
         .subscribe(data=>{
          this.showSuccess();
           console.log(data);
-          this.EnregistreChargeSem(data);
           this.demandeServices.updateDemandeVacation(this.demandeVacation)
+          this.EnregistreChargeSem(data);
         },err=>{
           console.log(err);
           this.toastr.error("Veuillez vérifier les informations saisies");
@@ -182,7 +188,7 @@ export class ModalVacationComponent implements OnInit {
   showSuccess() {
     if(this.lang=='fr')
     {
-      this.toastr.success("L'ajout de congé a été effectué avec succès");
+      this.toastr.success("L'ajout d'un enseignant a été effectué avec succès");
     }
   else
     {

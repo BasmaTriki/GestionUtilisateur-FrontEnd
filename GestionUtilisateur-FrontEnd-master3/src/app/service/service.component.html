@@ -4,13 +4,15 @@
     <div class="panel-heading">{{'SideBar.MService' | translate}}</div>
     <div class="panel-body">
       <div>
-        <mat-form-field>
-          <input matInput placeholder="Libellé" [(ngModel)]="service.libelleServ">
+        <mat-form-field matTooltip="3 caractéres au minimum" matTooltipPosition="above">
+          <input matInput placeholder="Libellé" [formControl]="libelleFr" [(ngModel)]="service.libelleServ">
+          <mat-error *ngIf="libelleFr.invalid">{{getErrorMessageFr()}}</mat-error>
         </mat-form-field>
-        <mat-form-field>
-            <input matInput placeholder="الصنف" [(ngModel)]="service.libelleServAr">
+        <mat-form-field matTooltip="4 caractéres au minimum" matTooltipPosition="above">
+            <input matInput placeholder="الصنف" [formControl]="libelleAr" [(ngModel)]="service.libelleServAr" required>
+            <mat-error *ngIf="libelleAr.invalid">{{getErrorMessageAr()}}</mat-error>
           </mat-form-field>
-        <button  mat-mini-fab color="primary" (click)="ajouter()">
+        <button  mat-mini-fab color="primary" class="btn btn-primary" [disabled]=" ValideFormulaire()" (click)="ajouter()">
             <mat-icon>add</mat-icon></button>
       </div>
   <mat-tab-group class="demo-tab-group">

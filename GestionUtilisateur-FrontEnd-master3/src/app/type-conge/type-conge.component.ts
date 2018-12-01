@@ -1,5 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import {TypeConge} from '../../model/model.typeConge';
+import {FormControl, Validators} from "@angular/forms";
 import {TypeCongeServices} from '../../services/typeConge.services';
 import {Router} from '@angular/router';
 import {Http} from '@angular/http';
@@ -7,6 +8,7 @@ import * as $ from 'jquery';
 import 'datatables.net';
 import 'datatables.net-bs4';
 import { HttpClient } from '@angular/common/http';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-type-conge',
@@ -22,23 +24,51 @@ export class TypeCongeComponent implements OnInit {
   typeConge:TypeConge=new TypeConge();
   typeConges:Array<TypeConge>=new Array<TypeConge>();
   dataTable: any;
+  libelleFr=new FormControl('',[Validators.pattern("[a-zA-Zéàçèùî' ]+"),Validators.minLength(3)]);
+  libelleAr=new FormControl('',[Validators.pattern("[أ-يءئىآؤة ]+"),Validators.required,Validators.minLength(4)]);
   lang:string="";
+  TypeCongePers = [
+    {value: 'Femme'},
+    {value: 'Homme'},
+    {value: 'Tous'}
+  ];
+  TypeCongePersAr = [
+    {value: 'انثى'},
+    {value: 'ذكر'},
+    {value: 'الكل'}
+  ];
+  type:string="Femme";
   constructor(private typeCongeServices:TypeCongeServices,
     private chRef: ChangeDetectorRef, 
     private http: HttpClient,
+    private toastr: ToastrService,
     public router:Router) { 
       this.lang=sessionStorage.getItem("lang");
     }
 
   ngOnInit() {
     this.doSearch();
+    this.lang=sessionStorage.getItem("lang");
   }
   ajouter(){
+    if(this.type=="Femme" || this.type=="انثى")
+    {
+      this.typeConge.typePers="Femme";
+    }
+    if(this.type=="Homme" || this.type=="ذكر")
+    {
+      this.typeConge.typePers="Homme";
+    }
+    if(this.type=="Tous" || this.type=="الكل")
+    {
+      this.typeConge.typePers="Tous";
+    }
     this.typeCongeServices.saveTypeConge(this.typeConge)
       .subscribe(data=>{
-        alert("Succès d'ajout type de congé");
+        this.showSuccess();
         this.doSearch();
-        console.log(data);
+        this.router.navigate(['/typeConge']);
+        this.typeConge= new TypeConge();
       },err=>{
         console.log(err);
       });
@@ -55,13 +85,44 @@ export class TypeCongeComponent implements OnInit {
         console.log(err);
       })
   }
-  gotopage(i:number)
-  {
-    this.currentPage=i;
-    this.doSearch();
-  }
   onEditTypeConge(idCg:number){
     this.router.navigate(['editTypeConge',idCg]);
+  }
+  getErrorMessageFr(){
+    return this.libelleFr.hasError('pattern') ? 'des caractères en français seulement' :
+    this .typeConge.libelleType.length < 3 ? ' Au minimum 3 caractères' :
+    '';
+  }
+  getErrorMessageAr(){
+    return this.libelleAr.hasError('pattern') ? 'des caractères en arabe seulement' :
+    this.libelleAr.hasError('required') ? 'Champ obligatoire' :
+    this.typeConge.libelleTypeAr.length < 4 ? 'Au minimum 4 caractères' :
+    '';
+  }
+  ValideFormulaire()
+  {
+    if((this.typeConge.libelleTypeAr!="") &&(this.typeConge.libelleTypeAr.length>=4) && !(this.libelleAr.hasError('pattern')))
+    {
+      if(this.typeConge.libelleType!=""&& (this.libelleFr.hasError('pattern'))&&(this.typeConge.libelleType.length<3))
+      {
+       return true;
+      }  
+      else if(this.typeConge.libelleType!="" && !(this.libelleFr.hasError('pattern'))&&(this.typeConge.libelleType.length<3))
+      {
+        return true;
+      }
+      else if(this.typeConge.libelleType!="" && (this.libelleFr.hasError('pattern'))&&(this.typeConge.libelleType.length>=3))
+      {
+        return true;
+      }
+      else if(this.typeConge.libelleType!="" && !(this.libelleFr.hasError('pattern'))&&(this.typeConge.libelleType.length>=3))
+      {
+        return false;
+      }
+    return false;
+    }
+    else
+    return true;
   }
   onDeleteTypeConge(tc:TypeConge){
     let confirm=window.confirm("Etes-vous sûre?");
@@ -76,6 +137,16 @@ export class TypeCongeComponent implements OnInit {
         },err=>{
           console.log(err);
         })
+    }
+  }
+  showSuccess() {
+    if(this.lang=='fr')
+    {
+      this.toastr.success("L'ajout du type de congé a été effectué avec succès.");
+    }
+  else
+    {
+      this.toastr.success("تمت إضافة نوع العطلة بنجاح");
     }
   }
   autoriser(autorisation:boolean)
