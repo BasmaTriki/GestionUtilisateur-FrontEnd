@@ -4,10 +4,14 @@
   <mat-form-field>
     <input matInput placeholder="Nom Enfant" type="text" name="nomenf" required [(ngModel)]="enfant.nom">
   </mat-form-field>
+  <mat-form-field matTooltip="4 caractères au minimum" matTooltipPosition="above"> 
+    <input matInput placeholder="إسم الإبن" [formControl]="nomEnfantAr" type="text" name="nomar" required [(ngModel)]="enfant.nomAr" disabled>
+    <mat-error *ngIf="nomEnfantAr.invalid">{{getErrorMessageNomEnfAr()}}</mat-error>
+  </mat-form-field>
   <mat-form-field>
-    <input matInput [matDatepicker]="picker" placeholder="Date de Naissance" name="dateenf" [(ngModel)]="enfant.dateNais" [ngModelOptions]="{standalone: true}">
+    <input matInput [matDatepicker]="picker" placeholder="Date de Naissance" name="dateenf" [(ngModel)]="enfant.dateNais">
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-datepicker #picker [(ngModel)]="enfant.dateNais"></mat-datepicker>
+    <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
   <button mat-mini-fab color="black" (click)="ModifierEnfants()"><mat-icon>edit</mat-icon></button>
 </form>

@@ -26,8 +26,9 @@
          <td *ngIf="e.etat!=null  && lang=='fr'">{{e.etat.libelleEtat}}</td>
          <td *ngIf="e.etat!=null  && lang=='ar'">{{e.etat.libelleEtatAr}}</td>
          <td *ngIf="e.etat==null">{{e.etat}}</td>
-         <td *ngIf="lang=='fr'">{{e.gradeActuel}}</td>
+        <!--  <td>{{GradeActuel(e.idPers)}}</td> -->
          <td *ngIf="lang=='ar'">{{e.gradeActuelAr}}</td>
+         <td *ngIf="lang=='fr'">{{e.gradeActuel}}</td>
          <td><a matTooltip="Modifier"  (click)="onEditEnseignant(e.idPers)" class="clickable"><mat-icon>create</mat-icon></a> 
        <a (click)="onDetailsEnseignant(e.idPers)" matTooltip="Détails" class="clickable"><mat-icon>list_alt</mat-icon></a>
        <a (click)="Imprimer(e.idPers,e.sexe)" class="clickable" matTooltip="Imprimer"><mat-icon>print</mat-icon></a> 

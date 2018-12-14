@@ -59,23 +59,23 @@ export class EditEnseignantPermanentComponent implements OnInit {
   email = new FormControl('', [Validators.email]);
   matricule=new FormControl('',[Validators.required, Validators.pattern("[0-9]+"),Validators.minLength(4)]);
   cinM=new FormControl('',[Validators.required, Validators.pattern("[0-9]+"),Validators.minLength(8)]);
-  nom=new FormControl('',[Validators.required, Validators.pattern("[a-zA-Zéàçèùî]+"),Validators.minLength(3)]);
-  prenom=new FormControl('',[Validators.required, Validators.pattern("[a-zA-Zéàçèùî]+"),Validators.minLength(3)]);
+  nom=new FormControl('',[Validators.required, Validators.pattern("[a-zA-Zéàçèùî' ]+"),Validators.minLength(3)]);
+  prenom=new FormControl('',[Validators.required, Validators.pattern("[a-zA-Zéàçèùî' ]+"),Validators.minLength(3)]);
   tel=new FormControl('',[Validators.required,Validators.pattern("[0-9]+"),Validators.minLength(8)]);
   codePostal=new FormControl('',[Validators.pattern("[0-9]+"),Validators.minLength(4)]);
   nomAr=new FormControl('',[Validators.pattern("[أ-يءئىآؤة ]+"), Validators.required,Validators.minLength(3)]);
   prenomAr=new FormControl('',[Validators.pattern("[أ-يءئىآؤة ]+"),Validators.required,Validators.minLength(4)]);
-  nomPereFr=new FormControl('',[Validators.required, Validators.pattern("[a-zA-Zéàçèùî]+"),Validators.minLength(3)]);
-  nomPereAr=new FormControl('',[Validators.pattern("[أ-يءئىآؤة ]+"),Validators.required,Validators.minLength(4)]);
-  lieuNaissFr=new FormControl('',[Validators.required, Validators.pattern("[a-zA-Zéàçèùî]+"),Validators.minLength(3)]);
-  lieuNaissAr= new FormControl('',[Validators.pattern("[أ-يءئىآؤة ]+"),Validators.required,Validators.minLength(4)]);
-  nomConjFr=new FormControl('',[Validators.required, Validators.pattern("[a-zA-Zéàçèùî]+"),Validators.minLength(3)]);
-  nomConjAr= new FormControl('',[Validators.pattern("[أ-يءئىآؤة ]+"),Validators.required,Validators.minLength(4)]);
-  profConjFr=new FormControl('',[Validators.required, Validators.pattern("[a-zA-Zéàçèùî]+"),Validators.minLength(3)]);
-  profConjAr= new FormControl('',[Validators.pattern("[أ-يءئىآؤة ]+"),Validators.required,Validators.minLength(4)]);
-  lieuTrConjFr=new FormControl('',[Validators.required, Validators.pattern("[a-zA-Zéàçèùî]+"),Validators.minLength(3)]);
-  lieuTrConjAr= new FormControl('',[Validators.pattern("[أ-يءئىآؤة ]+"),Validators.required,Validators.minLength(4)]);
-  nomEnfantFr=new FormControl('',[Validators.required, Validators.pattern("[a-zA-Zéàçèùî]+"),Validators.minLength(3)]);
+  nomPereFr=new FormControl('',[Validators.pattern("[a-zA-Zéàçèùî' ]+"),Validators.minLength(3)]);
+  nomPereAr=new FormControl('',[Validators.pattern("[أ-يءئىآؤة ]+"),Validators.minLength(4)]);
+  lieuNaissFr=new FormControl('',[Validators.pattern("[a-zA-Zéàçèùî' ]+"),Validators.minLength(3)]);
+  lieuNaissAr= new FormControl('',[Validators.pattern("[أ-يءئىآؤة ]+"),Validators.minLength(4)]);
+  nomConjFr=new FormControl('',[Validators.pattern("[a-zA-Zéàçèùî' ]+"),Validators.minLength(3)]);
+  nomConjAr= new FormControl('',[Validators.pattern("[أ-يءئىآؤة ]+"),Validators.minLength(4)]);
+  profConjFr=new FormControl('',[Validators.pattern("[a-zA-Zéàçèùî' ]+"),Validators.minLength(3)]);
+  profConjAr= new FormControl('',[Validators.pattern("[أ-يءئىآؤة ]+"),Validators.minLength(4)]);
+  lieuTrConjFr=new FormControl('',[Validators.pattern("[a-zA-Zéàçèùî' ]+"),Validators.minLength(3)]);
+  lieuTrConjAr= new FormControl('',[Validators.pattern("[أ-يءئىآؤة ]+"),Validators.minLength(4)]);
+  nomEnfantFr=new FormControl('',[Validators.required, Validators.pattern("[a-zA-Zéàçèùî' ]+"),Validators.minLength(3)]);
   nomEnfantAr= new FormControl('',[Validators.pattern("[أ-يءئىآؤة ]+"),Validators.required,Validators.minLength(4)]);
   AGrades:Array<AGrade>=new Array<AGrade>();
   NewAGrades:Array<AGrade>=new Array<AGrade>();
@@ -103,6 +103,7 @@ export class EditEnseignantPermanentComponent implements OnInit {
   orgOrigines:Array<Organisme>=new Array<Organisme>();
   etatPersonnel:EtatPersonnel=new EtatPersonnel();
   lang:string;
+  valideF:boolean=false;
   constructor(public activatedRoute:ActivatedRoute,
     private agradeServices:AGradeServices,
     private posteService:PosteAdministrativeServices,
@@ -326,10 +327,22 @@ export class EditEnseignantPermanentComponent implements OnInit {
     this.enseingnantpermanentService.updateEnseignantPermanent(this.enseignantP)
       .subscribe(data=>{
         this.showSuccess();
-        this.ajouterenfants(data);
-        this.EnregistrerDiplomeP(data);
-        this.EnregistrerAgrade(data);
-        this.EnregistrerPoste(data);
+        if(this.newEnfants!=null)
+        {
+          this.ajouterenfants(data);
+        }
+        if(this.newdiplomes!=null)
+        {
+          this.EnregistrerDiplomeP(data);
+        }
+        if(this.valideF)
+        {
+          this.EnregistrerAgrade(data);
+        }
+        if(this.newperiodes!=null)
+        {
+          this.EnregistrerPoste(data);
+        }
         if(this.etat.libelleEtat=="non-actif" && this.etatPersonnel!=null)
         {
           this.updateEtatInactive(data);
@@ -452,6 +465,7 @@ EnregistrerEtatPersonnel(en:EnseignantPermanent)
     this.agrade=new AGrade();
     this.agrade.grade=new Grade();
     this.NewAGrades.push(this.agrade);
+    this.valideF=true;
    
   }
   ajouterPoste()
@@ -532,12 +546,6 @@ EnregistrerEtatPersonnel(en:EnseignantPermanent)
   en.gradeActuel=this.agrade.grade.titre;
   en.gradeActuelAr=this.agrade.grade.titreAr;
   this.agrade.gradeActuel=true;
-/*   this.agradeServices.updateAGrade(this.agrade)
-  .subscribe(data => {
-    console.log(data);
-  }, err => {
-    console.log(err);
-  }); */
   this.enseingnantpermanentService.updateEnseignantPermanent(en)
   .subscribe(data => {
     console.log(data);
@@ -545,6 +553,7 @@ EnregistrerEtatPersonnel(en:EnseignantPermanent)
     console.log(err);
   });
 }
+
   EnregistrerDiplomeP(en:EnseignantPermanent) {
     for (let dip of this.newdiplomes) {
       dip.personnel = en;
@@ -669,8 +678,8 @@ EnregistrerEtatPersonnel(en:EnseignantPermanent)
   }
   valideFormulaire()
   {
-    if(this.enseignantP.matricule!=""&& !(this.matricule.hasError('pattern'))&& !(this.matricule.hasError('minLength')) 
-    && !(this.cinM.hasError('pattern'))&&  this.enseignantP.cin!=""&&!(this.cinM.hasError('minLength')) 
+    if(this.enseignantP.matricule!="" && !(this.matricule.hasError('pattern'))&& !(this.matricule.hasError('minLength')) 
+    && !(this.cinM.hasError('pattern')) &&  this.enseignantP.cin!=""&&!(this.cinM.hasError('minLength')) 
     && this.enseignantP.nom!="" && !(this.nom.hasError('pattern'))&&!(this.nom.hasError('minLength')) 
     && this.enseignantP.datenaissance!=null
     && this.enseignantP.nomAr!="" &&!(this.nomAr.hasError('minLength'))
@@ -680,20 +689,14 @@ EnregistrerEtatPersonnel(en:EnseignantPermanent)
     {
       if((this.enseignantP.email!="")&&(this.email.hasError('email')))
       {return true;}
-      else if((this.enseignantP.email!="")&& !(this.email.hasError('email')))
-      {
-      return false;
-      }
+      
       if((this.enseignantP.codepostal!=0)&&(this.codePostal.hasError('pattern')))
       {return true;}
-      else if((this.enseignantP.codepostal!=0)&& !(this.codePostal.hasError('pattern')))
-      {
-      return false;
-      }
       return false;
     }
     else
     return true;
+    
   }
   Annuler()
   {

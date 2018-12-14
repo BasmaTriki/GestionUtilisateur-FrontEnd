@@ -16,6 +16,8 @@ import { PersonnelServices } from '../../services/personnel.services';
 import { ImpressionServices } from '../../services/Impression.services';
 import { MatDialog } from '@angular/material';
 import { ImprimerFicheComponent } from '../imprimer-fiche/imprimer-fiche.component';
+import { AGradeServices } from '../../services/agrade.services';
+import { AGrade } from '../../model/model.agrade';
 
 @Component({
   selector: 'app-liste-enseignant-permanent',
@@ -37,10 +39,12 @@ export class ListeEnseignantPermanentComponent implements OnInit {
   pageAdministratif:any;
   dataTable: any;
   lang:string;
+  agrade:AGrade=new AGrade();
   constructor(private departementServices:DepartementServices,
     private enseingnantpermanentService:EnseignantPermanentServices,
     private personnelServices:PersonnelServices,
     private imprimerServices:ImpressionServices,
+    private agradeServices:AGradeServices,
     private chRef: ChangeDetectorRef,
     public dialog: MatDialog, 
     private http: HttpClient, public router: Router) 
@@ -55,7 +59,7 @@ export class ListeEnseignantPermanentComponent implements OnInit {
   doSearchEng()
   { 
      this.enseingnantpermanentService.getEnseignantPermanents(this.motCle,this.currentPage,this.size)
-        .subscribe((data: any[]) => {
+      .subscribe((data: any[]) => {
           this.pageEnseignant = data;
           console.log(data);
           // You'll have to wait that changeDetection occurs and projects data into 
@@ -74,7 +78,28 @@ export class ListeEnseignantPermanentComponent implements OnInit {
   onDetailsEnseignant(idPers:number) {
     this.router.navigate(['DetailsEnseignantP',idPers]);
   }
-
+  GradeActuel(idPers:number)
+  {
+    this.agradeServices.getGradeActuel(idPers)
+    .subscribe(data => {
+      this.agrade=data;
+      console.log(data);
+      if(this.agrade!=null)
+      {
+    /*   if(this.lang=='fr')
+      { */
+       console.log(this.agrade);
+      
+    /*   else if(this.lang=='ar')
+      {
+       console.log(this.agrade.grade.titreAr);
+      } */
+      }
+    }, err => {
+      console.log(err);
+    });
+  
+  }
   chercherDepartement()
   {
     this.departementServices.allDepartements()
