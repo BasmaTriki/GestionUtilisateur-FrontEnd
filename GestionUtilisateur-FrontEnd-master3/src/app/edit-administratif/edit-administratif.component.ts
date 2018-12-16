@@ -41,6 +41,7 @@ etat:Etat=new Etat();
   NewAGrades:Array<AGrade>=new Array<AGrade>();
   grades: Array<Grade> = new Array<Grade>();
   lang:string="";
+  startDate:"01/01/1970";
   constructor(public activatedRoute:ActivatedRoute,
     public administratifService:AdministratifServices,
     public router:Router,

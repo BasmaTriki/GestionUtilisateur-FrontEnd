@@ -124,6 +124,10 @@ export class EnseignantContractuelleComponent implements OnInit {
         console.log(err);
       })
   }
+  Annuler()
+  {
+    
+  }
   chercherEtats()
   {
     this.etatServices.getAllEtats()

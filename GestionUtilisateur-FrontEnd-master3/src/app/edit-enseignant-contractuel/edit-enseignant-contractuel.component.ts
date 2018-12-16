@@ -26,6 +26,7 @@ import { EnseignantPermanent } from '../../model/model.enseignantpermanent';
 import { DiplomePersonnelComponent } from '../diplome-personnel/diplome-personnel.component';
 import { AGradeComponent } from '../a-grade/a-grade.component';
 import { EnseignantContractuelServices } from '../../services/enseignantcontractuel.services';
+import { Contrat } from '../../model/model.Contrat';
 
 @Component({
   selector: 'app-edit-enseignant-contractuel',
@@ -59,6 +60,7 @@ export class EditEnseignantContractuelComponent implements OnInit {
   departementModifiable:boolean=false;
   specialiteModifiable:boolean=false;
   etatPersonnel:EtatPersonnel=new EtatPersonnel();
+  contrats:Array<Contrat>=new Array<Contrat>();
   lang:string;
   constructor(public activatedRoute:ActivatedRoute,
     private agradeServices:AGradeServices,
@@ -169,6 +171,16 @@ export class EditEnseignantContractuelComponent implements OnInit {
     },err=>{
       console.log(err);
     })
+  }
+  chercherContrat(e:EnseignantContractuel)
+  {
+   /*  this.enseignantContractuelService.ge(e.idPers)
+    .subscribe(data=>{
+    this.diplomepers=data;
+      console.log(data);
+    },err=>{
+      console.log(err);
+    }) */
   }
   updateEnseignant() {
     this.enseignantP.departement=this.departement;
@@ -370,5 +382,9 @@ EnregistrerEtatPersonnel(en:EnseignantContractuel)
     {
       this.toastr.success("تم التعديل بنجاح");
     }
+  }
+  ajouterContrat()
+  {
+    
   }
 }
